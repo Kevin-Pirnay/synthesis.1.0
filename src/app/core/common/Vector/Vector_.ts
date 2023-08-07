@@ -12,17 +12,19 @@ export class Vector_
 
     constructor(vector : Vector) { this.__vector = vector; }
 
-    public assign_new_data = (data : Vector) : void => { Assign_Data.assign_new_data(this.__vector, data); }
+    public assign_new_data = (data : Vector) : Vector => { Assign_Data.assign_new_data(this.__vector, data); return this.__vector; }
 
-    public add_by_vector = (vector : Vector) : void => { Add_Vector.add_by_vector(this.__vector, vector); }
+    public add_by_vector = (vector : Vector) : Vector => { Add_Vector.add_by_vector(this.__vector, vector); return this.__vector; }
 
     public add_by_vector_new = (vector : Vector) : Vector => { return Add_Vector.add_by_vector_new(this.__vector, vector); }
 
-    public substract_by_vector = (vector : Vector) : void => { Substract_Vector.substract_by_vector(this.__vector, vector); }
+    public substract_by_vector = (vector : Vector) : Vector => { Substract_Vector.substract_by_vector(this.__vector, vector); return this.__vector; }
 
     public substract_by_vector_new = (vector : Vector) : Vector => { return Substract_Vector.substract_by_vector_new(this.__vector, vector); }
 
     public copy = () : Vector => { return Vector_.new(this.__vector._); }
+
+    public multiply_by_factor = (factor : number) : Vector => { Multiply.multiply_by_factor(this.__vector, factor); return this.__vector; }
 }
 
 
@@ -83,5 +85,16 @@ class Assign_Data
       {
         vector._[i] = data._[i];
       }  
+    }
+}
+
+class Multiply
+{
+    public static multiply_by_factor = (vector : Vector, factor : number) : void =>
+    {
+        for(let i = 0; i < vector._.length; i++)
+        {
+            vector._[i] *= factor;
+        }
     }
 }

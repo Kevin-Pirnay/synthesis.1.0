@@ -1,0 +1,33 @@
+
+<svg
+    x="0"
+    y="0"
+    width="500"
+    height="500"
+    class="svg"
+    (click)="click_svg($event)"
+    >
+
+    <ng-container *ngFor="let dto of dtos">
+
+        <path
+            *ngIf="dto.type == 0" 
+            class="container"
+            attr.d="
+                M {{dto._.positions.abs_ratio._[0]._[0]}} {{dto._.positions.abs_ratio._[0]._[1]}} 
+                L {{dto._.positions.abs_ratio._[1]._[0]}} {{dto._.positions.abs_ratio._[1]._[1]}} 
+                L {{dto._.positions.abs_ratio._[2]._[0]}} {{dto._.positions.abs_ratio._[2]._[1]}} 
+                L {{dto._.positions.abs_ratio._[3]._[0]}} {{dto._.positions.abs_ratio._[3]._[1]}} " 
+        />
+
+        <path 
+            *ngIf="dto.type == 1" 
+            class="ligature"
+            attr.d="
+                M {{dto._.positions.abs_ratio._[0]._[0]}} {{dto._.positions.abs_ratio._[0]._[1]}} 
+                Q {{dto._.positions.abs_ratio._[1]._[0]}},{{dto._.positions.abs_ratio._[1]._[1]}}
+                  {{dto._.positions.abs_ratio._[2]._[0]}},{{dto._.positions.abs_ratio._[2]._[1]}} "
+        />
+    </ng-container>
+
+</svg>
