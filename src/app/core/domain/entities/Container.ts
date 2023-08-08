@@ -1,9 +1,10 @@
-import { Matrix } from "../../../common/Matrix/Matrix";
-import { Matrix_ } from "../../../common/Matrix/Matrix_";
-import { Vector } from "../../../common/Vector/Vector";
-import { Vector_ } from "../../../common/Vector/Vector_";
-import { Ligature } from "../Ligature";
+import { Matrix } from "../../common/Matrix/Matrix";
+import { Matrix_ } from "../../common/Matrix/Matrix_";
+import { Vector } from "../../common/Vector/Vector";
+import { Vector_ } from "../../common/Vector/Vector_";
+import { Ligature } from "./Ligature";
 
+//refactor with handler_
 export class Container_
 {
     public static new = (ratio : Matrix<4>, pos_target : Vector, abs_root_parent : Vector) : Container =>

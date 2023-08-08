@@ -1,4 +1,4 @@
-import { Container } from '../../../domain/entities/Container/Container';
+import { Container } from '../../../domain/entities/Container';
 import { Vector } from './../../../common/Vector/Vector';
 
 export class Create_Container_Request

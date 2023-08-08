@@ -1,5 +1,5 @@
 import { Vector } from "../../../common/Vector/Vector";
-import { Container } from "../../../domain/entities/Container/Container";
+import { Container } from "../../../domain/entities/Container";
 
 export class Move_Container_Request
 {

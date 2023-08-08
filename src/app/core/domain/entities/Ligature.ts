@@ -2,22 +2,22 @@ import { Matrix } from "../../common/Matrix/Matrix";
 import { Matrix_ } from "../../common/Matrix/Matrix_";
 import { Vector } from "../../common/Vector/Vector";
 import { Vector_ } from "../../common/Vector/Vector_";
-import { Container } from "./Container/Container";
+import { Container } from "./Container";
 
 export class Ligature_
 {
-    public static new = (parent : Container, child : Container) : Ligature =>
+    public static new(parent : Container, child : Container) : Ligature
     {
-        const ligature = new Ligature(parent, child);
+        const id = crypto.randomUUID();
 
-        const abs_ratio = this.get_abs_ratio(ligature);
+        const ligature = new Ligature(id, parent, child);
 
-        ligature.positions.abs_ratio.__.assign_new_data(abs_ratio);
+        ligature.positions.abs_ratio.__.assign_new_data(this.__get_abs_ratio(ligature));
 
         return ligature;
     }
 
-    public static get_abs_ratio = (ligature : Ligature) : Matrix<3> =>
+    private static __get_abs_ratio(ligature : Ligature) : Matrix<3>
     {
         const parent_pos : Matrix<4> = ligature.parent.positions.abs_ratio;
 
@@ -34,9 +34,9 @@ export class Ligature_
 
     constructor(private readonly __ligature : Ligature) { }
 
-    public update_ratio = () : void =>
+    public update_ratio() : void
     {        
-        this.__ligature.positions.abs_ratio.__.assign_new_data(Ligature_.get_abs_ratio(this.__ligature));
+        this.__ligature.positions.abs_ratio.__.assign_new_data(Ligature_.__get_abs_ratio(this.__ligature));
     }
 }
 
@@ -44,9 +44,20 @@ export class Ligature
 {
     public readonly __ = new Ligature_(this);
 
+    public readonly id : string;
+
     public readonly positions = new Position();
 
-    constructor(public parent : Container, public child : Container) { }
+    public parent : Container;
+    
+    public readonly child : Container
+
+    constructor(id : string, parent : Container, child : Container) 
+    { 
+        this.id = id;
+        this.parent = parent;
+        this.child = child;
+    }
 }
 
 class Position

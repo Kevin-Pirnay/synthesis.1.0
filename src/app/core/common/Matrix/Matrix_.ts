@@ -12,17 +12,19 @@ export class Matrix_
 
     constructor(matrix : Matrix<any>) { this.__matrix = matrix; }
 
-    public assign_new_data = (data : Matrix<any>) : void => { Assign_Data.assign_new_data(this.__matrix, data); }
+    public assign_new_data = (data : Matrix<any>) : Matrix<any> => { Assign_Data.assign_new_data(this.__matrix, data); return this.__matrix; }
 
-    public add_by_vector = (vector : Vector) : void => { Add_Vector.add_by_vector(this.__matrix, vector); }
+    public add_by_vector = (vector : Vector) : Matrix<any> => { Add_Vector.add_by_vector(this.__matrix, vector); return this.__matrix; }
 
-    public add_by_vector_new = (vector : Vector) : Matrix<4> => { return Add_Vector.add_by_vector_new(this.__matrix, vector); }
+    public add_by_vector_new = (vector : Vector) : Matrix<any> => { return Add_Vector.add_by_vector_new(this.__matrix, vector); }
 
-    public substract_by_vector = (vector : Vector) : void => { Substract_Vector.substract_by_vector(this.__matrix, vector); }
+    public substract_by_vector = (vector : Vector) : Matrix<any> => { Substract_Vector.substract_by_vector(this.__matrix, vector); return this.__matrix; }
 
     public substract_by_vector_new = (vector : Vector) : Matrix<any> => { return Substract_Vector.substract_by_vector_new(this.__matrix, vector); }
 
     public copy = () : Matrix<any> => { return Copy.copy(this.__matrix); }
+
+    public multiply_by_factor = (factor : number) : Matrix<any> => { Multiply.multiply_by_factor(this.__matrix, factor); return this.__matrix; }
 }
 
 
@@ -114,5 +116,19 @@ class Copy
             result._.push(Vector_.new(matrix._[i]._));
         }
         return result;
+    }
+}
+
+class Multiply
+{
+    public static multiply_by_factor = (matrix : Matrix<any>, factor : number) : void =>
+    {
+        for(let i = 0; i < matrix._.length; i++)
+        {
+            for(let j = 0; j < matrix._[i]._.length; j++)
+            {
+                matrix._[i]._[j] *= factor;
+            }
+        }
     }
 }
