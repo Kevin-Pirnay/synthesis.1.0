@@ -10,8 +10,8 @@ import { IZoomRepository } from "../interfaces/IZoomRepository";
 
 export class ZoomRepository implements IZoomRepository
 {
-    private __zoom_factor : number = 1;
-    private __alpha : number = 0.1;
+    private __zoom_level : number = 0;
+    private __alpha : number = 1.1;
 
     constructor(
         private readonly __dao_container : IDao_Container,  
@@ -33,15 +33,20 @@ export class ZoomRepository implements IZoomRepository
 
     public get_zoom_factor() : number 
     {
-        return this.__zoom_factor;
+        return this.__alpha ** this.__zoom_level;
+    }
+
+    public get_unzoom_factor() : number 
+    {
+        return this.__alpha ** (-this.__zoom_level);
     }
 
     public update_zoom_factor(direction: number): number 
     {
         if(direction !== -1 && direction !== 1) throw new Error("Directions must be either 1 or -1");
 
-        this.__zoom_factor += this.__alpha * direction;
-        return this.__zoom_factor;
+        this.__zoom_level += direction;
+        return this.__alpha ** this.__zoom_level;
     }
 }
 
@@ -83,7 +88,7 @@ class Container_Zoom_Position implements IZoom_Positions
 
     public substract_abs_pos_by_delta(delta: Vector): void 
     {
-        this.__abs_ratio.__.substract_by_vector(delta);
+        this.__abs_root.__.substract_by_vector(delta);
         this.__abs_ratio.__.substract_by_vector(delta);
     }
 
@@ -95,7 +100,7 @@ class Container_Zoom_Position implements IZoom_Positions
 
     public add_abs_pos_by_delta(delta: Vector): void 
     {
-        this.__abs_ratio.__.add_by_vector(delta);
+        this.__abs_root.__.add_by_vector(delta);
         this.__abs_ratio.__.add_by_vector(delta);
     } 
 }

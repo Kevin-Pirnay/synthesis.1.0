@@ -39,4 +39,19 @@ export class SvgComponent
 
     this.__is_down = false;
   }
+
+  public key_press(e: KeyboardEvent) : void
+  {    
+    switch (e.key) {
+      case '+':
+        this.__svg_service.request_zoom(1);
+        break;
+      case '-':
+          this.__svg_service.request_zoom(-1);
+          break;
+    
+      default:
+        break;
+    }
+  } 
 }

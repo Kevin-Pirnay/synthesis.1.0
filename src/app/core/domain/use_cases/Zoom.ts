@@ -9,11 +9,15 @@ export class Zoom_Use_case
 
     public handle(request : Zoom_Request) : void
     {
-        const factor = this.__repository.update_zoom_factor(request.direction);
-
+        const factor = this.__repository.get_unzoom_factor();
+        
         const positions : IZoom_Positions[] = this.__repository.get_all_positions();
+        
+        this.__zoom(positions, factor);        
+        
+        const new_factor = this.__repository.update_zoom_factor(request.direction);
 
-        this.__zoom(positions, factor);
+        this.__zoom(positions, new_factor);        
     }
 
     private __zoom(positions : IZoom_Positions[], factor : number) : void

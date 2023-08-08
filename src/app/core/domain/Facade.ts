@@ -26,17 +26,17 @@ export class Facade
     private readonly __move_Container_Use_case = new Move_Container_Use_case();
     private readonly __zoom_use_case = new Zoom_Use_case(this.__zoom_repository);
 
-    public create_container(request : Create_Container_Request) : Create_Container_Response
+    public execute_create_container(request : Create_Container_Request) : Create_Container_Response
     {
         return this.__create_container_use_case.handle(request);
     }
 
-    public move_container(request : Move_Container_Request) : void
+    public execute_move_container(request : Move_Container_Request) : void
     {
         this.__move_Container_Use_case.handle(request);
     }
 
-    public zoom(request :Zoom_Request) : void
+    public execute_zoom(request :Zoom_Request) : void
     {
         this.__zoom_use_case.handle(request);
     }

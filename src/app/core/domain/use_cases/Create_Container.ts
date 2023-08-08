@@ -16,7 +16,7 @@ export class Create_Container_Use_case
     {
         //need handle zoom
 
-        const ratio : Matrix<4> = this.__repository.get_default_container_ratio()
+        const ratio : Matrix<4> = this.__repository.get_default_container_ratio();
 
         //if no parent : create root
         if ( request.parent_container == null )
@@ -37,7 +37,7 @@ export class Create_Container_Use_case
 
         this.__repository.save_unit(ligature, container);
 
-        const dtos : IDto[] = [ new Dto(container, Dto_Type.CONTAINER), new Dto(ligature, Dto_Type.LIGATURE) ]
+        const dtos : IDto[] = [ new Dto(container, Dto_Type.CONTAINER), new Dto(ligature, Dto_Type.LIGATURE) ];
         
         return new Create_Container_Response(dtos);
     }

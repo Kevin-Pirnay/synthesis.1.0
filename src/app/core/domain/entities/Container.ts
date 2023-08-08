@@ -36,8 +36,6 @@ export class Container_
 
     public update_position_by_delta = (delta : Vector) : void =>
     {
-        //need unzzom
-
         const c_pos = this.__container.positions;
 
         const rel_root = c_pos.rel_root.__.add_by_vector_new(delta);
