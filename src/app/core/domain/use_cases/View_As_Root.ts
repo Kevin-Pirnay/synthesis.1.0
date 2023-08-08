@@ -13,15 +13,15 @@ export class View_As_Root_Use_case
     {
         const result : IDto[] = [];
 
-        const default_root = Vector_.new([100,100]);
+        const default_root = Vector_.new([100,300]);
 
-        const subTree : ISubtree_Data = this.__view_as_root_repository.get_subtree(request.container);
+        const root_subTree : ISubtree_Data = this.__view_as_root_repository.get_subtree(request.container);
+
+        root_subTree.set_its_positions(default_root);
 
         const frontier : ISubtree_Data[] = [];
 
-        frontier.push(subTree[0]);
-
-        let current_pos_root : Vector = default_root;
+        frontier.push(root_subTree);
 
         while(1)
         {
@@ -29,11 +29,11 @@ export class View_As_Root_Use_case
 
             if(!current) break;
 
-            current.set_its_positions(current_pos_root);
+            const children : ISubtree_Data[] =  current.get_his_children();
 
-            current.update_current_pos_root(current_pos_root);
+            current.set_children_positions(children);
 
-            current.add_children_to_the_frontier(frontier);
+            current.add_children_to_the_frontier(frontier, children);
 
             current.added_to_the_result(result);
         }
@@ -45,7 +45,8 @@ export class View_As_Root_Use_case
 export interface ISubtree_Data
 {
     set_its_positions(pos : Vector) : void;
-    add_children_to_the_frontier(frontier : ISubtree_Data[]) : void;
+    add_children_to_the_frontier(frontier : ISubtree_Data[], children : ISubtree_Data[]) : void;
     added_to_the_result(result : IDto[]) : void;
-    update_current_pos_root(current_pos_root : Vector) : void;
+    get_his_children() : ISubtree_Data[];
+    set_children_positions(children : ISubtree_Data[]) : void;
 }

@@ -47,6 +47,16 @@ export class Container_
         c_pos.abs_ratio.__.assign_new_data(abs_ratio);
     }
 
+    public update_position_from_abs_root = (abs_root : Vector) : void =>
+    {
+        const c_pos = this.__container.positions;
+
+        const abs_ratio = c_pos.rel_ratio.__.add_by_vector_new(abs_root); 
+
+        c_pos.abs_root.__.assign_new_data(abs_root);
+        c_pos.abs_ratio.__.assign_new_data(abs_ratio);
+    }
+
     //maybe put that into the repository
     public link_node_unit = (ligature : Ligature, child_container : Container) : void =>
     {

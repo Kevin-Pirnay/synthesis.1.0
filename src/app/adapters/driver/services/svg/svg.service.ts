@@ -8,6 +8,7 @@ import { Container } from '../../../../core/domain/entities/Container';
 import { Zoom_Request } from '../../../../core/port/driver/request/Zoom_Request';
 import { Delete_Container_Request } from '../../../../core/port/driver/request/Delete_Container_Request';
 import { Move_View_Request } from '../../../../core/port/driver/request/Move_View_Request';
+import { View_As_Root_Request } from '../../../../core/port/driver/request/View_As_Root_Request';
 
 @Injectable({
   providedIn: 'root'
@@ -59,5 +60,16 @@ export class SvgService
     const request = new Move_View_Request(key);
 
     Pipeline.facade.execute_move_view(request);
+  }
+
+  public request_view_as_root(container : Container) : void
+  {
+    const request = new View_As_Root_Request(container);
+
+    const response = Pipeline.facade.execute_view_as_root(request);
+
+    this.dtos.length = 0;
+
+    response.dtos.forEach(dto => this.dtos.push(dto));
   }
 }
