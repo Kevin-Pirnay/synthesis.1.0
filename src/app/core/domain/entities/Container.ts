@@ -47,6 +47,7 @@ export class Container_
         c_pos.abs_ratio.__.assign_new_data(abs_ratio);
     }
 
+    //maybe put that into the repository
     public link_node_unit = (ligature : Ligature, child_container : Container) : void =>
     {
         const child_unit = new Unit_Node(crypto.randomUUID(), ligature, child_container);
@@ -54,11 +55,6 @@ export class Container_
 
         this.__container.node.children.push(child_unit);
         child_container.node.parents.push(parent_unit);
-    }
-
-    public remove_link_node_unit = (unit : Unit_Node) =>
-    {
-        const child_container = unit.container;//********************************** */
     }
 }
 

@@ -28,9 +28,12 @@ export class Delete_Container_Use_case
 
         //update positions children ligatures
         children_unit.forEach(unit => unit.ligature.__.update_ratio());
-
+        
         //************************************************************************************************
         // *** WARNING : bug until implementation flow : cannot hanve more than one parent
+        //remove unit from the memory
+        this.__delete_repository.delete_unit(unit_to_remove[0]);
+
         return new Delete_Container_Response([unit_to_remove[0].container.id, unit_to_remove[0].ligature.id]);
         //***********************************************************************************************
     }

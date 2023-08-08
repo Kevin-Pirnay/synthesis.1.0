@@ -6,6 +6,11 @@ export class Dao_Ligature implements IDao_Ligature
 {
     constructor(private readonly __runtime_persistence : Runtime_Persistence) { }
 
+    public delete(ligature: Ligature): void 
+    {
+        delete this.__runtime_persistence.ligatures[ligature.id];
+    }
+
     public get_all(): Ligature[] 
     {
         const result : Ligature[] = [];

@@ -33,7 +33,7 @@ export class Facade
 
     private readonly __create_repository : ICreateRepository = new CreateRepository(this.__dao_container, this.__dao_ligature);
     private readonly __zoom_repository : IZoomRepository = new ZoomRepository(this.__dao_container, this.__dao_ligature);
-    private readonly __delete_repository : IDelete_Container_Repository = new Delete_Container_Repository();
+    private readonly __delete_repository : IDelete_Container_Repository = new Delete_Container_Repository(this.__dao_container, this.__dao_ligature);
     private readonly __zoom_handler : IZoom_Handeler = new Zoom_Handeler();
     private readonly __insert_handler : IInsert_Handler = new Insert_Handler(this.__zoom_repository);
 

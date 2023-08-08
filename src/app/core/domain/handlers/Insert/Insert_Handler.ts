@@ -1,8 +1,6 @@
 import { Ligature } from './../../entities/Ligature';
 import { Container } from '../../entities/Container';
 import { IZoomRepository } from '../../repository/interfaces/IZoomRepository';
-import { IZoom_Positions } from '../../use_cases/Zoom';
-import { IZoom_Handeler } from '../Zoom/IZoom_Handeler';
 import { IInsert_Handler } from './IInsert_Handler';
 
 export class Insert_Handler implements IInsert_Handler

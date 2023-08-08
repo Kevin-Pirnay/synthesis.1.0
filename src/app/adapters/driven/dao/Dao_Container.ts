@@ -6,6 +6,11 @@ export class Dao_Container implements IDao_Container
 {
     constructor(private readonly __runtime_persistence : Runtime_Persistence) { }
 
+    public delete(container: Container): void 
+    {
+        delete this.__runtime_persistence.containers[container.id];
+    }
+
     public get_all(): Container[] 
     {
         const result : Container[] = [];
