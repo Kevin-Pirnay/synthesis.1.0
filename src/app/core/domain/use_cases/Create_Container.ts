@@ -1,6 +1,6 @@
 import { Matrix } from "../../common/Matrix/Matrix";
-import { Vector } from "../../common/Vector/Vector";
 import { Vector_ } from "../../common/Vector/Vector_";
+import { ICreateRepository } from "../../port/driven/repository/ICreateRepository";
 import { Dto } from "../../port/driver/dto/Dto";
 import { Dto_Type, IDto } from "../../port/driver/dto/IDto";
 import { Create_Container_Request } from "../../port/driver/request/Create_Container_Request";
@@ -10,6 +10,8 @@ import { Ligature, Ligature_ } from "../entities/Ligature";
 
 export class Create_Container_Use_case
 {
+    constructor(private readonly __repository : ICreateRepository) { }
+
     public handle = (request: Create_Container_Request) : Create_Container_Response =>
     {
         //need handle zoom
@@ -21,21 +23,26 @@ export class Create_Container_Use_case
             Vector_.new([0,30])
         ]);
 
-        const pos_target : Vector = request.click_position;
+        //const root : Vector = Vector_.new([100,100]);
 
-        const abs_root : Vector = Vector_.new([100,100]);
+        if ( request.parent_container == null )
+        {
+            const container : Container = Container_.new(ratio, request.position, Vector_.zero());
 
-        const container1 : Container = Container_.new(ratio, abs_root, Vector_.zero());
-        
-        const container2 : Container = Container_.new(ratio, pos_target, container1.positions.abs_root);
+            this.__repository.save_root(container);
 
-        const ligature : Ligature = Ligature_.new(container1, container2);
+            return new Create_Container_Response([new Dto(container, Dto_Type.CONTAINER)]);
+        }
 
-        const dtos : IDto[] = [
-            new Dto(container1, Dto_Type.CONTAINER), 
-            new Dto(container2, Dto_Type.CONTAINER), 
-            new Dto(ligature, Dto_Type.LIGATURE)
-        ]
+        const container : Container = Container_.new(ratio, request.position, request.parent_container.positions.abs_root);
+
+        const ligature : Ligature = Ligature_.new(request.parent_container, container);
+
+        request.parent_container.__.link_node_unit(ligature, container);
+
+        this.__repository.save_unit(ligature, container);
+
+        const dtos : IDto[] = [ new Dto(container, Dto_Type.CONTAINER), new Dto(ligature, Dto_Type.LIGATURE) ]
         
         return new Create_Container_Response(dtos);
     }

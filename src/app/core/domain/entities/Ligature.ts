@@ -31,10 +31,19 @@ export class Ligature_
 
         return Matrix_.new([a,b,c])
     }
+
+    constructor(private readonly __ligature : Ligature) { }
+
+    public update_ratio = () : void =>
+    {        
+        this.__ligature.positions.abs_ratio.__.assign_new_data(Ligature_.get_abs_ratio(this.__ligature));
+    }
 }
 
 export class Ligature
 {
+    public readonly __ = new Ligature_(this);
+
     public readonly positions = new Position();
 
     constructor(public parent : Container, public child : Container) { }

@@ -30,10 +30,40 @@ export class Container_
 
         return container;
     }
+
+    constructor(private readonly __container : Container) { }
+
+    public update_position_by_delta = (delta : Vector) : void =>
+    {
+        //need unzzom
+
+        const c_pos = this.__container.positions;
+
+        const rel_root = c_pos.rel_root.__.add_by_vector_new(delta);
+
+        const abs_root = c_pos.abs_root.__.add_by_vector_new(delta);
+
+        const abs_ratio = c_pos.rel_ratio.__.add_by_vector_new(abs_root); 
+
+        c_pos.rel_root.__.assign_new_data(rel_root);
+        c_pos.abs_root.__.assign_new_data(abs_root);
+        c_pos.abs_ratio.__.assign_new_data(abs_ratio);
+    }
+
+    public link_node_unit = (ligature : Ligature, child_container : Container) : void =>
+    {
+        const child_unit = new Unit_Node(ligature, child_container);
+        const parent_unit = new Unit_Node(ligature, this.__container);
+
+        this.__container.node.children.push(child_unit);
+        child_container.node.parents.push(parent_unit);
+    }
 }
 
 export class Container
 {
+    public readonly __ = new Container_(this);
+
     public readonly id : string;
 
     public readonly positions = new Positions();
@@ -43,9 +73,9 @@ export class Container
     constructor(id: string) { this.id = id; }
 }
 
-class Unit_Node
+export class Unit_Node
 {
-    constructor(public container : Container, public ligature : Ligature) { }
+    constructor(public ligature : Ligature, public container : Container) { }
 }
 
 class Node
