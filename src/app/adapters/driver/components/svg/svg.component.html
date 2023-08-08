@@ -8,7 +8,7 @@
     tabindex="1"
     (mousemove)="mouse_move($event)"
     (mouseup)="mouse_up($event)"
-    (keypress)="key_press($event)"
+    (keydown)="key_press($event)"
     >
     
     <ng-container *ngFor="let dto of dtos">

@@ -23,6 +23,10 @@ import { Zoom_Handeler } from './handlers/Zoom/Zoom_Handeler';
 import { Delete_Container_Request } from '../port/driver/request/Delete_Container_Request';
 import { Delete_Container_Response } from '../port/driver/response/Delete_Container_Response';
 import { Delete_Container_Use_case } from './use_cases/Delete_Container';
+import { Move_View_Request } from '../port/driver/request/Move_View_Request';
+import { Move_View_Use_case } from './use_cases/Move_View';
+import { IMove_View_Repository } from './repository/interfaces/IMove_View_Repository';
+import { Move_View_Repository } from './repository/implementations/Move_View_Repository';
 
 export class Facade
 {
@@ -34,13 +38,17 @@ export class Facade
     private readonly __create_repository : ICreateRepository = new CreateRepository(this.__dao_container, this.__dao_ligature);
     private readonly __zoom_repository : IZoomRepository = new ZoomRepository(this.__dao_container, this.__dao_ligature);
     private readonly __delete_repository : IDelete_Container_Repository = new Delete_Container_Repository(this.__dao_container, this.__dao_ligature);
+    private readonly __move_view_repository : IMove_View_Repository = new Move_View_Repository(this.__dao_container, this.__dao_ligature);
+
     private readonly __zoom_handler : IZoom_Handeler = new Zoom_Handeler();
     private readonly __insert_handler : IInsert_Handler = new Insert_Handler(this.__zoom_repository);
 
     private readonly __create_container_use_case = new Create_Container_Use_case(this.__create_repository, this.__insert_handler);
-    private readonly __move_Container_Use_case = new Move_Container_Use_case();
+    private readonly __move_container_Use_case = new Move_Container_Use_case();
     private readonly __zoom_use_case = new Zoom_Use_case(this.__zoom_repository, this.__zoom_handler);
     private readonly __delete_container_use_case = new Delete_Container_Use_case(this.__delete_repository);
+    private readonly __move_view_use_case = new Move_View_Use_case(this.__move_view_repository);
+
 
     public execute_create_container(request : Create_Container_Request) : Create_Container_Response
     {
@@ -49,7 +57,7 @@ export class Facade
 
     public execute_move_container(request : Move_Container_Request) : void
     {
-        this.__move_Container_Use_case.handle(request);
+        this.__move_container_Use_case.handle(request);
     }
 
     public execute_zoom(request :Zoom_Request) : void
@@ -61,4 +69,9 @@ export class Facade
     {
         return this.__delete_container_use_case.handle(request);
     }
+
+    public execute_move_view(request : Move_View_Request) : void
+    {
+        this.__move_view_use_case.handle(request);
+    } 
 }

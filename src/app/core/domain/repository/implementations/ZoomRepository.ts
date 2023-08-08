@@ -52,7 +52,7 @@ export class ZoomRepository implements IZoomRepository
 
 class Ligature_Zoom_Position implements IZoom_Positions
 {
-    private readonly __abs_ratio : Matrix<4>;
+    private readonly __abs_ratio : Matrix<3>;
 
     constructor(ligature : Ligature) 
     {

@@ -42,13 +42,21 @@ export class SvgComponent
 
   public key_press(e: KeyboardEvent) : void
   {    
-    switch (e.key) {
+    switch (e.key) 
+    {
       case '+':
         this.__svg_service.request_zoom(1);
         break;
       case '-':
           this.__svg_service.request_zoom(-1);
           break;
+
+      case "ArrowLeft":
+      case "ArrowRight":
+      case "ArrowUp":
+      case "ArrowDown":
+        this.__svg_service.request_move_view(e.key);
+      break;
     
       default:
         break;
