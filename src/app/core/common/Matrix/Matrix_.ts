@@ -25,6 +25,9 @@ export class Matrix_
     public copy = () : Matrix<any> => { return Copy.copy(this.__matrix); }
 
     public multiply_by_factor = (factor : number) : Matrix<any> => { Multiply.multiply_by_factor(this.__matrix, factor); return this.__matrix; }
+
+    public multiply_by_factor_new = (factor : number) : Matrix<any> => { return Multiply.multiply_by_factor_new(this.__matrix, factor); }
+
 }
 
 
@@ -130,5 +133,20 @@ class Multiply
                 matrix._[i]._[j] *= factor;
             }
         }
+    }
+
+    public static multiply_by_factor_new = (m_o : Matrix<any>, factor : number) : Matrix<any> =>
+    {
+        const result : Matrix<any> = m_o.__.copy();
+
+        for(let i = 0; i < result._.length; i++)
+        {
+            for(let j = 0; j < result._[i]._.length; j++)
+            {
+                result._[i]._[j] *= factor;
+            }
+        }
+
+        return result;
     }
 }

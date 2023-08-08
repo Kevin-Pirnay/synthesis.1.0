@@ -31,6 +31,21 @@ export class ZoomRepository implements IZoomRepository
         return result;
     }
 
+    public get_container_positions_by_ptr(container : Container) : IZoom_Positions
+    {
+        return new Container_Zoom_Position(container);
+    }
+
+    public get_ligature_positions_by_ptr(ligature : Ligature) : IZoom_Positions
+    {
+        return new Ligature_Zoom_Position(ligature);
+    }
+
+    public get_unit_positions_by_ptr(ligature : Ligature, container : Container) : IZoom_Positions[]
+    {
+        return [new Ligature_Zoom_Position(ligature), new Container_Zoom_Position(container)];
+    }
+
     public get_zoom_factor() : number 
     {
         return this.__alpha ** this.__zoom_level;
