@@ -10,13 +10,14 @@
     (mouseup)="mouse_up($event)"
     (keypress)="key_press($event)"
     >
-
+    
     <ng-container *ngFor="let dto of dtos">
-
+        
         <path
             *ngIf="dto.type == 0" 
             class="container"
             (mousedown)="mouse_down_on_container(dto._)"
+            (dblclick)="dbclick_on_container(dto._)"
             attr.d="
                 M {{dto._.positions.abs_ratio._[0]._[0]}} {{dto._.positions.abs_ratio._[0]._[1]}} 
                 L {{dto._.positions.abs_ratio._[1]._[0]}} {{dto._.positions.abs_ratio._[1]._[1]}} 

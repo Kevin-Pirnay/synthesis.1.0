@@ -8,9 +8,7 @@ export class Ligature_
 {
     public static new(parent : Container, child : Container) : Ligature
     {
-        const id = crypto.randomUUID();
-
-        const ligature = new Ligature(id, parent, child);
+        const ligature = new Ligature(crypto.randomUUID(), parent, child);
 
         ligature.positions.abs_ratio.__.assign_new_data(this.__get_abs_ratio(ligature));
 

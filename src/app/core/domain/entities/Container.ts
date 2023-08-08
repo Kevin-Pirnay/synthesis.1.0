@@ -11,9 +11,7 @@ export class Container_
     {
         //*** need to unzoom first ***
 
-        const id = crypto.randomUUID();
-
-        const container = new Container(id);
+        const container = new Container(crypto.randomUUID());
 
         const rel_root = pos_target.__.substract_by_vector_new(abs_root_parent);
 
@@ -51,11 +49,16 @@ export class Container_
 
     public link_node_unit = (ligature : Ligature, child_container : Container) : void =>
     {
-        const child_unit = new Unit_Node(ligature, child_container);
-        const parent_unit = new Unit_Node(ligature, this.__container);
+        const child_unit = new Unit_Node(crypto.randomUUID(), ligature, child_container);
+        const parent_unit = new Unit_Node(crypto.randomUUID(), ligature, this.__container);
 
         this.__container.node.children.push(child_unit);
         child_container.node.parents.push(parent_unit);
+    }
+
+    public remove_link_node_unit = (unit : Unit_Node) =>
+    {
+        const child_container = unit.container;//********************************** */
     }
 }
 
@@ -74,7 +77,7 @@ export class Container
 
 export class Unit_Node
 {
-    constructor(public ligature : Ligature, public container : Container) { }
+    constructor(public readonly id : string, public readonly ligature : Ligature, public readonly container : Container) { }
 }
 
 class Node

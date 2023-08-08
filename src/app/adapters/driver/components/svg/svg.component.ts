@@ -53,5 +53,10 @@ export class SvgComponent
       default:
         break;
     }
-  } 
+  }
+  
+  public dbclick_on_container(container : Container) : void
+  {
+    this.__svg_service.request_delete_container(container);
+  }
 }

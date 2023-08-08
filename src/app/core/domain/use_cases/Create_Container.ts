@@ -17,8 +17,6 @@ export class Create_Container_Use_case
 
     public handle(request: Create_Container_Request) : Create_Container_Response
     {
-        //need handle zoom
-
         const ratio : Matrix<4> = this.__repository.get_default_container_ratio();
 
         //if no parent : create root
@@ -28,12 +26,12 @@ export class Create_Container_Use_case
 
             this.__repository.save_root(container);
 
-            this.__insert_handler.insert_container_into_the_game(container);
+            this.__insert_handler.insert_container_into_the_game(container); //zoom
 
             return new Create_Container_Response([new Dto(container, Dto_Type.CONTAINER)]);
         }
 
-        //else : create a new unit composed by a ligature and container
+        //else : create a new unit composed by a ligature and a container
         const container : Container = Container_.new(ratio, request.position, request.parent_container.positions.abs_root);
 
         const ligature : Ligature = Ligature_.new(request.parent_container, container);
@@ -42,7 +40,7 @@ export class Create_Container_Use_case
 
         this.__repository.save_unit(ligature, container);
 
-        this.__insert_handler.insert_unit_into_the_game(ligature, container);
+        this.__insert_handler.insert_unit_into_the_game(ligature, container); //zoom
 
         const dtos : IDto[] = [ new Dto(container, Dto_Type.CONTAINER), new Dto(ligature, Dto_Type.LIGATURE) ];
         

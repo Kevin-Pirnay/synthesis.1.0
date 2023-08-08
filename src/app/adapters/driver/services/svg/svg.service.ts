@@ -6,6 +6,7 @@ import { Vector_ } from '../../../../core/common/Vector/Vector_';
 import { Move_Container_Request } from '../../../../core/port/driver/request/Move_Container_Request';
 import { Container } from '../../../../core/domain/entities/Container';
 import { Zoom_Request } from '../../../../core/port/driver/request/Zoom_Request';
+import { Delete_Container_Request } from '../../../../core/port/driver/request/Delete_Container_Request';
 
 @Injectable({
   providedIn: 'root'
@@ -37,5 +38,18 @@ export class SvgService
     const request = new Zoom_Request(direction);
 
     Pipeline.facade.execute_zoom(request);
+  }
+
+  public request_delete_container(container : Container) : void
+  {
+    const request = new Delete_Container_Request(container);
+
+    const response = Pipeline.facade.execute_delete_container(request);
+
+    const new_list = this.dtos.filter(dto => !response.ids_to_remove.includes(dto._.id));
+
+    this.dtos.length = 0;
+
+    new_list.forEach(dto => this.dtos.push(dto));
   }
 }
