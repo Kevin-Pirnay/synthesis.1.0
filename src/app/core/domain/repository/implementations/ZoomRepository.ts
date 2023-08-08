@@ -11,6 +11,7 @@ import { IZoomRepository } from "../interfaces/IZoomRepository";
 export class ZoomRepository implements IZoomRepository
 {
     private __zoom_factor : number = 1;
+    private __alpha : number = 0.1;
 
     constructor(
         private readonly __dao_container : IDao_Container,  
@@ -37,7 +38,10 @@ export class ZoomRepository implements IZoomRepository
 
     public update_zoom_factor(direction: number): number 
     {
-        throw new Error("Method not implemented.");
+        if(direction !== -1 && direction !== 1) throw new Error("Directions must be either 1 or -1");
+
+        this.__zoom_factor += this.__alpha * direction;
+        return this.__zoom_factor;
     }
 }
 

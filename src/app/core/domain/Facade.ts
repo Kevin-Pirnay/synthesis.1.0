@@ -5,10 +5,10 @@ import { Move_Container_Request } from '../port/driver/request/Move_Container_Re
 import { Move_Container_Use_case } from './use_cases/Move_Container';
 import { Zoom_Use_case } from './use_cases/Zoom';
 import { Zoom_Request } from '../port/driver/request/Zoom_Request';
-import { CreateRepository } from './repository/implementation/CreateRepository';
+import { CreateRepository } from './repository/implementations/CreateRepository';
 import { ICreateRepository } from './repository/interfaces/ICreateRepository';
 import { IZoomRepository } from './repository/interfaces/IZoomRepository';
-import { ZoomRepository } from './repository/implementation/ZoomRepository';
+import { ZoomRepository } from './repository/implementations/ZoomRepository';
 import { IDao_Container } from '../port/driven/dao/IDao_Container';
 import { Dao_Container } from '../../adapters/driven/dao/Dao_Container';
 import { IDao_Ligature } from '../port/driven/dao/IDao_Ligature';
