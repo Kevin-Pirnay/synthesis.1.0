@@ -9,6 +9,7 @@ import { Zoom_Request } from '../../../../core/port/driver/request/Zoom_Request'
 import { Delete_Container_Request } from '../../../../core/port/driver/request/Delete_Container_Request';
 import { Move_View_Request } from '../../../../core/port/driver/request/Move_View_Request';
 import { View_As_Root_Request } from '../../../../core/port/driver/request/View_As_Root_Request';
+import { Paginate_Request } from '../../../../core/port/driver/request/Paginate_request';
 
 @Injectable({
   providedIn: 'root'
@@ -72,4 +73,15 @@ export class SvgService
 
     response.dtos.forEach(dto => this.dtos.push(dto));
   }
+
+  public request_paginate(container : Container) : void
+  {
+    const request = new Paginate_Request(container);
+
+    const response = Pipeline.facade.execute_paginate(request);
+
+    this.dtos.length = 0;
+    
+    response.dtos.forEach(dto => this.dtos.push(dto));
+  } 
 }

@@ -4,39 +4,43 @@ import { View_As_Root_Request } from "../../port/driver/request/View_As_Root_Req
 import { View_As_Root_Response } from "../../port/driver/response/View_As_Root_Response";
 import { IView_As_Root_Repository } from "../repository/interfaces/IView_As_Root_Repository";
 import { Vector_ } from '../../common/Vector/Vector_';
+import { IView_As_Root_Handler } from "../handlers/View_As_Root/IView_As_Root_Handler";
 
 export class View_As_Root_Use_case
 {
-    constructor(private __view_as_root_repository : IView_As_Root_Repository) { }
+    constructor(
+        private __view_as_root_repository : IView_As_Root_Repository,
+        private __handler : IView_As_Root_Handler
+    ) { }
     
     public handle(request : View_As_Root_Request) : View_As_Root_Response
     {
-        const result : IDto[] = [];
+        
+        const default_root = this.__view_as_root_repository.get_default_root_pos();
+        
+        const root_subTree : ISubtree_Data = this.__view_as_root_repository.get_root_subtree(request.container);
+        
+        const result : IDto[] = this.__handler.get_subtree_dtos(root_subTree, default_root);
+        // root_subTree.set_its_positions(default_root);
 
-        const default_root = Vector_.new([100,300]);
+        // const frontier : ISubtree_Data[] = [];
 
-        const root_subTree : ISubtree_Data = this.__view_as_root_repository.get_subtree(request.container);
+        // frontier.push(root_subTree);
 
-        root_subTree.set_its_positions(default_root);
+        // while(1)
+        // {
+        //     const current : ISubtree_Data | undefined = frontier.pop();
 
-        const frontier : ISubtree_Data[] = [];
+        //     if(!current) break;
 
-        frontier.push(root_subTree);
+        //     const children : ISubtree_Data[] =  current.get_his_children();
 
-        while(1)
-        {
-            const current : ISubtree_Data | undefined = frontier.pop();
+        //     current.set_children_positions(children);
 
-            if(!current) break;
+        //     current.add_children_to_the_frontier(frontier, children);
 
-            const children : ISubtree_Data[] =  current.get_his_children();
-
-            current.set_children_positions(children);
-
-            current.add_children_to_the_frontier(frontier, children);
-
-            current.added_to_the_result(result);
-        }
+        //     current.added_to_the_result(result);
+        // }
 
         return new View_As_Root_Response(result);
     }

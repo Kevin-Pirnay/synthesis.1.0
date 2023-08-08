@@ -1,4 +1,5 @@
 import { Vector } from "../../../common/Vector/Vector";
+import { Vector_ } from "../../../common/Vector/Vector_";
 import { Dto } from "../../../port/driver/dto/Dto";
 import { Dto_Type, IDto } from "../../../port/driver/dto/IDto";
 import { Container, Unit_Node } from "../../entities/Container";
@@ -8,7 +9,12 @@ import { IView_As_Root_Repository } from "../interfaces/IView_As_Root_Repository
 
 export class View_As_Root_Repository implements IView_As_Root_Repository
 {
-    public get_subtree(container: Container): ISubtree_Data 
+    public get_default_root_pos(): Vector 
+    {
+        return Vector_.new([100,300]);
+    }
+
+    public get_root_subtree(container: Container): ISubtree_Data 
     {
         return new Subtree_Data(null, container);
     }
