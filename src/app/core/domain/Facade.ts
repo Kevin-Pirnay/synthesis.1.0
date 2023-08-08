@@ -13,11 +13,13 @@ import { IDao_Container } from '../port/driven/dao/IDao_Container';
 import { Dao_Container } from '../../adapters/driven/dao/Dao_Container';
 import { IDao_Ligature } from '../port/driven/dao/IDao_Ligature';
 import { Dao_Ligature } from '../../adapters/driven/dao/Dao_Ligature';
+import { Runtime_Persistence } from '../../adapters/driven/runtime_memory/Runtime_Persistence';
 
 export class Facade
 {
-    private readonly __dao_container : IDao_Container = new Dao_Container();
-    private readonly __dao_ligature : IDao_Ligature = new Dao_Ligature();
+    private readonly __runtime_persistence = new Runtime_Persistence();
+    private readonly __dao_container : IDao_Container = new Dao_Container(this.__runtime_persistence);
+    private readonly __dao_ligature : IDao_Ligature = new Dao_Ligature(this.__runtime_persistence);
     private readonly __create_repository : ICreateRepository = new CreateRepository(this.__dao_container, this.__dao_ligature);
     private readonly __zoom_repository : IZoomRepository = new ZoomRepository(this.__dao_container, this.__dao_ligature);
     private readonly __create_container_use_case = new Create_Container_Use_case(this.__create_repository);
