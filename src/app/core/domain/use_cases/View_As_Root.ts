@@ -15,9 +15,9 @@ export class View_As_Root_Use_case
 
         const default_root = Vector_.new([100,100]);
 
-        const subTree : Subtree_Data = this.__view_as_root_repository.get_subtree(request.container);
+        const subTree : ISubtree_Data = this.__view_as_root_repository.get_subtree(request.container);
 
-        const frontier : Subtree_Data[] = [];
+        const frontier : ISubtree_Data[] = [];
 
         frontier.push(subTree[0]);
 
@@ -25,7 +25,7 @@ export class View_As_Root_Use_case
 
         while(1)
         {
-            const current : Subtree_Data | undefined = frontier.pop();
+            const current : ISubtree_Data | undefined = frontier.pop();
 
             if(!current) break;
 
@@ -42,10 +42,10 @@ export class View_As_Root_Use_case
     }
 }
 
-export interface Subtree_Data
+export interface ISubtree_Data
 {
     set_its_positions(pos : Vector) : void;
-    add_children_to_the_frontier(frontier : Subtree_Data[]) : void;
+    add_children_to_the_frontier(frontier : ISubtree_Data[]) : void;
     added_to_the_result(result : IDto[]) : void;
     update_current_pos_root(current_pos_root : Vector) : void;
 }
