@@ -17,16 +17,4 @@ export class Delete_Container_Repository implements IDelete_Container_Repository
         this.__dao_container.delete(unit_to_remove.container);
         this.__dao_ligature.delete(unit_to_remove.ligature);
     }    
-
-    public get_container_units(parents_containers: Container[], c_to_remove: Container): Unit_Node[] 
-    {
-        const result : Unit_Node[] = [];
-
-        parents_containers.forEach(container => container.node.children.forEach(unit =>
-        {
-            if(unit.container.id == c_to_remove.id) result.push(unit);
-        }));
-
-        return result;
-    }
 }

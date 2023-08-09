@@ -72,8 +72,8 @@ export class SvgComponent
   
   public dbclick_on_container(container : Container) : void
   {
-    //this.__svg_service.request_delete_container(container);
+    this.__svg_service.request_delete_container(container);
     //this.__svg_service.request_view_as_root(container);
-    this.__svg_service.request_paginate(container);
+    //this.__svg_service.request_paginate(container);
   }
 }

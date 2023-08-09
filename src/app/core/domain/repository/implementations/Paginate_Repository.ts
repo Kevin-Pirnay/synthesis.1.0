@@ -1,7 +1,7 @@
 import { Matrix } from "../../../common/Matrix/Matrix";
 import { Matrix_ } from "../../../common/Matrix/Matrix_";
 import { Vector } from "../../../common/Vector/Vector";
-import { Dto_Type, IDto } from "../../../port/driver/dto/IDto";
+import { Data_Type, IDto } from "../../../port/driver/dto/IDto";
 import { ISubtree_Root, View_As_Root_Handler } from "../../handlers/View_As_Root/View_As_Root_Handler";
 import { IPaginate_Data } from "../../use_cases/View_Paginate";
 import { IPaginate_Repository } from "../interfaces/IPaginate_Repository";
@@ -176,8 +176,8 @@ class Paginate_Positions implements IPaginate_Positions
     {
         dtos.forEach(dto =>
         {
-            if (dto.type == Dto_Type.CONTAINER) this.__positions.push(new Container_Paginate_Position(dto));
-            else if (dto.type == Dto_Type.LIGATURE) this.__positions.push(new Ligature_Paginate_Position(dto));
+            if (dto.type == Data_Type.CONTAINER) this.__positions.push(new Container_Paginate_Position(dto));
+            else if (dto.type == Data_Type.LIGATURE) this.__positions.push(new Ligature_Paginate_Position(dto));
         });
     }
 

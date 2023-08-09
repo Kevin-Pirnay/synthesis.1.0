@@ -1,7 +1,7 @@
 import { Vector } from "../../../common/Vector/Vector";
 import { Vector_ } from "../../../common/Vector/Vector_";
 import { Dto } from "../../../port/driver/dto/Dto";
-import { Dto_Type, IDto } from "../../../port/driver/dto/IDto";
+import { Data_Type, IDto } from "../../../port/driver/dto/IDto";
 import { Container, Unit_Node } from "../../entities/Container";
 import { Ligature } from "../../entities/Ligature";
 import { ISubtree_Root } from "../../handlers/View_As_Root/View_As_Root_Handler";
@@ -43,8 +43,8 @@ class Subtree_Data implements ISubtree_Root
 
     public added_to_the_result(result: IDto[]): void 
     {
-        result.push(new Dto(this.__container, Dto_Type.CONTAINER));
-        if(this.__ligature) result.push(new Dto(this.__ligature, Dto_Type.LIGATURE));
+        result.push(new Dto(this.__container, Data_Type.CONTAINER));
+        if(this.__ligature) result.push(new Dto(this.__ligature, Data_Type.LIGATURE));
     }
 
     public get_his_children(): ISubtree_Root[] 

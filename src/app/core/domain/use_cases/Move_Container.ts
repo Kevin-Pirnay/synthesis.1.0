@@ -1,25 +1,68 @@
+import { Vector } from "../../common/Vector/Vector";
 import { Move_Container_Request } from "../../port/driver/request/Move_Container_Request";
-import { Unit_Node } from "../entities/Container";
+import { Container, Unit_Node } from "../entities/Container";
+
+/**
+ * step 1 : update position container
+ * step 2 : update positions children ligatures and the relative positions of the children containers
+ * step 3 : update positions of the parents ligatures
+ */
 
 export class Move_Container_Use_case
 {
     public handle(request : Move_Container_Request) : void
     {
-        //update position container
-        const delta = request.new_pos.__.substract_by_vector_new(request.container.positions.abs_root);
+        const move_container : IMove_Container = Move_Container.get_move_container(request.new_pos, request.container);
+        const delta = move_container.get_the_delta_from_the_current_position_and_the_target_position();
+        move_container.update_position_container(delta);
+        move_container.update_positions_children_ligatures_and_update_relative_positions_of_children_containers(delta);
+        move_container.update_positions_parents_ligatures();
+    }
+}
 
-        request.container.__.update_position_by_delta(delta);
+interface IMove_Container
+{
+    get_the_delta_from_the_current_position_and_the_target_position() : Vector;
+    update_position_container(delta : Vector) : void;
+    update_positions_children_ligatures_and_update_relative_positions_of_children_containers(delta : Vector) : void;
+    update_positions_parents_ligatures() : void 
+}
 
-        //update positions children units : ligatures and containers
-        request.container.node.children.forEach((unit : Unit_Node) =>
+class Move_Container implements IMove_Container
+{
+    public static get_move_container(target_position : Vector, container : Container) : IMove_Container
+    {
+        return new Move_Container(target_position, container);
+    }
+
+    constructor(private readonly __target_position : Vector, private readonly __container : Container) { }
+
+    public get_the_delta_from_the_current_position_and_the_target_position() : Vector 
+    {
+        const delta = this.__target_position.__.substract_by_vector_new(this.__container.positions.abs_root);
+
+        return delta;
+    }
+
+    public update_position_container(delta : Vector): void 
+    {
+        this.__container.__.update_position_by_delta(delta);
+
+    }
+
+    public update_positions_children_ligatures_and_update_relative_positions_of_children_containers(delta : Vector): void 
+    {
+        this.__container.node.children.forEach((unit : Unit_Node) =>
         {
             unit.container.positions.rel_ratio.__.substract_by_vector(delta);
 
             unit.ligature.__.update_ratio();
         });
+    }
 
-        //update positions parents ligatures
-        request.container.node.parents.forEach((unit : Unit_Node) =>
+    public update_positions_parents_ligatures(): void 
+    {
+        this.__container.node.parents.forEach((unit : Unit_Node) =>
         {
             unit.ligature.__.update_ratio();
         });

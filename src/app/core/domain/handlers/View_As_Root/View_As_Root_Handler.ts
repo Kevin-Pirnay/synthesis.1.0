@@ -1,12 +1,12 @@
 import { Vector } from "../../../common/Vector/Vector";
-import { IDto } from "../../../port/driver/dto/IDto";
+import { Data_Type, IDto } from "../../../port/driver/dto/IDto";
 import { IView_As_Root_Handler } from "./IView_As_Root_Handler";
 
 export class View_As_Root_Handler implements IView_As_Root_Handler
 {
-    public get_subtree_dtos(root_subTree: ISubtree_Root, default_root: Vector): IDto[] 
+    public get_subtree_dtos(root_subTree: ISubtree_Root, default_root: Vector): IData_Tree[] 
     {
-        const result : IDto[] = [];
+        const result : IData_Tree[] = [];
 
         root_subTree.set_its_positions(default_root);
 
@@ -33,9 +33,10 @@ export class View_As_Root_Handler implements IView_As_Root_Handler
     }
 }
 
-export interface ITree
+export interface IData_Tree
 {
-    
+    _ : any;
+    type : Data_Type
 }
 
 export interface ISubtree_Root
