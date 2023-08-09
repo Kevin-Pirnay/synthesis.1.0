@@ -1,7 +1,6 @@
 import { Vector } from "../../../common/Vector/Vector";
 import { IDto } from "../../../port/driver/dto/IDto";
-import { View_As_Root_Handler } from "../../handlers/View_As_Root/View_As_Root_Handler";
-import { ISubtree_Root } from "../../use_cases/View_As_Root";
+import { ISubtree_Root, View_As_Root_Handler } from "../../handlers/View_As_Root/View_As_Root_Handler";
 import { IPaginate_Data } from "../../use_cases/View_Paginate";
 
 export interface IPaginate_Repository

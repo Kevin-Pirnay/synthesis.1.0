@@ -17,8 +17,6 @@ import { Dao_Container } from '../../adapters/driven/dao/Dao_Container';
 import { IDao_Ligature } from '../port/driven/dao/IDao_Ligature';
 import { Dao_Ligature } from '../../adapters/driven/dao/Dao_Ligature';
 import { Runtime_Persistence } from '../../adapters/driven/runtime_memory/Runtime_Persistence';
-import { IInsert_Handler } from './handlers/Insert/IInsert_Handler';
-import { Insert_Handler } from './handlers/Insert/Insert_Handler';
 import { IZoom_Handeler } from './handlers/Zoom/IZoom_Handeler';
 import { Zoom_Handeler } from './handlers/Zoom/Zoom_Handeler';
 import { Delete_Container_Request } from '../port/driver/request/Delete_Container_Request';
@@ -42,6 +40,8 @@ import { Paginate_Response } from '../port/driver/response/Paginate_Response';
 import { View_Paginate_Request } from '../port/driver/request/View_Paginate_Request';
 import { View_Paginate_Response } from '../port/driver/response/View_Paginate_Response';
 import { View_Paginate_Use_case } from './use_cases/View_Paginate';
+import { INode_Linker } from './handlers/Link_Node/INode_Linker';
+import { Node_Linker } from './handlers/Link_Node/Node_Linker';
 
 export class Facade
 {
@@ -57,14 +57,14 @@ export class Facade
     private readonly __view_as_root_repository : IView_As_Root_Repository = new View_As_Root_Repository();
     private readonly __paginate_repository : IPaginate_Repository = new Paginate_Repository();
 
-    private readonly __zoom_handler : IZoom_Handeler = new Zoom_Handeler();
-    private readonly __insert_handler : IInsert_Handler = new Insert_Handler(this.__zoom_repository);
+    private readonly __zoom_handler : IZoom_Handeler = new Zoom_Handeler(this.__zoom_repository);
     private readonly __view_as_root_handler : IView_As_Root_Handler = new View_As_Root_Handler();
+    private readonly __node_linker_handler : INode_Linker = new Node_Linker();
 
-    private readonly __create_container_use_case = new Create_Container_Use_case(this.__create_repository, this.__insert_handler);
+    private readonly __create_container_use_case = new Create_Container_Use_case(this.__create_repository, this.__node_linker_handler,this.__zoom_handler);
     private readonly __move_container_Use_case = new Move_Container_Use_case();
     private readonly __zoom_use_case = new Zoom_Use_case(this.__zoom_repository, this.__zoom_handler);
-    private readonly __delete_container_use_case = new Delete_Container_Use_case(this.__delete_repository);
+    private readonly __delete_container_use_case = new Delete_Container_Use_case(this.__delete_repository, this.__node_linker_handler);
     private readonly __move_view_use_case = new Move_View_Use_case(this.__move_view_repository);
     private readonly __view_as_root_use_case = new View_As_Root_Use_case(this.__view_as_root_repository, this.__view_as_root_handler);
     private readonly __paginate_use_case = new Paginate_Use_case(this.__paginate_repository, this.__view_as_root_repository, this.__view_as_root_handler);

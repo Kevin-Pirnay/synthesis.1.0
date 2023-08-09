@@ -1,6 +1,6 @@
 import { Vector } from "../../../common/Vector/Vector";
 import { IDto } from "../../../port/driver/dto/IDto";
-import { ISubtree_Root } from "../../use_cases/View_As_Root";
+import { ISubtree_Root } from "./View_As_Root_Handler";
 
 export interface IView_As_Root_Handler
 {

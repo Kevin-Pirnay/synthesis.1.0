@@ -4,6 +4,7 @@ import { View_As_Root_Request } from "../../port/driver/request/View_As_Root_Req
 import { View_As_Root_Response } from "../../port/driver/response/View_As_Root_Response";
 import { IView_As_Root_Repository } from "../repository/interfaces/IView_As_Root_Repository";
 import { IView_As_Root_Handler } from "../handlers/View_As_Root/IView_As_Root_Handler";
+import { ISubtree_Root } from "../handlers/View_As_Root/View_As_Root_Handler";
 
 export class View_As_Root_Use_case
 {
@@ -23,13 +24,4 @@ export class View_As_Root_Use_case
 
         return new View_As_Root_Response(result);
     }
-}
-
-export interface ISubtree_Root
-{
-    set_its_positions(pos : Vector) : void;
-    add_children_to_the_frontier(frontier : ISubtree_Root[], children : ISubtree_Root[]) : void;
-    added_to_the_result(result : IDto[]) : void;
-    get_his_children() : ISubtree_Root[];
-    set_children_positions(children : ISubtree_Root[]) : void;
 }

@@ -4,7 +4,7 @@ import { Dto } from "../../../port/driver/dto/Dto";
 import { Dto_Type, IDto } from "../../../port/driver/dto/IDto";
 import { Container, Unit_Node } from "../../entities/Container";
 import { Ligature } from "../../entities/Ligature";
-import { ISubtree_Root } from "../../use_cases/View_As_Root";
+import { ISubtree_Root } from "../../handlers/View_As_Root/View_As_Root_Handler";
 import { IView_As_Root_Repository } from "../interfaces/IView_As_Root_Repository";
 
 export class View_As_Root_Repository implements IView_As_Root_Repository

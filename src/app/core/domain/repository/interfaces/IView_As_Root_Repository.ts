@@ -1,6 +1,6 @@
 import { Vector } from "../../../common/Vector/Vector";
 import { Container } from "../../entities/Container";
-import { ISubtree_Root } from "../../use_cases/View_As_Root";
+import { ISubtree_Root } from "../../handlers/View_As_Root/View_As_Root_Handler";
 
 export interface IView_As_Root_Repository
 {

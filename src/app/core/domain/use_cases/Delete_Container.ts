@@ -1,11 +1,14 @@
 import { Delete_Container_Request } from "../../port/driver/request/Delete_Container_Request";
 import { Delete_Container_Response } from "../../port/driver/response/Delete_Container_Response";
 import { Container, Unit_Node } from "../entities/Container";
+import { INode_Linker } from "../handlers/Link_Node/INode_Linker";
 import { IDelete_Container_Repository } from "../repository/interfaces/IDelete_Repository";
 
 export class Delete_Container_Use_case
 {
-    constructor(private readonly __delete_repository : IDelete_Container_Repository) { }
+    constructor(
+        private readonly __delete_repository : IDelete_Container_Repository,
+        private readonly __node_linker_handler : INode_Linker) { }
 
     public handle(request : Delete_Container_Request) : Delete_Container_Response
     {
@@ -22,9 +25,9 @@ export class Delete_Container_Use_case
         //************************************************************************************************
 
         //remove unit from the container parent and link children to parent
-        this.__delete_repository.remove_unit_from_parent(parents_containers, c_to_remove);
-        this.__delete_repository.remove_unit_from_children(children_container, c_to_remove);
-        this.__delete_repository.link_parent_to_children(parents_containers[0], children_unit);
+        this.__node_linker_handler.remove_unit_from_parent(parents_containers, c_to_remove);
+        this.__node_linker_handler.remove_unit_from_children(children_container, c_to_remove);
+        this.__node_linker_handler.link_parent_to_children(parents_containers[0], children_unit);
 
         //update positions children ligatures
         children_unit.forEach(unit => unit.ligature.__.update_ratio());

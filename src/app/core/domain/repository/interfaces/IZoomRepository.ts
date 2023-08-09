@@ -1,5 +1,3 @@
-import { Container } from "../../entities/Container";
-import { Ligature } from "../../entities/Ligature";
 import { IZoom_Positions } from "../../use_cases/Zoom";
 
 export interface IZoomRepository

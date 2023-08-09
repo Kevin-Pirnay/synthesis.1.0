@@ -5,42 +5,52 @@ import { Dto } from "../../port/driver/dto/Dto";
 import { Dto_Type, IDto } from "../../port/driver/dto/IDto";
 import { Create_Container_Request } from "../../port/driver/request/Create_Container_Request";
 import { Create_Container_Response } from "../../port/driver/response/Create_Container_Response";
-import { Container, Container_ } from "../entities/Container";
-import { Ligature, Ligature_ } from "../entities/Ligature";
-import { IInsert_Handler } from "../handlers/Insert/IInsert_Handler";
+import { Container } from "../entities/Container";
+import { Container_ } from "../handlers/Container_";
+import { Ligature } from "../entities/Ligature";
+import { Ligature_ } from "../handlers/Ligature_";
+import { IZoom_Handeler } from "../handlers/Zoom/IZoom_Handeler";
+import { Vector } from "../../common/Vector/Vector";
+import { INode_Linker } from "../handlers/Link_Node/INode_Linker";
 
 export class Create_Container_Use_case
 {
     constructor(
         private readonly __repository : ICreateRepository,
-        private readonly __insert_handler : IInsert_Handler) { }
+        private readonly _link_handler : INode_Linker,
+        private readonly __zoom_handler : IZoom_Handeler) { }
 
     public handle(request: Create_Container_Request) : Create_Container_Response
     {
         const ratio : Matrix<4> = this.__repository.get_default_container_ratio();
 
-        //if no parent : create root
-        if ( request.parent_container == null )
-        {
-            const container : Container = Container_.new(ratio, request.position, Vector_.zero());
+        if ( request.parent_container == null ) return this.__create_a_root_container(ratio, request.position);
 
-            this.__repository.save_root(container);
+        else return this.__create_a_new_unit(request.parent_container, ratio, request.position);
+    }
 
-            this.__insert_handler.insert_container_into_the_game(container); //zoom
+    private __create_a_root_container(ratio : Matrix<4>, position : Vector) : Create_Container_Response
+    {
+        const container : Container = Container_.new(ratio, position, Vector_.zero());
 
-            return new Create_Container_Response([new Dto(container, Dto_Type.CONTAINER)]);
-        }
+        this.__repository.save_root(container);
 
-        //else : create a new unit composed by a ligature and a container
-        const container : Container = Container_.new(ratio, request.position, request.parent_container.positions.abs_root);
+        this.__zoom_handler.update_container_with_current_zoom(container); //zoom
 
-        const ligature : Ligature = Ligature_.new(request.parent_container, container);
+        return new Create_Container_Response([new Dto(container, Dto_Type.CONTAINER)]);
+    }
 
-        request.parent_container.__.link_node_unit(ligature, container);
+    private __create_a_new_unit(parent_container : Container, default_ratio : Matrix<4>, position : Vector) : Create_Container_Response
+    {
+        const container : Container = Container_.new(default_ratio, position, parent_container.positions.abs_root);
+
+        const ligature : Ligature = Ligature_.new(parent_container, container);
+
+        this._link_handler.link_nodes(parent_container, ligature, container);
 
         this.__repository.save_unit(ligature, container);
 
-        this.__insert_handler.insert_unit_into_the_game(ligature, container); //zoom
+        this.__zoom_handler.update_unit_with_current_zoom(ligature, container); //zoom
 
         const dtos : IDto[] = [ new Dto(container, Dto_Type.CONTAINER), new Dto(ligature, Dto_Type.LIGATURE) ];
         
