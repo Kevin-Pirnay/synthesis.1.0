@@ -161,7 +161,7 @@ class Multiply
 
     public static multiply_by_matrix = (matrix : Matrix<any>, transform : Matrix<any>) : void =>
     {
-        if(matrix._.length !== transform._.length) throw new Error("Vevtors in matrix must have the same dimension");
+        //if(matrix._.length !== transform._.length) throw new Error("Vevtors in matrix must have the same dimension");
     
         for(let i = 0; i < matrix._.length; i++) //for each old points
         {            
@@ -181,7 +181,7 @@ class Multiply
 
     public static multiply_by_matrix_new = (m_o : Matrix<any>, transform : Matrix<any>) : Matrix<any> =>
     {
-        if(m_o._.length !== transform._.length) throw new Error("Vevtors in matrix must have the same dimension");
+        //if(m_o._.length !== transform._.length) throw new Error("Vevtors in matrix must have the same dimension");
 
         const result : Matrix<any> = new Matrix();
     

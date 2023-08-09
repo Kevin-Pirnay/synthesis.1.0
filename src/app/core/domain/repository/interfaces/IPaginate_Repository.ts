@@ -3,6 +3,7 @@ import { IPaginate_Data } from "../../use_cases/View_Paginate";
 
 export interface IPaginate_Repository
 {
+    get_paginate_dtos(indexes: number[]): IDto[];
     get_paginate_data(indexes: number[]): IPaginate_Data;
     get_next_indexes(direction: number): number[];
     init_indexes(nb_idexes : number): void;

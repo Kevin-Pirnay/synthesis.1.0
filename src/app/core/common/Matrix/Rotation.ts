@@ -14,7 +14,7 @@ export class Rotation
         );
     };
 
-    public rotation_X_matrix = (radian: number): Matrix<3> => 
+    public rotation_X = (radian: number): Matrix<3> => 
     {
         return new Matrix(
             [
@@ -25,7 +25,7 @@ export class Rotation
         );
     };
 
-    public rotation_Z_matrix = (radian: number): Matrix<3> => 
+    public rotation_Z = (radian: number): Matrix<3> => 
     {
         return new Matrix(
             [

@@ -8,10 +8,6 @@ import { IPaginate_Repository } from "../repository/interfaces/IPaginate_Reposit
 import { IView_As_Root_Repository } from "../repository/interfaces/IView_As_Root_Repository";
 import { ISubtree_Data } from "./View_As_Root";
 
-//get two dto according to the indexes
-//set in postion
-//animate
-
 export class Paginate_Use_case
 {
     constructor(

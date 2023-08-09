@@ -39,6 +39,9 @@ import { IPaginate_Repository } from './repository/interfaces/IPaginate_Reposito
 import { Paginate_Repository } from './repository/implementations/Paginate_Repository';
 import { Paginate_Request } from '../port/driver/request/Paginate_request';
 import { Paginate_Response } from '../port/driver/response/Paginate_Response';
+import { View_Paginate_Request } from '../port/driver/request/View_Paginate_Request';
+import { View_Paginate_Response } from '../port/driver/response/View_Paginate_Response';
+import { View_Paginate_Use_case } from './use_cases/View_Paginate';
 
 export class Facade
 {
@@ -65,6 +68,8 @@ export class Facade
     private readonly __move_view_use_case = new Move_View_Use_case(this.__move_view_repository);
     private readonly __view_as_root_use_case = new View_As_Root_Use_case(this.__view_as_root_repository, this.__view_as_root_handler);
     private readonly __paginate_use_case = new Paginate_Use_case(this.__paginate_repository, this.__view_as_root_repository, this.__view_as_root_handler);
+    private readonly __view_paginate_use_case = new View_Paginate_Use_case(this.__paginate_repository);
+
 
     public execute_create_container(request : Create_Container_Request) : Create_Container_Response
     {
@@ -99,5 +104,10 @@ export class Facade
     public execute_paginate(request : Paginate_Request) : Paginate_Response
     {
         return this.__paginate_use_case.handle(request);
+    }
+
+    public execute_view_paginate(request : View_Paginate_Request) : View_Paginate_Response
+    {
+        return this.__view_paginate_use_case.handle(request);
     }
 }

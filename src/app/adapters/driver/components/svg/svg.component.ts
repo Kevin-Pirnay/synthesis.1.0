@@ -57,6 +57,10 @@ export class SvgComponent
       case "ArrowDown":
         this.__svg_service.request_move_view(e.key);
       break;
+
+      case '?':
+        this.__svg_service.request_vew_paginate(1);
+      break
     
       default:
         break;

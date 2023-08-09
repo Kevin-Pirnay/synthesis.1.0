@@ -56,6 +56,21 @@ export class Paginate_Repository implements IPaginate_Repository
 
         return result;
     }
+
+    public get_paginate_dtos(indexes: number[]): IDto[] 
+    {
+        const result : IDto[] = [];
+
+        indexes.forEach((index : number) =>
+        {
+            this.__subtree_dto[index].forEach((dto : IDto) =>
+            {
+                result.push(dto);
+            });
+        });
+
+        return result;
+    }
 }
 
 class Paginate_Data  implements IPaginate_Data
@@ -71,7 +86,9 @@ class Paginate_Data  implements IPaginate_Data
 
     public set_in_place(direction : number): void 
     {
-        this.__next.put_in_place(direction);
+        console.log(direction);
+        
+        this.__next.put_in_place(-direction);
     }
 
     public async rotate(direction : number): Promise<void>
@@ -82,7 +99,7 @@ class Paginate_Data  implements IPaginate_Data
 
         while(1)
         {
-            if(Math.abs(angle) >= 90) break;
+            //if(Math.abs(angle) >= 90) break;
 
             radian = angle * (Math.PI/180);
 
@@ -106,7 +123,7 @@ interface IPaginate_Positions
 
 class Paginate_Positions implements IPaginate_Positions
 {
-    private readonly __positions : IPaginate_Position[];
+    private readonly __positions : IPaginate_Position[] = [];
 
     constructor(dtos : IDto[])
     {
@@ -153,13 +170,13 @@ class Container_Paginate_Position implements IPaginate_Position
     
     rotate_by_radian(radian: number): void 
     {
-        this.__abs_ratio.__.multiply_by_matrix(Matrix_.rotation.rotation_X_matrix(Math.PI / 180));
+        this.__abs_ratio.__.multiply_by_matrix(Matrix_.rotation.rotation_Y(Math.PI / 180));
 
     }
 
     public turn_ninety(direction: number): void 
     {
-        this.__abs_ratio.__.multiply_by_matrix(Matrix_.rotation.rotation_X_matrix(Math.PI / 2));
+        this.__abs_ratio.__.multiply_by_matrix(Matrix_.rotation.rotation_Y((Math.PI / 2) * direction));
     }
 }
 
@@ -174,11 +191,11 @@ class Ligature_Paginate_Position implements IPaginate_Position
 
     rotate_by_radian(radian: number): void 
     {
-        this.__abs_ratio.__.multiply_by_matrix(Matrix_.rotation.rotation_X_matrix(Math.PI / 180));
+        this.__abs_ratio.__.multiply_by_matrix(Matrix_.rotation.rotation_Y(Math.PI / 180));
     }
 
     public turn_ninety(direction: number): void 
     {
-        this.__abs_ratio.__.multiply_by_matrix(Matrix_.rotation.rotation_X_matrix(Math.PI / 2));
+        this.__abs_ratio.__.multiply_by_matrix(Matrix_.rotation.rotation_Y((Math.PI / 2) * direction));
     }
 }

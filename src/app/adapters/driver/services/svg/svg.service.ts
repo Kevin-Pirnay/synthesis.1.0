@@ -10,6 +10,7 @@ import { Delete_Container_Request } from '../../../../core/port/driver/request/D
 import { Move_View_Request } from '../../../../core/port/driver/request/Move_View_Request';
 import { View_As_Root_Request } from '../../../../core/port/driver/request/View_As_Root_Request';
 import { Paginate_Request } from '../../../../core/port/driver/request/Paginate_request';
+import { View_Paginate_Request } from '../../../../core/port/driver/request/View_Paginate_Request';
 
 @Injectable({
   providedIn: 'root'
@@ -84,4 +85,15 @@ export class SvgService
     
     response.dtos.forEach(dto => this.dtos.push(dto));
   } 
+
+  public request_vew_paginate(direction : number)
+  {
+    const request = new View_Paginate_Request(direction);
+
+    const response = Pipeline.facade.execute_view_paginate(request);
+
+    this.dtos.length = 0;    
+    
+    response.dtos.forEach(dto => this.dtos.push(dto));
+  }
 }
