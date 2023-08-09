@@ -30,7 +30,7 @@ export class Paginate_Use_case
 
         this.__paginate_repository.store_subtrees_dtos(result);
 
-        this.__paginate_repository.init_indexes();
+        this.__paginate_repository.init_indexes(result.length);
 
         return new Paginate_Response(result[0]);
     }
