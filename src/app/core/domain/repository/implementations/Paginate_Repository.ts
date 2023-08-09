@@ -56,8 +56,8 @@ export class Paginate_Repository implements IPaginate_Repository
         
         const indexes : INext_Indexes = Next_Indexes.get_data(this.__indexes);
         
-        //good but try to put that in a clearer way like a retrun avoid the line above with result
         if(direction == 1) indexes.push_indexes_for_positive_direction(result);
+        
         else indexes.push_indexes_for_negative_direction(result);
 
         return result;
@@ -193,7 +193,6 @@ class Paginate_Positions implements IPaginate_Positions
 interface IPaginate_Position
 {
     rotate_by_radian(radian: number): void;
-    turn_ninety(direction: number): void;
 }
 
 class Abstract__Paginate_Position implements IPaginate_Position
@@ -210,11 +209,6 @@ class Abstract__Paginate_Position implements IPaginate_Position
     rotate_by_radian(radian: number): void 
     {
         this.__abs_ratio.__.assign_new_data(this.__fixe_pos.__.multiply_by_matrix_new(Matrix_.rotation.rotation_Y(radian)));
-    }
-
-    public turn_ninety(direction: number): void 
-    {
-        this.__abs_ratio.__.multiply_by_matrix(Matrix_.rotation.rotation_Y((Math.PI / 2) * direction));
     }
 }
 

@@ -44,6 +44,7 @@ class Subtree_Data implements ISubtree_Root
     public added_to_the_result(result: IDto[]): void 
     {
         result.push(new Dto(this.__container, Data_Type.CONTAINER));
+        
         if(this.__ligature) result.push(new Dto(this.__ligature, Data_Type.LIGATURE));
     }
 
