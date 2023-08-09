@@ -18,7 +18,7 @@ export class Move_Ligature_Use_case
 
     public handle_assign_ligature_to_container(request : Assign_Ligature_Request) : void
     {
-        if ( request.container == null ) { request.ligature.__.update_ratio(); return; }
+        if ( request.container == null ) { request.ligature.__.update_ratio(); return; } // positions come back to the previous state
 
         const assign_ligature : IAssign_Ligature = Assing_Ligature.get_assign_ligature(this.__node_linker, request.ligature, request.container);
 

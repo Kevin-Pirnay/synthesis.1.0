@@ -22,6 +22,11 @@ export class SvgComponent
     this.dtos = this.__svg_service.dtos;
   }
 
+  public mouse_over_container(container : Container) : void
+  {
+    this.__current_container = container;
+  }
+
   public mouse_move(e : MouseEvent) : void
   {
     if ( this.__current_ligature && this.__is_down_on_grip ) this.__svg_service.request_move_ligature(e, this.__current_ligature);
@@ -41,6 +46,7 @@ export class SvgComponent
     if ( !this.__is_down_on_container && !this.__is_down_on_grip ) this.__svg_service.request_create_container(e, this.__current_container);
 
     if ( this.__is_down_on_grip && this.__current_ligature ) this.__svg_service.request_assign_ligature(this.__current_ligature, this.__current_container);
+
     this.__is_down_on_container = false;
 
     this.__is_down_on_grip = false;
