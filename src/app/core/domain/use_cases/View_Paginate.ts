@@ -12,16 +12,53 @@ export class View_Paginate_Use_case
     
     public handle(request : View_Paginate_Request) : View_Paginate_Response
     {
-        const indexes : number[] = this.__paginate_repository.get_next_indexes(request.direction);
-        const root_point : Vector = this.__view_as_root_repository.get_default_root_pos();
-        const data : IPaginate_Data = this.__paginate_repository.get_paginate_data(indexes, root_point, this.__view_as_root_handler);
-        data.rotate(request.direction);
-        const dto : IDto[] =  this.__paginate_repository.get_paginate_dtos(indexes);
-        return new View_Paginate_Response(dto);
+        const view_paginate : IView_Paginate = new View_Paginate(this.__paginate_repository, this.__view_as_root_repository, this.__view_as_root_handler, request.direction);
+
+        view_paginate.rotate();
+
+        return view_paginate.get_data_paginated_dtos_for_the_view();
     }
 }
 
 export interface IPaginate_Data
 {
     rotate(direction : number) : void;
+}
+
+interface IView_Paginate
+{
+    rotate() : void;
+    get_data_paginated_dtos_for_the_view() : View_Paginate_Response;
+}
+
+class View_Paginate implements IView_Paginate
+{   
+    private readonly __indexes : number[];
+    private readonly __data : IPaginate_Data;
+    private readonly __direction : number;
+    private readonly __repository : IPaginate_Repository
+
+    constructor(
+        paginate_repository: IPaginate_Repository,
+        view_as_root_repository : View_As_Root_Repository,
+        view_as_root_handler : View_As_Root_Handler,
+        direction : number)
+    {
+        this.__indexes = paginate_repository.get_next_indexes(direction);
+        const root_point = view_as_root_repository.get_default_root_pos();
+        this.__data = paginate_repository.get_paginate_data(this.__indexes, root_point, view_as_root_handler);
+        this.__direction = direction;
+        this.__repository = paginate_repository;
+    }
+    public rotate(): void 
+    {
+        this.__data.rotate(this.__direction);
+    }
+
+    public get_data_paginated_dtos_for_the_view() : View_Paginate_Response
+    {
+        const dto : IDto[] =  this.__repository.get_paginate_dtos(this.__indexes);
+
+        return new View_Paginate_Response(dto);
+    }
 }
