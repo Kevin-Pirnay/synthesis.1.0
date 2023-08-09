@@ -61,6 +61,9 @@ export class SvgComponent
       case '?':
         this.__svg_service.request_vew_paginate(1);
       break
+      case '.':
+        this.__svg_service.request_vew_paginate(-1);
+      break
     
       default:
         break;

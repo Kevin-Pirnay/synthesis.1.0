@@ -1,36 +1,50 @@
 import { Matrix } from "../../../common/Matrix/Matrix";
 import { Matrix_ } from "../../../common/Matrix/Matrix_";
-import { Dto } from "../../../port/driver/dto/Dto";
+import { Vector } from "../../../common/Vector/Vector";
 import { Dto_Type, IDto } from "../../../port/driver/dto/IDto";
+import { View_As_Root_Handler } from "../../handlers/View_As_Root/View_As_Root_Handler";
+import { ISubtree_Root } from "../../use_cases/View_As_Root";
 import { IPaginate_Data } from "../../use_cases/View_Paginate";
 import { IPaginate_Repository } from "../interfaces/IPaginate_Repository";
 
 export class Paginate_Repository implements IPaginate_Repository
 {
-    private readonly __subtree_dto : IDto[][] = [];
+    private readonly __root_subtree_dto : ISubtree_Root[] = [];
+    private __data_dtos : IDto[][] = [];
     private readonly __indexes : number[] = [];
 
-    public init_indexes(nb_idexes : number): void 
+    public init_indexes(nb_idexes : number): number 
     {
         this.__indexes.length = 0;
 
         for(let i = 0; i < nb_idexes; i++)
         {
-            this.__indexes[i] = i;
+            this.__indexes.push(i);
         } 
+
+        const current = this.__indexes.shift();        
+
+        if(current == undefined) throw new Error("Error: indexes are empty"); 
+
+        this.__indexes.push(current);
+
+        return current;
     }
 
-    public store_subtrees_dtos(subtrees: IDto[][]): void 
+    public store_subtrees_dtos(subtrees: ISubtree_Root[]): void 
     {
-        this.__subtree_dto.length = 0;
+        this.__root_subtree_dto.length = 0;
 
-        subtrees.forEach(subtree => this.__subtree_dto.push(subtree));   
+        subtrees.forEach(subtree => this.__root_subtree_dto.push(subtree));   
     }
 
-    public get_paginate_data(indexes: number[]): IPaginate_Data 
+    //bug if only one, call after next indexes, bad design should be responsible for all the flow of the code in one method, not give that to the caller!!!
+    public get_paginate_data(indexes: number[], root_point : Vector, view_as_root_handler : View_As_Root_Handler): IPaginate_Data 
     {
-        const dto1 : Dto[] = this.__subtree_dto[indexes[0]];
-        const dto2 : Dto[] = this.__subtree_dto[indexes[1]];
+        const dto1 : IDto[] = view_as_root_handler.get_subtree_dtos(this.__root_subtree_dto[indexes[0]],root_point);
+        const dto2 : IDto[] = view_as_root_handler.get_subtree_dtos(this.__root_subtree_dto[indexes[1]],root_point);
+
+        this.__data_dtos = [dto1,dto2];
 
         return new Paginate_Data(dto1, dto2);
     }
@@ -40,40 +54,80 @@ export class Paginate_Repository implements IPaginate_Repository
         if(direction !== 1 && direction !== -1) throw new Error("direction must be either 1 or -1");
 
         const result : number[] = [];
-
-        for(let i = 0; i < 2; i++)
-        {
-            let current_index : number | undefined = direction == 1 ? this.__indexes.shift() : this.__indexes.pop();
-
-            if(current_index == undefined) throw new Error("Error: indexes are empty");
-
-            result.push(current_index);
-
-            if ( direction == 1 ) this.__indexes.push(current_index);
-            else this.__indexes.unshift(current_index); 
-        }
-        console.log(result);
         
+        const indexes : INext_Indexes = Next_Indexes.get_data(this.__indexes);
+        
+        //good but try to put that in a clearer way like a retrun avoid the line above with result
+        if(direction == 1) indexes.push_indexes_for_positive_direction(result);
+        else indexes.push_indexes_for_negative_direction(result);
+
         return result;
     }
 
-    public get_paginate_dtos(indexes: number[]): IDto[] 
+    public get_paginate_dtos(): IDto[] 
     {
         const result : IDto[] = [];
-
-        indexes.forEach((index : number) =>
+        
+        this.__data_dtos.forEach(dtos => dtos.forEach((dto : IDto) =>
         {
-            this.__subtree_dto[index].forEach((dto : IDto) =>
-            {
-                result.push(dto);
-            });
-        });
+            result.push(dto);
+        }));
         
         return result;
     }
 }
 
-class Paginate_Data  implements IPaginate_Data
+interface INext_Indexes
+{
+    push_indexes_for_negative_direction(result: number[]): void;
+    push_indexes_for_positive_direction(result: number[]): void;
+}
+
+//refactor to handle one indexes in the queue only
+class Next_Indexes implements INext_Indexes
+{
+    public static get_data(indexes: number[]): INext_Indexes 
+    {
+        return new Next_Indexes(indexes);
+    }
+
+    private readonly __indexes : number[];
+
+    constructor(indexes : number[])
+    {
+        this.__indexes = indexes;
+    }
+
+    public push_indexes_for_positive_direction(result: number[]): void 
+    {
+        const current = this.__indexes.pop();
+        const next = this.__indexes.shift();         
+
+        if(current == undefined || next == undefined) throw new Error("Error: indexes are empty");
+        
+        result.push(current);
+        result.push(next);
+        
+        this.__indexes.push(current);
+        this.__indexes.push(next);
+    }
+
+    public push_indexes_for_negative_direction(result: number[]): void 
+    {
+        const current = this.__indexes.pop();
+        const next = this.__indexes.pop();
+
+        if(current == undefined || next == undefined) throw new Error("Error: indexes are empty");
+
+        result.push(current);
+        result.push(next);
+
+        this.__indexes.push(next);
+        this.__indexes.unshift(current);
+    }
+}
+
+class Paginate_Data implements IPaginate_Data
 {
     private readonly __previous : IPaginate_Positions;
     private readonly __next : IPaginate_Positions;
@@ -82,12 +136,6 @@ class Paginate_Data  implements IPaginate_Data
     { 
         this.__previous = new Paginate_Positions(dto1);
         this.__next = new Paginate_Positions(dto2);
-    }
-
-    public set_in_place(direction : number): void 
-    {        
-        this.__next.put_in_place(-direction);
-        this.__previous.put_in_place(0);
     }
 
     public async rotate(direction : number): Promise<void>
@@ -119,7 +167,6 @@ class Paginate_Data  implements IPaginate_Data
 interface IPaginate_Positions
 {
     rotate_by_radian(radian: number): void;
-    put_in_place(direction: number): void;
 }
 
 class Paginate_Positions implements IPaginate_Positions
@@ -142,20 +189,10 @@ class Paginate_Positions implements IPaginate_Positions
             position.rotate_by_radian(radian);
         });
     }
-
-    public put_in_place(direction: number): void 
-    {
-        this.__positions.forEach(position =>
-        {
-            //position.reset_place();
-            position.turn_ninety(direction);
-        });
-    }
 }
 
 interface IPaginate_Position
 {
-    reset_place(): void;
     rotate_by_radian(radian: number): void;
     turn_ninety(direction: number): void;
 }
@@ -169,11 +206,6 @@ class Abstract__Paginate_Position implements IPaginate_Position
     { 
         this.__abs_ratio = dto._.positions.abs_ratio;
         this.__fixe_pos = this.__abs_ratio.__.copy();
-    }
-
-    public reset_place(): void 
-    {
-        this.__abs_ratio.__.assign_new_data(this.__fixe_pos);
     }
     
     rotate_by_radian(radian: number): void 

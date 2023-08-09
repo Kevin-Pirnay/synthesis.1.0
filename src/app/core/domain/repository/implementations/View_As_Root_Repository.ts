@@ -4,27 +4,27 @@ import { Dto } from "../../../port/driver/dto/Dto";
 import { Dto_Type, IDto } from "../../../port/driver/dto/IDto";
 import { Container, Unit_Node } from "../../entities/Container";
 import { Ligature } from "../../entities/Ligature";
-import { ISubtree_Data } from "../../use_cases/View_As_Root";
+import { ISubtree_Root } from "../../use_cases/View_As_Root";
 import { IView_As_Root_Repository } from "../interfaces/IView_As_Root_Repository";
 
 export class View_As_Root_Repository implements IView_As_Root_Repository
 {
     public get_default_root_pos(): Vector 
     {
-        return Vector_.new([100,300]);
+        return Vector_.new([100,250]);
     }
 
-    public get_root_subtree(container: Container): ISubtree_Data 
+    public get_root_subtree(container: Container): ISubtree_Root 
     {
         return new Subtree_Data(null, container);
     }
 }
 
-class Subtree_Data implements ISubtree_Data
+class Subtree_Data implements ISubtree_Root
 {
     constructor(private readonly __ligature : Ligature | null, private readonly __container : Container) { }
 
-    public add_children_to_the_frontier(frontier: ISubtree_Data[], children: ISubtree_Data[]): void 
+    public add_children_to_the_frontier(frontier: ISubtree_Root[], children: ISubtree_Root[]): void 
     {
         children.forEach( child => frontier.unshift(child)); 
     }
@@ -47,9 +47,9 @@ class Subtree_Data implements ISubtree_Data
         if(this.__ligature) result.push(new Dto(this.__ligature, Dto_Type.LIGATURE));
     }
 
-    public get_his_children(): ISubtree_Data[] 
+    public get_his_children(): ISubtree_Root[] 
     {
-        const result : ISubtree_Data[] = [];
+        const result : ISubtree_Root[] = [];
 
         this.__container.node.children.forEach((unit : Unit_Node) =>
         {
@@ -59,7 +59,7 @@ class Subtree_Data implements ISubtree_Data
         return result;
     }
 
-    public set_children_positions(children: ISubtree_Data[]): void 
+    public set_children_positions(children: ISubtree_Root[]): void 
     {
         const parent_root_pos : Vector = this.__container.positions.abs_root;
 

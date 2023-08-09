@@ -6,7 +6,7 @@ import { Container, Unit_Node } from "../entities/Container";
 import { IView_As_Root_Handler } from "../handlers/View_As_Root/IView_As_Root_Handler";
 import { IPaginate_Repository } from "../repository/interfaces/IPaginate_Repository";
 import { IView_As_Root_Repository } from "../repository/interfaces/IView_As_Root_Repository";
-import { ISubtree_Data } from "./View_As_Root";
+import { ISubtree_Root } from "./View_As_Root";
 
 export class Paginate_Use_case
 {
@@ -20,34 +20,20 @@ export class Paginate_Use_case
     {
         const default_root_point : Vector = this.__view_as_root_repository.get_default_root_pos();
 
-        const root_subTrees_data : ISubtree_Data[] = this.__get_subtrees_data_root(request.container);
+        const root_subTrees : ISubtree_Root[] = this.__get_subtrees_root(request.container);
 
-        const result : IDto[][] = this.__get_all_subtrees_dtos(root_subTrees_data, default_root_point);
+        this.__paginate_repository.store_subtrees_dtos(root_subTrees);
+        
+        const current_index : number = this.__paginate_repository.init_indexes(root_subTrees.length);
 
-        this.__paginate_repository.store_subtrees_dtos(result);
+        const dtos : IDto[] = this.__view_as_root_handler.get_subtree_dtos(root_subTrees[current_index], default_root_point);
 
-        this.__paginate_repository.init_indexes(result.length);
-
-        return new Paginate_Response(result[0]);
+        return new Paginate_Response(dtos);
     }
 
-    private __get_all_subtrees_dtos(root_subTrees_data : ISubtree_Data[], default_root : Vector) : IDto[][]
+    private __get_subtrees_root(container : Container) : ISubtree_Root[]
     {
-        const result : IDto[][] = [];
-
-        root_subTrees_data.forEach((root_subtree : ISubtree_Data) =>
-        {
-            const dtos : IDto[] = this.__view_as_root_handler.get_subtree_dtos(root_subtree, default_root);
-
-            result.push(dtos);
-        });
-
-        return result
-    }
-
-    private __get_subtrees_data_root(container : Container) : ISubtree_Data[]
-    {
-        const root_subTrees_data : ISubtree_Data[] = [];
+        const root_subTrees_data : ISubtree_Root[] = [];
 
         container.node.children.forEach((unit : Unit_Node) =>
         {

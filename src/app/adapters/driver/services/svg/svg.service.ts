@@ -86,6 +86,7 @@ export class SvgService
     response.dtos.forEach(dto => this.dtos.push(dto));
   } 
 
+  //send ptr is_animating in response??? to prevent recall function while animating???
   public request_vew_paginate(direction : number)
   {
     const request = new View_Paginate_Request(direction);

@@ -1,27 +1,27 @@
 import { Vector } from "../../../common/Vector/Vector";
 import { IDto } from "../../../port/driver/dto/IDto";
-import { ISubtree_Data } from "../../use_cases/View_As_Root";
+import { ISubtree_Root } from "../../use_cases/View_As_Root";
 import { IView_As_Root_Handler } from "./IView_As_Root_Handler";
 
 export class View_As_Root_Handler implements IView_As_Root_Handler
 {
-    public get_subtree_dtos(root_subTree: ISubtree_Data, default_root: Vector): IDto[] 
+    public get_subtree_dtos(root_subTree: ISubtree_Root, default_root: Vector): IDto[] 
     {
         const result : IDto[] = [];
 
         root_subTree.set_its_positions(default_root);
 
-        const frontier : ISubtree_Data[] = [];
+        const frontier : ISubtree_Root[] = [];
 
         frontier.push(root_subTree);
 
         while(1)
         {
-            const current : ISubtree_Data | undefined = frontier.pop();
+            const current : ISubtree_Root | undefined = frontier.pop();
 
             if(!current) break;
 
-            const children : ISubtree_Data[] =  current.get_his_children();
+            const children : ISubtree_Root[] =  current.get_his_children();
 
             current.set_children_positions(children);
 
