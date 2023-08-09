@@ -25,14 +25,29 @@
                 L {{dto._.positions.abs_ratio._[3]._[0]}} {{dto._.positions.abs_ratio._[3]._[1]}} " 
         />
 
-        <path 
-            *ngIf="dto.type == 1" 
-            class="ligature"
-            attr.d="
-                M {{dto._.positions.abs_ratio._[0]._[0]}} {{dto._.positions.abs_ratio._[0]._[1]}} 
-                Q {{dto._.positions.abs_ratio._[1]._[0]}},{{dto._.positions.abs_ratio._[1]._[1]}}
-                  {{dto._.positions.abs_ratio._[2]._[0]}},{{dto._.positions.abs_ratio._[2]._[1]}} "
+        <g>
+            <path 
+                *ngIf="dto.type == 1" 
+                class="ligature"
+                attr.d="
+                    M {{dto._.positions.abs_ratio._[0]._[0]}} {{dto._.positions.abs_ratio._[0]._[1]}} 
+                    Q {{dto._.positions.abs_ratio._[1]._[0]}},{{dto._.positions.abs_ratio._[1]._[1]}}
+                      {{dto._.positions.abs_ratio._[2]._[0]}},{{dto._.positions.abs_ratio._[2]._[1]}} "
+            />
+
+            <path
+                class="grip"
+                *ngIf="dto.type == 1" 
+                (mousedown)="mouse_down_on_grip(dto._)"
+                attr.d="
+                    M {{dto._.positions.abs_ratio._[0]._[0] -5 }} {{dto._.positions.abs_ratio._[0]._[1] - 5}} 
+                    L {{dto._.positions.abs_ratio._[0]._[0] + 5}} {{dto._.positions.abs_ratio._[0]._[1] - 5}} 
+                    L {{dto._.positions.abs_ratio._[0]._[0] + 5}} {{dto._.positions.abs_ratio._[0]._[1] + 5}} 
+                    L {{dto._.positions.abs_ratio._[0]._[0] - 5}} {{dto._.positions.abs_ratio._[0]._[1] + 5}} " 
         />
+
+        </g>
+
     </ng-container>
 
 </svg>

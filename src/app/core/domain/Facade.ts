@@ -42,6 +42,9 @@ import { View_Paginate_Response } from '../port/driver/response/View_Paginate_Re
 import { View_Paginate_Use_case } from './use_cases/View_Paginate';
 import { INode_Linker } from './handlers/Link_Node/INode_Linker';
 import { Node_Linker } from './handlers/Link_Node/Node_Linker';
+import { Move_ligature_Request } from '../port/driver/request/Move_ligature_Request';
+import { Move_Ligature_Use_case } from './use_cases/Move_Ligature';
+import { Assign_Ligature_Request } from '../port/driver/request/Assign_Ligature_Request';
 
 export class Facade
 {
@@ -69,6 +72,7 @@ export class Facade
     private readonly __view_as_root_use_case = new View_As_Root_Use_case(this.__view_as_root_repository, this.__view_as_root_handler);
     private readonly __paginate_use_case = new Paginate_Use_case(this.__paginate_repository, this.__view_as_root_repository, this.__view_as_root_handler);
     private readonly __view_paginate_use_case = new View_Paginate_Use_case(this.__paginate_repository, this.__view_as_root_repository, this.__view_as_root_handler);
+    private readonly __move_ligature_use_case = new Move_Ligature_Use_case(this.__node_linker_handler);
 
 
     public execute_create_container(request : Create_Container_Request) : Create_Container_Response
@@ -109,5 +113,15 @@ export class Facade
     public execute_view_paginate(request : View_Paginate_Request) : View_Paginate_Response
     {
         return this.__view_paginate_use_case.handle(request);
+    }
+
+    public execute_move_ligature(request : Move_ligature_Request) : void
+    {        
+        this.__move_ligature_use_case.handle_move_ligature(request);
+    }
+
+    public execute_assign_ligature(request : Assign_Ligature_Request) : void
+    {
+        this.__move_ligature_use_case.handle_assign_ligature_to_container(request);
     }
 }

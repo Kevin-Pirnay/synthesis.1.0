@@ -11,6 +11,9 @@ import { Move_View_Request } from '../../../../core/port/driver/request/Move_Vie
 import { View_As_Root_Request } from '../../../../core/port/driver/request/View_As_Root_Request';
 import { Paginate_Request } from '../../../../core/port/driver/request/Paginate_request';
 import { View_Paginate_Request } from '../../../../core/port/driver/request/View_Paginate_Request';
+import { Ligature } from '../../../../core/domain/entities/Ligature';
+import { Move_ligature_Request } from '../../../../core/port/driver/request/Move_ligature_Request';
+import { Assign_Ligature_Request } from '../../../../core/port/driver/request/Assign_Ligature_Request';
 
 @Injectable({
   providedIn: 'root'
@@ -94,10 +97,21 @@ export class SvgService
     const response = Pipeline.facade.execute_view_paginate(request);
 
     this.dtos.length = 0; 
-    
-    console.log(response.dtos);
-    
-    
+        
     response.dtos.forEach(dto => this.dtos.push(dto));
+  }
+
+  public request_move_ligature(e : MouseEvent, ligature : Ligature) : void
+  {    
+    const request = new Move_ligature_Request(Vector_.new([e.clientX, e.clientY]), ligature);
+
+    Pipeline.facade.execute_move_ligature(request);
+  }
+
+  public request_assign_ligature(ligature : Ligature, container : Container | null) : void
+  {
+    const request = new Assign_Ligature_Request(ligature, container);
+
+    Pipeline.facade.execute_assign_ligature(request);
   }
 }
