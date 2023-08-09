@@ -92,7 +92,10 @@ export class SvgService
 
     const response = Pipeline.facade.execute_view_paginate(request);
 
-    this.dtos.length = 0;    
+    this.dtos.length = 0; 
+    
+    console.log(response.dtos);
+    
     
     response.dtos.forEach(dto => this.dtos.push(dto));
   }

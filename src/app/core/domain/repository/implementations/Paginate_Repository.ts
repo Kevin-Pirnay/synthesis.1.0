@@ -1,6 +1,5 @@
 import { Matrix } from "../../../common/Matrix/Matrix";
 import { Matrix_ } from "../../../common/Matrix/Matrix_";
-import { Vector } from "../../../common/Vector/Vector";
 import { Dto } from "../../../port/driver/dto/Dto";
 import { Dto_Type, IDto } from "../../../port/driver/dto/IDto";
 import { IPaginate_Data } from "../../use_cases/View_Paginate";
@@ -38,22 +37,23 @@ export class Paginate_Repository implements IPaginate_Repository
 
     public get_next_indexes(direction: number): number[] 
     {
-        if(direction !== 1 && direction !== 0) throw new Error("direction must be either 1 or 0");
+        if(direction !== 1 && direction !== -1) throw new Error("direction must be either 1 or -1");
 
         const result : number[] = [];
 
         for(let i = 0; i < 2; i++)
         {
-            let current_index : number | undefined = direction ? this.__indexes.shift() : this.__indexes.pop();
+            let current_index : number | undefined = direction == 1 ? this.__indexes.shift() : this.__indexes.pop();
 
             if(current_index == undefined) throw new Error("Error: indexes are empty");
 
             result.push(current_index);
 
-            if ( direction ) this.__indexes.push(current_index);
+            if ( direction == 1 ) this.__indexes.push(current_index);
             else this.__indexes.unshift(current_index); 
         }
-
+        console.log(result);
+        
         return result;
     }
 
@@ -68,7 +68,7 @@ export class Paginate_Repository implements IPaginate_Repository
                 result.push(dto);
             });
         });
-
+        
         return result;
     }
 }
@@ -85,25 +85,26 @@ class Paginate_Data  implements IPaginate_Data
     }
 
     public set_in_place(direction : number): void 
-    {
-        console.log(direction);
-        
+    {        
         this.__next.put_in_place(-direction);
+        this.__previous.put_in_place(0);
     }
 
     public async rotate(direction : number): Promise<void>
     {
+        if ( direction !== 1 && direction !== -1 ) throw new Error("direction must be either 1 or -1");
         let radian : number = 0;
         let angle : number = 0;
-        const rate : number = direction > 0 ? 1 : -1;
+        const step : number = 0.5
+        const rate : number = step * direction
 
         while(1)
         {
-            //if(Math.abs(angle) >= 90) break;
+            if(Math.abs(angle) >= 90) break;
 
             radian = angle * (Math.PI/180);
 
-            this.__next.rotate_by_radian(radian);
+            this.__next.rotate_by_radian(radian + (Math.PI/2) * (-direction));
             this.__previous.rotate_by_radian(radian);
 
             await new Promise(r => setTimeout(r, 1));
@@ -146,6 +147,7 @@ class Paginate_Positions implements IPaginate_Positions
     {
         this.__positions.forEach(position =>
         {
+            //position.reset_place();
             position.turn_ninety(direction);
         });
     }
@@ -153,25 +155,30 @@ class Paginate_Positions implements IPaginate_Positions
 
 interface IPaginate_Position
 {
+    reset_place(): void;
     rotate_by_radian(radian: number): void;
     turn_ninety(direction: number): void;
 }
 
-//abstract class to put Math.Pi/2???
-
-class Container_Paginate_Position implements IPaginate_Position
+class Abstract__Paginate_Position implements IPaginate_Position
 {
-    private readonly __abs_ratio : Matrix<4>;
+    private readonly __abs_ratio : Matrix<any>;
+    private readonly __fixe_pos : Matrix<any>;
 
     constructor(dto : IDto) 
     { 
         this.__abs_ratio = dto._.positions.abs_ratio;
+        this.__fixe_pos = this.__abs_ratio.__.copy();
+    }
+
+    public reset_place(): void 
+    {
+        this.__abs_ratio.__.assign_new_data(this.__fixe_pos);
     }
     
     rotate_by_radian(radian: number): void 
     {
-        this.__abs_ratio.__.multiply_by_matrix(Matrix_.rotation.rotation_Y(Math.PI / 180));
-
+        this.__abs_ratio.__.assign_new_data(this.__fixe_pos.__.multiply_by_matrix_new(Matrix_.rotation.rotation_Y(radian)));
     }
 
     public turn_ninety(direction: number): void 
@@ -180,22 +187,6 @@ class Container_Paginate_Position implements IPaginate_Position
     }
 }
 
-class Ligature_Paginate_Position implements IPaginate_Position
-{
-    private readonly __abs_ratio : Matrix<4>;
+class Container_Paginate_Position extends Abstract__Paginate_Position { }
 
-    constructor(dto : IDto) 
-    { 
-        this.__abs_ratio = dto._.positions.abs_ratio;
-    }
-
-    rotate_by_radian(radian: number): void 
-    {
-        this.__abs_ratio.__.multiply_by_matrix(Matrix_.rotation.rotation_Y(Math.PI / 180));
-    }
-
-    public turn_ninety(direction: number): void 
-    {
-        this.__abs_ratio.__.multiply_by_matrix(Matrix_.rotation.rotation_Y((Math.PI / 2) * direction));
-    }
-}
+class Ligature_Paginate_Position extends Abstract__Paginate_Position { }
