@@ -1,4 +1,3 @@
-import { Vector } from "../../common/Vector/Vector";
 import { IDto } from "../../port/driver/dto/IDto";
 import { View_Paginate_Request } from "../../port/driver/request/View_Paginate_Request";
 import { View_Paginate_Response } from "../../port/driver/response/View_Paginate_Response";

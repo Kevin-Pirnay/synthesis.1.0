@@ -23,8 +23,8 @@ export class Move_Ligature_Use_case
         const assign_ligature : IAssign_Ligature = Assing_Ligature.get_assign_ligature(this.__node_linker, request.ligature, request.container);
 
         assign_ligature.update_relationship_in_the_tree();
-        assign_ligature.update_the_position_of_the_ligature();
-        assign_ligature.update_the_relative_position_of_the_child_container_to_the_new_parent_container();
+        assign_ligature.update_its_own_position();
+        assign_ligature.update_the_relative_position_of_its_child_container_to_the_new_parent_container();
     }
 }
 
@@ -38,8 +38,8 @@ export class Move_Ligature_Use_case
 interface IAssign_Ligature
 {
     update_relationship_in_the_tree() : void;
-    update_the_position_of_the_ligature() : void;
-    update_the_relative_position_of_the_child_container_to_the_new_parent_container() : void;
+    update_its_own_position() : void;
+    update_the_relative_position_of_its_child_container_to_the_new_parent_container() : void;
 } 
 
 class Assing_Ligature implements IAssign_Ligature
@@ -66,7 +66,7 @@ class Assing_Ligature implements IAssign_Ligature
         this.__child_container = this.__ligature.child;
     }
 
-    update_relationship_in_the_tree(): void 
+    public update_relationship_in_the_tree(): void 
     {
         this.__node_linker.remove_unit_from_parent([this.__old_parent_container], this.__child_container);
         this.__node_linker.remove_unit_from_children([this.__child_container], this.__old_parent_container);
@@ -74,12 +74,12 @@ class Assing_Ligature implements IAssign_Ligature
         this.__ligature.parent = this.__container_to_assign;
     }
 
-    update_the_position_of_the_ligature(): void 
+    public update_its_own_position(): void 
     {
         this.__ligature.__.update_ratio();
     }
 
-    update_the_relative_position_of_the_child_container_to_the_new_parent_container(): void 
+    public update_the_relative_position_of_its_child_container_to_the_new_parent_container(): void 
     {
         const rel_root : Vector = this.__child_container.positions.rel_root;
 
