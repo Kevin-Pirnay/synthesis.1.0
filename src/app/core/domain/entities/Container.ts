@@ -4,6 +4,7 @@ import { Vector } from "../../common/Vector/Vector";
 import { Vector_ } from "../../common/Vector/Vector_";
 import { Container_ } from "../handlers/Container_";
 import { Ligature } from "./Ligature";
+import { Node_ } from "../handlers/Node_";
 
 export class Container
 {
@@ -25,48 +26,11 @@ export class Unit_Node
     constructor(public ligature : Ligature | null = null, public container : Container | null = null) { }
 }
 
-class Node_
-{
-    constructor(private readonly __node : Node) { }
-
-    public assign_new_parent_unit(parent : Unit_Node | null) : void
-    {
-        if(parent == null) 
-        {
-            this.__node.parent.container = null;
-            this.__node.parent.ligature = null;
-            return;
-        }
-
-        this.__node.parent.container = parent.container;
-        this.__node.parent.ligature = parent.ligature;
-    }
-
-    public assign_new_children_unit(children : Unit_Node[]) : void
-    {
-        this.__node.children.length = 0;
-
-        children.forEach((child : Unit_Node) => this.__node.children.push(child));
-    }
-
-    public get_containers_children() : Container[]
-    {
-        const result : Container[] = [];
-
-        this.__node.children.forEach(unit =>
-        {
-            if ( unit.container !== null ) result.push(unit.container); 
-        });
-
-        return result;
-    }
-}
-
 export class Node
 {
     public __ = new Node_(this);
 
-    public readonly parent : Unit_Node;
+    public readonly parent : Unit_Node = new Unit_Node();
 
     public readonly children : Unit_Node[] = [];
 }

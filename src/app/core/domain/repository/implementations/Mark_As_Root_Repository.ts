@@ -14,7 +14,7 @@ export class Mark_As_Root_Repository implements IMark_As_Root_Repository
 
     save_new_root(container: Container) : void 
     {
-        this.__container_dao.save_root(container);
+        this.__container_dao.save_new_root(container);
     }
 
     get_root_position(): Vector 

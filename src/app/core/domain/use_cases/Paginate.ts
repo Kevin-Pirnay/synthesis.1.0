@@ -37,9 +37,12 @@ export class Paginate_Use_case
 
         container.node.children.forEach((unit : Unit_Node) =>
         {
-            const root_sub_tree = this.__view_as_root_repository.get_root_subtree(unit.container);
-
-            root_subTrees_data.push(root_sub_tree);
+            if ( unit.container )
+            {
+                const root_sub_tree = this.__view_as_root_repository.get_root_subtree(unit.container);
+    
+                root_subTrees_data.push(root_sub_tree);
+            }
         });
 
         return root_subTrees_data

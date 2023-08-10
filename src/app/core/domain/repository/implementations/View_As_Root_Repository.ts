@@ -53,10 +53,14 @@ class Subtree_Data implements ISubtree_Root
     {
         const result : ISubtree_Root[] = [];
 
-        this.__container.node.children.forEach((unit : Unit_Node) =>
+        for(let i = 0; i < this.__container.node.children.length; i++) 
         {
+            const unit = this.__container.node.children[i];
+
+            if(!unit.container) continue;
+    
             result.push(new Subtree_Data(unit.ligature, unit.container));
-        });
+        }
 
         return result;
     }

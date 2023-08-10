@@ -22,8 +22,8 @@ export class Delete_Container_Repository implements IDelete_Container_Repository
     
     public delete_unit_from_memory(unit_to_remove: Unit_Node): void 
     {
-        this.__dao_container.delete(unit_to_remove.container);
-        this.__dao_ligature.delete(unit_to_remove.ligature);
+        if ( unit_to_remove.container ) this.__dao_container.delete(unit_to_remove.container);
+        if ( unit_to_remove.ligature ) this.__dao_ligature.delete(unit_to_remove.ligature);
     }    
 }
 
@@ -56,7 +56,7 @@ class Remove_Container implements IRemove_Container
 
     public update_its_children_ligatures_positions(): void 
     {
-        this.__children_unit.forEach(unit => unit.ligature.__.update_ratio());
+        this.__children_unit.forEach(unit => { if ( unit.ligature ) unit.ligature.__.update_ratio(); }); 
     }
 
     public remove_itself_from_memory(): void 
@@ -77,8 +77,8 @@ class Remove_Container implements IRemove_Container
 
     public get_deleted_container_response(): Delete_Container_Response 
     {   
-        const c_id = this.__unit_to_remove ? this.__unit_to_remove.container.id : "";
-        const l_id = this.__unit_to_remove ? this.__unit_to_remove.ligature.id : "";
+        const c_id = this.__unit_to_remove?.container ? this.__unit_to_remove.container.id : "";
+        const l_id = this.__unit_to_remove?.ligature ? this.__unit_to_remove.ligature.id : "";
         return new Delete_Container_Response([c_id, l_id]);
     }
 }

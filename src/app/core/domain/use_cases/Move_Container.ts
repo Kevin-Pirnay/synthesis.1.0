@@ -54,14 +54,14 @@ class Move_Container implements IMove_Container
     {
         this.__container.node.children.forEach((unit : Unit_Node) =>
         {
-            unit.container.positions.rel_ratio.__.substract_by_vector(delta);
+            if ( unit.container ) unit.container.positions.rel_ratio.__.substract_by_vector(delta);
 
-            unit.ligature.__.update_ratio();
+            if ( unit.ligature ) unit.ligature.__.update_ratio();
         });
     }
 
     public update_positions_of_its_parents_ligatures(): void 
     {
-        this.__container.node.parent?.ligature.__.update_ratio();
+        this.__container.node.parent.ligature?.__.update_ratio();
     }
 }
