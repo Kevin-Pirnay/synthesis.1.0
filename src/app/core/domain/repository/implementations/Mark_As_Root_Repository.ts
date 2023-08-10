@@ -2,11 +2,12 @@ import { Dto } from './../../../port/driver/dto/Dto';
 import { Vector } from "../../../common/Vector/Vector";
 import { Vector_ } from "../../../common/Vector/Vector_";
 import { Mark_As_Root_Response } from "../../../port/driver/response/Mark_As_Root_Response";
-import { Container } from "../../entities/Container";
+import { Container, Container_Positions, Node } from "../../entities/Container";
 import { IMark_As_Root } from "../../use_cases/Mark_As_Root";
 import { IMark_As_Root_Repository } from "../interfaces/IMark_As_Root_Repository";
 import { Data_Type } from '../../../port/driver/dto/IDto';
 import { IDao_Container } from '../../../port/driven/dao/IDao_Container';
+import { Matrix } from '../../../common/Matrix/Matrix';
 
 export class Mark_As_Root_Repository implements IMark_As_Root_Repository
 {
@@ -33,9 +34,15 @@ class Mark_As_Root implements IMark_As_Root
 {
     constructor(private readonly __cotainer : Container) { }
 
-    public put_its_positions_to_root(root_point: Vector): void 
+    public update_its_node_relationship_and_positions_for_the_new_flow(root_point: Vector): void 
     {
+        const temp_rel_ration : Matrix<4> = this.__cotainer.positions.rel_ratio;
+        this.__cotainer.positions = new Container_Positions();
+        this.__cotainer.positions.rel_ratio.__.assign_new_data(temp_rel_ration);
+        this.__cotainer.positions.rel_root.__.assign_new_data(Vector_.zero());
         this.__cotainer.__.update_position_from_abs_root(root_point);
+
+        this.__cotainer.node = new Node();
     }
 
     public create_its_new_flow(): string 
