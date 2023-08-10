@@ -20,6 +20,7 @@ export class Node_Linker implements INode_Linker
     public link_parent_to_children(container_to_remove : Container): void 
     {
         const parent_container : Container | null = container_to_remove.node.parent.container;
+        
         const children_unit = container_to_remove.node.children;
 
         if ( !parent_container ) return;

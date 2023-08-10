@@ -9,6 +9,7 @@ export class Dao_Flow implements IDao_Flow
     public change_current_flow(flow: string): void 
     {
         this.__runtime_persistence.stack_flows.push(flow);
+        
         this.__current_flow._ = flow;
     }
 
@@ -21,5 +22,4 @@ export class Dao_Flow implements IDao_Flow
     {
         return this.__runtime_persistence.stack_flows.slice(-1)[0];
     }
-
 }

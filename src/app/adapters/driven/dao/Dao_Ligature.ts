@@ -32,6 +32,8 @@ export class Dao_Ligature implements IDao_Ligature
     {
         const ligatures_ids : string[] = this.__runtime_persistence.ligatures_ids[this.__current_flow._];
 
+        if ( !ligatures_ids ) return;
+
         ligatures_ids.forEach(id =>
         {
             this.__assemble_ligature(id);
