@@ -63,6 +63,7 @@ import { Flow } from './entities/Flow';
 import { Back_View_Request } from '../port/driver/request/Back_View_Request';
 import { Back_View_Response } from '../port/driver/response/Back_View';
 import { Back_View_Use_case } from './use_cases/Back_View';
+import { New_Project_Use_case } from './use_cases/New_Project';
 
 export class Facade
 {
@@ -99,7 +100,7 @@ export class Facade
     private readonly __change_root_use_case = new Change_Root_Use_case(this.__change_root_repository, this.__view_as_root_repository, this.__view_as_root_handler);
     private readonly __get_flows_use_case = new Get_Flows_Use_case(this.__change_root_repository);
     private readonly __back_view_use_case = new Back_View_Use_case(this.__view_as_root_repository, this.__view_as_root_handler);
-
+    private readonly __new_project = new New_Project_Use_case();
 
     public execute_create_container(request : Create_Container_Request) : Create_Container_Response
     {
@@ -169,5 +170,10 @@ export class Facade
     public execute_back_view(request : Back_View_Request) : Back_View_Response
     {
         return this.__back_view_use_case.handle(request);
+    }
+
+    public execute_new_project() : void 
+    {
+        this.__new_project.handle(); //doing nothing currently
     }
 }
