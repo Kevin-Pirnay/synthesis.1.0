@@ -14,7 +14,7 @@ export class Ligature
 
     public parent : Container;
     
-    public readonly child : Container
+    public child : Container
 
     constructor(id : string, parent : Container, child : Container) 
     { 

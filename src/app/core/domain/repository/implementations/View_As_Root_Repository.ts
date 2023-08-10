@@ -1,5 +1,7 @@
 import { Vector } from "../../../common/Vector/Vector";
 import { Vector_ } from "../../../common/Vector/Vector_";
+import { IDao_Container } from "../../../port/driven/dao/IDao_Container";
+import { IDao_Ligature } from "../../../port/driven/dao/IDao_Ligature";
 import { Dto } from "../../../port/driver/dto/Dto";
 import { Data_Type, IDto } from "../../../port/driver/dto/IDto";
 import { Container, Unit_Node } from "../../entities/Container";
@@ -9,6 +11,18 @@ import { IView_As_Root_Repository } from "../interfaces/IView_As_Root_Repository
 
 export class View_As_Root_Repository implements IView_As_Root_Repository
 {
+    constructor(private readonly __dao_container : IDao_Container, private readonly __dao__ligature : IDao_Ligature) { }
+
+    public conform_container(container_id: string): Container 
+    {
+        return this.__dao_container.get_by_id(container_id);
+    }
+
+    public conform_ligature(ligature_id: string): Ligature 
+    {
+        return this.__dao__ligature.get_by_id(ligature_id);
+    }
+    
     public get_default_root_pos(): Vector 
     {
         //****  change that *****
@@ -17,13 +31,17 @@ export class View_As_Root_Repository implements IView_As_Root_Repository
 
     public get_root_subtree(container: Container): ISubtree_Root 
     {
-        return new Subtree_Data(null, container);
+        return new Subtree_Data(null, container, this);
     }
 }
 
 class Subtree_Data implements ISubtree_Root
 {
-    constructor(private readonly __ligature : Ligature | null, private readonly __container : Container) { }
+    constructor(private readonly __ligature : Ligature | null, private readonly __container : Container, private readonly __repository : IView_As_Root_Repository) 
+    { 
+        if(__ligature) this.__ligature = __repository.conform_ligature(__ligature.id);
+        this.__container = __repository.conform_container(__container.id);
+    }
 
     public add_children_to_the_frontier(frontier: ISubtree_Root[], children: ISubtree_Root[]): void 
     {
@@ -59,7 +77,7 @@ class Subtree_Data implements ISubtree_Root
 
             if(!unit.container) continue;
     
-            result.push(new Subtree_Data(unit.ligature, unit.container));
+            result.push(new Subtree_Data(unit.ligature, unit.container, this.__repository));
         }
 
         return result;

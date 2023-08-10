@@ -1,13 +1,15 @@
 import { IDto } from "../../port/driver/dto/IDto";
 import { View_Paginate_Request } from "../../port/driver/request/View_Paginate_Request";
 import { View_Paginate_Response } from "../../port/driver/response/View_Paginate_Response";
+import { IView_As_Root_Handler } from "../handlers/View_As_Root/IView_As_Root_Handler";
 import { View_As_Root_Handler } from "../handlers/View_As_Root/View_As_Root_Handler";
 import { View_As_Root_Repository } from "../repository/implementations/View_As_Root_Repository";
 import { IPaginate_Repository } from "../repository/interfaces/IPaginate_Repository";
+import { IView_As_Root_Repository } from "../repository/interfaces/IView_As_Root_Repository";
 
 export class View_Paginate_Use_case
 {
-    constructor(private __paginate_repository: IPaginate_Repository, private __view_as_root_repository : View_As_Root_Repository, private __view_as_root_handler : View_As_Root_Handler) { }
+    constructor(private __paginate_repository: IPaginate_Repository, private __view_as_root_repository : IView_As_Root_Repository, private __view_as_root_handler : IView_As_Root_Handler) { }
     
     public handle(request : View_Paginate_Request) : View_Paginate_Response
     {
@@ -39,8 +41,8 @@ class View_Paginate implements IView_Paginate
 
     constructor(
         paginate_repository: IPaginate_Repository,
-        view_as_root_repository : View_As_Root_Repository,
-        view_as_root_handler : View_As_Root_Handler,
+        view_as_root_repository : IView_As_Root_Repository,
+        view_as_root_handler : IView_As_Root_Handler,
         direction : number)
     {
         this.__indexes = paginate_repository.get_next_indexes(direction);

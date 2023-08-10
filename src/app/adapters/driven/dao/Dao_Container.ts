@@ -1,7 +1,7 @@
 import { IContainer_Data_Flow } from './../runtime_memory/Runtime_Persistence';
 import { Container } from "../../../core/domain/entities/Container";
 import { IDao_Container } from "../../../core/port/driven/dao/IDao_Container";
-import { IContainer_Data_Fix, Runtime_Persistence } from "../runtime_memory/Runtime_Persistence";
+import { Runtime_Persistence } from "../runtime_memory/Runtime_Persistence";
 
 export class Dao_Container implements IDao_Container
 {
@@ -21,8 +21,8 @@ export class Dao_Container implements IDao_Container
         //*** !!! overlap between dto !!! ***//
         const current_flow = this.__runtime_persistence.stack_flows.slice(-1)[0];
 
-        const index = this.__runtime_persistence.containers_ids.indexOf(container.id);
-        this.__runtime_persistence.containers_ids.splice(index, 1);
+        const index = this.__runtime_persistence.containers_ids[current_flow].indexOf(container.id);
+        this.__runtime_persistence.containers_ids[current_flow].splice(index, 1);
         delete this.__runtime_persistence.containers_fix[container.id];
         delete this.__runtime_persistence.containers_flow[container.id][current_flow];
     }
@@ -31,7 +31,9 @@ export class Dao_Container implements IDao_Container
     {
         const result : Container[] = [];
 
-        this.__runtime_persistence.containers_ids.forEach((id : string) =>
+        const current_flow = this.__runtime_persistence.stack_flows.slice(-1)[0];
+
+        this.__runtime_persistence.containers_ids[current_flow].forEach((id : string) =>
         {
             result.push(this.__assemble_container(id));
         });
@@ -39,14 +41,22 @@ export class Dao_Container implements IDao_Container
         return result;
     }
 
+    public get_by_id(container_id: string): Container 
+    {
+        return this.__assemble_container(container_id);
+    }
+
     public save_new_container(container : Container): void 
     {
         //*** !!! overlap between dto !!! ***//
         const current_flow = this.__runtime_persistence.stack_flows.slice(-1)[0];
 
-        this.__runtime_persistence.containers_ids.push(container.id);
-        this.__runtime_persistence.containers_fix[container.id] = { id: container.id, root : container.root }
-        this.__runtime_persistence.containers_flow[container.id] = { };
+        if(!this.__runtime_persistence.containers_ids[current_flow])
+        this.__runtime_persistence.containers_ids[current_flow] = []
+        this.__runtime_persistence.containers_ids[current_flow].push(container.id);
+        this.__runtime_persistence.containers_fix[container.id] = container;
+        if(!this.__runtime_persistence.containers_flow[container.id])
+            this.__runtime_persistence.containers_flow[container.id] = { };
         this.__runtime_persistence.containers_flow[container.id][current_flow] = { node : container.node, positions : container.positions };
     }
 
@@ -71,11 +81,7 @@ export class Dao_Container implements IDao_Container
         //*** !!! overlap between dto !!! ***//
         const current_flow = this.__runtime_persistence.stack_flows.slice(-1)[0];
 
-        const container = new Container(container_id);
-
-        const fix_data : IContainer_Data_Fix = this.__runtime_persistence.containers_fix[container_id];
-
-        fix_data.root.forEach(root => container.root.push(root));
+        const container : Container = this.__runtime_persistence.containers_fix[container_id];
 
         const flow_data : IContainer_Data_Flow = this.__runtime_persistence.containers_flow[container_id][current_flow];
 
