@@ -39,8 +39,6 @@ class Remove_Container implements IRemove_Container
     private readonly __delete_repository: IDelete_Container_Repository;
 
     private readonly __children_unit: Unit_Node[];
-    private readonly __parent_container : Container | undefined;
-    private readonly __children_container: Container[];
     private readonly __unit_to_remove : Unit_Node | null; 
 
     constructor(
@@ -53,11 +51,7 @@ class Remove_Container implements IRemove_Container
         this.__delete_repository = delete_repository;
 
         this.__children_unit = this.__container_to_remove.node.children;
-        this.__parent_container = container_to_remove.node.parent?.container;
-        this.__children_container = container_to_remove.node.children.map(unit => unit.container);
-        
-        // *** WARNING : bug until implementation flow : cannot hanve more than one parent
-        this.__unit_to_remove = this.__get_container_units();
+        this.__unit_to_remove = handler.get_container_units(this.__container_to_remove);
     }
 
     public update_its_children_ligatures_positions(): void 
@@ -67,7 +61,6 @@ class Remove_Container implements IRemove_Container
 
     public remove_itself_from_memory(): void 
     {
-        // *** WARNING : bug until implementation flow : cannot hanve more than one parent
         this.__delete_repository.delete_unit_from_memory(this.__children_unit[0]);
     }
 
@@ -87,17 +80,5 @@ class Remove_Container implements IRemove_Container
         const c_id = this.__unit_to_remove ? this.__unit_to_remove.container.id : "";
         const l_id = this.__unit_to_remove ? this.__unit_to_remove.ligature.id : "";
         return new Delete_Container_Response([c_id, l_id]);
-    }
-
-    private __get_container_units(): Unit_Node | null
-    {
-        let result : Unit_Node | null = null;
-
-        this.__parent_container?.node.children.forEach(unit =>
-        {
-            if(unit.container.id === this.__container_to_remove.id) result = unit;
-        });
-        
-        return result;
     }
 }

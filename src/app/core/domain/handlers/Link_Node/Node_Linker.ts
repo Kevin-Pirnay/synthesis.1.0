@@ -50,4 +50,20 @@ export class Node_Linker implements INode_Linker
             container.node.parent = null;
         });
     }
+
+    public get_container_units(container : Container): Unit_Node | null
+    {
+        const parent_container : Container | undefined = container.node.parent?.container;
+
+        if(! parent_container) return null;
+
+        let result : Unit_Node | null = null;
+
+        parent_container.node.children.forEach(unit =>
+        {
+            if(unit.container.id === container.id) result = unit;
+        });
+        
+        return result;
+    }
 }
