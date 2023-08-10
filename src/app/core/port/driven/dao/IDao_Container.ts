@@ -6,5 +6,4 @@ export interface IDao_Container
     get_all(): Container[];
     delete(container: Container): void;
     save_new_container(container: Container): void;
-
 }

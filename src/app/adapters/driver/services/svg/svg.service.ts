@@ -15,6 +15,7 @@ import { Ligature } from '../../../../core/domain/entities/Ligature';
 import { Move_ligature_Request } from '../../../../core/port/driver/request/Move_ligature_Request';
 import { Assign_Ligature_Request } from '../../../../core/port/driver/request/Assign_Ligature_Request';
 import { Mark_As_Root_Request } from '../../../../core/port/driver/request/Mark_As_Root_Request';
+import { Change_Root_Request } from '../../../../core/port/driver/request/Change_Root_Request';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,8 @@ import { Mark_As_Root_Request } from '../../../../core/port/driver/request/Mark_
 export class SvgService 
 {
   public readonly dtos : IDto[] = [];
+  private __flows : string[] = [];
+  private __current_flow : string = "";
   
   constructor() { }
 
@@ -124,5 +127,38 @@ export class SvgService
     this.dtos.length = 0; 
         
     this.dtos.push(response.dto);
+  }
+
+  public request_get_flows() : void
+  {
+    const response = Pipeline.facade.execute_get_flows();
+    this.__flows = response.flows;
+    this.__current_flow = response.current_flow;
+
+  }
+
+  public request_change_root(flow : string) : void
+  {
+    this.request_get_flows();
+
+    const next_flow = Flow_Changer.change_flow(this.__flows, this.__current_flow);
+
+    const request = new Change_Root_Request(next_flow);
+
+    const response = Pipeline.facade.execute_change_root(request);
+
+    this.dtos.length = 0; 
+        
+    response.dtos.forEach(dto => this.dtos.push(dto));
+  }
+}
+
+class Flow_Changer
+{
+  public static change_flow(flows : string[], current : string) : string
+  {
+    let index = flows.indexOf(current);
+    index = index == flows.length -1 ? 0 : index++;
+    return flows[index];
   }
 }

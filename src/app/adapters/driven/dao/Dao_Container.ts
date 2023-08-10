@@ -18,7 +18,9 @@ export class Dao_Container implements IDao_Container
 
     public delete(container: Container): void 
     {
+        //*** !!! overlap between dto !!! ***//
         const current_flow = this.__runtime_persistence.stack_flows.slice(-1)[0];
+
         const index = this.__runtime_persistence.containers_ids.indexOf(container.id);
         this.__runtime_persistence.containers_ids.splice(index, 1);
         delete this.__runtime_persistence.containers_fix[container.id];
@@ -39,6 +41,7 @@ export class Dao_Container implements IDao_Container
 
     public save_new_container(container : Container): void 
     {
+        //*** !!! overlap between dto !!! ***//
         const current_flow = this.__runtime_persistence.stack_flows.slice(-1)[0];
 
         this.__runtime_persistence.containers_ids.push(container.id);
@@ -49,6 +52,7 @@ export class Dao_Container implements IDao_Container
 
     private __assemble_container(container_id : string) : Container
     {
+        //*** !!! overlap between dto !!! ***//
         const current_flow = this.__runtime_persistence.stack_flows.slice(-1)[0];
 
         const container = new Container(container_id);
