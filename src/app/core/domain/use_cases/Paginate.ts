@@ -18,22 +18,22 @@ export class Paginate_Use_case
     
     public handle(request : Paginate_Request) : Paginate_Response
     {
-        const default_root_point : Vector = this.__view_as_root_repository.get_default_position_of_the_root();
+        const root_position : Vector = this.__view_as_root_repository.get_default_position_of_the_root();
 
-        const root_subTrees : ISubtree_Root[] = this.__get_subtrees_root(request.container);
+        const root_data : ISubtree_Root[] = this.__get_subtrees_root(request.container);
 
-        this.__paginate_repository.store_subtrees_root(root_subTrees);
+        this.__paginate_repository.store_subtrees_root(root_data);
         
-        const current_index : number = this.__paginate_repository.init_indexes(root_subTrees.length);
+        const current_index : number = this.__paginate_repository.init_indexes(root_data.length);
 
-        const dtos : IDto[] = this.__view_as_root_handler.get_subtree_dtos(root_subTrees[current_index], default_root_point);
+        const dtos : IDto[] = this.__view_as_root_handler.get_subtree_dtos(root_data[current_index], root_position);
 
         return new Paginate_Response(dtos);
     }
 
     private __get_subtrees_root(container : Container) : ISubtree_Root[]
     {
-        const root_subTrees_data : ISubtree_Root[] = [];
+        const roots_data : ISubtree_Root[] = [];
 
         container.node.children.forEach((unit : Unit_Node) =>
         {
@@ -41,10 +41,10 @@ export class Paginate_Use_case
             {
                 const root_sub_tree = this.__view_as_root_repository.get_root_subtree(unit.container);
     
-                root_subTrees_data.push(root_sub_tree);
+                roots_data.push(root_sub_tree);
             }
         });
 
-        return root_subTrees_data
+        return roots_data
     }
 }

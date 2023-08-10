@@ -22,11 +22,11 @@ export class Change_Root_Use_case
 
         const root_container : Container = this.__change_root_repository.get_root_container();
 
-        const default_root : Vector = this.__view_as_root_repository.get_default_position_of_the_root();
+        const root_position : Vector = this.__view_as_root_repository.get_default_position_of_the_root();
 
-        const root_subTree : ISubtree_Root = this.__view_as_root_repository.get_root_subtree(root_container);
+        const root_data : ISubtree_Root = this.__view_as_root_repository.get_root_subtree(root_container);
         
-        const result : IDto[] = this.__handler.get_subtree_dtos(root_subTree, default_root);
+        const result : IDto[] = this.__handler.get_subtree_dtos(root_data, root_position);
 
         return new Change_Root_Response(result);
     }

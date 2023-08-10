@@ -1,3 +1,4 @@
+import { IDao_Container } from './../../../port/driven/dao/IDao_Container';
 import { Vector } from "../../../common/Vector/Vector";
 import { Vector_ } from "../../../common/Vector/Vector_";
 import { Dto } from "../../../port/driver/dto/Dto";
@@ -8,7 +9,9 @@ import { ISubtree_Root } from "../../handlers/View_As_Root/View_As_Root_Handler"
 import { IView_As_Root_Repository } from "../interfaces/IView_As_Root_Repository";
 
 export class View_As_Root_Repository implements IView_As_Root_Repository
-{    
+{   
+    constructor(private __dao_container : IDao_Container) { }
+
     public get_default_position_of_the_root(): Vector 
     {
         //****  change that *****
@@ -19,6 +22,13 @@ export class View_As_Root_Repository implements IView_As_Root_Repository
     {
         return new Subtree_Data(null, container);
     }
+
+    public get_root_subtree_by_id(container_id: string): ISubtree_Root 
+    {
+        const container = this.__dao_container.get_by_id(container_id);
+
+        return this.get_root_subtree(container);
+    } 
 }
 
 class Subtree_Data implements ISubtree_Root

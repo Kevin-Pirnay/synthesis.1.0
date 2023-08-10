@@ -16,11 +16,11 @@ export class View_As_Root_Use_case
     //handle zoom
     public handle(request : View_As_Root_Request) : View_As_Root_Response
     {
-        const default_root : Vector = this.__view_as_root_repository.get_default_position_of_the_root();
+        const root_position : Vector = this.__view_as_root_repository.get_default_position_of_the_root();
         
-        const root_subTree : ISubtree_Root = this.__view_as_root_repository.get_root_subtree(request.container);
+        const root_data : ISubtree_Root = this.__view_as_root_repository.get_root_subtree(request.container);
         
-        const result : IDto[] = this.__handler.get_subtree_dtos(root_subTree, default_root);
+        const result : IDto[] = this.__handler.get_subtree_dtos(root_data, root_position);
 
         return new View_As_Root_Response(result);
     }

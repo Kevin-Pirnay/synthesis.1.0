@@ -80,6 +80,10 @@ export class SvgComponent
       case '/':
         this.__svg_service.request_change_root("");
       break
+
+      case '£':
+        this.__svg_service.request_back_view();
+      break
     
       default:
         break;
@@ -90,8 +94,8 @@ export class SvgComponent
   {
     //this.__svg_service.request_delete_container(container);
     //this.__svg_service.request_view_as_root(container);
-    //this.__svg_service.request_paginate(container);
-    this.__svg_service.request_mark_as_root(container);
+    this.__svg_service.request_paginate(container);
+    //this.__svg_service.request_mark_as_root(container);
   }
 
   public mouse_down_on_grip(ligature : Ligature) : void

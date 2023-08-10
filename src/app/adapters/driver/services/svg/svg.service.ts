@@ -16,6 +16,7 @@ import { Move_ligature_Request } from '../../../../core/port/driver/request/Move
 import { Assign_Ligature_Request } from '../../../../core/port/driver/request/Assign_Ligature_Request';
 import { Mark_As_Root_Request } from '../../../../core/port/driver/request/Mark_As_Root_Request';
 import { Change_Root_Request } from '../../../../core/port/driver/request/Change_Root_Request';
+import { Back_View_Request } from '../../../../core/port/driver/request/Back_View_Request';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,7 @@ export class SvgService
   public readonly dtos : IDto[] = [];
   private __flows : string[] = [];
   private __current_flow : string = "";
+  private __stack_ids : string[] = [];
   
   constructor() { }
 
@@ -80,6 +82,8 @@ export class SvgService
     this.dtos.length = 0;
 
     response.dtos.forEach(dto => this.dtos.push(dto));
+
+    this.__stack_ids.push(container.id);
   }
 
   public request_paginate(container : Container) : void
@@ -91,6 +95,9 @@ export class SvgService
     this.dtos.length = 0;
     
     response.dtos.forEach(dto => this.dtos.push(dto));
+
+    this.__stack_ids.push(container.id);
+
   } 
 
   //send ptr is_animating in response??? to prevent recall function while animating???
@@ -150,6 +157,21 @@ export class SvgService
     this.dtos.length = 0;    
     
     response.dtos.forEach(dto => this.dtos.push(dto));    
+  }
+
+  public request_back_view() : void
+  {
+    const container_id : string | undefined = this.__stack_ids.pop();
+
+    if ( !container_id ) return;
+
+    const request = new Back_View_Request(container_id);
+
+    const response = Pipeline.facade.execute_back_view(request);
+
+    this.dtos.length = 0;    
+    
+    response.dtos.forEach(dto => this.dtos.push(dto)); 
   }
 }
 

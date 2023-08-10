@@ -60,6 +60,9 @@ import { Get_Flows_Use_case } from './use_cases/Get_Flows';
 import { IDao_Flow } from '../port/driven/dao/IDao_Flow';
 import { Dao_Flow } from '../../adapters/driven/dao/Dao_Flow';
 import { Flow } from './entities/Flow';
+import { Back_View_Request } from '../port/driver/request/Back_View_Request';
+import { Back_View_Response } from '../port/driver/response/Back_View';
+import { Back_View_Use_case } from './use_cases/Back_View';
 
 export class Facade
 {
@@ -74,7 +77,7 @@ export class Facade
     private readonly __zoom_repository : IZoomRepository = new ZoomRepository(this.__dao_container, this.__dao_ligature);
     private readonly __delete_repository : IDelete_Container_Repository = new Delete_Container_Repository(this.__dao_container, this.__dao_ligature);
     private readonly __move_view_repository : IMove_View_Repository = new Move_View_Repository(this.__dao_container, this.__dao_ligature);
-    private readonly __view_as_root_repository : IView_As_Root_Repository = new View_As_Root_Repository();
+    private readonly __view_as_root_repository : IView_As_Root_Repository = new View_As_Root_Repository(this.__dao_container);
     private readonly __paginate_repository : IPaginate_Repository = new Paginate_Repository();
     private readonly __mark_as_root_repository : IMark_As_Root_Repository = new Mark_As_Root_Repository(this.__dao_container);
     private readonly __change_root_repository : IChange_Root_Repository = new Change_Root_Repository(this.__dao_container, this.__dao_ligature, this.__dao_flow);
@@ -95,6 +98,7 @@ export class Facade
     private readonly __mark_as_root_use_case = new Mark_As_Root_Use_case(this.__mark_as_root_repository);
     private readonly __change_root_use_case = new Change_Root_Use_case(this.__change_root_repository, this.__view_as_root_repository, this.__view_as_root_handler);
     private readonly __get_flows_use_case = new Get_Flows_Use_case(this.__change_root_repository);
+    private readonly __back_view_use_case = new Back_View_Use_case(this.__view_as_root_repository, this.__view_as_root_handler);
 
 
     public execute_create_container(request : Create_Container_Request) : Create_Container_Response
@@ -160,5 +164,10 @@ export class Facade
     public execute_get_flows() : Get_Flows_Response
     {
         return this.__get_flows_use_case.handle();
+    }
+
+    public execute_back_view(request : Back_View_Request) : Back_View_Response
+    {
+        return this.__back_view_use_case.handle(request);
     }
 }
