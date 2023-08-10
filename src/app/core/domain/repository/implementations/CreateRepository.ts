@@ -25,7 +25,7 @@ export class CreateRepository implements ICreateRepository
 
     save_root(container: Container) : void 
     {
-        this.__dao_container.save_new_container(container);
+        this.__dao_container.save_new_root(container);
     }
 
     save_unit(ligature: Ligature, container: Container) : void 

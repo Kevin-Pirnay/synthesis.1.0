@@ -18,7 +18,9 @@ export class Change_Root_Use_case
     
     public handle(request : Change_Root_Request) : Change_Root_Response
     {
-        const root_container : Container = this.__change_root_repository.get_root_container(request.flow);
+        this.__change_root_repository.change_current_flow(request.flow);
+
+        const root_container : Container = this.__change_root_repository.get_root_container();
 
         const default_root : Vector = this.__view_as_root_repository.get_default_root_pos();
 

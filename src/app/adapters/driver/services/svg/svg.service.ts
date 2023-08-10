@@ -138,8 +138,13 @@ export class SvgService
   }
 
   public request_change_root(flow : string) : void
-  {
+  {    
+    
     this.request_get_flows();
+    console.log(this.__current_flow);
+
+    console.log(this.__flows);
+
 
     const next_flow = Flow_Changer.change_flow(this.__flows, this.__current_flow);
 
@@ -147,9 +152,13 @@ export class SvgService
 
     const response = Pipeline.facade.execute_change_root(request);
 
-    this.dtos.length = 0; 
-        
+    console.log(response);
+    this.dtos.length = 0;
+    
     response.dtos.forEach(dto => this.dtos.push(dto));
+
+    console.log(this.dtos);
+    
   }
 }
 
@@ -158,7 +167,7 @@ class Flow_Changer
   public static change_flow(flows : string[], current : string) : string
   {
     let index = flows.indexOf(current);
-    index = index == flows.length -1 ? 0 : index++;
+    index = index == 0 ? 1 : 0;
     return flows[index];
   }
 }

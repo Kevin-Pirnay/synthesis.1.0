@@ -50,6 +50,22 @@ export class Dao_Container implements IDao_Container
         this.__runtime_persistence.containers_flow[container.id][current_flow] = { node : container.node, positions : container.positions };
     }
 
+    public get_root_flow(): Container 
+    {
+        const current_flow = this.__runtime_persistence.stack_flows.slice(-1)[0];
+
+        let result : Container | null = null;
+
+        for(let data in this.__runtime_persistence.containers_fix)
+        {
+            const container_data = this.__runtime_persistence.containers_fix[data];
+            if(container_data.root.includes(current_flow)) result = this.__assemble_container(container_data.id);
+        }
+
+        if(result == null) throw new Error("Enable to find the container root of this flow");
+        return result;
+    }
+
     private __assemble_container(container_id : string) : Container
     {
         //*** !!! overlap between dto !!! ***//

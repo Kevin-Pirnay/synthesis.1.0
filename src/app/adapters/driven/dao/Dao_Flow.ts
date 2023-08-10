@@ -5,6 +5,12 @@ export class Dao_Flow implements IDao_Flow
 {
     constructor(private readonly __runtime_persistence : Runtime_Persistence) { }
 
+    public change_current_flow(flow: string): void 
+    {
+        //*** change that ***
+        this.__runtime_persistence.stack_flows.push(flow);
+    }
+
     public get_all_flows(): string[] 
     {
         return this.__runtime_persistence.flows;
