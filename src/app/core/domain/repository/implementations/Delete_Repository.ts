@@ -39,9 +39,9 @@ class Remove_Container implements IRemove_Container
     private readonly __delete_repository: IDelete_Container_Repository;
 
     private readonly __children_unit: Unit_Node[];
-    private readonly __parents_containers: Container[]; 
+    private readonly __parent_container : Container | undefined;
     private readonly __children_container: Container[];
-    private readonly __unit_to_remove : Unit_Node[]; 
+    private readonly __unit_to_remove : Unit_Node | null; 
 
     constructor(
         container_to_remove : Container, 
@@ -53,7 +53,7 @@ class Remove_Container implements IRemove_Container
         this.__delete_repository = delete_repository;
 
         this.__children_unit = this.__container_to_remove.node.children;
-        this.__parents_containers = container_to_remove.node.parents.map(unit => unit.container);
+        this.__parent_container = container_to_remove.node.parent?.container;
         this.__children_container = container_to_remove.node.children.map(unit => unit.container);
         
         // *** WARNING : bug until implementation flow : cannot hanve more than one parent
@@ -73,32 +73,30 @@ class Remove_Container implements IRemove_Container
 
     public remove_all_units_that_contain_itself_from_the_tree() : void
     {
-        this.__handler.remove_unit_from_parent(this.__parents_containers, this.__container_to_remove);
-        this.__handler.remove_unit_from_children(this.__children_container, this.__container_to_remove);
+        this.__handler.remove_unit_from_parent(this.__container_to_remove);
+        this.__handler.remove_unit_from_children(this.__container_to_remove);
     }
 
     public link_its_parent_node_to_its_children_node() : void
     {
-        this.__handler.link_parent_to_children(this.__parents_containers[0], this.__children_unit);
+        this.__handler.link_parent_to_children(this.__container_to_remove);
     }
 
     public get_deleted_container_response(): Delete_Container_Response 
     {   
-        // *** WARNING : bug until implementation flow : cannot hanve more than one parent
-        return new Delete_Container_Response([this.__unit_to_remove[0].container.id, this.__unit_to_remove[0].ligature.id]);
+        const c_id = this.__unit_to_remove ? this.__unit_to_remove.container.id : "";
+        const l_id = this.__unit_to_remove ? this.__unit_to_remove.ligature.id : "";
+        return new Delete_Container_Response([c_id, l_id]);
     }
 
-    // *** WARNING : bug until implementation flow : cannot hanve more than one parent
-    // should be only one unit to remove
-    private __get_container_units(): Unit_Node[] 
+    private __get_container_units(): Unit_Node | null
     {
-        const result : Unit_Node[] = [];
+        let result : Unit_Node | null = null;
 
-        this.__parents_containers.forEach(container => container.node.children.forEach(unit =>
+        this.__parent_container?.node.children.forEach(unit =>
         {
-            
-            if(unit.container.id == this.__container_to_remove.id) result.push(unit);
-        }));
+            if(unit.container.id === this.__container_to_remove.id) result = unit;
+        });
         
         return result;
     }

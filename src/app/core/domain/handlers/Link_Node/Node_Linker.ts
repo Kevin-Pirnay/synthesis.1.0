@@ -4,18 +4,27 @@ import { INode_Linker } from "./INode_Linker";
 
 export class Node_Linker implements INode_Linker
 {
-    public link_nodes(parent_container: Container, ligature: Ligature, child_container: Container) : void
+    public link_nodes(parent_container: Container | null, ligature: Ligature, child_container: Container) : void
     {
+        if ( !parent_container ) return;
+
         const child_unit = new Unit_Node(crypto.randomUUID(), ligature, child_container);
         const parent_unit = new Unit_Node(crypto.randomUUID(), ligature, parent_container);
 
         parent_container.node.children.push(child_unit);
-        child_container.node.parents.push(parent_unit);
+        child_container.node.parent = parent_unit;
+
+        ligature.parent = parent_container;
     }
 
-    public link_parent_to_children(parent_container: Container, children_unit: Unit_Node[]): void 
+    public link_parent_to_children(container_to_remove : Container): void 
     {
-        children_unit.forEach(unit =>
+        const parent_container : Container | undefined = container_to_remove.node.parent?.container;
+        const children_unit = container_to_remove.node.children;
+
+        if ( !parent_container ) return;
+
+        children_unit.forEach((unit : Unit_Node) =>
         {
             unit.ligature.parent = parent_container;
             //waring bug error undfined if this is the root that you remove
@@ -23,19 +32,22 @@ export class Node_Linker implements INode_Linker
         });
     }
 
-    public remove_unit_from_parent(parents_containers: Container[], c_to_remove: Container): void 
+    public remove_unit_from_parent(container_to_remove : Container): void 
     {
-        parents_containers.forEach(container =>
-        {
-            container.node.children = container.node.children.filter(unit => unit.container.id != c_to_remove.id);
-        });
+        const parent_container : Container | undefined = container_to_remove.node.parent?.container;
+
+        if(! parent_container) return; 
+
+        parent_container.node.children = parent_container.node.children.filter(unit => unit.container.id != container_to_remove.id);
     }
 
-    public remove_unit_from_children(children_container: Container[], c_to_remove: Container): void 
+    public remove_unit_from_children(container_to_remove : Container): void 
     {
+        const children_container : Container[] = container_to_remove.node.children.map(unit => unit.container);
+
         children_container.forEach(container =>
         {
-            container.node.parents = container.node.parents.filter(unit => unit.container.id != c_to_remove.id);
+            container.node.parent = null;
         });
     }
 }

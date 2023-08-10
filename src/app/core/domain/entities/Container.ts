@@ -25,7 +25,7 @@ export class Unit_Node
 
 class Node
 {
-    parents : Unit_Node[] = [];
+    parent : Unit_Node | null = null;
 
     children : Unit_Node[] = [];
 }

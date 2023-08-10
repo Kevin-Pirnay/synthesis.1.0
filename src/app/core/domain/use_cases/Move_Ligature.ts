@@ -68,8 +68,8 @@ class Assing_Ligature implements IAssign_Ligature
 
     public update_relationship_in_the_tree(): void 
     {
-        this.__node_linker.remove_unit_from_parent([this.__old_parent_container], this.__child_container);
-        this.__node_linker.remove_unit_from_children([this.__child_container], this.__old_parent_container);
+        this.__node_linker.remove_unit_from_parent(this.__child_container);
+        this.__node_linker.remove_unit_from_children(this.__old_parent_container);
         this.__node_linker.link_nodes(this.__container_to_assign, this.__ligature, this.__child_container);
         this.__ligature.parent = this.__container_to_assign;
     }

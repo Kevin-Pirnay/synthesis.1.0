@@ -62,9 +62,6 @@ class Move_Container implements IMove_Container
 
     public update_positions_of_its_parents_ligatures(): void 
     {
-        this.__container.node.parents.forEach((unit : Unit_Node) =>
-        {
-            unit.ligature.__.update_ratio();
-        });
+        this.__container.node.parent?.ligature.__.update_ratio();
     }
 }
