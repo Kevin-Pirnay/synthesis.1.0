@@ -14,6 +14,7 @@ import { View_Paginate_Request } from '../../../../core/port/driver/request/View
 import { Ligature } from '../../../../core/domain/entities/Ligature';
 import { Move_ligature_Request } from '../../../../core/port/driver/request/Move_ligature_Request';
 import { Assign_Ligature_Request } from '../../../../core/port/driver/request/Assign_Ligature_Request';
+import { Mark_As_Root_Request } from '../../../../core/port/driver/request/Mark_As_Root_Request';
 
 @Injectable({
   providedIn: 'root'
@@ -113,5 +114,15 @@ export class SvgService
     const request = new Assign_Ligature_Request(ligature, container);
 
     Pipeline.facade.execute_assign_ligature(request);
+  }
+
+  public request_mark_as_root(container : Container) : void
+  {
+    const request = new Mark_As_Root_Request(container);
+    const response = Pipeline.facade.execute_mark_as_root(request);
+
+    this.dtos.length = 0; 
+        
+    this.dtos.push(response.dto);
   }
 }

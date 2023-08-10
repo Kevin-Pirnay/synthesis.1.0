@@ -6,6 +6,12 @@ export class Dao_Container implements IDao_Container
 {
     constructor(private readonly __runtime_persistence : Runtime_Persistence) { }
 
+    public save_root(container: Container): void 
+    {
+        const new_flow = crypto.randomUUID();
+        //throw new Error("Method not implemented.");
+    }
+
     public delete(container: Container): void 
     {
         delete this.__runtime_persistence.containers[container.id];

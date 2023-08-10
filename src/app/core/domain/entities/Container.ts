@@ -11,9 +11,11 @@ export class Container
 
     public readonly id : string;
 
-    public readonly positions = new Positions();
+    public positions = new Positions();
 
-    public readonly node = new Node();
+    public node = new Node();
+
+    public readonly root : string[] = [];
 
     constructor(id: string) { this.id = id; }
 }
