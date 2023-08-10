@@ -36,20 +36,12 @@ class Mark_As_Root implements IMark_As_Root
 
     public update_its_node_relationship_and_positions_for_the_new_flow(root_point: Vector): void 
     {
-        const temp_rel_ration : Matrix<4> = this.__cotainer.positions.rel_ratio;
+        const temp_rel_ratio : Matrix<4> = this.__cotainer.positions.rel_ratio;
         this.__cotainer.positions = new Container_Positions();
-        this.__cotainer.positions.rel_ratio.__.assign_new_data(temp_rel_ration);
+        this.__cotainer.positions.rel_ratio.__.assign_new_data(temp_rel_ratio);
         this.__cotainer.positions.rel_root.__.assign_new_data(Vector_.zero());
         this.__cotainer.__.update_position_from_abs_root(root_point);
-
         this.__cotainer.node = new Node();
-    }
-
-    public create_its_new_flow(): string 
-    {
-        const new_flow : string = crypto.randomUUID();
-        this.__cotainer.root.push(new_flow)
-        return new_flow;
     }
 
     public get_dto_response(): Mark_As_Root_Response 

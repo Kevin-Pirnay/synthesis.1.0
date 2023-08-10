@@ -34,7 +34,7 @@ export class SvgService
 
     const response = Pipeline.facade.execute_create_container(request);
     
-    response.dtos.forEach(dto => this.dtos.push(dto));
+    response.dtos.forEach(dto => this.dtos.push(dto));    
   }
 
   public request_move_container(e : MouseEvent, container : Container) : void
@@ -129,7 +129,7 @@ export class SvgService
     this.dtos.push(response.dto);
   }
 
-  public request_get_flows() : void
+  private __request_get_flows() : void
   {
     const response = Pipeline.facade.execute_get_flows();
     this.__flows = response.flows;
@@ -139,12 +139,7 @@ export class SvgService
 
   public request_change_root(flow : string) : void
   {    
-    
-    this.request_get_flows();
-    console.log(this.__current_flow);
-
-    console.log(this.__flows);
-
+    this.__request_get_flows();
 
     const next_flow = Flow_Changer.change_flow(this.__flows, this.__current_flow);
 
@@ -152,13 +147,12 @@ export class SvgService
 
     const response = Pipeline.facade.execute_change_root(request);
 
-    console.log(response);
     this.dtos.length = 0;
-    
-    response.dtos.forEach(dto => this.dtos.push(dto));
 
-    console.log(this.dtos);
+    console.log(response);
     
+    
+    response.dtos.forEach(dto => this.dtos.push(dto));    
   }
 }
 
