@@ -11,7 +11,7 @@ export class Container
 
     public readonly id : string;
 
-    public positions = new Positions();
+    public positions = new Container_Positions();
 
     public node = new Node();
 
@@ -22,17 +22,56 @@ export class Container
 
 export class Unit_Node
 {
-    constructor(public readonly id : string, public readonly ligature : Ligature, public readonly container : Container) { }
+    constructor(public ligature : Ligature | null = null, public container : Container | null = null) { }
 }
 
-class Node
+class Node_
 {
-    parent : Unit_Node | null = null;
+    constructor(private readonly __node : Node) { }
 
-    children : Unit_Node[] = [];
+    public assign_new_parent_unit(parent : Unit_Node | null) : void
+    {
+        if(parent == null) 
+        {
+            this.__node.parent.container = null;
+            this.__node.parent.ligature = null;
+            return;
+        }
+
+        this.__node.parent.container = parent.container;
+        this.__node.parent.ligature = parent.ligature;
+    }
+
+    public assign_new_children_unit(children : Unit_Node[]) : void
+    {
+        this.__node.children.length = 0;
+
+        children.forEach((child : Unit_Node) => this.__node.children.push(child));
+    }
+
+    public get_containers_children() : Container[]
+    {
+        const result : Container[] = [];
+
+        this.__node.children.forEach(unit =>
+        {
+            if ( unit.container !== null ) result.push(unit.container); 
+        });
+
+        return result;
+    }
 }
 
-class Positions
+export class Node
+{
+    public __ = new Node_(this);
+
+    public readonly parent : Unit_Node;
+
+    public readonly children : Unit_Node[] = [];
+}
+
+export class Container_Positions
 {
     public readonly rel_root : Vector = Vector_.zero(); // from the c_a parent for ligature or c_l point for container
 
