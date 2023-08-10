@@ -57,27 +57,27 @@ import { IChange_Root_Repository } from './repository/interfaces/IChange_Root_Re
 import { Change_Root_Repository } from './repository/implementations/Change_Root_Repository';
 import { Get_Flows_Response } from '../port/driver/response/Get_Flows_Response';
 import { Get_Flows_Use_case } from './use_cases/Get_Flows';
-import { Get_Flows_Repository } from './repository/implementations/Get_Flows_Repository';
 import { IDao_Flow } from '../port/driven/dao/IDao_Flow';
 import { Dao_Flow } from '../../adapters/driven/dao/Dao_Flow';
+import { Flow } from './entities/Flow';
 
 export class Facade
 {
-    private readonly __runtime_persistence = new Runtime_Persistence();
+    private readonly __flow = new Flow();
+    private readonly __runtime_persistence = new Runtime_Persistence(this.__flow);
 
-    private readonly __dao_container : IDao_Container = new Dao_Container(this.__runtime_persistence);
-    private readonly __dao_ligature : IDao_Ligature = new Dao_Ligature(this.__runtime_persistence);
-    private readonly __dao_flow : IDao_Flow = new Dao_Flow(this.__runtime_persistence);
+    private readonly __dao_container : IDao_Container = new Dao_Container(this.__runtime_persistence, this.__flow);
+    private readonly __dao_ligature : IDao_Ligature = new Dao_Ligature(this.__runtime_persistence, this.__flow);
+    private readonly __dao_flow : IDao_Flow = new Dao_Flow(this.__runtime_persistence, this.__flow);
 
     private readonly __create_repository : ICreateRepository = new CreateRepository(this.__dao_container, this.__dao_ligature);
     private readonly __zoom_repository : IZoomRepository = new ZoomRepository(this.__dao_container, this.__dao_ligature);
     private readonly __delete_repository : IDelete_Container_Repository = new Delete_Container_Repository(this.__dao_container, this.__dao_ligature);
     private readonly __move_view_repository : IMove_View_Repository = new Move_View_Repository(this.__dao_container, this.__dao_ligature);
-    private readonly __view_as_root_repository : IView_As_Root_Repository = new View_As_Root_Repository(this.__dao_container, this.__dao_ligature);
+    private readonly __view_as_root_repository : IView_As_Root_Repository = new View_As_Root_Repository();
     private readonly __paginate_repository : IPaginate_Repository = new Paginate_Repository();
     private readonly __mark_as_root_repository : IMark_As_Root_Repository = new Mark_As_Root_Repository(this.__dao_container);
-    private readonly __change_root_repository : IChange_Root_Repository = new Change_Root_Repository(this.__dao_container, this.__dao_flow);
-    private readonly __get_flows_repository : Get_Flows_Repository = new Get_Flows_Repository(this.__dao_flow);
+    private readonly __change_root_repository : IChange_Root_Repository = new Change_Root_Repository(this.__dao_container, this.__dao_ligature, this.__dao_flow);
 
     private readonly __zoom_handler : IZoom_Handeler = new Zoom_Handeler(this.__zoom_repository);
     private readonly __view_as_root_handler : IView_As_Root_Handler = new View_As_Root_Handler();
@@ -94,7 +94,7 @@ export class Facade
     private readonly __move_ligature_use_case = new Move_Ligature_Use_case(this.__node_linker_handler);
     private readonly __mark_as_root_use_case = new Mark_As_Root_Use_case(this.__mark_as_root_repository);
     private readonly __change_root_use_case = new Change_Root_Use_case(this.__change_root_repository, this.__view_as_root_repository, this.__view_as_root_handler);
-    private readonly __get_flows_use_case = new Get_Flows_Use_case(this.__get_flows_repository);
+    private readonly __get_flows_use_case = new Get_Flows_Use_case(this.__change_root_repository);
 
 
     public execute_create_container(request : Create_Container_Request) : Create_Container_Response

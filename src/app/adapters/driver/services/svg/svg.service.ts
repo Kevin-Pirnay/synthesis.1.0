@@ -147,10 +147,7 @@ export class SvgService
 
     const response = Pipeline.facade.execute_change_root(request);
 
-    this.dtos.length = 0;
-
-    console.log(response);
-    
+    this.dtos.length = 0;    
     
     response.dtos.forEach(dto => this.dtos.push(dto));    
   }
@@ -161,7 +158,8 @@ class Flow_Changer
   public static change_flow(flows : string[], current : string) : string
   {
     let index = flows.indexOf(current);
-    index = index == 0 ? 1 : 0;
+    index++;
+    if(index == flows.length) index = 0;
     return flows[index];
   }
 }

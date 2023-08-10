@@ -18,7 +18,7 @@ export class Paginate_Use_case
     
     public handle(request : Paginate_Request) : Paginate_Response
     {
-        const default_root_point : Vector = this.__view_as_root_repository.get_default_root_pos();
+        const default_root_point : Vector = this.__view_as_root_repository.get_default_position_of_the_root();
 
         const root_subTrees : ISubtree_Root[] = this.__get_subtrees_root(request.container);
 

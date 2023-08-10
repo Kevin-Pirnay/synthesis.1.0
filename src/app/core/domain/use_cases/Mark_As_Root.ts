@@ -9,13 +9,13 @@ export class Mark_As_Root_Use_case
 
     public handle(request : Mark_As_Root_Request) : Mark_As_Root_Response
     {
-        const root_position : Vector = this.__repository.get_root_position();
+        const root_position : Vector = this.__repository.get_position_of_the_root();
 
         const mark_as_root : IMark_As_Root = this.__repository.get_mark_as_root_data(request.container);
 
         mark_as_root.update_its_node_relationship_and_positions_for_the_new_flow(root_position);
 
-        this.__repository.save_new_root(request.container);
+        this.__repository.save_new_root(request.container); //the flow is changed by saving the new root
 
         return mark_as_root.get_dto_response();
     }

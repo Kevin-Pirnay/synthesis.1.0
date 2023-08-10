@@ -46,7 +46,7 @@ class View_Paginate implements IView_Paginate
         direction : number)
     {
         this.__indexes = paginate_repository.get_next_indexes(direction);
-        const root_point = view_as_root_repository.get_default_root_pos();
+        const root_point = view_as_root_repository.get_default_position_of_the_root();
         this.__data = paginate_repository.get_paginate_data(this.__indexes, root_point, view_as_root_handler);
         this.__direction = direction;
         this.__repository = paginate_repository;

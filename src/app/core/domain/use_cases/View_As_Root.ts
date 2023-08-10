@@ -16,7 +16,7 @@ export class View_As_Root_Use_case
     //handle zoom
     public handle(request : View_As_Root_Request) : View_As_Root_Response
     {
-        const default_root : Vector = this.__view_as_root_repository.get_default_root_pos();
+        const default_root : Vector = this.__view_as_root_repository.get_default_position_of_the_root();
         
         const root_subTree : ISubtree_Root = this.__view_as_root_repository.get_root_subtree(request.container);
         
