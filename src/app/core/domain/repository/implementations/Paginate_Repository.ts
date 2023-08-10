@@ -8,7 +8,7 @@ import { IPaginate_Repository } from "../interfaces/IPaginate_Repository";
 
 export class Paginate_Repository implements IPaginate_Repository
 {
-    private readonly __root_subtree_dto : ISubtree_Root[] = [];
+    private readonly __roots_subtree : ISubtree_Root[] = [];
     private __data_dtos : IDto[][] = [];
     private readonly __indexes : number[] = [];
 
@@ -30,18 +30,18 @@ export class Paginate_Repository implements IPaginate_Repository
         return current;
     }
 
-    public store_subtrees_dtos(subtrees: ISubtree_Root[]): void 
+    public store_subtrees_root(roots_subtrees: ISubtree_Root[]): void 
     {
-        this.__root_subtree_dto.length = 0;
+        this.__roots_subtree.length = 0;
 
-        subtrees.forEach(subtree => this.__root_subtree_dto.push(subtree));   
+        roots_subtrees.forEach(root => this.__roots_subtree.push(root));   
     }
 
     //bug if only one, call after next indexes, bad design should be responsible for all the flow of the code in one method, not give that to the caller!!!
     public get_paginate_data(indexes: number[], root_point : Vector, view_as_root_handler : View_As_Root_Handler): IPaginate_Data 
     {
-        const dto1 : IDto[] = view_as_root_handler.get_subtree_dtos(this.__root_subtree_dto[indexes[0]],root_point);
-        const dto2 : IDto[] = view_as_root_handler.get_subtree_dtos(this.__root_subtree_dto[indexes[1]],root_point);
+        const dto1 : IDto[] = view_as_root_handler.get_subtree_dtos(this.__roots_subtree[indexes[0]],root_point);
+        const dto2 : IDto[] = view_as_root_handler.get_subtree_dtos(this.__roots_subtree[indexes[1]],root_point);
 
         this.__data_dtos = [dto1,dto2];
 

@@ -22,7 +22,7 @@ export class Paginate_Use_case
 
         const root_subTrees : ISubtree_Root[] = this.__get_subtrees_root(request.container);
 
-        this.__paginate_repository.store_subtrees_dtos(root_subTrees);
+        this.__paginate_repository.store_subtrees_root(root_subTrees);
         
         const current_index : number = this.__paginate_repository.init_indexes(root_subTrees.length);
 

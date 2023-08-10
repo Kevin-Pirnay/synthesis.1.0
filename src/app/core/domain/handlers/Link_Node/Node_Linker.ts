@@ -27,7 +27,7 @@ export class Node_Linker implements INode_Linker
         children_unit.forEach((unit : Unit_Node) =>
         {
             unit.ligature.parent = parent_container;
-            //waring bug error undfined if this is the root that you remove
+            
             this.link_nodes(parent_container, unit.ligature, unit.container);
         });
     }

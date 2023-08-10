@@ -9,5 +9,5 @@ export interface IPaginate_Repository
     get_paginate_data(indexes: number[], root_point : Vector, view_as_root_handler : View_As_Root_Handler): IPaginate_Data 
     get_next_indexes(direction: number): number[];
     init_indexes(nb_idexes : number): number;
-    store_subtrees_dtos(subtrees: ISubtree_Root[]): void; 
+    store_subtrees_root(subtrees_root: ISubtree_Root[]): void; 
 }

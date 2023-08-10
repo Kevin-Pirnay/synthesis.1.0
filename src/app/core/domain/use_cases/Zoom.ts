@@ -11,17 +11,15 @@ export class Zoom_Use_case
 
     public handle(request : Zoom_Request) : void
     {
-        //unzoom all the positions
-        const factor = this.__repository.get_unzoom_factor();
-        
         const positions : IZoom_Positions[] = this.__repository.get_all_positions();
-        
-        this.__zoom_handler.zoom(positions, factor);        
-        
-        //zoom all the positions by adding the factor zoom
-        const new_factor = this.__repository.update_zoom_factor(request.direction);
 
-        this.__zoom_handler.zoom(positions, new_factor);        
+        //unzoom all the positions
+        const unzoom_factor = this.__repository.get_unzoom_factor();
+        this.__zoom_handler.zoom(positions, unzoom_factor);        
+        
+        //zoom all the positions by adding one to the factor zoom
+        const zoom_factor = this.__repository.update_zoom_factor(request.direction);
+        this.__zoom_handler.zoom(positions, zoom_factor);        
     }
 }
 
