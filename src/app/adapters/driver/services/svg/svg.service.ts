@@ -17,6 +17,7 @@ import { Assign_Ligature_Request } from '../../../../core/port/driver/request/As
 import { Mark_As_Root_Request } from '../../../../core/port/driver/request/Mark_As_Root_Request';
 import { Change_Root_Request } from '../../../../core/port/driver/request/Change_Root_Request';
 import { Back_View_Request } from '../../../../core/port/driver/request/Back_View_Request';
+import { Choose_Root_Request } from '../../../../core/port/driver/request/Choose_Root_Request';
 
 @Injectable({
   providedIn: 'root'
@@ -173,6 +174,17 @@ export class SvgService
     
     response.dtos.forEach(dto => this.dtos.push(dto)); 
   }
+
+  public request_choose_root(container : Container) : void
+  {
+    const request = new Choose_Root_Request(container);
+
+    const response = Pipeline.facade.execute_choose_root(request);
+
+    this.dtos.length = 0;    
+    
+    response.dtos.forEach(dto => this.dtos.push(dto)); 
+  }
 }
 
 class Flow_Changer
@@ -185,3 +197,4 @@ class Flow_Changer
     return flows[index];
   }
 }
+

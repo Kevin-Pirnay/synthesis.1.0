@@ -1,3 +1,4 @@
+import { Matrix } from './../../../common/Matrix/Matrix';
 import { Vector } from "../../../common/Vector/Vector";
 import { Vector_ } from "../../../common/Vector/Vector_";
 import { Container } from "../../entities/Container";
@@ -41,5 +42,118 @@ export class Zoom_Handeler implements IZoom_Handeler
             //move back to center 
             position.add_abs_pos_by_delta(center);
         });
+    }
+
+    public zoom_on_target_at_a_certain_ratio(abs_ratio: Matrix<4>, coordinates_and_ratio: Matrix<2>): void 
+    {
+        const zoom_on_target = new Zoom_On_Target(abs_ratio, coordinates_and_ratio);
+        const result : IDistance_And_Factor = zoom_on_target.compute_the_distance_and_the_factor_zoom();
+        zoom_on_target.move_by_a_distance_and_zoom_at_a_certain_ratio(result.distance, result.zoom_factor);
+    }
+}
+
+interface IZoom_On_Target
+{
+    compute_the_distance_and_the_factor_zoom(abs_ratio: Matrix<4>, coordinates_and_ratio: Matrix<2>) : IDistance_And_Factor;
+    move_by_a_distance_and_zoom_at_a_certain_ratio(distance: Vector, zoom_factor: number) : void;
+}
+
+interface IDistance_And_Factor
+{
+    distance : Vector; //x = dist and y = slope
+    zoom_factor : number;
+}
+
+class Zoom_On_Target implements IZoom_On_Target
+{
+    private readonly __distance : ICompute_Distance;
+    private readonly __zoom_factor : ICompute_Zoom_Factor;
+
+    constructor(abs_ratio: Matrix<4>, coordinates_and_ratio: Matrix<2>)
+    {
+        this.__distance = new Compute_Distance(abs_ratio, coordinates_and_ratio);
+        this.__zoom_factor = new Compute_Zoom_Factor(abs_ratio, coordinates_and_ratio);
+    }
+
+    public compute_the_distance_and_the_factor_zoom(): IDistance_And_Factor 
+    {
+        const distance_data : Vector = this.__distance.compute_a_distance();
+        const zoom_factor : number = this.__zoom_factor.compute_a_zoom_factor();
+
+        return {  distance : distance_data, zoom_factor : zoom_factor };
+    }
+
+    public move_by_a_distance_and_zoom_at_a_certain_ratio(distance: Vector, zoom_factor: number): void 
+    {
+        throw new Error("Method not implemented.");
+    }
+}
+
+interface ICompute_Zoom_Factor
+{
+    compute_a_zoom_factor() : number;
+}
+
+class Compute_Zoom_Factor implements ICompute_Zoom_Factor
+{
+    constructor(private readonly __abs_ratio: Matrix<4>, private readonly __coordinates_and_ratio: Matrix<2>) { }
+    
+    public compute_a_zoom_factor(): number 
+    {
+        const x_container = this.__abs_ratio._[1]._[0] - this.__abs_ratio._[0]._[0];
+        const x_target = this.__coordinates_and_ratio._[1]._[0];
+
+        return x_target / x_container;
+    }
+}
+
+interface ICompute_Distance
+{
+    compute_a_distance() : Vector;
+}
+
+class Compute_Distance implements ICompute_Distance
+{
+    private readonly __middle_point : IMiddle_Point;
+
+    constructor(private readonly __abs_ratio: Matrix<4>, private readonly __coordinates_and_ratio: Matrix<2>)
+    {
+        this.__middle_point = new Middle_Point();
+    }
+
+    public compute_a_distance(): Vector 
+    {
+        const middle_container : Vector = this.__middle_point.get_the_middle_point(this.__abs_ratio);
+        const middle_target_pos : Vector = this.__coordinates_and_ratio._[0];
+
+        return this.__compute(middle_target_pos, middle_container);
+    }
+
+    private __compute(a : Vector, b : Vector) : Vector //first dist - second slope
+    {
+        const xsqr = ( a._[0] - b._[0] ) ** 2;
+        const ysqr = ( a._[1] - b._[1] ) ** 2;
+
+        const distance = Math.sqrt( xsqr + ysqr );
+
+        const slope = Math.abs(a._[1] - b._[1]) / Math.abs(a._[0] - b._[0]);
+
+        return Vector_.new([distance, slope]);
+    }
+}
+
+interface IMiddle_Point
+{
+    get_the_middle_point(matrix : Matrix<4>) : Vector;
+}
+
+class Middle_Point implements IMiddle_Point
+{
+    public get_the_middle_point(matrix: Matrix<4>): Vector 
+    {
+        const x = ( matrix._[0]._[0] + matrix._[1]._[0] ) * 1/2;
+        const y = ( matrix._[0]._[1] + matrix._[3]._[1] ) * 1/2;
+
+        return Vector_.new([x,y]);
     }
 }

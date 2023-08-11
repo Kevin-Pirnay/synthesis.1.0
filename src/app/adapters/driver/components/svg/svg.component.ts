@@ -94,8 +94,9 @@ export class SvgComponent
   {
     //this.__svg_service.request_delete_container(container);
     //this.__svg_service.request_view_as_root(container);
-    this.__svg_service.request_paginate(container);
+    //this.__svg_service.request_paginate(container);
     //this.__svg_service.request_mark_as_root(container);
+    this.__svg_service.request_choose_root(container);
   }
 
   public mouse_down_on_grip(ligature : Ligature) : void

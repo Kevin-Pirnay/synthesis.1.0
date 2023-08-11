@@ -64,6 +64,11 @@ import { Back_View_Request } from '../port/driver/request/Back_View_Request';
 import { Back_View_Response } from '../port/driver/response/Back_View';
 import { Back_View_Use_case } from './use_cases/Back_View';
 import { New_Project_Use_case } from './use_cases/New_Project';
+import { Choose_Root_Request } from '../port/driver/request/Choose_Root_Request';
+import { Choose_Root_Response } from '../port/driver/response/Choose_Root_Response';
+import { Choose_Root_Use_case } from './use_cases/Choose_Root';
+import { IChoose_Root_Repository } from './repository/interfaces/IChoose_Root_Repository';
+import { Choose_Root_Repository } from './repository/implementations/Choose_Root_Repository';
 
 export class Facade
 {
@@ -82,6 +87,7 @@ export class Facade
     private readonly __paginate_repository : IPaginate_Repository = new Paginate_Repository();
     private readonly __mark_as_root_repository : IMark_As_Root_Repository = new Mark_As_Root_Repository(this.__dao_container);
     private readonly __change_root_repository : IChange_Root_Repository = new Change_Root_Repository(this.__dao_container, this.__dao_ligature, this.__dao_flow);
+    private readonly __choose_root_repository : IChoose_Root_Repository = new Choose_Root_Repository();
 
     private readonly __zoom_handler : IZoom_Handeler = new Zoom_Handeler(this.__zoom_repository);
     private readonly __view_as_root_handler : IView_As_Root_Handler = new View_As_Root_Handler();
@@ -101,6 +107,8 @@ export class Facade
     private readonly __get_flows_use_case = new Get_Flows_Use_case(this.__change_root_repository);
     private readonly __back_view_use_case = new Back_View_Use_case(this.__view_as_root_repository, this.__view_as_root_handler);
     private readonly __new_project = new New_Project_Use_case();
+    private readonly __choose_root_use_case = new Choose_Root_Use_case(this.__choose_root_repository, this.__zoom_handler);
+
 
     public execute_create_container(request : Create_Container_Request) : Create_Container_Response
     {
@@ -175,5 +183,10 @@ export class Facade
     public execute_new_project() : void 
     {
         this.__new_project.handle(); //doing nothing currently
+    }
+
+    public execute_choose_root(request : Choose_Root_Request) : Choose_Root_Response
+    {
+        return this.__choose_root_use_case.handle(request);
     }
 }
