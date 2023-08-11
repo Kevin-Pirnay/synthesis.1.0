@@ -74,6 +74,13 @@ class Zoom_Container implements IZoom_Container
     }
 }
 
+/**
+ * step0: get nb root, store them in repo, get two with the rigth index
+ * step1: create dto at position
+ * step2: send dto
+ * step3: animate dto by rotate on fix x and variable y
+ */
+
 class Animate_Root implements IAnimate_Root
 {
     public animate_the_first_root_to_choose(): void 
