@@ -9,8 +9,8 @@ import { Zoom_On_Target_Handler } from '../../handlers/Zoom/Zoom_On_Target_Handl
 import { IMove_View_Handler } from '../../handlers/Move_View/IMove_View_Handler';
 import { Data_Type, IDto } from '../../../port/driver/dto/IDto';
 import { Root_Dto } from '../../entities/Root_Dto';
-import { Vector } from '../../../common/Vector/Vector';
 import { Dto } from '../../../port/driver/dto/Dto';
+import { Vector } from '../../../common/Vector/Vector';
 
 
 export class Choose_Root_Repository implements IChoose_Root_Repository
@@ -104,10 +104,9 @@ class Animate_Root implements IAnimate_Root
 
     public animate_the_first_root_to_choose(): IDto 
     {
-        const root_dto : Root_Dto = this.__create_root_dto.create_root_container_at_the_right_place();
-        console.log(root_dto);
+        const root_dto : Root_Dto = this.__create_root_dto.create_root_container();
         
-        //this.__rotate_root.rotate();
+        this.__rotate_root.rotate(root_dto);
 
         return this.__create_root_dto.get_dto(root_dto);
     }
@@ -115,90 +114,47 @@ class Animate_Root implements IAnimate_Root
 
 interface ICreate_Root_Dto
 {
-    create_root_container_at_the_right_place(): Root_Dto;
+    create_root_container(): Root_Dto;
     get_dto(root : Root_Dto) : IDto;
 }
 
 interface IRotate_Root_Dto
 {
-    rotate(): void;
+    rotate(root_dto : Root_Dto): void;
 }
 
 class Create_Root_Dto implements ICreate_Root_Dto
 {
-    private __place_root : IPlace_Root_Dto;
-
-    constructor()
-    {
-        this.__place_root = new Place_Root_Dto();
-    }
-
     public get_dto(root: Root_Dto): IDto 
     {
         return new Dto(root, Data_Type.ROOT_DTO)
     }
 
-    public create_root_container_at_the_right_place(): Root_Dto 
+    public create_root_container(): Root_Dto 
     {
-        const root_dto = new Root_Dto();
-
-        this.__place_root.place_the_root_dto_at_the_rigth_position(root_dto);        
-
-        return root_dto;
+        return new Root_Dto();
     }
-}
-
-interface IPlace_Root_Dto
-{
-    place_the_root_dto_at_the_rigth_position(root_dto : Root_Dto) : void;
-}
-
-class Place_Root_Dto implements IPlace_Root_Dto
-{
-    constructor() { }
-
-    public place_the_root_dto_at_the_rigth_position(root_dto : Root_Dto)  : void
-    {
-        this.__place_at_the_center(root_dto, Vector_.new([150,250]));
-        this.__move_it_on_the_z_axis_back(root_dto, 150);
-        this.__rotate_by_ninety(root_dto);
-    }
-
-    private __place_at_the_center(root_dto : Root_Dto, center : Vector) : void
-    {
-        root_dto.positions.abs_ratio.__.add_by_vector(center);
-    }
-
-    private __move_it_on_the_z_axis_back(root_dto : Root_Dto, amount : number) : void
-    {
-        root_dto.positions.abs_ratio.__.translate_z(amount);
-    }
-
-    private async __rotate_by_ninety(root_dto : Root_Dto)
-    {
-        const copy = root_dto.positions.abs_ratio.__.copy();
-        let angle = 0;
-        while(1)
-        {
-            const radian = angle * Math.PI/180;
-            root_dto.positions.abs_ratio.__.assign_new_data(copy.__.rotate_y_new(radian).__.translate_x(250));
-            await new Promise(r => setTimeout(r, 1)); 
-            angle +=1;
-            if(angle >= 360) angle = 0;
-        }
-    }
-
-    // private __rotate_by_ninety(root_dto : Root_Dto) : void
-    // {
-    //     root_dto.positions.abs_ratio.__.rotate_y(Math.PI/2).__.translate_x(250);
-    // }
 }
 
 class Rotate_Root_Dto implements IRotate_Root_Dto
 {
-    public rotate(): void 
+    public async rotate(root_dto : Root_Dto) : Promise<void>
     {
-        throw new Error('Method not implemented.');
+        root_dto.positions.abs_ratio.__.add_by_vector(Vector_.new([200,0,100]));
+        const copy = root_dto.positions.abs_ratio.__.copy();
+
+        let angle = 0;
+        while(1)
+        {
+            const radian = angle * Math.PI/180 + Math.PI/2;
+
+            root_dto.positions.abs_ratio.__.assign_new_data(copy.__.rotate_z_new(radian).__.rotate_y(radian).__.add_by_vector(Vector_.new([200,200])));
+
+            await new Promise(r => setTimeout(r, 1)); 
+
+            angle +=1;
+            if(Math.abs(angle) >= 360) angle = 0;
+        }
     }
 }
 
