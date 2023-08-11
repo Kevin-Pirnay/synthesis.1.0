@@ -55,10 +55,13 @@ class Zoom_Container implements IZoom_Container
     {
         const abs_ratio = container.positions.abs_ratio;
 
-        const middle_point_x = 1/2 * window.innerWidth;
-        const middle_point_y = 3/4 * window.innerHeight;
-        const ratio_x = 1/5 * window.innerWidth;
+        //*** change that *** */
+        const middle_point_x = 1/2 * 500;
+        const middle_point_y = 3/4 * 500;        
+        
+        const ratio_x = 1/5 * 500;
         const ratio_y = 0;
+        //*** change that *** */
         const coordinates_and_ratio = new Matrix<2>([Vector_.new([middle_point_x,middle_point_y]), Vector_.new([ratio_x,ratio_y])]); //first middle_point - two ratio x and y
 
         this.__zoom_on_target = new Zoom_On_Target_Handler(abs_ratio, coordinates_and_ratio, zoom_handler, move_view_handler);
@@ -66,8 +69,7 @@ class Zoom_Container implements IZoom_Container
 
     public zoom_on_itself_to_be_place_at_the_bottom(): void 
     {
-        const result = this.__zoom_on_target.compute_the_distance_and_the_factor_zoom();
-        this.__zoom_on_target.move_by_a_distance_and_zoom_at_a_certain_ratio(result.distance, result.zoom_factor);
+        this.__zoom_on_target.move_by_a_distance_and_zoom_at_a_certain_ratio();
     }
 }
 
@@ -75,6 +77,6 @@ class Animate_Root implements IAnimate_Root
 {
     animate_the_first_root_to_choose(): void 
     {
-        throw new Error('Method not implemented.');
+        //throw new Error('Method not implemented.');
     }
 }

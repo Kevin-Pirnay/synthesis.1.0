@@ -16,6 +16,7 @@
         <path
             *ngIf="dto.type == 0" 
             class="container"
+            id="{{dto._.id}}"
             (mousedown)="mouse_down_on_container(dto._)"
             (mouseover)="mouse_over_container(dto._)"
             (dblclick)="dbclick_on_container(dto._)"

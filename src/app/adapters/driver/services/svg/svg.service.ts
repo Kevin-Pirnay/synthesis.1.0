@@ -181,9 +181,9 @@ export class SvgService
 
     const response = Pipeline.facade.execute_choose_root(request);
 
-    this.dtos.length = 0;    
+    //this.dtos.length = 0;    
     
-    response.dtos.forEach(dto => this.dtos.push(dto)); 
+    //response.dtos.forEach(dto => this.dtos.push(dto)); 
   }
 }
 

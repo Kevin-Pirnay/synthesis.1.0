@@ -25,9 +25,16 @@ export class Zoom_Handeler implements IZoom_Handeler
         this.__zoom(positions, zoom_factor);  
     }
 
-    zoom_by_factor(factor: number): void 
+    zoom_by_factor(zoom_factor: number): void 
     {
-        throw new Error('Method not implemented.');
+        const positions : IZoom_Positions[] = this.__repository.get_all_positions();
+
+        //unzoom all the positions
+        const unzoom_factor = this.__repository.get_unzoom_factor();
+        this.__zoom(positions, unzoom_factor);
+
+        //zoom by factor
+        this.__zoom(positions, zoom_factor);  
     }
 
     public update_container_with_current_zoom(container: Container): void 
@@ -66,14 +73,7 @@ export class Zoom_Handeler implements IZoom_Handeler
 
 export interface IZoom_On_Target_Handler
 {
-    compute_the_distance_and_the_factor_zoom() : IDistance_And_Factor;
-    move_by_a_distance_and_zoom_at_a_certain_ratio(distance: Vector, zoom_factor: number) : void;
-}
-
-interface IDistance_And_Factor
-{
-    distance : Vector; //x = dist and y = slope
-    zoom_factor : number;
+    move_by_a_distance_and_zoom_at_a_certain_ratio() : void;
 }
 
 export class Zoom_On_Target_Handler implements IZoom_On_Target_Handler
@@ -95,18 +95,13 @@ export class Zoom_On_Target_Handler implements IZoom_On_Target_Handler
         this.__zoom_by_fact = new Zoom_By_Fact(zoom_handler);
     }
 
-    public compute_the_distance_and_the_factor_zoom(): IDistance_And_Factor 
+    public move_by_a_distance_and_zoom_at_a_certain_ratio(): void 
     {
+        const zoom_factor_data : number = this.__zoom_factor.compute_a_zoom_factor();
+        this.__zoom_by_fact.zoom(zoom_factor_data);
+        
         const distance_data : Vector = this.__distance.compute_a_distance();
-        const zoom_factor : number = this.__zoom_factor.compute_a_zoom_factor();
-
-        return {  distance : distance_data, zoom_factor : zoom_factor };
-    }
-
-    public move_by_a_distance_and_zoom_at_a_certain_ratio(distance: Vector, zoom_factor: number): void 
-    {
-        this.__move_by_dist.move(distance);
-        this.__zoom_by_fact.zoom(zoom_factor);
+        this.__move_by_dist.move(distance_data);
     }
 }
 
@@ -136,7 +131,7 @@ class Move_By_Dist implements IMove_By_Dist
 
     public move(distance: Vector): void 
     {
-        throw new Error('Method not implemented.');
+        this.__move_view_handler.move_view_by_delta(distance);
     }
 }
 
@@ -152,6 +147,7 @@ class Compute_Zoom_Factor implements ICompute_Zoom_Factor
     public compute_a_zoom_factor(): number 
     {
         const x_container = this.__abs_ratio._[1]._[0] - this.__abs_ratio._[0]._[0];
+
         const x_target = this.__coordinates_and_ratio._[1]._[0];
 
         return x_target / x_container;
@@ -182,14 +178,20 @@ class Compute_Distance implements ICompute_Distance
 
     private __compute(a : Vector, b : Vector) : Vector //first dist - second slope
     {
-        const xsqr = ( a._[0] - b._[0] ) ** 2;
-        const ysqr = ( a._[1] - b._[1] ) ** 2;
+        // const xsqr = ( a._[0] - b._[0] ) ** 2;
+        // const ysqr = ( a._[1] - b._[1] ) ** 2;
 
-        const distance = Math.sqrt( xsqr + ysqr );
+        //const distance = Math.sqrt( xsqr + ysqr );
 
-        const slope = Math.abs(a._[1] - b._[1]) / Math.abs(a._[0] - b._[0]);
+        //const slope = Math.abs(a._[1] - b._[1]) / Math.abs(a._[0] - b._[0]);
 
-        return Vector_.new([distance, slope]);
+        const x =  Math.sqrt(( a._[0] - b._[0] ) ** 2) * (( a._[0] - b._[0] ) / Math.abs( a._[0] - b._[0] ))
+        const y =  Math.sqrt(( a._[1] - b._[1] ) ** 2) * (( a._[1] - b._[1] ) / Math.abs( a._[1] - b._[1] ))
+
+        //return Vector_.new([distance, slope]);
+
+        return Vector_.new([x, y]);
+
     }
 }
 
