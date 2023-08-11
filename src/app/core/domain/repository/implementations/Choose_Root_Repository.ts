@@ -4,7 +4,8 @@ import { IChoose_Root_Container } from "../../use_cases/Choose_Root";
 import { IChoose_Root_Repository } from "../interfaces/IChoose_Root_Repository";
 import { Matrix } from '../../../common/Matrix/Matrix';
 import { Vector_ } from '../../../common/Vector/Vector_';
-import { IZoom_On_Target_Handler, Zoom_On_Target_Handler } from '../../handlers/Zoom/Zoom_Handeler';
+import { IZoom_On_Target_Handler } from "../../handlers/Zoom/IZoom_On_Target_Handler";
+import { Zoom_On_Target_Handler } from '../../handlers/Zoom/Zoom_On_Target_Handler';
 import { IMove_View_Handler } from '../../handlers/Move_View/IMove_View_Handler';
 
 export class Choose_Root_Repository implements IChoose_Root_Repository
@@ -75,8 +76,8 @@ class Zoom_Container implements IZoom_Container
 
 class Animate_Root implements IAnimate_Root
 {
-    animate_the_first_root_to_choose(): void 
+    public animate_the_first_root_to_choose(): void 
     {
-        //throw new Error('Method not implemented.');
+        throw new Error('Method not implemented.');
     }
 }

@@ -2,7 +2,8 @@ import { Choose_Root_Request } from "../../port/driver/request/Choose_Root_Reque
 import { Choose_Root_Response } from "../../port/driver/response/Choose_Root_Response";
 import { IMove_View_Handler } from "../handlers/Move_View/IMove_View_Handler";
 import { IZoom_Handeler } from "../handlers/Zoom/IZoom_Handeler";
-import { IZoom_On_Target_Handler, Zoom_On_Target_Handler } from "../handlers/Zoom/Zoom_Handeler";
+import { IZoom_On_Target_Handler } from "../handlers/Zoom/IZoom_On_Target_Handler";
+import { Zoom_On_Target_Handler } from '../handlers/Zoom/Zoom_On_Target_Handler';
 import { IChoose_Root_Repository } from "../repository/interfaces/IChoose_Root_Repository";
 
 export class Choose_Root_Use_case
