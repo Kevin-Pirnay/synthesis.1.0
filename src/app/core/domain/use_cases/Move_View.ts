@@ -1,11 +1,11 @@
+import { IMove_View_Handler } from './../handlers/Move_View/IMove_View_Handler';
 import { Vector } from "../../common/Vector/Vector";
 import { Vector_ } from "../../common/Vector/Vector_";
 import { Move_View_Request } from "../../port/driver/request/Move_View_Request";
-import { IMove_View_Repository } from "../repository/interfaces/IMove_View_Repository";
 
 export class Move_View_Use_case
 {
-    constructor(private readonly __move_view_repository : IMove_View_Repository) { }
+    constructor(private readonly __move_view_handler : IMove_View_Handler) { }
 
     public handle(request : Move_View_Request) : void 
     {
@@ -34,18 +34,7 @@ export class Move_View_Use_case
                 throw new Error("key must be an arrow");
 
             }
-
-            const positions : IMove_View_Positions[] = this.__move_view_repository.get_all_positions();
-
-            this.__move_view(positions, delta_vec);
-        }
-
-    private __move_view(positions : IMove_View_Positions[], delta : Vector)
-    {
-        positions.forEach(position =>
-        {
-            position.move_by_delta(delta);
-        });
+            this.__move_view_handler.move_view_by_delta(delta_vec);
     }
 }
 

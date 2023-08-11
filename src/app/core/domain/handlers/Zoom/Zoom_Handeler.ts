@@ -6,6 +6,7 @@ import { Ligature } from "../../entities/Ligature";
 import { IZoomRepository } from "../../repository/interfaces/IZoomRepository";
 import { IZoom_Positions } from "../../use_cases/Zoom";
 import { IZoom_Handeler } from "./IZoom_Handeler";
+import { IMove_View_Handler } from '../Move_View/IMove_View_Handler';
 
 export class Zoom_Handeler implements IZoom_Handeler
 {
@@ -43,18 +44,11 @@ export class Zoom_Handeler implements IZoom_Handeler
             position.add_abs_pos_by_delta(center);
         });
     }
-
-    public zoom_on_target_at_a_certain_ratio(abs_ratio: Matrix<4>, coordinates_and_ratio: Matrix<2>): void 
-    {
-        const zoom_on_target = new Zoom_On_Target(abs_ratio, coordinates_and_ratio);
-        const result : IDistance_And_Factor = zoom_on_target.compute_the_distance_and_the_factor_zoom();
-        zoom_on_target.move_by_a_distance_and_zoom_at_a_certain_ratio(result.distance, result.zoom_factor);
-    }
 }
 
-interface IZoom_On_Target
+export interface IZoom_On_Target_Handler
 {
-    compute_the_distance_and_the_factor_zoom(abs_ratio: Matrix<4>, coordinates_and_ratio: Matrix<2>) : IDistance_And_Factor;
+    compute_the_distance_and_the_factor_zoom() : IDistance_And_Factor;
     move_by_a_distance_and_zoom_at_a_certain_ratio(distance: Vector, zoom_factor: number) : void;
 }
 
@@ -64,15 +58,23 @@ interface IDistance_And_Factor
     zoom_factor : number;
 }
 
-class Zoom_On_Target implements IZoom_On_Target
+export class Zoom_On_Target_Handler implements IZoom_On_Target_Handler
 {
     private readonly __distance : ICompute_Distance;
     private readonly __zoom_factor : ICompute_Zoom_Factor;
+    private readonly __move_by_dist : IMove_By_Dist;
+    private readonly __zoom_by_fact : IZoom_By_Fact;
 
-    constructor(abs_ratio: Matrix<4>, coordinates_and_ratio: Matrix<2>)
-    {
+    constructor(
+        abs_ratio: Matrix<4>, 
+        coordinates_and_ratio: Matrix<2>,
+        zoom_handler : IZoom_Handeler, 
+        move_view_handler : IMove_View_Handler
+    ) {
         this.__distance = new Compute_Distance(abs_ratio, coordinates_and_ratio);
         this.__zoom_factor = new Compute_Zoom_Factor(abs_ratio, coordinates_and_ratio);
+        this.__move_by_dist = new Move_By_Dist(move_view_handler);
+        this.__zoom_by_fact = new Zoom_By_Fact(zoom_handler);
     }
 
     public compute_the_distance_and_the_factor_zoom(): IDistance_And_Factor 
@@ -85,7 +87,45 @@ class Zoom_On_Target implements IZoom_On_Target
 
     public move_by_a_distance_and_zoom_at_a_certain_ratio(distance: Vector, zoom_factor: number): void 
     {
-        throw new Error("Method not implemented.");
+        this.__move_by_dist.move(distance);
+        this.__zoom_by_fact.zoom(zoom_factor);
+    }
+}
+
+interface IZoom_By_Fact
+{
+    zoom(zoom_factor: number): void;
+}
+
+class Zoom_By_Fact implements IZoom_By_Fact
+{
+    public zoom(zoom_factor: number) : void
+    {
+        throw new Error('Method not implemented.');
+    }
+
+    constructor(zoom_handler : IZoom_Handeler) 
+    {
+
+    }
+}
+
+interface IMove_By_Dist
+{
+    move(distance: Vector): void;
+
+}
+
+class Move_By_Dist implements IMove_By_Dist
+{
+    constructor(move_view_handler : IMove_View_Handler)
+    {
+
+    }
+
+    public move(distance: Vector): void 
+    {
+        throw new Error('Method not implemented.');
     }
 }
 

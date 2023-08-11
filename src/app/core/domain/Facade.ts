@@ -69,6 +69,8 @@ import { Choose_Root_Response } from '../port/driver/response/Choose_Root_Respon
 import { Choose_Root_Use_case } from './use_cases/Choose_Root';
 import { IChoose_Root_Repository } from './repository/interfaces/IChoose_Root_Repository';
 import { Choose_Root_Repository } from './repository/implementations/Choose_Root_Repository';
+import { IMove_View_Handler } from './handlers/Move_View/IMove_View_Handler';
+import { Move_View_Handler } from './handlers/Move_View/Move_View_Handler';
 
 export class Facade
 {
@@ -92,12 +94,13 @@ export class Facade
     private readonly __zoom_handler : IZoom_Handeler = new Zoom_Handeler(this.__zoom_repository);
     private readonly __view_as_root_handler : IView_As_Root_Handler = new View_As_Root_Handler();
     private readonly __node_linker_handler : INode_Linker = new Node_Linker();
+    private readonly __move_view_handler : IMove_View_Handler = new Move_View_Handler(this.__move_view_repository);
 
     private readonly __create_container_use_case = new Create_Container_Use_case(this.__create_repository, this.__node_linker_handler,this.__zoom_handler);
     private readonly __move_container_Use_case = new Move_Container_Use_case();
     private readonly __zoom_use_case = new Zoom_Use_case(this.__zoom_repository, this.__zoom_handler);
     private readonly __delete_container_use_case = new Delete_Container_Use_case(this.__delete_repository, this.__node_linker_handler);
-    private readonly __move_view_use_case = new Move_View_Use_case(this.__move_view_repository);
+    private readonly __move_view_use_case = new Move_View_Use_case(this.__move_view_handler);
     private readonly __view_as_root_use_case = new View_As_Root_Use_case(this.__view_as_root_repository, this.__view_as_root_handler);
     private readonly __paginate_use_case = new Paginate_Use_case(this.__paginate_repository, this.__view_as_root_repository, this.__view_as_root_handler);
     private readonly __view_paginate_use_case = new View_Paginate_Use_case(this.__paginate_repository, this.__view_as_root_repository, this.__view_as_root_handler);
@@ -107,7 +110,7 @@ export class Facade
     private readonly __get_flows_use_case = new Get_Flows_Use_case(this.__change_root_repository);
     private readonly __back_view_use_case = new Back_View_Use_case(this.__view_as_root_repository, this.__view_as_root_handler);
     private readonly __new_project = new New_Project_Use_case();
-    private readonly __choose_root_use_case = new Choose_Root_Use_case(this.__choose_root_repository, this.__zoom_handler);
+    private readonly __choose_root_use_case = new Choose_Root_Use_case(this.__choose_root_repository, this.__zoom_handler, this.__move_view_handler);
 
 
     public execute_create_container(request : Create_Container_Request) : Create_Container_Response
