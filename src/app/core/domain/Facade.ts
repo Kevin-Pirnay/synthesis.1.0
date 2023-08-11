@@ -98,7 +98,7 @@ export class Facade
 
     private readonly __create_container_use_case = new Create_Container_Use_case(this.__create_repository, this.__node_linker_handler,this.__zoom_handler);
     private readonly __move_container_Use_case = new Move_Container_Use_case();
-    private readonly __zoom_use_case = new Zoom_Use_case(this.__zoom_repository, this.__zoom_handler);
+    private readonly __zoom_use_case = new Zoom_Use_case(this.__zoom_handler);
     private readonly __delete_container_use_case = new Delete_Container_Use_case(this.__delete_repository, this.__node_linker_handler);
     private readonly __move_view_use_case = new Move_View_Use_case(this.__move_view_handler);
     private readonly __view_as_root_use_case = new View_As_Root_Use_case(this.__view_as_root_repository, this.__view_as_root_handler);

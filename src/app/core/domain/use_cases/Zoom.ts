@@ -5,21 +5,11 @@ import { IZoomRepository } from "../repository/interfaces/IZoomRepository";
 
 export class Zoom_Use_case
 {
-    constructor(
-        private readonly __repository : IZoomRepository,
-        private readonly __zoom_handler : IZoom_Handeler) { }
+    constructor(private readonly __zoom_handler : IZoom_Handeler) { }
 
     public handle(request : Zoom_Request) : void
     {
-        const positions : IZoom_Positions[] = this.__repository.get_all_positions();
-
-        //unzoom all the positions
-        const unzoom_factor = this.__repository.get_unzoom_factor();
-        this.__zoom_handler.zoom(positions, unzoom_factor);        
-        
-        //zoom all the positions by adding one to the factor zoom
-        const zoom_factor = this.__repository.update_zoom_factor(request.direction);
-        this.__zoom_handler.zoom(positions, zoom_factor);        
+        this.__zoom_handler.zoom_by_direction(request.direction);   
     }
 }
 

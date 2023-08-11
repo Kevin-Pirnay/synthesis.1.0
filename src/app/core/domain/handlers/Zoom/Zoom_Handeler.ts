@@ -10,11 +10,29 @@ import { IMove_View_Handler } from '../Move_View/IMove_View_Handler';
 
 export class Zoom_Handeler implements IZoom_Handeler
 {
-    constructor(private readonly __zoom_repository : IZoomRepository) { }
+    constructor(private readonly __repository : IZoomRepository) { }
+
+    public zoom_by_direction(direction: number): void 
+    {
+        const positions : IZoom_Positions[] = this.__repository.get_all_positions();
+
+        //unzoom all the positions
+        const unzoom_factor = this.__repository.get_unzoom_factor();
+        this.__zoom(positions, unzoom_factor);        
+        
+        //zoom all the positions by adding one to the factor zoom
+        const zoom_factor = this.__repository.update_zoom_factor(direction);
+        this.__zoom(positions, zoom_factor);  
+    }
+
+    zoom_by_factor(factor: number): void 
+    {
+        throw new Error('Method not implemented.');
+    }
 
     public update_container_with_current_zoom(container: Container): void 
     {
-        const zoom_factor : number = this.__zoom_repository.get_zoom_factor();
+        const zoom_factor : number = this.__repository.get_zoom_factor();
 
         const abs_ratio = container.positions.rel_ratio.__.multiply_by_factor_new(zoom_factor).__.add_by_vector_new(container.positions.abs_root);
 
@@ -28,7 +46,7 @@ export class Zoom_Handeler implements IZoom_Handeler
         ligature.__.update_ratio();
     }
     
-    public zoom(positions : IZoom_Positions[], factor : number) : void
+    private __zoom(positions : IZoom_Positions[], factor : number) : void
     {
         const center : Vector = Vector_.new([window.innerWidth / 2, window.innerHeight / 2]);
 
@@ -99,29 +117,22 @@ interface IZoom_By_Fact
 
 class Zoom_By_Fact implements IZoom_By_Fact
 {
+    constructor(private readonly __zoom_handler : IZoom_Handeler) { }
+
     public zoom(zoom_factor: number) : void
     {
-        throw new Error('Method not implemented.');
-    }
-
-    constructor(zoom_handler : IZoom_Handeler) 
-    {
-
+        this.__zoom_handler.zoom_by_factor(zoom_factor);
     }
 }
 
 interface IMove_By_Dist
 {
     move(distance: Vector): void;
-
 }
 
 class Move_By_Dist implements IMove_By_Dist
 {
-    constructor(move_view_handler : IMove_View_Handler)
-    {
-
-    }
+    constructor(private readonly __move_view_handler : IMove_View_Handler) { }
 
     public move(distance: Vector): void 
     {
