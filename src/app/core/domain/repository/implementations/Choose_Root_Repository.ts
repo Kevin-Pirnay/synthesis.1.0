@@ -11,7 +11,7 @@ import { Data_Type, IDto } from '../../../port/driver/dto/IDto';
 import { Root_Dto } from '../../entities/Root_Dto';
 import { Vector } from '../../../common/Vector/Vector';
 import { Dto } from '../../../port/driver/dto/Dto';
-import { Matrix_ } from '../../../common/Matrix/Matrix_';
+
 
 export class Choose_Root_Repository implements IChoose_Root_Repository
 {
@@ -142,7 +142,7 @@ class Create_Root_Dto implements ICreate_Root_Dto
     {
         const root_dto = new Root_Dto();
 
-        this.__place_root.place_the_root_dto_at_the_rigth_position(root_dto);
+        this.__place_root.place_the_root_dto_at_the_rigth_position(root_dto);        
 
         return root_dto;
     }
@@ -159,8 +159,9 @@ class Place_Root_Dto implements IPlace_Root_Dto
 
     public place_the_root_dto_at_the_rigth_position(root_dto : Root_Dto)  : void
     {
-        this.__place_at_the_center(root_dto, Vector_.new([250,250]));
-        this.__move_it_on_the_z_axis_back(root_dto, 250);
+        this.__place_at_the_center(root_dto, Vector_.new([150,250]));
+        this.__move_it_on_the_z_axis_back(root_dto, 150);
+        this.__rotate_by_ninety(root_dto);
     }
 
     private __place_at_the_center(root_dto : Root_Dto, center : Vector) : void
@@ -173,10 +174,24 @@ class Place_Root_Dto implements IPlace_Root_Dto
         root_dto.positions.abs_ratio.__.translate_z(amount);
     }
 
-    private __rotate_by_ninety(root_dto : Root_Dto)
+    private async __rotate_by_ninety(root_dto : Root_Dto)
     {
-        root_dto.positions.abs_ratio.__.multiply_by_matrix(Matrix(Math.PI/4))
+        const copy = root_dto.positions.abs_ratio.__.copy();
+        let angle = 0;
+        while(1)
+        {
+            const radian = angle * Math.PI/180;
+            root_dto.positions.abs_ratio.__.assign_new_data(copy.__.rotate_y_new(radian).__.translate_x(250));
+            await new Promise(r => setTimeout(r, 1)); 
+            angle +=1;
+            if(angle >= 360) angle = 0;
+        }
     }
+
+    // private __rotate_by_ninety(root_dto : Root_Dto) : void
+    // {
+    //     root_dto.positions.abs_ratio.__.rotate_y(Math.PI/2).__.translate_x(250);
+    // }
 }
 
 class Rotate_Root_Dto implements IRotate_Root_Dto

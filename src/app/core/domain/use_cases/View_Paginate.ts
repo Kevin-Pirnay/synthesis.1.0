@@ -2,8 +2,6 @@ import { IDto } from "../../port/driver/dto/IDto";
 import { View_Paginate_Request } from "../../port/driver/request/View_Paginate_Request";
 import { View_Paginate_Response } from "../../port/driver/response/View_Paginate_Response";
 import { IView_As_Root_Handler } from "../handlers/View_As_Root/IView_As_Root_Handler";
-import { View_As_Root_Handler } from "../handlers/View_As_Root/View_As_Root_Handler";
-import { View_As_Root_Repository } from "../repository/implementations/View_As_Root_Repository";
 import { IPaginate_Repository } from "../repository/interfaces/IPaginate_Repository";
 import { IView_As_Root_Repository } from "../repository/interfaces/IView_As_Root_Repository";
 

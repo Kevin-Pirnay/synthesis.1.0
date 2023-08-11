@@ -42,6 +42,18 @@ export class Matrix_
     public translate_x = (amount : number) : Matrix<any> => { Translate.translate_x(this.__matrix, amount); return this.__matrix; }
 
     public translate_y = (amount : number) : Matrix<any> => { Translate.translate_y(this.__matrix, amount); return this.__matrix; }
+
+    public rotate_x = (radian : number) : Matrix<any> => { Rotate.rotate_x(this.__matrix, radian); return this.__matrix; }
+
+    public rotate_y = (radian : number) : Matrix<any> => { Rotate.rotate_y(this.__matrix, radian); return this.__matrix; }
+
+    public rotate_z = (radian : number) : Matrix<any> => { Rotate.rotate_z(this.__matrix, radian); return this.__matrix; }
+
+    public rotate_x_new = (radian : number) : Matrix<any> => { return Rotate.rotate_x_new(this.__matrix, radian); }
+
+    public rotate_y_new = (radian : number) : Matrix<any> => { return Rotate.rotate_y_new(this.__matrix, radian); }
+
+    public rotate_z_new = (radian : number) : Matrix<any> => { return Rotate.rotate_z_new(this.__matrix, radian); }
 }
 
 
@@ -166,7 +178,7 @@ class Multiply
 
     public static multiply_by_matrix = (matrix : Matrix<any>, transform : Matrix<any>) : void =>
     {
-        //if(matrix._.length !== transform._.length) throw new Error("Vevtors in matrix must have the same dimension");
+        //TODO: verify input
     
         for(let i = 0; i < matrix._.length; i++) //for each old points
         {            
@@ -186,7 +198,7 @@ class Multiply
 
     public static multiply_by_matrix_new = (m_o : Matrix<any>, transform : Matrix<any>) : Matrix<any> =>
     {
-        //if(m_o._.length !== transform._.length) throw new Error("Vevtors in matrix must have the same dimension");
+        //TODO: verify input
 
         const result : Matrix<any> = new Matrix();
     
@@ -240,3 +252,35 @@ class Translate
     }
 }
 
+class Rotate
+{
+    public static rotate_x_new(matrix : Matrix<any>, radian : number) : Matrix<any>
+    {
+        return matrix.__.multiply_by_matrix_new(Matrix_.rotation.rotation_Y(radian));
+    }
+
+    public static rotate_y_new(matrix : Matrix<any>, radian : number) : Matrix<any>
+    {
+        return matrix.__.multiply_by_matrix_new(Matrix_.rotation.rotation_Y(radian));
+    }
+
+    public static rotate_z_new(matrix : Matrix<any>, radian : number) : Matrix<any>
+    {
+        return matrix.__.multiply_by_matrix_new(Matrix_.rotation.rotation_Y(radian));
+    }
+
+    public static rotate_x(matrix : Matrix<any>, radian : number) : void
+    {
+        matrix.__.multiply_by_matrix_new(Matrix_.rotation.rotation_Y(radian));
+    }
+
+    public static rotate_y(matrix : Matrix<any>, radian : number) : void
+    {
+        matrix.__.multiply_by_matrix_new(Matrix_.rotation.rotation_Y(radian));
+    }
+
+    public static rotate_z(matrix : Matrix<any>, radian : number) : void
+    {
+        matrix.__.multiply_by_matrix_new(Matrix_.rotation.rotation_Y(radian));
+    }
+}
