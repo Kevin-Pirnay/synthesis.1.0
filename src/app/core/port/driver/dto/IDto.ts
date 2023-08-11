@@ -8,5 +8,6 @@ export interface IDto
 export enum Data_Type 
 {
     CONTAINER,
-    LIGATURE
+    LIGATURE,
+    ROOT_DTO
 }

@@ -183,7 +183,7 @@ export class SvgService
 
     //this.dtos.length = 0;    
     
-    //response.dtos.forEach(dto => this.dtos.push(dto)); 
+    response.dtos.forEach(dto => this.dtos.push(dto)); 
   }
 }
 
