@@ -15,7 +15,7 @@ export class Move_View_Handler implements IMove_View_Handler
         const copies : Matrix<any>[] = [];
         positions.forEach(position => copies.push(position.copy()));
 
-        positions.forEach(position => position.assign_values(position.copy().__.add_by_vector_new(Vector_.new([0,0,200]))))
+        positions.forEach(position => position.assign_values(position.copy().__.add_by_vector_new(Vector_.new([0,0,250]))));
 
         let angle = 0;
         let radian = 0;
