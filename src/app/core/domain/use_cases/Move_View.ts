@@ -2,6 +2,7 @@ import { IMove_View_Handler } from './../handlers/Move_View/IMove_View_Handler';
 import { Vector } from "../../common/Vector/Vector";
 import { Vector_ } from "../../common/Vector/Vector_";
 import { Move_View_Request } from "../../port/driver/request/Move_View_Request";
+import { Matrix } from '../../common/Matrix/Matrix';
 
 export class Move_View_Use_case
 {
@@ -41,4 +42,6 @@ export class Move_View_Use_case
 export interface IMove_View_Positions
 {
     move_by_delta(delta : Vector) : void;
+    copy() : Matrix<any>;
+    assign_values(matrix : Matrix<any>) : void
 }

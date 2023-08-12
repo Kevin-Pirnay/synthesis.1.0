@@ -39,6 +39,16 @@ class Container_Move_View_Positions implements IMove_View_Positions
         this.__abs_ratio = container.positions.abs_ratio;
     }
 
+    public assign_values(matrix: Matrix<any>): void 
+    {
+        this.__abs_ratio.__.assign_new_data(matrix);
+    }
+
+    public copy(): Matrix<4> 
+    {
+        return this.__abs_ratio.__.copy();
+    }
+
     public move_by_delta(delta: Vector): void 
     {
         this.__abs_ratio.__.add_by_vector(delta);
@@ -53,6 +63,16 @@ class Ligature_Move_View_Positions implements IMove_View_Positions
     constructor(ligature : Ligature) 
     {
         this.__abs_ratio = ligature.positions.abs_ratio;   
+    }
+
+    public assign_values(matrix: Matrix<any>): void 
+    {
+        this.__abs_ratio.__.assign_new_data(matrix);
+    }
+
+    public copy(): Matrix<3> 
+    {
+        return this.__abs_ratio.__.copy();
     }
 
     public move_by_delta(delta: Vector): void 

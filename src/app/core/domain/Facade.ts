@@ -71,6 +71,10 @@ import { IChoose_Root_Repository } from './repository/interfaces/IChoose_Root_Re
 import { Choose_Root_Repository } from './repository/implementations/Choose_Root_Repository';
 import { IMove_View_Handler } from './handlers/Move_View/IMove_View_Handler';
 import { Move_View_Handler } from './handlers/Move_View/Move_View_Handler';
+import { Link_Project_Request } from '../port/driver/request/Link_Project_Request';
+import { Link_Project_Use_case } from './use_cases/Link_Project';
+import { Link_Project_Repository } from './repository/implementations/Link_Project_Repositor';
+import { ILink_Project_Repository } from './repository/interfaces/ILink_Project_Repository';
 
 export class Facade
 {
@@ -90,6 +94,7 @@ export class Facade
     private readonly __mark_as_root_repository : IMark_As_Root_Repository = new Mark_As_Root_Repository(this.__dao_container);
     private readonly __change_root_repository : IChange_Root_Repository = new Change_Root_Repository(this.__dao_container, this.__dao_ligature, this.__dao_flow);
     private readonly __choose_root_repository : IChoose_Root_Repository = new Choose_Root_Repository();
+    private readonly __link_project_repository : ILink_Project_Repository = new Link_Project_Repository();
 
     private readonly __zoom_handler : IZoom_Handeler = new Zoom_Handeler(this.__zoom_repository);
     private readonly __view_as_root_handler : IView_As_Root_Handler = new View_As_Root_Handler();
@@ -111,6 +116,7 @@ export class Facade
     private readonly __back_view_use_case = new Back_View_Use_case(this.__view_as_root_repository, this.__view_as_root_handler);
     private readonly __new_project = new New_Project_Use_case();
     private readonly __choose_root_use_case = new Choose_Root_Use_case(this.__choose_root_repository, this.__zoom_handler, this.__move_view_handler);
+    private readonly __link_project_use_case = new Link_Project_Use_case(this.__link_project_repository, this.__zoom_handler, this.__move_view_handler);
 
 
     public execute_create_container(request : Create_Container_Request) : Create_Container_Response
@@ -191,5 +197,10 @@ export class Facade
     public execute_choose_root(request : Choose_Root_Request) : Choose_Root_Response
     {
         return this.__choose_root_use_case.handle(request);
+    }
+
+    public execute_link_project(request : Link_Project_Request) : void 
+    {
+        this.__link_project_use_case.handle(request);
     }
 }

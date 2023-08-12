@@ -18,6 +18,7 @@ import { Mark_As_Root_Request } from '../../../../core/port/driver/request/Mark_
 import { Change_Root_Request } from '../../../../core/port/driver/request/Change_Root_Request';
 import { Back_View_Request } from '../../../../core/port/driver/request/Back_View_Request';
 import { Choose_Root_Request } from '../../../../core/port/driver/request/Choose_Root_Request';
+import { Link_Project_Request } from '../../../../core/port/driver/request/Link_Project_Request';
 
 @Injectable({
   providedIn: 'root'
@@ -184,6 +185,13 @@ export class SvgService
     //this.dtos.length = 0;    
     
     response.dtos.forEach(dto => this.dtos.push(dto)); 
+  }
+
+  public request_link_project(project_id : string) : void 
+  {
+    const request = new Link_Project_Request("");
+
+    Pipeline.facade.execute_link_project(request);
   }
 }
 

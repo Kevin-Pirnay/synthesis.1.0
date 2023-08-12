@@ -10,7 +10,6 @@ import { IMove_View_Handler } from '../../handlers/Move_View/IMove_View_Handler'
 import { Data_Type, IDto } from '../../../port/driver/dto/IDto';
 import { Root_Dto } from '../../entities/Root_Dto';
 import { Dto } from '../../../port/driver/dto/Dto';
-import { Vector } from '../../../common/Vector/Vector';
 
 
 export class Choose_Root_Repository implements IChoose_Root_Repository
@@ -140,20 +139,21 @@ class Rotate_Root_Dto implements IRotate_Root_Dto
 {
     public async rotate(root_dto : Root_Dto) : Promise<void>
     {
-        root_dto.positions.abs_ratio.__.add_by_vector(Vector_.new([200,0,100]));
+        root_dto.positions.abs_ratio.__.add_by_vector(Vector_.new([250,0,0]));
         const copy = root_dto.positions.abs_ratio.__.copy();
 
         let angle = 0;
+        const rate = 0.8
         while(1)
         {
-            const radian = angle * Math.PI/180 + Math.PI/2;
+            const radian = angle * Math.PI/180;
 
-            root_dto.positions.abs_ratio.__.assign_new_data(copy.__.rotate_z_new(radian).__.rotate_y(radian).__.add_by_vector(Vector_.new([200,200])));
+            root_dto.positions.abs_ratio.__.assign_new_data(copy.__.rotate_z_new(radian).__.add_by_vector(Vector_.new([1/2 * 500, 500])));
 
             await new Promise(r => setTimeout(r, 1)); 
 
-            angle +=1;
-            if(Math.abs(angle) >= 360) angle = 0;
+            angle += (1 * rate);
+            if(Math.abs(angle) >= 90) break;
         }
     }
 }
