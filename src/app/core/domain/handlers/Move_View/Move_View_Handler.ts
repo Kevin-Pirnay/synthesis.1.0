@@ -1,9 +1,9 @@
-import { publish } from "rxjs";
 import { IMove_View_Repository } from "../../repository/interfaces/IMove_View_Repository";
 import { IMove_View_Handler } from "./IMove_View_Handler";
 import { Vector } from "../../../common/Vector/Vector";
 import { IMove_View_Positions } from "../../use_cases/Move_View";
 import { Matrix } from "../../../common/Matrix/Matrix";
+import { Vector_ } from "../../../common/Vector/Vector_";
 
 export class Move_View_Handler implements IMove_View_Handler
 {
@@ -14,6 +14,8 @@ export class Move_View_Handler implements IMove_View_Handler
         const positions : IMove_View_Positions[] = this.__repository.get_all_positions();
         const copies : Matrix<any>[] = [];
         positions.forEach(position => copies.push(position.copy()));
+
+        positions.forEach(position => position.assign_values(position.copy().__.add_by_vector_new(Vector_.new([0,0,200]))))
 
         let angle = 0;
         let radian = 0;

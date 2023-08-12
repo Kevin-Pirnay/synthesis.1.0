@@ -19,10 +19,10 @@ class Animate_Projects implements IAnimate_Projects
     private readonly __unzoom_handler : IUnzoom_Project;
     private readonly __rotate_handler : IRotate_Project;
 
-    constructor(private readonly __zoom_handler : IZoom_Handeler, private readonly __move_view_handler : IMove_View_Handler) 
+    constructor(zoom_handler : IZoom_Handeler, move_view_handler : IMove_View_Handler) 
     { 
-        this.__unzoom_handler = new Unzoom_Project(__zoom_handler);
-        this.__rotate_handler = new Rotate_Project(__move_view_handler);
+        this.__unzoom_handler = new Unzoom_Project(zoom_handler);
+        this.__rotate_handler = new Rotate_Project(move_view_handler);
     }
 
     public animate(): void 
