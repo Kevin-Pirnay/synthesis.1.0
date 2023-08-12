@@ -10,6 +10,7 @@ import { Data_Type, IDto } from '../../../port/driver/dto/IDto';
 import { Root_Dto } from '../../entities/Root_Dto';
 import { Dto } from '../../../port/driver/dto/Dto';
 import { IChoose_Root_Container } from '../../use_cases/Init_Choose_Root';
+import { Vector } from '../../../common/Vector/Vector';
 
 
 export class Choose_Root_Repository implements IChoose_Root_Repository
@@ -40,11 +41,6 @@ class Choose_Root_Container implements IChoose_Root_Container
     public animate_root_to_choose(): IDto 
     {
         return this.__animate_root.animate_the_first_root_to_choose();
-    }
-    
-    public show_next_root_to_choose(): void 
-    {
-        throw new Error('Method not implemented.');
     }
 }
 
@@ -103,6 +99,7 @@ class Animate_Root implements IAnimate_Root
 
     public animate_the_first_root_to_choose(): IDto 
     {
+        //will need root id string or other data 
         const root_dto : Root_Dto = this.__create_root_dto.create_root_container();
         
         this.__rotate_root.rotate(root_dto);
@@ -124,6 +121,7 @@ interface IRotate_Root_Dto
 
 class Create_Root_Dto implements ICreate_Root_Dto
 {
+    //add root id string in constructor
     public get_dto(root: Root_Dto): IDto 
     {
         return new Dto(root, Data_Type.ROOT_DTO)
@@ -137,18 +135,23 @@ class Create_Root_Dto implements ICreate_Root_Dto
 
 class Rotate_Root_Dto implements IRotate_Root_Dto
 {
+    //need to create positions to manipulate abs_ratio
     public async rotate(root_dto : Root_Dto) : Promise<void>
     {
+        //init_position()
         root_dto.positions.abs_ratio.__.add_by_vector(Vector_.new([250,0,0]));
         const copy = root_dto.positions.abs_ratio.__.copy();
 
+        //put that in class and use callback???
         let angle = 0;
         const rate = 0.8
         while(1)
         {
             const radian = angle * Math.PI/180;
-
+            //rotate()
             root_dto.positions.abs_ratio.__.assign_new_data(copy.__.rotate_z_new(radian).__.add_by_vector(Vector_.new([1/2 * 500, 500])));
+            //add translate()
+            // ***
 
             await new Promise(r => setTimeout(r, 1)); 
 
@@ -158,3 +161,29 @@ class Rotate_Root_Dto implements IRotate_Root_Dto
     }
 }
 
+interface IRotate_Root_Position
+{
+    init_position_for_ration(vec : Vector) : void;
+    rotate_position_at_a_certain_point(vec : Vector) : void;
+}
+
+class Rotate_Root_Position implements IRotate_Root_Position
+{
+    private readonly __abs_ratio : Matrix<4>;
+
+    constructor(root_dto : Root_Dto) 
+    {
+        this.__abs_ratio = root_dto.positions.abs_ratio;
+    }
+
+    public init_position_for_ration(vec_pos: Vector): void 
+    {
+        throw new Error('Method not implemented.');
+    }
+
+    public rotate_position_at_a_certain_point(vec_pos: Vector): void 
+    {
+        throw new Error('Method not implemented.');
+    }
+}
+jk

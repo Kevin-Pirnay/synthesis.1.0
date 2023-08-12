@@ -25,7 +25,7 @@ export class Zoom_On_Target_Handler implements IZoom_On_Target_Handler
         this.__zoom_by_fact = new Zoom_By_Fact(zoom_handler);
     }
 
-    public move_by_a_distance_and_zoom_at_a_certain_ratio(): void 
+    public move_by_a_distance_and_zoom_at_a_certain_ratio(): void //change by adding gradually
     {
         const zoom_factor_data: number = this.__zoom_factor.compute_a_zoom_factor();
         this.__zoom_by_fact.zoom(zoom_factor_data);
@@ -74,7 +74,8 @@ export class Compute_Zoom_Factor implements ICompute_Zoom_Factor
 {
     constructor(private readonly __abs_ratio: Matrix<4>, private readonly __coordinates_and_ratio: Matrix<2>) { }
 
-    public compute_a_zoom_factor(): number {
+    public compute_a_zoom_factor(): number 
+    {
         const x_container = this.__abs_ratio._[1]._[0] - this.__abs_ratio._[0]._[0];
 
         const x_target = this.__coordinates_and_ratio._[1]._[0];

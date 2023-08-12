@@ -16,7 +16,7 @@ export class Container
 
     public node = new Node();
 
-    public readonly root : string[] = [];
+    public readonly roots : string[] = [];
 
     constructor(id: string) { this.id = id; }
 }
