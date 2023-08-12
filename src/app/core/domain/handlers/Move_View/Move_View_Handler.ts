@@ -9,6 +9,7 @@ export class Move_View_Handler implements IMove_View_Handler
 {
     constructor(private readonly __repository : IMove_View_Repository) { }
 
+    //refactor lack axis
     public async rotate_project(max_angle: number, axis: number, direction: number, rate: number): Promise<void> 
     {
         const positions : IMove_View_Positions[] = this.__repository.get_all_positions();
