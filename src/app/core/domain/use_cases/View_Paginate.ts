@@ -33,7 +33,7 @@ interface IView_Paginate
 class View_Paginate implements IView_Paginate
 {   
     private readonly __indexes : number[];
-    private readonly __data : IPaginate_Data;
+    private readonly __paginated_data : IPaginate_Data;
     private readonly __direction : number;
     private readonly __repository : IPaginate_Repository
 
@@ -45,13 +45,13 @@ class View_Paginate implements IView_Paginate
     {
         this.__indexes = paginate_repository.get_next_indexes(direction);
         const root_point = view_as_root_repository.get_default_position_of_the_root();
-        this.__data = paginate_repository.get_paginate_data(this.__indexes, root_point, view_as_root_handler);
+        this.__paginated_data = paginate_repository.get_paginate_data(this.__indexes, root_point, view_as_root_handler);
         this.__direction = direction;
         this.__repository = paginate_repository;
     }
     public rotate(): void 
     {
-        this.__data.rotate(this.__direction);
+        this.__paginated_data.rotate(this.__direction);
     }
 
     public get_data_paginated_dtos_for_the_view() : View_Paginate_Response

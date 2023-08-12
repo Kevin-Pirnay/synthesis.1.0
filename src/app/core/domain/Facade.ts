@@ -66,7 +66,6 @@ import { Back_View_Use_case } from './use_cases/Back_View';
 import { New_Project_Use_case } from './use_cases/New_Project';
 import { Choose_Root_Request } from '../port/driver/request/Choose_Root_Request';
 import { Choose_Root_Response } from '../port/driver/response/Choose_Root_Response';
-import { Choose_Root_Use_case } from './use_cases/Choose_Root';
 import { IChoose_Root_Repository } from './repository/interfaces/IChoose_Root_Repository';
 import { Choose_Root_Repository } from './repository/implementations/Choose_Root_Repository';
 import { IMove_View_Handler } from './handlers/Move_View/IMove_View_Handler';
@@ -75,6 +74,7 @@ import { Link_Project_Request } from '../port/driver/request/Link_Project_Reques
 import { Link_Project_Use_case } from './use_cases/Link_Project';
 import { Link_Project_Repository } from './repository/implementations/Link_Project_Repositor';
 import { ILink_Project_Repository } from './repository/interfaces/ILink_Project_Repository';
+import { Init_Choose_Root_Use_case } from './use_cases/Init_Choose_Root';
 
 export class Facade
 {
@@ -115,7 +115,7 @@ export class Facade
     private readonly __get_flows_use_case = new Get_Flows_Use_case(this.__change_root_repository);
     private readonly __back_view_use_case = new Back_View_Use_case(this.__view_as_root_repository, this.__view_as_root_handler);
     private readonly __new_project = new New_Project_Use_case();
-    private readonly __choose_root_use_case = new Choose_Root_Use_case(this.__choose_root_repository, this.__zoom_handler, this.__move_view_handler);
+    private readonly __init_choose_root_use_case = new Init_Choose_Root_Use_case(this.__choose_root_repository, this.__zoom_handler, this.__move_view_handler);
     private readonly __link_project_use_case = new Link_Project_Use_case(this.__link_project_repository, this.__zoom_handler, this.__move_view_handler);
 
 
@@ -194,9 +194,9 @@ export class Facade
         this.__new_project.handle(); //doing nothing currently
     }
 
-    public execute_choose_root(request : Choose_Root_Request) : Choose_Root_Response
+    public execute_init_choose_root(request : Choose_Root_Request) : Choose_Root_Response
     {
-        return this.__choose_root_use_case.handle(request);
+        return this.__init_choose_root_use_case.handle(request);
     }
 
     public execute_link_project(request : Link_Project_Request) : void 

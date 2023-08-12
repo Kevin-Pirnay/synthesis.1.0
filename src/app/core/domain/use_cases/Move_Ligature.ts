@@ -11,6 +11,7 @@ export class Move_Ligature_Use_case
 
     public handle_move_ligature(request : Move_ligature_Request) : void
     {
+        //refactor
         const delta : Vector = request.new_pos.__.substract_by_vector_new(request.ligature.positions.abs_ratio._[0]);
 
         request.ligature.__.update_ratio_by_delta(delta);

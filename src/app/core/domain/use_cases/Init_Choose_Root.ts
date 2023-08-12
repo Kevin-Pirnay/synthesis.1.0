@@ -5,7 +5,7 @@ import { IMove_View_Handler } from "../handlers/Move_View/IMove_View_Handler";
 import { IZoom_Handeler } from "../handlers/Zoom/IZoom_Handeler";
 import { IChoose_Root_Repository } from "../repository/interfaces/IChoose_Root_Repository";
 
-export class Choose_Root_Use_case
+export class Init_Choose_Root_Use_case
 {
     constructor(private readonly __choose_repository : IChoose_Root_Repository, private readonly __zoom_handler : IZoom_Handeler, private readonly __move_view_handler : IMove_View_Handler) { }
     

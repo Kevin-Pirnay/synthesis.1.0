@@ -176,11 +176,11 @@ export class SvgService
     response.dtos.forEach(dto => this.dtos.push(dto)); 
   }
 
-  public request_choose_root(container : Container) : void
+  public request_init_choose_root(container : Container) : void
   {
     const request = new Choose_Root_Request(container);
 
-    const response = Pipeline.facade.execute_choose_root(request);
+    const response = Pipeline.facade.execute_init_choose_root(request);
 
     //this.dtos.length = 0;    
     

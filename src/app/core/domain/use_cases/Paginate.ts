@@ -20,6 +20,7 @@ export class Paginate_Use_case
     {
         const root_position : Vector = this.__view_as_root_repository.get_default_position_of_the_root();
 
+        //refactor : put that in view_as_root_repository and remove line above
         const root_data : ISubtree_Root[] = this.__get_subtrees_root(request.container);
 
         this.__paginate_repository.store_subtrees_root(root_data);

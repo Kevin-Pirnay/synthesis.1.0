@@ -1,7 +1,7 @@
 import { Vector } from "../../common/Vector/Vector";
 import { Zoom_Request } from "../../port/driver/request/Zoom_Request";
 import { IZoom_Handeler } from "../handlers/Zoom/IZoom_Handeler";
-import { IZoomRepository } from "../repository/interfaces/IZoomRepository";
+
 
 export class Zoom_Use_case
 {

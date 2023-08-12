@@ -42,6 +42,7 @@ export class Move_View_Use_case
 export interface IMove_View_Positions
 {
     move_by_delta(delta : Vector) : void;
+    //refactor -> due to anim
     copy() : Matrix<any>;
     assign_values(matrix : Matrix<any>) : void
 }
