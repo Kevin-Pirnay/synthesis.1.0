@@ -1,9 +1,9 @@
-import { IDto } from "../../port/driver/dto/IDto";
-import { Choose_Root_Request } from "../../port/driver/request/Choose_Root_Request";
-import { Choose_Root_Response } from "../../port/driver/response/Choose_Root_Response";
-import { IMove_View_Handler } from "../handlers/Move_View/IMove_View_Handler";
-import { IZoom_Handeler } from "../handlers/Zoom/IZoom_Handeler";
-import { IChoose_Root_Repository } from "../repository/interfaces/IChoose_Root_Repository";
+import { IDto } from "../../../port/driver/dto/IDto";
+import { Choose_Root_Request } from "../../../port/driver/request/Choose_Root_Request";
+import { Choose_Root_Response } from "../../../port/driver/response/Choose_Root_Response";
+import { IMove_View_Handler } from "../../handlers/Move_View/IMove_View_Handler";
+import { IZoom_Handeler } from "../../handlers/Zoom/IZoom_Handeler";
+import { IChoose_Root_Repository } from "../../repository/interfaces/IChoose_Root_Repository";
 
 export class Init_Choose_Root_Use_case
 {

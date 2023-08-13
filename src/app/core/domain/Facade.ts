@@ -1,3 +1,4 @@
+import { Choosen_Root_Use_case } from './use_cases/Choose_Root/Choose_Root';
 import { IView_As_Root_Handler } from './handlers/View_As_Root/IView_As_Root_Handler';
 import { Delete_Container_Repository } from './repository/implementations/Delete_Repository';
 import { IDelete_Container_Repository } from './repository/interfaces/IDelete_Repository';
@@ -32,14 +33,14 @@ import { View_As_Root_Repository } from './repository/implementations/View_As_Ro
 import { View_As_Root_Request } from '../port/driver/request/View_As_Root_Request';
 import { View_As_Root_Response } from '../port/driver/response/View_As_Root_Response';
 import { View_As_Root_Handler } from './handlers/View_As_Root/View_As_Root_Handler';
-import { Paginate_Use_case } from './use_cases/Paginate';
+import { Paginate_Use_case } from './use_cases/Paginate/Paginate';
 import { IPaginate_Repository } from './repository/interfaces/IPaginate_Repository';
 import { Paginate_Repository } from './repository/implementations/Paginate_Repository';
 import { Paginate_Request } from '../port/driver/request/Paginate_request';
 import { Paginate_Response } from '../port/driver/response/Paginate_Response';
 import { View_Paginate_Request } from '../port/driver/request/View_Paginate_Request';
 import { View_Paginate_Response } from '../port/driver/response/View_Paginate_Response';
-import { View_Paginate_Use_case } from './use_cases/View_Paginate';
+import { View_Paginate_Use_case } from './use_cases/Paginate/View_Paginate';
 import { INode_Linker } from './handlers/Link_Node/INode_Linker';
 import { Node_Linker } from './handlers/Link_Node/Node_Linker';
 import { Move_ligature_Request } from '../port/driver/request/Move_ligature_Request';
@@ -52,7 +53,6 @@ import { Mark_As_Root_Repository } from './repository/implementations/Mark_As_Ro
 import { IMark_As_Root_Repository } from './repository/interfaces/IMark_As_Root_Repository';
 import { Change_Root_Request } from '../port/driver/request/Change_Root_Request';
 import { Change_Root_Response } from '../port/driver/response/Change_Root_Response';
-import { Change_Root_Use_case } from './use_cases/Change_Root';
 import { IChange_Root_Repository } from './repository/interfaces/IChange_Root_Repository';
 import { Change_Root_Repository } from './repository/implementations/Change_Root_Repository';
 import { Get_Flows_Response } from '../port/driver/response/Get_Flows_Response';
@@ -74,10 +74,14 @@ import { Link_Project_Request } from '../port/driver/request/Link_Project_Reques
 import { Link_Project_Use_case } from './use_cases/Link_Project';
 import { Link_Project_Repository } from './repository/implementations/Link_Project_Repositor';
 import { ILink_Project_Repository } from './repository/interfaces/ILink_Project_Repository';
-import { Init_Choose_Root_Use_case } from './use_cases/Init_Choose_Root';
+import { Init_Choose_Root_Use_case } from './use_cases/Choose_Root/Init_Choose_Root';
 import { View_Choose_Root_Response } from '../port/driver/response/View_Choose_Root_Response';
 import { View_Choose_Root_Request } from '../port/driver/request/View_Choose_Root_Request';
-import { View_Choose_Root_Use_case } from './use_cases/View_Choose_Root';
+import { View_Choose_Root_Use_case } from './use_cases/Choose_Root/View_Choose_Root';
+import { IChange_Root_Handler } from './handlers/Change_Root/IChange_Root_Handler';
+import { Change_Root_Handler } from './handlers/Change_Root/Change_Root_Handler';
+import { Choosen_Root_Request } from '../port/driver/request/Choosen_Root_Request';
+import { Choosen_Root_Response } from '../port/driver/response/Choosen_Root_Response';
 
 export class Facade
 {
@@ -103,6 +107,7 @@ export class Facade
     private readonly __view_as_root_handler : IView_As_Root_Handler = new View_As_Root_Handler();
     private readonly __node_linker_handler : INode_Linker = new Node_Linker();
     private readonly __move_view_handler : IMove_View_Handler = new Move_View_Handler(this.__move_view_repository);
+    private readonly __change_root_handler : IChange_Root_Handler = new Change_Root_Handler(this.__change_root_repository, this.__view_as_root_repository,this.__view_as_root_handler)
 
     private readonly __create_container_use_case = new Create_Container_Use_case(this.__create_repository, this.__node_linker_handler,this.__zoom_handler);
     private readonly __move_container_Use_case = new Move_Container_Use_case();
@@ -114,14 +119,13 @@ export class Facade
     private readonly __view_paginate_use_case = new View_Paginate_Use_case(this.__paginate_repository, this.__view_as_root_repository, this.__view_as_root_handler);
     private readonly __move_ligature_use_case = new Move_Ligature_Use_case(this.__node_linker_handler);
     private readonly __mark_as_root_use_case = new Mark_As_Root_Use_case(this.__mark_as_root_repository);
-    private readonly __change_root_use_case = new Change_Root_Use_case(this.__change_root_repository, this.__view_as_root_repository, this.__view_as_root_handler);
     private readonly __get_flows_use_case = new Get_Flows_Use_case(this.__change_root_repository);
     private readonly __back_view_use_case = new Back_View_Use_case(this.__view_as_root_repository, this.__view_as_root_handler);
     private readonly __new_project = new New_Project_Use_case();
     private readonly __init_choose_root_use_case = new Init_Choose_Root_Use_case(this.__choose_root_repository, this.__zoom_handler, this.__move_view_handler);
     private readonly __link_project_use_case = new Link_Project_Use_case(this.__link_project_repository, this.__zoom_handler, this.__move_view_handler);
     private readonly __view_choose_root_use_case = new View_Choose_Root_Use_case(this.__choose_root_repository);
-
+    private readonly __choose_root_use_case = new Choosen_Root_Use_case(this.__change_root_handler);
 
     public execute_create_container(request : Create_Container_Request) : Create_Container_Response
     {
@@ -178,11 +182,6 @@ export class Facade
         return this.__mark_as_root_use_case.handle(request);
     }
 
-    public execute_change_root(request : Change_Root_Request) : Change_Root_Response
-    {
-        return this.__change_root_use_case.handle(request);
-    }
-
     public execute_get_flows() : Get_Flows_Response
     {
         return this.__get_flows_use_case.handle();
@@ -211,5 +210,10 @@ export class Facade
     public execute_view_choose_root(request : View_Choose_Root_Request) : View_Choose_Root_Response
     {
         return this.__view_choose_root_use_case.handle(request);
+    }
+
+    public execute_choose_root(request : Choosen_Root_Request) : Choosen_Root_Response
+    {
+        return this.__choose_root_use_case.handle(request);
     }
 }

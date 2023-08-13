@@ -9,7 +9,7 @@ import { IMove_View_Handler } from '../../handlers/Move_View/IMove_View_Handler'
 import { Data_Type, IDto } from '../../../port/driver/dto/IDto';
 import { Root_Dto } from '../../entities/Root_Dto';
 import { Dto } from '../../../port/driver/dto/Dto';
-import { IChoose_Root_Container, IChoose_Root_Roots } from '../../use_cases/Init_Choose_Root';
+import { IChoose_Root_Container, IChoose_Root_Roots } from '../../use_cases/Choose_Root/Init_Choose_Root';
 import { Vector } from '../../../common/Vector/Vector';
 import { IIndexes } from '../../handlers/Indexes/IIndexes';
 import { Indexes } from '../../handlers/Indexes/Indexes';
@@ -125,14 +125,14 @@ class Rotate_Root_Dto implements IRotate_Root_Dto
     { 
         if(indexes[1] == undefined) throw new Error("Rotation must have a next index set at the index 1, to set current to null put -1 at the index 0");
 
-        if(indexes[0] > 0) this.__current = new Rotate_Root_Position(roots[indexes[0]]);
+        if(indexes[0] >= 0) this.__current = new Rotate_Root_Position(roots[indexes[0]]);
         this.__next = new Rotate_Root_Position(roots[indexes[1]]);
     }
 
     //need to create positions to manipulate abs_ratio
     public async rotate_roots(direction : number) : Promise<void>
     {
-        const axe_rotation = Vector_.new([250,0,0]);
+        const axe_rotation = Vector_.new([(250 * direction),0,0]);
         const center_rotation = Vector_.new([1/2 * 500, 500]);
 
         if(this.__current) this.__current.init_position_for_rotation(axe_rotation);

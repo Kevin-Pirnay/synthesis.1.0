@@ -5,7 +5,7 @@ import { Data_Type, IDto } from "../../../port/driver/dto/IDto";
 import { IIndexes } from "../../handlers/Indexes/IIndexes";
 import { Indexes } from "../../handlers/Indexes/Indexes";
 import { ISubtree_Root, View_As_Root_Handler } from "../../handlers/View_As_Root/View_As_Root_Handler";
-import { IPaginate_Data } from "../../use_cases/View_Paginate";
+import { IPaginate_Data } from "../../use_cases/Paginate/View_Paginate";
 import { IPaginate_Repository } from "../interfaces/IPaginate_Repository";
 
 export class Paginate_Repository implements IPaginate_Repository
