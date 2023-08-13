@@ -20,6 +20,8 @@ import { Back_View_Request } from '../../../../core/port/driver/request/Back_Vie
 import { Choose_Root_Request } from '../../../../core/port/driver/request/Choose_Root_Request';
 import { Link_Project_Request } from '../../../../core/port/driver/request/Link_Project_Request';
 import { View_Choose_Root_Request } from '../../../../core/port/driver/request/View_Choose_Root_Request';
+import { Root_Dto } from '../../../../core/domain/entities/Root_Dto';
+import { Choosen_Root_Request } from '../../../../core/port/driver/request/Choosen_Root_Request';
 
 @Injectable({
   providedIn: 'root'
@@ -148,21 +150,6 @@ export class SvgService
 
   }
 
-  public request_change_root(flow : string) : void
-  {    
-    this.__request_get_flows();
-
-    const next_flow = Flow_Changer.change_flow(this.__flows, this.__current_flow);
-
-    const request = new Change_Root_Request(next_flow);
-
-    const response = Pipeline.facade.execute_change_root(request);
-
-    this.dtos.length = 0;    
-    
-    response.dtos.forEach(dto => this.dtos.push(dto));    
-  }
-
   public request_back_view() : void
   {
     const container_id : string | undefined = this.__stack_ids.pop();
@@ -173,7 +160,7 @@ export class SvgService
 
     const response = Pipeline.facade.execute_back_view(request);
 
-    this.dtos.length = 0;    
+    this.dtos.length = 0;      
     
     response.dtos.forEach(dto => this.dtos.push(dto)); 
   }
@@ -198,25 +185,23 @@ export class SvgService
   {
     const request = new View_Choose_Root_Request(direction);
 
-    const response = Pipeline.facade.execute_view_choose_root(request);
-
-    console.log(response);
-    
+    const response = Pipeline.facade.execute_view_choose_root(request);  
 
     this.roots_dto.length = 0;
 
     response.dtos.forEach(dto => this.roots_dto.push(dto)); 
   }
-}
 
-class Flow_Changer
-{
-  public static change_flow(flows : string[], current : string) : string
+  public request_choose_root(root : Root_Dto)
   {
-    let index = flows.indexOf(current);
-    index++;
-    if(index == flows.length) index = 0;
-    return flows[index];
+    const request = new Choosen_Root_Request(root.root_id);
+
+    const response = Pipeline.facade.execute_choose_root(request);
+
+    this.dtos.length = 0; 
+    this.roots_dto.length = 0;     
+    
+    response.dtos.forEach(dto => this.dtos.push(dto)); 
   }
 }
 

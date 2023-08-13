@@ -11,7 +11,7 @@ export class Init_Choose_Root_Use_case
     
     public handle(request : Choose_Root_Request) : Choose_Root_Response
     {
-        request.container.roots.push("test1", "test2", "test3"); //fake
+        //request.container.roots.push("test1", "test2", "test3"); //fake
 
         this.__choose_repository.store_all_possible_roots(request.container.roots);
 

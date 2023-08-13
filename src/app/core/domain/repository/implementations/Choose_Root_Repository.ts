@@ -129,7 +129,6 @@ class Rotate_Root_Dto implements IRotate_Root_Dto
         this.__next = new Rotate_Root_Position(roots[indexes[1]]);
     }
 
-    //need to create positions to manipulate abs_ratio
     public async rotate_roots(direction : number) : Promise<void>
     {
         const axe_rotation = Vector_.new([(250 * direction),0,0]);

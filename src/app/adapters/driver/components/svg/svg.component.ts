@@ -81,22 +81,22 @@ export class SvgComponent
       break
       case '.':
         this.__svg_service.request_vew_paginate(-1);
-      break
-
-      case '/':
-        this.__svg_service.request_change_root("");
-      break
+      break;
 
       case '£':
         this.__svg_service.request_back_view();
-      break
+      break;
 
       case '%':
         this.__svg_service.request_view_choose_root(1);
       break
       case '*':
         this.__svg_service.request_view_choose_root(-1);
-      break
+      break;
+
+      case 'v':
+        if(this.__current_container) this.__svg_service.request_init_choose_root(this.__current_container);
+      break;
     
       default:
         break;
@@ -108,8 +108,8 @@ export class SvgComponent
     //this.__svg_service.request_delete_container(container);
     //this.__svg_service.request_view_as_root(container);
     //this.__svg_service.request_paginate(container);
-    //this.__svg_service.request_mark_as_root(container);
-    this.__svg_service.request_init_choose_root(container);
+    this.__svg_service.request_mark_as_root(container);
+    //this.__svg_service.request_init_choose_root(container);
     //this.__svg_service.request_link_project("");
   }
 
@@ -122,7 +122,7 @@ export class SvgComponent
 
   public mousedown_on_root_dto(dto : IDto) : void
   {
-    console.log(dto._.root_id);
     this.__is_down_on_root_dto  = true;
+    this.__svg_service.request_choose_root(dto._);
   }
 }
