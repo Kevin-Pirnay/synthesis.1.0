@@ -4,8 +4,12 @@ import { Vector_ } from "../../common/Vector/Vector_";
 
 export class Root_Dto
 {
-    constructor()
+    public readonly root_id :string;
+     
+    constructor(root_id :string)
     {
+        this.root_id = root_id;
+        
         const abs_ratio = new Matrix(
             [
                 Vector_.zero(),

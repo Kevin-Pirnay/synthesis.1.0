@@ -2,6 +2,8 @@ import { Matrix } from "../../../common/Matrix/Matrix";
 import { Matrix_ } from "../../../common/Matrix/Matrix_";
 import { Vector } from "../../../common/Vector/Vector";
 import { Data_Type, IDto } from "../../../port/driver/dto/IDto";
+import { IIndexes } from "../../handlers/Indexes/IIndexes";
+import { Indexes } from "../../handlers/Indexes/Indexes";
 import { ISubtree_Root, View_As_Root_Handler } from "../../handlers/View_As_Root/View_As_Root_Handler";
 import { IPaginate_Data } from "../../use_cases/View_Paginate";
 import { IPaginate_Repository } from "../interfaces/IPaginate_Repository";
@@ -10,24 +12,13 @@ export class Paginate_Repository implements IPaginate_Repository
 {
     private readonly __roots_subtree : ISubtree_Root[] = [];
     private __data_dtos : IDto[][] = [];
-    private readonly __indexes : number[] = [];
+    private readonly __indexes : IIndexes;
+
+    constructor() { this.__indexes = new Indexes() }
 
     public init_indexes(nb_idexes : number): number 
     {
-        this.__indexes.length = 0;
-
-        for(let i = 0; i < nb_idexes; i++)
-        {
-            this.__indexes.push(i);
-        } 
-
-        const current = this.__indexes.shift();        
-
-        if(current == undefined) throw new Error("Error: indexes are empty"); 
-
-        this.__indexes.push(current);
-
-        return current;
+        return this.__indexes.init_indexes(nb_idexes);
     }
 
     public store_subtrees_root(roots_subtrees: ISubtree_Root[]): void 
@@ -52,15 +43,7 @@ export class Paginate_Repository implements IPaginate_Repository
     {
         if(direction !== 1 && direction !== -1) throw new Error("direction must be either 1 or -1");
 
-        const result : number[] = [];
-        
-        const indexes : INext_Indexes = Next_Indexes.get_data(this.__indexes);
-        
-        if(direction == 1) indexes.push_indexes_for_positive_direction(result);
-        
-        else indexes.push_indexes_for_negative_direction(result);
-
-        return result;
+        return this.__indexes.get_next_indexes(direction);
     }
 
     public get_paginate_dtos(): IDto[] 
@@ -73,56 +56,6 @@ export class Paginate_Repository implements IPaginate_Repository
         }));
         
         return result;
-    }
-}
-
-interface INext_Indexes
-{
-    push_indexes_for_negative_direction(result: number[]): void;
-    push_indexes_for_positive_direction(result: number[]): void;
-}
-
-//refactor to handle one indexes in the queue only
-class Next_Indexes implements INext_Indexes
-{
-    public static get_data(indexes: number[]): INext_Indexes 
-    {
-        return new Next_Indexes(indexes);
-    }
-
-    private readonly __indexes : number[];
-
-    constructor(indexes : number[])
-    {
-        this.__indexes = indexes;
-    }
-
-    public push_indexes_for_positive_direction(result: number[]): void 
-    {
-        const current = this.__indexes.pop();
-        const next = this.__indexes.shift();         
-
-        if(current == undefined || next == undefined) throw new Error("Error: indexes are empty");
-        
-        result.push(current);
-        result.push(next);
-        
-        this.__indexes.push(current);
-        this.__indexes.push(next);
-    }
-
-    public push_indexes_for_negative_direction(result: number[]): void 
-    {
-        const current = this.__indexes.pop();
-        const next = this.__indexes.pop();
-
-        if(current == undefined || next == undefined) throw new Error("Error: indexes are empty");
-
-        result.push(current);
-        result.push(next);
-
-        this.__indexes.push(next);
-        this.__indexes.unshift(current);
     }
 }
 

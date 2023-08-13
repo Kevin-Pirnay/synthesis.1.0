@@ -12,7 +12,7 @@ export class Dao_Container implements IDao_Container
     {
         const new_flow = crypto.randomUUID();
         this.__update_the_current_flow(new_flow);
-        container.root.push(new_flow);
+        container.roots.push(new_flow);
         this.save_new_container(container);
     }
 
@@ -77,7 +77,7 @@ export class Dao_Container implements IDao_Container
         {
             const container_data = this.__runtime_persistence.containers_fix[data];
 
-            if(container_data.root.includes(this.__current_flow._)) result = this.__assemble_container(container_data.id);
+            if(container_data.roots.includes(this.__current_flow._)) result = this.__assemble_container(container_data.id);
         }
 
         if(result == null) throw new Error("Enable to find the container root of this flow");
