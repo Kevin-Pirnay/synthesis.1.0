@@ -11,7 +11,7 @@ export class Init_Choose_Root_Use_case
     
     public handle(request : Choose_Root_Request) : Choose_Root_Response
     {
-        request.container.roots.push(""); //fake
+        request.container.roots.push("test1", "test2", "test3"); //fake
 
         this.__choose_repository.store_all_possible_roots(request.container.roots);
 
@@ -21,7 +21,7 @@ export class Init_Choose_Root_Use_case
 
         choose_root_container.zoom_and_place_itself_at_the_bottom();
 
-        const choose_roots : IChoose_Roots = this.__choose_repository.get_choose_roots([first_index]);
+        const choose_roots : IChoose_Root_Roots = this.__choose_repository.get_choose_root_roots([-1, first_index]);
 
         choose_roots.animate_first_root_to_choose();
 
@@ -36,8 +36,10 @@ export interface IChoose_Root_Container
     zoom_and_place_itself_at_the_bottom() : void;
 } 
 
-export interface IChoose_Roots
+export interface IChoose_Root_Roots
 {
+    get_dtos(indexes : number[]): IDto[];
+    rotate(direction: number): void;
     get_the_first_root_dto(): IDto;
     animate_first_root_to_choose(): void;
 

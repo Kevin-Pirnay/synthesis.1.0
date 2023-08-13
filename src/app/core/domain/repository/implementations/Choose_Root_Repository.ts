@@ -9,7 +9,7 @@ import { IMove_View_Handler } from '../../handlers/Move_View/IMove_View_Handler'
 import { Data_Type, IDto } from '../../../port/driver/dto/IDto';
 import { Root_Dto } from '../../entities/Root_Dto';
 import { Dto } from '../../../port/driver/dto/Dto';
-import { IChoose_Root_Container, IChoose_Roots } from '../../use_cases/Init_Choose_Root';
+import { IChoose_Root_Container, IChoose_Root_Roots } from '../../use_cases/Init_Choose_Root';
 import { Vector } from '../../../common/Vector/Vector';
 import { IIndexes } from '../../handlers/Indexes/IIndexes';
 import { Indexes } from '../../handlers/Indexes/Indexes';
@@ -37,9 +37,14 @@ export class Choose_Root_Repository implements IChoose_Root_Repository
         return new Choose_Root_Container(container, zoom_handler, move_view_handler);
     }
 
-    public get_choose_roots(indexes : number[]): IChoose_Roots 
+    public get_choose_root_roots(indexes : number[]): IChoose_Root_Roots 
     {
         return new Choose_Roots(this.__roots, indexes);
+    }
+
+    public get_next_indexes(direction: number): number[] 
+    {
+        return this.__indexes.get_next_indexes(direction);
     }
 }
 
@@ -70,7 +75,7 @@ class Choose_Root_Container implements IChoose_Root_Container
     }
 }
 
-class Choose_Roots implements IChoose_Roots
+class Choose_Roots implements IChoose_Root_Roots
 {
     private readonly __roots : Root_Dto[] = [];
     private readonly __rotate_root : IRotate_Root_Dto;
@@ -88,48 +93,66 @@ class Choose_Roots implements IChoose_Roots
 
     public animate_first_root_to_choose(): void 
     {
-        this.__rotate_root.rotate_roots();
+        this.__rotate_root.rotate_roots(1);
+    }
+
+    public rotate(direction: number): void 
+    {
+        this.__rotate_root.rotate_roots(direction);
+    }
+
+    public get_dtos(indexes : number[]): IDto[] 
+    {
+        const result : IDto[] = [];
+
+        indexes.forEach(index => result.push(new Dto(this.__roots[index], Data_Type.ROOT_DTO)));
+
+        return result;
     }
 }
 
 interface IRotate_Root_Dto
 {
-    rotate_roots(): void;
+    rotate_roots(direction : number): void;
 }
 
 class Rotate_Root_Dto implements IRotate_Root_Dto
 {
-    private readonly __positions : IRotate_Root_Position[] = [];
+    private readonly __current : IRotate_Root_Position | null = null;
+    private readonly __next : IRotate_Root_Position | null = null;
 
     constructor(roots : Root_Dto[], indexes : number[]) 
     { 
-        for(let i = 0; i < indexes.length; i++)
-        {
-            this.__positions.push(new Rotate_Root_Position(roots[indexes[i]]));
-        }
+        if(indexes[1] == undefined) throw new Error("Rotation must have a next index set at the index 1, to set current to null put -1 at the index 0");
+
+        if(indexes[0] > 0) this.__current = new Rotate_Root_Position(roots[indexes[0]]);
+        this.__next = new Rotate_Root_Position(roots[indexes[1]]);
     }
 
     //need to create positions to manipulate abs_ratio
-    public async rotate_roots() : Promise<void>
+    public async rotate_roots(direction : number) : Promise<void>
     {
         const axe_rotation = Vector_.new([250,0,0]);
         const center_rotation = Vector_.new([1/2 * 500, 500]);
 
-        this.__positions[0].init_position_for_rotation(axe_rotation);
+        if(this.__current) this.__current.init_position_for_rotation(axe_rotation);
+        if(this.__next) this.__next.init_position_for_rotation(axe_rotation);
 
         //put that in class and use callback???
         let angle = 0;
         const rate = 0.8
         while(1)
         {
-            const radian = angle * Math.PI/180;
-
-            this.__positions[0].rotate_position_on_a_certain_point(radian, center_rotation);
+            const radian = angle * Math.PI/180 * direction;
+            const dephasage = radian + (Math.PI / 2 * direction);
+            
+            if(this.__current) this.__current.rotate_position_on_a_certain_point(dephasage, center_rotation);
+            if(this.__next) this.__next.rotate_position_on_a_certain_point(radian, center_rotation);
 
             await new Promise(r => setTimeout(r, 1)); 
 
             angle += (1 * rate);
-            //if(Math.abs(angle) >= 90) break;
+            if(Math.abs(angle) >= 90) break;
         }
     }
 }

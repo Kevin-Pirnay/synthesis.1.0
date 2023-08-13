@@ -12,14 +12,18 @@ import { Ligature } from '../../../../core/domain/entities/Ligature';
 export class SvgComponent 
 {
   public readonly dtos : IDto[];
+  public readonly roots_dto : IDto[];
+
   private __is_down_on_container : boolean = false;
   private __is_down_on_grip : boolean = false;
+  private __is_down_on_root_dto : boolean = false;
   private __current_container : Container | null = null;
   private __current_ligature : Ligature | null = null;
 
   constructor(private readonly __svg_service : SvgService)
   {
     this.dtos = this.__svg_service.dtos;
+    this.roots_dto = __svg_service.roots_dto;
   }
 
   public mouse_over_container(container : Container) : void
@@ -42,14 +46,16 @@ export class SvgComponent
   }
 
   public mouse_up(e : MouseEvent) : void
-  {
-    if ( !this.__is_down_on_container && !this.__is_down_on_grip ) this.__svg_service.request_create_container(e, this.__current_container);
+  {    
+    if ( !this.__is_down_on_container && !this.__is_down_on_grip && !this.__is_down_on_root_dto ) this.__svg_service.request_create_container(e, this.__current_container);
 
     if ( this.__is_down_on_grip && this.__current_ligature ) this.__svg_service.request_assign_ligature(this.__current_ligature, this.__current_container);
 
     this.__is_down_on_container = false;
 
     this.__is_down_on_grip = false;
+
+    this.__is_down_on_root_dto = false;
   }
 
   public key_press(e: KeyboardEvent) : void
@@ -84,6 +90,13 @@ export class SvgComponent
       case '£':
         this.__svg_service.request_back_view();
       break
+
+      case '%':
+        this.__svg_service.request_view_choose_root(1);
+      break
+      case '*':
+        this.__svg_service.request_view_choose_root(-1);
+      break
     
       default:
         break;
@@ -105,5 +118,11 @@ export class SvgComponent
     this.__is_down_on_grip = true;
 
     this.__current_ligature = ligature;
+  }
+
+  public mousedown_on_root_dto(dto : IDto) : void
+  {
+    console.log(dto._.root_id);
+    this.__is_down_on_root_dto  = true;
   }
 }

@@ -19,6 +19,7 @@ import { Change_Root_Request } from '../../../../core/port/driver/request/Change
 import { Back_View_Request } from '../../../../core/port/driver/request/Back_View_Request';
 import { Choose_Root_Request } from '../../../../core/port/driver/request/Choose_Root_Request';
 import { Link_Project_Request } from '../../../../core/port/driver/request/Link_Project_Request';
+import { View_Choose_Root_Request } from '../../../../core/port/driver/request/View_Choose_Root_Request';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,7 @@ import { Link_Project_Request } from '../../../../core/port/driver/request/Link_
 export class SvgService 
 {
   public readonly dtos : IDto[] = [];
+  public readonly roots_dto : IDto[] = [];
   private __flows : string[] = [];
   private __current_flow : string = "";
   private __stack_ids : string[] = [];
@@ -181,10 +183,8 @@ export class SvgService
     const request = new Choose_Root_Request(container);
 
     const response = Pipeline.facade.execute_init_choose_root(request);
-
-    //this.dtos.length = 0;    
     
-    response.dtos.forEach(dto => this.dtos.push(dto)); 
+    response.dtos.forEach(dto => this.roots_dto.push(dto)); 
   }
 
   public request_link_project(project_id : string) : void 
@@ -192,6 +192,20 @@ export class SvgService
     const request = new Link_Project_Request("");
 
     Pipeline.facade.execute_link_project(request);
+  }
+
+  public request_view_choose_root(direction : number) : void
+  {
+    const request = new View_Choose_Root_Request(direction);
+
+    const response = Pipeline.facade.execute_view_choose_root(request);
+
+    console.log(response);
+    
+
+    this.roots_dto.length = 0;
+
+    response.dtos.forEach(dto => this.roots_dto.push(dto)); 
   }
 }
 

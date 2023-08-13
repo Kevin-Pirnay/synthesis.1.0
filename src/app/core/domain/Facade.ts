@@ -75,6 +75,9 @@ import { Link_Project_Use_case } from './use_cases/Link_Project';
 import { Link_Project_Repository } from './repository/implementations/Link_Project_Repositor';
 import { ILink_Project_Repository } from './repository/interfaces/ILink_Project_Repository';
 import { Init_Choose_Root_Use_case } from './use_cases/Init_Choose_Root';
+import { View_Choose_Root_Response } from '../port/driver/response/View_Choose_Root_Response';
+import { View_Choose_Root_Request } from '../port/driver/request/View_Choose_Root_Request';
+import { View_Choose_Root_Use_case } from './use_cases/View_Choose_Root';
 
 export class Facade
 {
@@ -117,6 +120,7 @@ export class Facade
     private readonly __new_project = new New_Project_Use_case();
     private readonly __init_choose_root_use_case = new Init_Choose_Root_Use_case(this.__choose_root_repository, this.__zoom_handler, this.__move_view_handler);
     private readonly __link_project_use_case = new Link_Project_Use_case(this.__link_project_repository, this.__zoom_handler, this.__move_view_handler);
+    private readonly __view_choose_root_use_case = new View_Choose_Root_Use_case(this.__choose_root_repository);
 
 
     public execute_create_container(request : Create_Container_Request) : Create_Container_Response
@@ -202,5 +206,10 @@ export class Facade
     public execute_link_project(request : Link_Project_Request) : void 
     {
         this.__link_project_use_case.handle(request);
+    }
+
+    public execute_view_choose_root(request : View_Choose_Root_Request) : View_Choose_Root_Response
+    {
+        return this.__view_choose_root_use_case.handle(request);
     }
 }
