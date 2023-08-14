@@ -1,3 +1,7 @@
+import { Select_Link_Roots_Use_case } from './use_cases/Link/Select_Link_Roots';
+import { Select_Link_Roots_Response } from './../port/driver/response/Select_Link_Roots_Response';
+import { Select_Link_Roots_Request } from './../port/driver/request/Select_Link_Roots_Request';
+import { View_Link_Roots_Request } from './../port/driver/request/View_Link_Roots_Request';
 import { Choosen_Root_Use_case } from './use_cases/Choose_Root/Choose_Root';
 import { IView_As_Root_Handler } from './handlers/View_As_Root/IView_As_Root_Handler';
 import { Delete_Container_Repository } from './repository/implementations/Delete_Repository';
@@ -80,6 +84,11 @@ import { Change_Root_Handler } from './handlers/Change_Root/Change_Root_Handler'
 import { Choosen_Root_Request } from '../port/driver/request/Choosen_Root_Request';
 import { Choosen_Root_Response } from '../port/driver/response/Choosen_Root_Response';
 import { Link_Project_Use_case } from './use_cases/Link/Link_Project';
+import { View_Link_Roots_Response } from '../port/driver/response/View_Link_Roots_Response';
+import { Init_Link_Roots_Use_case } from './use_cases/Link/Init_Link_Roots';
+import { ILink_Roots_Repository } from './repository/interfaces/ILink_Roots_Repository';
+import { Link_Roots_Repository } from './repository/implementations/Link_Roots_Repository';
+import { View_Link_Roots_Use_case } from './use_cases/Link/View_Link_Roots';
 
 export class Facade
 {
@@ -100,12 +109,14 @@ export class Facade
     private readonly __change_root_repository : IChange_Root_Repository = new Change_Root_Repository(this.__dao_container, this.__dao_ligature, this.__dao_flow);
     private readonly __choose_root_repository : IChoose_Root_Repository = new Choose_Root_Repository();
     private readonly __link_project_repository : ILink_Project_Repository = new Link_Project_Repository();
-
+    
     private readonly __zoom_handler : IZoom_Handeler = new Zoom_Handeler(this.__zoom_repository);
     private readonly __view_as_root_handler : IView_As_Root_Handler = new View_As_Root_Handler(this.__view_as_root_repository);
     private readonly __node_linker_handler : INode_Linker = new Node_Linker();
     private readonly __move_view_handler : IMove_View_Handler = new Move_View_Handler(this.__move_view_repository);
     private readonly __change_root_handler : IChange_Root_Handler = new Change_Root_Handler(this.__change_root_repository, this.__view_as_root_handler)
+    //*** !!! change that !!! ***
+    private readonly __link_roots_repository : ILink_Roots_Repository = new Link_Roots_Repository(this.__dao_flow, this.__change_root_handler, this.__zoom_handler, this.__move_view_handler);
 
     private readonly __create_container_use_case = new Create_Container_Use_case(this.__create_repository, this.__node_linker_handler,this.__zoom_handler);
     private readonly __move_container_Use_case = new Move_Container_Use_case();
@@ -124,6 +135,9 @@ export class Facade
     private readonly __link_project_use_case = new Link_Project_Use_case(this.__link_project_repository, this.__zoom_handler, this.__move_view_handler);
     private readonly __view_choose_root_use_case = new View_Choose_Root_Use_case(this.__choose_root_repository);
     private readonly __choose_root_use_case = new Choosen_Root_Use_case(this.__change_root_handler);
+    private readonly __init_link_roots_use_case = new Init_Link_Roots_Use_case(this.__link_roots_repository);
+    private readonly __view_link_roots_use_case = new View_Link_Roots_Use_case(this.__link_roots_repository);
+    private readonly __select_link_roots_use_case = new Select_Link_Roots_Use_case(this.__link_roots_repository);
 
 
     public execute_create_container(request : Create_Container_Request) : Create_Container_Response
@@ -214,5 +228,20 @@ export class Facade
     public execute_choose_root(request : Choosen_Root_Request) : Choosen_Root_Response
     {
         return this.__choose_root_use_case.handle(request);
+    }
+
+    public execute_init_link_roots() : View_Link_Roots_Response
+    {
+        return this.__init_link_roots_use_case.handle();
+    }
+
+    public execute_view_link_roots(request : View_Link_Roots_Request) : View_Link_Roots_Response
+    {
+        return this.__view_link_roots_use_case.handle(request);
+    }
+
+    public execute_select_link_roots(request : Select_Link_Roots_Request) : Select_Link_Roots_Response
+    {
+        return this.__select_link_roots_use_case.handle(request);
     }
 }

@@ -97,6 +97,17 @@ export class SvgComponent
       case 'v':
         if(this.__current_container) this.__svg_service.request_init_choose_root(this.__current_container);
       break;
+
+      case 'x':
+        this.__svg_service.request_init_link_roots();
+      break;
+
+      case 'b':
+        this.__svg_service.request_view_links_roots(1);
+      break;
+      case 'n':
+        this.__svg_service.request_view_links_roots(-1);
+      break;
     
       default:
         break;

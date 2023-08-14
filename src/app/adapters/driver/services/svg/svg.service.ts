@@ -21,6 +21,8 @@ import { Link_Project_Request } from '../../../../core/port/driver/request/Link_
 import { View_Choose_Root_Request } from '../../../../core/port/driver/request/View_Choose_Root_Request';
 import { Root_Dto } from '../../../../core/domain/entities/Root_Dto';
 import { Choosen_Root_Request } from '../../../../core/port/driver/request/Choosen_Root_Request';
+import { View_Link_Roots_Request } from '../../../../core/port/driver/request/View_Link_Roots_Request';
+import { Select_Link_Roots_Request } from '../../../../core/port/driver/request/Select_Link_Roots_Request';
 
 @Injectable({
   providedIn: 'root'
@@ -201,6 +203,33 @@ export class SvgService
     this.roots_dto.length = 0;     
     
     response.dtos.forEach(dto => this.dtos.push(dto)); 
+  }
+
+  public request_init_link_roots() : void
+  {
+    Pipeline.facade.execute_init_link_roots();
+  }
+
+  public request_view_links_roots(direction : number)
+  {
+    const request = new View_Link_Roots_Request(direction);
+
+    const response = Pipeline.facade.execute_view_link_roots(request);
+
+    this.dtos.length = 0; 
+
+    response.dtos.forEach(dto => this.dtos.push(dto)); 
+  }
+
+  public request_select_links_roots(container : Container) : void
+  {
+    const request = new Select_Link_Roots_Request(container);
+
+    const response = Pipeline.facade.execute_select_link_roots(request);
+
+    this.dtos.length = 0; 
+
+    response.dtos.forEach(dto => this.dtos.push(dto));
   }
 }
 

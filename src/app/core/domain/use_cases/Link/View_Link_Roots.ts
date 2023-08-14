@@ -4,7 +4,7 @@ import { View_Link_Roots_Response } from "../../../port/driver/response/View_Lin
 import { ILink_Roots_Repository } from "../../repository/interfaces/ILink_Roots_Repository";
 import { ILink_Roots } from "./Init_Link_Roots";
 
-export class View_Link_Roots
+export class View_Link_Roots_Use_case
 {
     constructor(private readonly __repository : ILink_Roots_Repository) { }
 
