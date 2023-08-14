@@ -1,6 +1,6 @@
 import { IMove_View_Handler } from "../../handlers/Move_View/IMove_View_Handler";
 import { IZoom_Handeler } from "../../handlers/Zoom/IZoom_Handeler";
-import { IAnimate_Projects } from "../../use_cases/Link_Project";
+import { IAnimate_Projects } from "../../use_cases/Link/Link_Project";
 import { ILink_Project_Repository } from "../interfaces/ILink_Project_Repository";
 
 

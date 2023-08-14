@@ -19,9 +19,14 @@ export class Change_Root_Repository implements IChange_Root_Repository
         this.__container_dao.update_all_ptr_to_the_current_flow();
     }
 
-    public get_root_container(): Container 
+    public get_root_container_from_the_current_flow(): Container 
     {
-        return this.__container_dao.get_root_flow()
+        return this.__container_dao.get_root_container_of_the_current_flow();
+    }
+
+    public get_root_container(flow: string): Container 
+    {
+        return this.__container_dao.get_root_container(flow);
     }
     
     public get_current_flow(): string 

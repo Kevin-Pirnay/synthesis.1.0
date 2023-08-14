@@ -1,5 +1,6 @@
 import { Vector } from "../../../common/Vector/Vector";
 import { Vector_ } from "../../../common/Vector/Vector_";
+import { IDto } from "../../../port/driver/dto/IDto";
 import { Container } from "../../entities/Container";
 import { Ligature } from "../../entities/Ligature";
 import { IZoomRepository } from "../../repository/interfaces/IZoomRepository";
@@ -10,7 +11,8 @@ export class Zoom_Handeler implements IZoom_Handeler
 {
     constructor(private readonly __repository : IZoomRepository) { }
 
-    public zoom_by_direction(direction: number): void 
+
+    public zoom_current_flow_by_direction(direction: number): void 
     {
         const positions : IZoom_Positions[] = this.__repository.get_all_positions();
 
@@ -20,10 +22,10 @@ export class Zoom_Handeler implements IZoom_Handeler
         
         //zoom all the positions by adding one to the factor zoom
         const zoom_factor = this.__repository.update_zoom_factor(direction);
-        this.__zoom(positions, zoom_factor);  
+        this.__zoom(positions, zoom_factor); 
     }
 
-    zoom_by_factor(zoom_factor: number): void 
+    public zoom_current_flow_by_factor(zoom_factor: number): void 
     {
         const positions : IZoom_Positions[] = this.__repository.get_all_positions();
 
@@ -33,6 +35,31 @@ export class Zoom_Handeler implements IZoom_Handeler
 
         //zoom by factor
         this.__zoom(positions, zoom_factor);  
+    }
+
+    public zoom_by_direction(direction: number, dtos : IDto[]): void 
+    {
+        const positions : IZoom_Positions[] = this.__repository.get_positions(dtos);
+
+        //unzoom all the positions
+        const unzoom_factor = this.__repository.get_unzoom_factor();
+        this.__zoom(positions, unzoom_factor);        
+        
+        //zoom all the positions by adding one to the factor zoom
+        const zoom_factor = this.__repository.update_zoom_factor(direction);
+        this.__zoom(positions, zoom_factor); 
+    }
+
+    public zoom_by_factor(zoom_factor: number, dtos : IDto[]): void 
+    {
+        const positions : IZoom_Positions[] = this.__repository.get_positions(dtos);
+
+        //unzoom all the positions
+        const unzoom_factor = this.__repository.get_unzoom_factor();
+        this.__zoom(positions, unzoom_factor);
+
+        //zoom by factor
+        this.__zoom(positions, zoom_factor);
     }
 
     public update_container_with_current_zoom(container: Container): void 

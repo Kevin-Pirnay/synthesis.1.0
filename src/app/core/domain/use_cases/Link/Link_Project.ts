@@ -1,7 +1,7 @@
-import { Link_Project_Request } from "../../port/driver/request/Link_Project_Request";
-import { IMove_View_Handler } from "../handlers/Move_View/IMove_View_Handler";
-import { IZoom_Handeler } from "../handlers/Zoom/IZoom_Handeler";
-import { ILink_Project_Repository } from "../repository/interfaces/ILink_Project_Repository";
+import { Link_Project_Request } from "../../../port/driver/request/Link_Project_Request";
+import { IMove_View_Handler } from "../../handlers/Move_View/IMove_View_Handler";
+import { IZoom_Handeler } from "../../handlers/Zoom/IZoom_Handeler";
+import { ILink_Project_Repository } from "../../repository/interfaces/ILink_Project_Repository";
 
 export class Link_Project_Use_case
 {

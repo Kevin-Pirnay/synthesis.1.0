@@ -9,17 +9,12 @@ import { Back_View_Response } from '../../port/driver/response/Back_View';
 export class Back_View_Use_case
 {
     constructor(
-        private __repository : IView_As_Root_Repository,
         private __handler : IView_As_Root_Handler
     ) { }
 
     public handle(request : Back_View_Request) : Back_View_Response
     {
-        const root_position : Vector = this.__repository.get_default_position_of_the_root();
-
-        const root_data : ISubtree_Root = this.__repository.get_root_subtree_by_id(request.container_id);
-
-        const dtos : IDto[] = this.__handler.get_subtree_dtos(root_data, root_position);
+        const dtos : IDto[] = this.__handler.get_subtree_dtos_by_id(request.container_id);
 
         return new Back_View_Response(dtos);
     }

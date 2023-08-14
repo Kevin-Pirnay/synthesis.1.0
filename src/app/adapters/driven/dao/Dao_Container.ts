@@ -70,7 +70,12 @@ export class Dao_Container implements IDao_Container
         this.__runtime_persistence.containers_flow[container.id][this.__current_flow._] = { node : container.node, positions : container.positions };
     }
 
-    public get_root_flow(): Container 
+    public get_root_container_of_the_current_flow(): Container 
+    {
+        return this.get_root_container(this.__current_flow._);
+    }
+
+    public get_root_container(flow: string): Container 
     {
         let result : Container | null = null;
 
@@ -78,7 +83,7 @@ export class Dao_Container implements IDao_Container
         {
             const container_data = this.__runtime_persistence.containers_fix[data];
             //need to be the first id
-            if(container_data.roots[0] == this.__current_flow._) result = this.__assemble_container(container_data.id);
+            if(container_data.roots[0] == flow) result = this.__assemble_container(container_data.id);
         }
 
         if(result == null) throw new Error("Enable to find the container root of this flow");

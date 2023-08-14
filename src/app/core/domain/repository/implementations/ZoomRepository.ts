@@ -2,7 +2,8 @@ import { Matrix } from "../../../common/Matrix/Matrix";
 import { Vector } from "../../../common/Vector/Vector";
 import { IDao_Container } from "../../../port/driven/dao/IDao_Container";
 import { IDao_Ligature } from "../../../port/driven/dao/IDao_Ligature";
-import { Container } from "../../entities/Container";
+import { Data_Type, IDto } from "../../../port/driver/dto/IDto";
+import { Container, Container_Positions } from "../../entities/Container";
 import { Ligature } from "../../entities/Ligature";
 import { IZoom_Positions } from "../../use_cases/Zoom";
 import { IZoomRepository } from "../interfaces/IZoomRepository";
@@ -17,6 +18,19 @@ export class ZoomRepository implements IZoomRepository
         private readonly __dao_container : IDao_Container,  
         private readonly __dao_ligature : IDao_Ligature
     ) { }
+
+    public get_positions(dtos: IDto[]): IZoom_Positions[] 
+    {
+        const result : IZoom_Positions[] = [];
+
+        dtos.forEach(dto =>
+        {
+            if ( dto.type == Data_Type.CONTAINER ) result.push(new Container_Zoom_Position(dto._));
+            if ( dto.type == Data_Type.LIGATURE ) result.push(new Ligature_Zoom_Position(dto._));
+        });
+        
+        return result;
+    }
 
     public get_all_positions() : IZoom_Positions[] 
     {

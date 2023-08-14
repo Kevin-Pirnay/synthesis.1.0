@@ -1,14 +1,36 @@
 import { Vector } from "../../../common/Vector/Vector";
 import { Data_Type, IDto } from "../../../port/driver/dto/IDto";
+import { Container } from "../../entities/Container";
+import { IView_As_Root_Repository } from "../../repository/interfaces/IView_As_Root_Repository";
 import { IView_As_Root_Handler } from "./IView_As_Root_Handler";
 
 export class View_As_Root_Handler implements IView_As_Root_Handler
 {
-    public get_subtree_dtos(root_subTree: ISubtree_Root, default_root: Vector): IData_Tree[] 
+    constructor(private readonly __repository : IView_As_Root_Repository) { }
+
+    public get_subtree_dtos(container : Container): IData_Tree[] 
+    {
+        const root_position : Vector = this.__repository.get_default_position_of_the_root();
+        
+        const root_subTree : ISubtree_Root = this.__repository.get_root_subtree(container);
+
+        return this.__construct_tree(root_subTree, root_position);
+    }
+
+    public get_subtree_dtos_by_id(container_id : string) : IData_Tree[] 
+    {
+        const root_position : Vector = this.__repository.get_default_position_of_the_root();
+        
+        const root_subTree : ISubtree_Root = this.__repository.get_root_subtree_by_id(container_id);
+
+        return this.__construct_tree(root_subTree, root_position);
+    }
+
+    private __construct_tree(root_subTree : ISubtree_Root, root_position : Vector) : IData_Tree[]  
     {
         const result : IData_Tree[] = [];
 
-        root_subTree.set_its_positions(default_root);
+        root_subTree.set_its_positions(root_position);
 
         const frontier : ISubtree_Root[] = [];
 

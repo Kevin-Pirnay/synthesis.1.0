@@ -14,24 +14,53 @@ export class Zoom_On_Target_Handler implements IZoom_On_Target_Handler
     private readonly __zoom_by_fact: IZoom_By_Fact;
 
     constructor(
-        abs_ratio: Matrix<4>,
-        coordinates_and_ratio: Matrix<2>,
+        abs_ratio_target: Matrix<4>,
+        coordinates_and_ratio_wanted: Matrix<2>,
         zoom_handler: IZoom_Handeler,
         move_view_handler: IMove_View_Handler
     ) {
-        this.__distance = new Compute_Distance(abs_ratio, coordinates_and_ratio);
-        this.__zoom_factor = new Compute_Zoom_Factor(abs_ratio, coordinates_and_ratio);
+        this.__distance = new Compute_Distance(abs_ratio_target, coordinates_and_ratio_wanted);
+        this.__zoom_factor = new Compute_Zoom_Factor(abs_ratio_target, coordinates_and_ratio_wanted);
         this.__move_by_dist = new Move_By_Dist(move_view_handler);
         this.__zoom_by_fact = new Zoom_By_Fact(zoom_handler);
     }
 
-    public move_by_a_distance_and_zoom_at_a_certain_ratio(): void //change by adding gradually
+    public async move_by_a_distance_and_zoom_at_a_certain_ratio(): Promise<void> //change by adding gradually
     {
+        //get zoom ratio
         const zoom_factor_data: number = this.__zoom_factor.compute_a_zoom_factor();
         this.__zoom_by_fact.zoom(zoom_factor_data);
-
         const distance_data: Vector = this.__distance.compute_a_distance();
-        this.__move_by_dist.move(distance_data);
+        const unzoom_factor = 1/zoom_factor_data;
+        console.log(unzoom_factor);
+        
+        //this.__zoom_by_fact.zoom(unzoom_factor);
+        //this.__move_by_dist.move(distance_data);
+
+        let current_dist : Vector = Vector_.zero();
+        let current_zoom = 0;
+        let is_x = false;
+        let is_y = false;
+        let is_zoom = false;
+        //get distance
+        while(1)
+        {
+            if(current_dist._[0] > distance_data._[0]) { current_dist._[0] = distance_data._[0]; is_x = true; }
+            if(current_dist._[1] > distance_data._[1]) { current_dist._[1] = distance_data._[1]; is_y = true; }
+
+            if(current_zoom == zoom_factor_data) { current_zoom = current_zoom; is_zoom = true; }
+
+            if ( is_x && is_y && is_zoom ) break;
+
+            console.log(current_dist._[0], current_dist._[1], current_zoom);
+            
+
+            current_dist._[0]++;
+            current_dist._[1]++;
+            current_zoom++;
+
+            await new Promise(r => setTimeout(r,1));
+        }
     }
 }
 

@@ -15,7 +15,6 @@ import { Ligature } from '../../../../core/domain/entities/Ligature';
 import { Move_ligature_Request } from '../../../../core/port/driver/request/Move_ligature_Request';
 import { Assign_Ligature_Request } from '../../../../core/port/driver/request/Assign_Ligature_Request';
 import { Mark_As_Root_Request } from '../../../../core/port/driver/request/Mark_As_Root_Request';
-import { Change_Root_Request } from '../../../../core/port/driver/request/Change_Root_Request';
 import { Back_View_Request } from '../../../../core/port/driver/request/Back_View_Request';
 import { Choose_Root_Request } from '../../../../core/port/driver/request/Choose_Root_Request';
 import { Link_Project_Request } from '../../../../core/port/driver/request/Link_Project_Request';

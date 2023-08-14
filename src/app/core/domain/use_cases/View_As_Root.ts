@@ -9,18 +9,13 @@ import { ISubtree_Root } from "../handlers/View_As_Root/View_As_Root_Handler";
 export class View_As_Root_Use_case
 {
     constructor(
-        private __view_as_root_repository : IView_As_Root_Repository,
         private __handler : IView_As_Root_Handler
     ) { }
     
     //handle zoom
     public handle(request : View_As_Root_Request) : View_As_Root_Response
     {
-        const root_position : Vector = this.__view_as_root_repository.get_default_position_of_the_root();
-        
-        const root_data : ISubtree_Root = this.__view_as_root_repository.get_root_subtree(request.container);
-        
-        const result : IDto[] = this.__handler.get_subtree_dtos(root_data, root_position);
+        const result : IDto[] = this.__handler.get_subtree_dtos(request.container);
 
         return new View_As_Root_Response(result);
     }
