@@ -18,7 +18,7 @@ export class Change_Root_Handler implements IChange_Root_Handler
 
         const root_container : Container = this.__change_root_repository.get_root_container_from_the_current_flow();
         
-        const result : IDto[] = this.__handler.get_subtree_dtos(root_container);
+        const result : IDto[] = this.__handler.get_subtree_dtos_by_root_container(root_container);
 
         return result;
     }
@@ -27,6 +27,6 @@ export class Change_Root_Handler implements IChange_Root_Handler
     {
         const root_container : Container = this.__change_root_repository.get_root_container(flow);
         
-        return this.__handler.get_subtree_dtos(root_container);
+        return this.__handler.get_subtree_dtos_by_root_container(root_container);
     }
 }

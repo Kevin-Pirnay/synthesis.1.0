@@ -11,7 +11,7 @@ export class View_Paginate_Use_case
     
     public handle(request : View_Paginate_Request) : View_Paginate_Response
     {
-        const view_paginate : IView_Paginate = new View_Paginate(this.__paginate_repository, this.__view_as_root_repository, this.__view_as_root_handler, request.direction);
+        const view_paginate : IView_Paginate = new View_Paginate(this.__paginate_repository, this.__view_as_root_handler, request.direction);
 
         view_paginate.rotate();
 
@@ -39,13 +39,11 @@ class View_Paginate implements IView_Paginate
 
     constructor(
         paginate_repository: IPaginate_Repository,
-        view_as_root_repository : IView_As_Root_Repository,
         view_as_root_handler : IView_As_Root_Handler,
         direction : number)
     {
         this.__indexes = paginate_repository.get_next_indexes(direction);
-        const root_point = view_as_root_repository.get_default_position_of_the_root();
-        this.__paginated_data = paginate_repository.get_paginate_data(this.__indexes, root_point, view_as_root_handler);
+        this.__paginated_data = paginate_repository.get_paginate_data(this.__indexes, view_as_root_handler);
         this.__direction = direction;
         this.__repository = paginate_repository;
     }

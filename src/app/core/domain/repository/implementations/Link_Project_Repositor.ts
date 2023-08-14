@@ -48,7 +48,7 @@ class Unzoom_Project implements IUnzoom_Project
 
     public unzoom(): void 
     {
-        this.__zoom_handler.zoom_by_factor(0.5);
+        this.__zoom_handler.zoom_current_flow_by_factor(0.5);
     }
 }
 
@@ -58,6 +58,6 @@ class Rotate_Project implements IRotate_Project
 
     public rotate(): void 
     {
-        this.__move_view_handler.rotate_project(90, 1, 1, 0.8);
+        this.__move_view_handler.rotate_current_project(90, 1, 1, 0.8);
     }
 }

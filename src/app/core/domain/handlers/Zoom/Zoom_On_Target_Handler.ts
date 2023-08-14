@@ -75,7 +75,7 @@ export class Zoom_By_Fact implements IZoom_By_Fact
 
     public zoom(zoom_factor: number): void 
     {
-        this.__zoom_handler.zoom_by_factor(zoom_factor);
+        this.__zoom_handler.zoom_current_flow_by_factor(zoom_factor);
     }
 }
 

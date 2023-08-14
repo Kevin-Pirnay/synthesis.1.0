@@ -15,7 +15,7 @@ export class View_As_Root_Use_case
     //handle zoom
     public handle(request : View_As_Root_Request) : View_As_Root_Response
     {
-        const result : IDto[] = this.__handler.get_subtree_dtos(request.container);
+        const result : IDto[] = this.__handler.get_subtree_dtos_by_root_container(request.container);
 
         return new View_As_Root_Response(result);
     }

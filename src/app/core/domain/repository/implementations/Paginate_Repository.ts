@@ -29,10 +29,10 @@ export class Paginate_Repository implements IPaginate_Repository
     }
 
     //bug if only one, call after next indexes, bad design should be responsible for all the flow of the code in one method, not give that to the caller!!!
-    public get_paginate_data(indexes: number[], root_point : Vector, view_as_root_handler : View_As_Root_Handler): IPaginate_Data 
+    public get_paginate_data(indexes: number[], view_as_root_handler : View_As_Root_Handler): IPaginate_Data 
     {
-        const dto1 : IDto[] = view_as_root_handler.get_subtree_dtos(this.__roots_subtree[indexes[0]],root_point);
-        const dto2 : IDto[] = view_as_root_handler.get_subtree_dtos(this.__roots_subtree[indexes[1]],root_point);
+        const dto1 : IDto[] = view_as_root_handler.get_subtree_dtos(this.__roots_subtree[indexes[0]]);
+        const dto2 : IDto[] = view_as_root_handler.get_subtree_dtos(this.__roots_subtree[indexes[1]]);
 
         this.__data_dtos = [dto1,dto2];
 

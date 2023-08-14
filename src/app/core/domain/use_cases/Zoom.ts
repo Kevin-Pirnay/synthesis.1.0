@@ -9,7 +9,7 @@ export class Zoom_Use_case
 
     public handle(request : Zoom_Request) : void
     {
-        this.__zoom_handler.zoom_by_direction(request.direction);   
+        this.__zoom_handler.zoom_current_flow_by_direction(request.direction);   
     }
 }
 

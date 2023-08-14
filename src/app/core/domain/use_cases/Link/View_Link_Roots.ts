@@ -12,9 +12,9 @@ export class View_Link_Roots
     {
         const indexes : number[] = this.__repository.get_next_indexes(request.direction);        
 
-        const link_roots : ILink_Roots = this.__repository.get_link_roots_data();
+        const link_roots : ILink_Roots = this.__repository.get_link_roots_data(indexes);
 
-        const dtos : IDto[] = link_roots.anim(indexes);
+        const dtos : IDto[] = link_roots.anim();
 
         return new View_Link_Roots_Response(dtos);
     }

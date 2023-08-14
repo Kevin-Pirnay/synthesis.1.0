@@ -7,6 +7,10 @@ import { ILink_Roots_Repository } from "../interfaces/ILink_Roots_Repository";
 import { IMove_View_Handler } from '../../handlers/Move_View/IMove_View_Handler';
 import { IZoom_Handeler } from '../../handlers/Zoom/IZoom_Handeler';
 import { IChange_Root_Handler } from '../../handlers/Change_Root/IChange_Root_Handler';
+import { Matrix_ } from '../../../common/Matrix/Matrix_';
+import { Vector_ } from '../../../common/Vector/Vector_';
+import { Vector } from '../../../common/Vector/Vector';
+import { Matrix } from '../../../common/Matrix/Matrix';
 
 
 export class Link_Roots_Repository implements ILink_Roots_Repository
@@ -46,6 +50,11 @@ export class Link_Roots_Repository implements ILink_Roots_Repository
     {
         this.__flow_dao.get_all_flows().forEach(flow => this.__flows.push(flow));
     }
+
+    public links_roots(container: Container): IDto[] 
+    {
+        throw new Error('Method not implemented.');
+    }
 }
 
 class Link_Roots implements ILink_Roots
@@ -64,11 +73,6 @@ class Link_Roots implements ILink_Roots
         const project2 : IDto[] = change_root_handler.get_subtree_from_the_flow(flows[indexes[1]]);
 
         this.__projects = new Projects(project1, project2, zoom_handler, move_view_handler);
-    } 
-
-    public links_roots(container: Container): IDto[] 
-    {
-        throw new Error('Method not implemented.');
     }
 
     public anim(): IDto[] 
@@ -136,12 +140,16 @@ class Project implements IProject
 
     public rotate_in(): void 
     {
-        this.__rotate_project.rotate();
+        const params_start = Matrix_.new([Vector_.new([0, 0, 250]), Vector_.zero()]);
+        const params_result = Matrix_.new([Vector_.new([250, 250, 0]), Vector_.new([1, 1, 1])]);
+        this.__rotate_project.rotate(params_start, params_result, 90, 0.8, 1);
     }
 
     public rotate_out(): void 
     {
-        this.__rotate_project.rotate();
+        const params_start = Matrix_.new([Vector_.new([0, 0, 250]), Vector_.zero()]);
+        const params_result = Matrix_.new([Vector_.new([250, 250, 0]), Vector_.new([1, 1, 1])]);
+        this.__rotate_project.rotate(params_start, params_result, 90, 0.8, 1);
     }
 
     public zoom(): void 
@@ -162,7 +170,7 @@ interface IZoom_Project
 
 interface IRotate_Project
 {
-    rotate(): void;
+    rotate(params_start: Matrix<2>, params_result: Matrix<2>, max_angle : number, rate: number, direction: number): void;
 }
 
 class Zoom_Project implements IZoom_Project
@@ -179,9 +187,8 @@ class Rotate_Project implements IRotate_Project
 {
     constructor(private readonly __dtos : IDto[], private readonly __move_view_handler : IMove_View_Handler) { }
 
-    public rotate(): void 
+    public rotate(params_start: Matrix<2>, params_result: Matrix<2>, max_angle : number, rate: number, direction: number): void 
     {
-        // dtos, matrix_result, _matrix_start, rate, direction
-        this.__move_view_handler.rotate_project()
+        this.__move_view_handler.rotate_project(this.__dtos, params_start, params_result, max_angle, rate, direction);
     }
 }
