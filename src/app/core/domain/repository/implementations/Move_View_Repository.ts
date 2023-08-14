@@ -2,6 +2,7 @@ import { Matrix } from '../../../common/Matrix/Matrix';
 import { Vector } from '../../../common/Vector/Vector';
 import { IDao_Container } from '../../../port/driven/dao/IDao_Container';
 import { IDao_Ligature } from '../../../port/driven/dao/IDao_Ligature';
+import { Data_Type, IDto } from '../../../port/driver/dto/IDto';
 import { Container } from '../../entities/Container';
 import { Ligature } from '../../entities/Ligature';
 import { IMove_View_Positions } from '../../use_cases/Move_View';
@@ -13,6 +14,19 @@ export class Move_View_Repository implements IMove_View_Repository
         private readonly __dao_container : IDao_Container,  
         private readonly __dao_ligature : IDao_Ligature
     ) { }
+
+    public get_positions(dtos: IDto[]): IMove_View_Positions[] 
+    {
+        const result : IMove_View_Positions[] = [];
+
+        dtos.forEach(dto =>
+        {
+            if ( dto.type == Data_Type.CONTAINER ) result.push(new Container_Move_View_Positions(dto._));
+            if ( dto.type == Data_Type.LIGATURE ) result.push(new Ligature_Move_View_Positions(dto._));
+        });
+        
+        return result;
+    }
     
     public get_all_positions(): IMove_View_Positions[] 
     {
