@@ -207,7 +207,11 @@ export class SvgService
 
   public request_init_link_roots() : void
   {
-    Pipeline.facade.execute_init_link_roots();
+    const response = Pipeline.facade.execute_init_link_roots();
+
+    this.dtos.length = 0; 
+
+    response.dtos.forEach(dto => this.dtos.push(dto)); 
   }
 
   public request_view_links_roots(direction : number)

@@ -38,7 +38,7 @@ export class Dao_Container implements IDao_Container
 
         this.__runtime_persistence.containers_ids[this.__current_flow._].forEach((id : string) =>
         {
-            result.push(this.__assemble_container(id));
+            result.push(this.__assemble_container(id, this.__current_flow._));
         });
 
         return result;
@@ -50,13 +50,13 @@ export class Dao_Container implements IDao_Container
 
         containers_ids.forEach(id =>
         {
-            this.__assemble_container(id);
+            this.__assemble_container(id, this.__current_flow._);
         });
     }
 
     public get_by_id(container_id: string): Container 
     {
-        return this.__assemble_container(container_id);
+        return this.__assemble_container(container_id, this.__current_flow._);
     }
 
     public save_new_container(container : Container): void 
@@ -83,19 +83,21 @@ export class Dao_Container implements IDao_Container
         {
             const container_data = this.__runtime_persistence.containers_fix[data];
             //need to be the first id
-            if(container_data.roots[0] == flow) result = this.__assemble_container(container_data.id);
+            if(container_data.roots[0] == flow) result = this.__assemble_container(container_data.id, flow);
         }
-
+        
         if(result == null) throw new Error("Enable to find the container root of this flow");
-
+        
         return result;
     }
 
-    private __assemble_container(container_id : string) : Container
+    private __assemble_container(container_id : string, flow: string) : Container
     {
+        console.log(container_id);
+        
         const container : Container = this.__runtime_persistence.containers_fix[container_id];
 
-        const flow_data : IContainer_Data_Flow = this.__runtime_persistence.containers_flow[container_id][this.__current_flow._];
+        const flow_data : IContainer_Data_Flow = this.__runtime_persistence.containers_flow[container_id][flow];
 
         container.positions = flow_data.positions;
 

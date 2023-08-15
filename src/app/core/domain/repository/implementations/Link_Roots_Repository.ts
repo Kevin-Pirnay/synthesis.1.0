@@ -9,7 +9,6 @@ import { IZoom_Handeler } from '../../handlers/Zoom/IZoom_Handeler';
 import { IChange_Root_Handler } from '../../handlers/Change_Root/IChange_Root_Handler';
 import { Matrix_ } from '../../../common/Matrix/Matrix_';
 import { Vector_ } from '../../../common/Vector/Vector_';
-import { Vector } from '../../../common/Vector/Vector';
 import { Matrix } from '../../../common/Matrix/Matrix';
 
 
@@ -38,7 +37,7 @@ export class Link_Roots_Repository implements ILink_Roots_Repository
     
     public get_link_roots_data(indexes: number[]): ILink_Roots 
     {
-        return new Link_Roots(this.__flows, indexes, this.__change_root_handler, this.__zoom_handler, this.__move_view_handler);
+        return new Link_Roots(this.__flows, this.__current_flow, indexes, this.__change_root_handler, this.__zoom_handler, this.__move_view_handler);
     }
 
     public init_indexes(): number 
@@ -48,6 +47,7 @@ export class Link_Roots_Repository implements ILink_Roots_Repository
 
     public store_all_subtrees_root(): void 
     {
+        this.__current_flow = this.__flow_dao.get_current_flow();
         this.__flow_dao.get_all_flows().forEach(flow => this.__flows.push(flow));
     }
 
@@ -63,13 +63,16 @@ class Link_Roots implements ILink_Roots
 
     constructor(
         flows : string[],
+        current_flow : string,
         indexes: number[],
         change_root_handler : IChange_Root_Handler,
         zoom_handler : IZoom_Handeler, 
         move_view_handler : IMove_View_Handler
     ) 
     { 
-        const project1 : IDto[] = change_root_handler.get_subtree_from_the_flow(flows[indexes[0]]);
+        
+        let project1 : IDto[] = []
+        if (indexes[0] >= 0 ) project1 = change_root_handler.get_subtree_from_the_flow(current_flow);
         const project2 : IDto[] = change_root_handler.get_subtree_from_the_flow(flows[indexes[1]]);
 
         this.__projects = new Projects(project1, project2, zoom_handler, move_view_handler);
@@ -85,26 +88,29 @@ class Link_Roots implements ILink_Roots
 
 interface IProjects
 {
-    anim_next_project(): unknown;
-    anim_current_project(): unknown;
+    anim_next_project(): void;
+    anim_current_project(): void;
     get_dtos(): IDto[];
 }
 
 class Projects implements IProjects
 {
-    private __current : IProject;
+    private readonly __dtos : IDto[] = [];
+    private __current : IProject | null;
     private __next : IProject;
 
     constructor(dtos1 : IDto[], dtos2 : IDto[], zoom_handler : IZoom_Handeler, move_view_handler : IMove_View_Handler) 
     { 
         this.__current = new Project(dtos1, zoom_handler, move_view_handler);
         this.__next = new Project(dtos2, zoom_handler, move_view_handler);
+        dtos1.forEach(dtos => this.__dtos.push(dtos));
+        dtos2.forEach(dtos => this.__dtos.push(dtos));
     }
 
     public anim_current_project(): void 
     {
-        this.__current.unzoom();
-        this.__current.rotate_out();
+        this.__current?.unzoom();
+        this.__current?.rotate_out();
     }
 
     public anim_next_project(): void 
@@ -115,7 +121,7 @@ class Projects implements IProjects
 
     public get_dtos(): IDto[] 
     {
-        throw new Error('Method not implemented.');
+        return this.__dtos;
     }
 }
 
@@ -141,15 +147,15 @@ class Project implements IProject
     public rotate_in(): void 
     {
         const params_start = Matrix_.new([Vector_.new([0, 0, 250]), Vector_.zero()]);
-        const params_result = Matrix_.new([Vector_.new([250, 250, 0]), Vector_.new([1, 1, 1])]);
-        this.__rotate_project.rotate(params_start, params_result, 90, 0.8, 1);
+        const params_result = Matrix_.new([Vector_.new([0, 0, 0]), Vector_.new([0, 1, 0])]);
+        this.__rotate_project.rotate(params_start, params_result, 10, 0.8, 1);
     }
 
     public rotate_out(): void 
     {
         const params_start = Matrix_.new([Vector_.new([0, 0, 250]), Vector_.zero()]);
-        const params_result = Matrix_.new([Vector_.new([250, 250, 0]), Vector_.new([1, 1, 1])]);
-        this.__rotate_project.rotate(params_start, params_result, 90, 0.8, 1);
+        const params_result = Matrix_.new([Vector_.new([0, 0, 0]), Vector_.new([1, 1, 1])]);
+        this.__rotate_project.rotate(params_start, params_result, 10, 0.8, 1);
     }
 
     public zoom(): void 
