@@ -1,6 +1,6 @@
 import { Matrix } from "../../common/Matrix/Matrix";
 import { Vector_ } from "../../common/Vector/Vector_";
-import { ICreateRepository } from "../repository/interfaces/ICreateRepository";
+import { ICreate_Repository } from "../repository/interfaces/ICreate_Repository";
 import { Dto } from "../../port/driver/dto/Dto";
 import { Data_Type, IDto } from "../../port/driver/dto/IDto";
 import { Create_Container_Request } from "../../port/driver/request/Create_Container_Request";
@@ -13,10 +13,11 @@ import { IZoom_Handeler } from "../handlers/Zoom/IZoom_Handeler";
 import { Vector } from "../../common/Vector/Vector";
 import { INode_Linker } from "../handlers/Link_Node/INode_Linker";
 
+
 export class Create_Container_Use_case
 {
     constructor(
-        private readonly __repository : ICreateRepository,
+        private readonly __repository : ICreate_Repository,
         private readonly _link_handler : INode_Linker,
         private readonly __zoom_handler : IZoom_Handeler) { }
 

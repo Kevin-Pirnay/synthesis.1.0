@@ -4,6 +4,7 @@ import { IDao_Container } from "../../../core/port/driven/dao/IDao_Container";
 import { Runtime_Persistence } from "../runtime_memory/Runtime_Persistence";
 import { Flow } from '../../../core/domain/entities/Flow';
 
+
 export class Dao_Container implements IDao_Container
 {
     constructor(private readonly __runtime_persistence : Runtime_Persistence, private readonly __current_flow : Flow) { }
@@ -44,6 +45,8 @@ export class Dao_Container implements IDao_Container
         return result;
     }
 
+    //set all parts of the container that change following the current flow to be conform with the current flow
+    //use where container that are in both flow to be set with the rigth ptr such as positions or node
     public update_all_ptr_to_the_current_flow(): void 
     {
         const containers_ids : string[] = this.__runtime_persistence.containers_ids[this.__current_flow._];

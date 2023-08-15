@@ -13,8 +13,8 @@ import { Move_Container_Request } from '../port/driver/request/Move_Container_Re
 import { Move_Container_Use_case } from './use_cases/Move_Container';
 import { Zoom_Use_case } from './use_cases/Zoom';
 import { Zoom_Request } from '../port/driver/request/Zoom_Request';
-import { CreateRepository } from './repository/implementations/CreateRepository';
-import { ICreateRepository } from './repository/interfaces/ICreateRepository';
+import { Create_Repository } from './repository/implementations/Create_Repository';
+import { ICreate_Repository } from './repository/interfaces/ICreate_Repository';
 import { IZoomRepository } from './repository/interfaces/IZoomRepository';
 import { ZoomRepository } from './repository/implementations/ZoomRepository';
 import { IDao_Container } from '../port/driven/dao/IDao_Container';
@@ -99,7 +99,7 @@ export class Facade
     private readonly __dao_ligature : IDao_Ligature = new Dao_Ligature(this.__runtime_persistence, this.__flow);
     private readonly __dao_flow : IDao_Flow = new Dao_Flow(this.__runtime_persistence, this.__flow);
 
-    private readonly __create_repository : ICreateRepository = new CreateRepository(this.__dao_container, this.__dao_ligature);
+    private readonly __create_repository : ICreate_Repository = new Create_Repository(this.__dao_container, this.__dao_ligature);
     private readonly __zoom_repository : IZoomRepository = new ZoomRepository(this.__dao_container, this.__dao_ligature);
     private readonly __delete_repository : IDelete_Container_Repository = new Delete_Container_Repository(this.__dao_container, this.__dao_ligature);
     private readonly __move_view_repository : IMove_View_Repository = new Move_View_Repository(this.__dao_container, this.__dao_ligature);

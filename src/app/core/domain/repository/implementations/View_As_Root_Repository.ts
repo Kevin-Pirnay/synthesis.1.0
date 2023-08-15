@@ -8,6 +8,7 @@ import { Ligature } from "../../entities/Ligature";
 import { ISubtree_Root } from "../../handlers/View_As_Root/View_As_Root_Handler";
 import { IView_As_Root_Repository } from "../interfaces/IView_As_Root_Repository";
 
+
 export class View_As_Root_Repository implements IView_As_Root_Repository
 {   
     constructor(private __dao_container : IDao_Container) { }
