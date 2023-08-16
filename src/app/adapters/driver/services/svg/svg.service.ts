@@ -30,7 +30,7 @@ export class SvgService
 
     const response = Pipeline.facade.execute_delete_container(request);
 
-    const new_list = this.dtos.filter(dto => !response.ids_to_remove.includes(dto._.id));
+    const new_list = this.dtos.filter(dto => !response.ids_to_remove.includes(dto.element.id));
 
     this.dtos.length = 0;
 

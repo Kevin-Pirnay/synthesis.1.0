@@ -19,15 +19,15 @@
         <path
             *ngIf="dto.type == 0" 
             class="container"
-            id="{{dto._.id}}"
-            (mousedown)="mouse_down_on_container(dto._)"
-            (mouseover)="mouse_over_container(dto._)"
-            (dblclick)="dbclick_on_container(dto._)"
+            id="{{dto.element.id}}"
+            (mousedown)="mouse_down_on_container(dto.element)"
+            (mouseover)="mouse_over_container(dto.element)"
+            (dblclick)="dbclick_on_container(dto.element)"
             attr.d="
-                M {{dto._.positions.abs_ratio._[0]._[0]}} {{dto._.positions.abs_ratio._[0]._[1]}} 
-                L {{dto._.positions.abs_ratio._[1]._[0]}} {{dto._.positions.abs_ratio._[1]._[1]}} 
-                L {{dto._.positions.abs_ratio._[2]._[0]}} {{dto._.positions.abs_ratio._[2]._[1]}} 
-                L {{dto._.positions.abs_ratio._[3]._[0]}} {{dto._.positions.abs_ratio._[3]._[1]}} " 
+                M {{dto.element.positions.abs_ratio._[0]._[0]}} {{dto.element.positions.abs_ratio._[0]._[1]}} 
+                L {{dto.element.positions.abs_ratio._[1]._[0]}} {{dto.element.positions.abs_ratio._[1]._[1]}} 
+                L {{dto.element.positions.abs_ratio._[2]._[0]}} {{dto.element.positions.abs_ratio._[2]._[1]}} 
+                L {{dto.element.positions.abs_ratio._[3]._[0]}} {{dto.element.positions.abs_ratio._[3]._[1]}} " 
         />
 
         <g>
@@ -35,20 +35,20 @@
                 *ngIf="dto.type == 1" 
                 class="ligature"
                 attr.d="
-                    M {{dto._.positions.abs_ratio._[0]._[0]}} {{dto._.positions.abs_ratio._[0]._[1]}} 
-                    Q {{dto._.positions.abs_ratio._[1]._[0]}},{{dto._.positions.abs_ratio._[1]._[1]}}
-                      {{dto._.positions.abs_ratio._[2]._[0]}},{{dto._.positions.abs_ratio._[2]._[1]}} "
+                    M {{dto.element.positions.abs_ratio._[0]._[0]}} {{dto.element.positions.abs_ratio._[0]._[1]}} 
+                    Q {{dto.element.positions.abs_ratio._[1]._[0]}},{{dto.element.positions.abs_ratio._[1]._[1]}}
+                      {{dto.element.positions.abs_ratio._[2]._[0]}},{{dto.element.positions.abs_ratio._[2]._[1]}} "
             />
 
             <path
                 class="grip"
                 *ngIf="dto.type == 1" 
-                (mousedown)="mouse_down_on_grip(dto._)"
+                (mousedown)="mouse_down_on_grip(dto.element)"
                 attr.d="
-                    M {{dto._.positions.abs_ratio._[0]._[0] -5 }} {{dto._.positions.abs_ratio._[0]._[1] - 5}} 
-                    L {{dto._.positions.abs_ratio._[0]._[0] + 5}} {{dto._.positions.abs_ratio._[0]._[1] - 5}} 
-                    L {{dto._.positions.abs_ratio._[0]._[0] + 5}} {{dto._.positions.abs_ratio._[0]._[1] + 5}} 
-                    L {{dto._.positions.abs_ratio._[0]._[0] - 5}} {{dto._.positions.abs_ratio._[0]._[1] + 5}} " 
+                    M {{dto.element.positions.abs_ratio._[0]._[0] -5 }} {{dto.element.positions.abs_ratio._[0]._[1] - 5}} 
+                    L {{dto.element.positions.abs_ratio._[0]._[0] + 5}} {{dto.element.positions.abs_ratio._[0]._[1] - 5}} 
+                    L {{dto.element.positions.abs_ratio._[0]._[0] + 5}} {{dto.element.positions.abs_ratio._[0]._[1] + 5}} 
+                    L {{dto.element.positions.abs_ratio._[0]._[0] - 5}} {{dto.element.positions.abs_ratio._[0]._[1] + 5}} " 
             />
 
         </g>

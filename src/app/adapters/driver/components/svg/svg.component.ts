@@ -45,6 +45,13 @@ export class SvgComponent
     this.__focus_container = container;
   }
 
+  public mouse_down_on_grip(ligature : Ligature) : void
+  {
+    this.__is_down_on_grip = true;
+
+    this.__focus_ligature = ligature;
+  }
+
   public mouse_up(e : MouseEvent) : void
   {    
     if ( !this.__is_down_on_container && !this.__is_down_on_grip ) this.__svg_service.request_create_container(e, this.__focus_container);

@@ -4,7 +4,7 @@ import { IDao_Container } from "../../../port/driven/dao/IDao_Container";
 import { IDao_Ligature } from "../../../port/driven/dao/IDao_Ligature";
 import { Container } from "../../entities/Container";
 import { Ligature } from "../../entities/Ligature";
-import { ICreate_Repository } from "../interfaces/ICreate_Repository";
+import { ICreate_Repository } from "../interfaces/IRepository";
 
 
 export class Create_Repository implements ICreate_Repository

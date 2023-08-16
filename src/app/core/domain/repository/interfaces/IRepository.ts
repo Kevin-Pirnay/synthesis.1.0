@@ -19,7 +19,7 @@ export interface ICreate_Repository
 export interface IDelete_Container_Repository
 {
     get_remove_container(container: Container, node_linker_handler: INode_Linker): IRemove_Container;
-    delete_unit_from_memory(unit_to_remove: Unit_Node): unknown;
+    delete_unit_from_memory(unit_to_remove: Unit_Node): void;
 }
 
 

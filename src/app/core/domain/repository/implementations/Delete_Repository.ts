@@ -2,7 +2,7 @@ import { IDao_Container } from "../../../port/driven/dao/IDao_Container";
 import { IDao_Ligature } from "../../../port/driven/dao/IDao_Ligature";
 import { Unit_Node, Container } from "../../entities/Container";
 import { INode_Linker } from "../../handlers/handlers_use_case/Link_Node/INode_Linker";
-import { IDelete_Container_Repository } from "../interfaces/IDelete_Repository";
+import { IDelete_Container_Repository } from "../interfaces/IRepository";
 import { Remove_Container } from "./injectors/Remove_Container";
 
 
@@ -13,7 +13,7 @@ export class Delete_Container_Repository implements IDelete_Container_Repository
         private readonly __dao_ligature : IDao_Ligature,
     ) { }
 
-    public get_remove_container(container_to_remove: Container, node_linker_handler: INode_Linker) 
+    public get_remove_container(container_to_remove: Container, node_linker_handler: INode_Linker) : Remove_Container
     {
         return new Remove_Container(container_to_remove, node_linker_handler, this);
     }
