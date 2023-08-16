@@ -18,9 +18,9 @@ export class Init_Paginate_Use_case
     public handle(request : Paginate_Request) : Paginate_Response
     {
         //refactor : put that in view_as_root_repository and remove line above
-        const root_data : ISubtree_Root[] = this.__get_subtrees_root(request.container);
+        const root_data : ISubtree_Root[] = this.__get_subtrees_roots(request.container);
 
-        this.__paginate_repository.store_subtrees_root(root_data);
+        this.__paginate_repository.store_subtrees_roots(root_data);
         
         const current_index : number = this.__paginate_repository.init_indexes(root_data.length);
 
@@ -29,7 +29,7 @@ export class Init_Paginate_Use_case
         return new Paginate_Response(dtos);
     }
 
-    private __get_subtrees_root(container : Container) : ISubtree_Root[]
+    private __get_subtrees_roots(container : Container) : ISubtree_Root[]
     {
         const roots_data : ISubtree_Root[] = [];
 
