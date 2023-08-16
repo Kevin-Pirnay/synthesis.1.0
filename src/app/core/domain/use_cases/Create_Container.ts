@@ -1,36 +1,51 @@
+import { Ligature_ } from './../handlers/handlers_entities/Ligature_';
+import { IZoom_Handeler } from './../handlers/handlers_use_case/Zoom/IZoom_Handeler';
+import { INode_Linker } from './../handlers/handlers_use_case/Link_Node/INode_Linker';
 import { Matrix } from "../../common/Matrix/Matrix";
 import { Vector_ } from "../../common/Vector/Vector_";
-import { ICreate_Repository } from "../repository/interfaces/ICreate_Repository";
 import { Dto } from "../../port/driver/dto/Dto";
 import { Data_Type, IDto } from "../../port/driver/dto/IDto";
 import { Create_Container_Request } from "../../port/driver/request/Create_Container_Request";
 import { Create_Container_Response } from "../../port/driver/response/Create_Container_Response";
 import { Container } from "../entities/Container";
-import { Container_ } from "../handlers/Container_";
+import { Container_ } from "../handlers/handlers_entities/Container_";
 import { Ligature } from "../entities/Ligature";
-import { Ligature_ } from "../handlers/Ligature_";
-import { IZoom_Handeler } from "../handlers/Zoom/IZoom_Handeler";
-import { Vector } from "../../common/Vector/Vector";
-import { INode_Linker } from "../handlers/Link_Node/INode_Linker";
+import { Vector } from '../../common/Vector/Vector';
+import { ICreate_Repository } from '../repository/interfaces/ICreate_Repository';
 
 
 export class Create_Container_Use_case
 {
+    private readonly __create_handler : Create_Handler;
+
     constructor(
-        private readonly __repository : ICreate_Repository,
-        private readonly _link_handler : INode_Linker,
-        private readonly __zoom_handler : IZoom_Handeler) { }
+        repository : ICreate_Repository,
+        link_handler : INode_Linker,
+        zoom_handler : IZoom_Handeler
+    ) 
+    { 
+        this.__create_handler = new Create_Handler(repository, link_handler, zoom_handler);
+    }  
 
     public handle(request: Create_Container_Request) : Create_Container_Response
     {
-        const ratio : Matrix<4> = this.__repository.get_default_container_ratio();
+        const ratio : Matrix<4> = this.__create_handler.get_default_container_rel_ratio();
 
-        if ( request.parent_container == null ) return this.__create_a_root_container(ratio, request.position);
+        if ( request.parent_container == null ) return this.__create_handler.create_a_root_container(ratio, request.position);
 
-        else return this.__create_a_new_unit(request.parent_container, ratio, request.position);
+        else return this.__create_handler.create_a_new_unit(request.parent_container, ratio, request.position);
     }
+}
 
-    private __create_a_root_container(ratio : Matrix<4>, position : Vector) : Create_Container_Response
+class Create_Handler
+{
+    constructor(
+        private readonly __repository : ICreate_Repository,
+        private readonly __link_handler : INode_Linker,
+        private readonly __zoom_handler : IZoom_Handeler
+    ) { } 
+
+    public create_a_root_container(ratio : Matrix<4>, position : Vector) : Create_Container_Response
     {
         const container : Container = Container_.new(ratio, position, Vector_.zero());
 
@@ -41,13 +56,13 @@ export class Create_Container_Use_case
         return new Create_Container_Response([new Dto(container, Data_Type.CONTAINER)]);
     }
 
-    private __create_a_new_unit(parent_container : Container, default_ratio : Matrix<4>, position : Vector) : Create_Container_Response
+    public create_a_new_unit(parent_container : Container, default_ratio : Matrix<4>, position : Vector) : Create_Container_Response
     {
         const container : Container = Container_.new(default_ratio, position, parent_container.positions.abs_root);
 
         const ligature : Ligature = Ligature_.new(parent_container, container);
 
-        this._link_handler.link_nodes(parent_container, ligature, container);
+        this.__link_handler.link_nodes(parent_container, ligature, container);
 
         this.__repository.save_unit(ligature, container);
 
@@ -57,4 +72,10 @@ export class Create_Container_Use_case
         
         return new Create_Container_Response(dtos);
     }
+
+    public get_default_container_rel_ratio() : Matrix<4>
+    {
+        return this.__repository.get_default_container_rel_ratio();
+    }
 }
+

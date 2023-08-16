@@ -1,4 +1,4 @@
-import { Indexes } from './../../handlers/Indexes/Indexes';
+import { Indexes } from '../../handlers/handlers_use_case/Indexes/Indexes';
 import { IDao_Flow } from './../../../port/driven/dao/IDao_Flow';
 import { IDto } from "../../../port/driver/dto/IDto";
 import { Container } from "../../entities/Container";
@@ -6,7 +6,7 @@ import { ILink_Roots } from "../../use_cases/Link/Init_Link_Roots";
 import { ILink_Roots_Repository } from "../interfaces/ILink_Roots_Repository";
 import { IMove_View_Handler } from '../../handlers/Move_View/IMove_View_Handler';
 import { IZoom_Handeler } from '../../handlers/Zoom/IZoom_Handeler';
-import { IChange_Root_Handler } from '../../handlers/Change_Root/IChange_Root_Handler';
+import { IChange_Root_Handler } from '../../handlers/handlers_use_case/Change_Root/IChange_Root_Handler';
 import { Matrix_ } from '../../../common/Matrix/Matrix_';
 import { Vector_ } from '../../../common/Vector/Vector_';
 import { Matrix } from '../../../common/Matrix/Matrix';

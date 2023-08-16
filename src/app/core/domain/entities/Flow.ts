@@ -1,5 +1,5 @@
 
 export class Flow
 {
-    _ : string = "";
+    id : string = "";
 }

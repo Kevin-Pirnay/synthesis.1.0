@@ -1,6 +1,6 @@
 import { IDto } from "../../../port/driver/dto/IDto";
 import { Container } from "../../entities/Container";
-import { ILink_Roots } from "../../use_cases/Link/Init_Link_Roots";
+import { ILink_Roots } from "../../use_cases/Link_Root/Init_Link_Roots";
 
 export interface ILink_Roots_Repository
 {

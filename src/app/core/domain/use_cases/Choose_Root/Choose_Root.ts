@@ -1,7 +1,7 @@
 import { IDto } from './../../../port/driver/dto/IDto';
 import { Choosen_Root_Request } from "../../../port/driver/request/Choosen_Root_Request";
 import { Choosen_Root_Response } from "../../../port/driver/response/Choosen_Root_Response";
-import { IChange_Root_Handler } from "../../handlers/Change_Root/IChange_Root_Handler";
+import { IChange_Root_Handler } from "../../handlers/handlers_use_case/Change_Root/IChange_Root_Handler";
 
 export class Choosen_Root_Use_case
 {

@@ -1,13 +1,12 @@
 import { Vector } from "../../common/Vector/Vector";
 import { Assign_Ligature_Request } from "../../port/driver/request/Assign_Ligature_Request";
 import { Move_ligature_Request } from "../../port/driver/request/Move_ligature_Request";
-import { Container } from "../entities/Container";
-import { Ligature } from "../entities/Ligature";
-import { Node_Linker } from "../handlers/Link_Node/Node_Linker";
+import { INode_Linker } from "../handlers/handlers_use_case/Link_Node/INode_Linker";
+import { Assing_Ligature } from "../repository/implementations/injectors/Assing_Ligature";
 
 export class Move_Ligature_Use_case
 {
-    constructor(private readonly __node_linker : Node_Linker) { }
+    constructor(private readonly __node_linker : INode_Linker) { }
 
     public handle_move_ligature(request : Move_ligature_Request) : void
     {
@@ -36,56 +35,10 @@ export class Move_Ligature_Use_case
  * step 3: update relative postion child container to new parent container
  */
 
-interface IAssign_Ligature
+export interface IAssign_Ligature
 {
     update_relationship_in_the_tree() : void;
     update_its_own_position() : void;
     update_the_relative_position_of_its_child_container_to_the_new_parent_container() : void;
 } 
 
-class Assing_Ligature implements IAssign_Ligature
-{
-    public static get_assign_ligature(node_linker : Node_Linker, ligature : Ligature, container_to_assign : Container) : IAssign_Ligature
-    {
-        return new Assing_Ligature(node_linker, ligature, container_to_assign);
-    }
-
-    private readonly __node_linker : Node_Linker;
-    private readonly __ligature : Ligature;
-    private readonly __container_to_assign : Container;
-
-    private readonly __old_parent_container : Container;
-    private readonly __child_container : Container;
-
-    constructor(node_linker : Node_Linker, ligature : Ligature, container_to_assign : Container)
-    {
-        this.__node_linker = node_linker;
-        this.__ligature = ligature;
-        this.__container_to_assign = container_to_assign;
-
-        this.__old_parent_container = this.__ligature.parent;
-        this.__child_container = this.__ligature.child;
-    }
-
-    public update_relationship_in_the_tree(): void 
-    {
-        this.__node_linker.remove_unit_from_parent(this.__child_container);
-        this.__node_linker.remove_unit_from_children(this.__old_parent_container);
-        this.__node_linker.link_nodes(this.__container_to_assign, this.__ligature, this.__child_container);
-        this.__ligature.parent = this.__container_to_assign;
-    }
-
-    public update_its_own_position(): void 
-    {
-        this.__ligature.__.update_ratio();
-    }
-
-    public update_the_relative_position_of_its_child_container_to_the_new_parent_container(): void 
-    {
-        const rel_root : Vector = this.__child_container.positions.rel_root;
-
-        const delta_pos_from_parent : Vector = this.__child_container.positions.abs_root.__.substract_by_vector_new(this.__container_to_assign.positions.abs_root);
-
-        rel_root.__.assign_new_data(delta_pos_from_parent);
-    } 
-}

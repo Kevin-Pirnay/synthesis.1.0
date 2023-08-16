@@ -1,7 +1,7 @@
 
 export interface IDto
 {
-    _ : any;
+    element : any;
     type : Data_Type;
 }
 

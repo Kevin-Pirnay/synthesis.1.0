@@ -1,23 +1,53 @@
-import { Container, Unit_Node } from "../../entities/Container";
-import { Ligature } from "../../entities/Ligature";
+import { Container, Unit_Node } from "../../../entities/Container";
+import { Ligature } from "../../../entities/Ligature";
 import { INode_Linker } from "./INode_Linker";
 
 export class Node_Linker implements INode_Linker
 {
-    public link_nodes(parent_container: Container | null, ligature: Ligature | null, child_container: Container | null) : void
+    public link_nodes(parent_container: Container, ligature: Ligature, child_container: Container): void 
+    {
+        Link_Handler.link_parent_and_unit(parent_container, ligature, child_container);
+    }
+
+    public link_parent_to_children(container_to_remove: Container): void 
+    {
+        Link_Handler.link_parent_to_children_units(container_to_remove);
+    }
+
+    public remove_unit_from_parent(container_to_remove: Container): void 
+    {
+        Remove_Handler.remove_unit_from_parent(container_to_remove);
+    }
+
+    public remove_unit_from_children(container_to_remove: Container): void 
+    {
+        Remove_Handler.remove_unit_from_children(container_to_remove);
+    }
+
+    public get_container_units(container: Container) : Unit_Node | null
+    {
+        return Get_Handler.get_container_units(container);
+    }
+}
+
+class Link_Handler
+{
+    public static link_parent_and_unit(parent_container: Container | null, ligature: Ligature | null, child_container: Container | null) : void
     {
         if ( !parent_container || !ligature || !child_container ) return;
 
         const child_unit = new Unit_Node(ligature, child_container);
+        
         const parent_unit = new Unit_Node(ligature, parent_container);
 
         parent_container.node.children.push(child_unit);
+
         child_container.node.__.assign_new_parent_unit(parent_unit);
 
         ligature.parent = parent_container;
     }
 
-    public link_parent_to_children(container_to_remove : Container): void 
+    public static link_parent_to_children_units(container_to_remove : Container): void 
     {
         const parent_container : Container | null = container_to_remove.node.parent.container;
         
@@ -27,11 +57,14 @@ export class Node_Linker implements INode_Linker
 
         children_unit.forEach((child_unit : Unit_Node) =>
         {            
-            this.link_nodes(parent_container, child_unit.ligature, child_unit.container);
+            Link_Handler.link_parent_and_unit(parent_container, child_unit.ligature, child_unit.container);
         });
     }
+}
 
-    public remove_unit_from_parent(container_to_remove : Container): void 
+class Remove_Handler
+{
+    public static remove_unit_from_parent(container_to_remove : Container): void 
     {
         const parent_container : Container | null = container_to_remove.node.parent?.container;
 
@@ -42,7 +75,7 @@ export class Node_Linker implements INode_Linker
         parent_container.node.children.splice(index, 1);
     }
 
-    public remove_unit_from_children(container_to_remove : Container): void 
+    public static remove_unit_from_children(container_to_remove : Container): void 
     {
         const children_container : Container[] = container_to_remove.node.__.get_containers_children();
 
@@ -51,8 +84,11 @@ export class Node_Linker implements INode_Linker
             container.node.__.assign_new_parent_unit(null);
         });
     }
+}
 
-    public get_container_units(container : Container): Unit_Node | null
+class Get_Handler
+{
+    public static get_container_units(container : Container): Unit_Node | null
     {
         const parent_container : Container | null = container.node.parent?.container;
 

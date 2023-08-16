@@ -1,4 +1,4 @@
-import { IDto } from "../../../port/driver/dto/IDto";
+import { IDto } from "../../../../port/driver/dto/IDto";
 
 export interface IChange_Root_Handler
 {

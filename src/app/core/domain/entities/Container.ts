@@ -1,10 +1,10 @@
+import { Node_ } from './../handlers/handlers_entities/Node_';
 import { Matrix } from "../../common/Matrix/Matrix";
 import { Matrix_ } from "../../common/Matrix/Matrix_";
 import { Vector } from "../../common/Vector/Vector";
 import { Vector_ } from "../../common/Vector/Vector_";
-import { Container_ } from "../handlers/Container_";
+import { Container_ } from "../handlers/handlers_entities/Container_";
 import { Ligature } from "./Ligature";
-import { Node_ } from "../handlers/Node_";
 
 export class Container
 {

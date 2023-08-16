@@ -11,8 +11,8 @@ import { Root_Dto } from '../../entities/Root_Dto';
 import { Dto } from '../../../port/driver/dto/Dto';
 import { IChoose_Root_Container, IChoose_Root_Roots } from '../../use_cases/Choose_Root/Init_Choose_Root';
 import { Vector } from '../../../common/Vector/Vector';
-import { IIndexes } from '../../handlers/Indexes/IIndexes';
-import { Indexes } from '../../handlers/Indexes/Indexes';
+import { IIndexes } from '../../handlers/handlers_use_case/Indexes/IIndexes';
+import { Indexes } from '../../handlers/handlers_use_case/Indexes/Indexes';
 
 
 export class Choose_Root_Repository implements IChoose_Root_Repository

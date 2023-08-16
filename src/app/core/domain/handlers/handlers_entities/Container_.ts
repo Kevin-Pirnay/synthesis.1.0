@@ -1,6 +1,6 @@
-import { Matrix } from "../../common/Matrix/Matrix";
-import { Vector } from "../../common/Vector/Vector";
-import { Container } from "../entities/Container";
+import { Matrix } from "../../../common/Matrix/Matrix";
+import { Vector } from "../../../common/Vector/Vector";
+import { Container } from "../../entities/Container";
 
 //refactor with handler_
 

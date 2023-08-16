@@ -1,4 +1,4 @@
-import { IDto } from './../../../port/driver/dto/IDto';
+import { IDto } from '../../../port/driver/dto/IDto';
 import { Select_Link_Roots_Request } from "../../../port/driver/request/Select_Link_Roots_Request";
 import { Select_Link_Roots_Response } from "../../../port/driver/response/Select_Link_Roots_Response";
 import { ILink_Roots_Repository } from "../../repository/interfaces/ILink_Roots_Repository";

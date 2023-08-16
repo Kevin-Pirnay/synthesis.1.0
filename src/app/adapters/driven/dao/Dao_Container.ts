@@ -1,106 +1,153 @@
-import { IContainer_Data_Flow } from './../runtime_memory/Runtime_Persistence';
+import { Flow } from './../../../core/domain/entities/Flow';
 import { Container } from "../../../core/domain/entities/Container";
 import { IDao_Container } from "../../../core/port/driven/dao/IDao_Container";
-import { Runtime_Persistence } from "../runtime_memory/Runtime_Persistence";
-import { Flow } from '../../../core/domain/entities/Flow';
+import { IContainer_Data_Flow, Runtime_Persistence } from "../runtime_memory/Runtime_Persistence";
 
 
 export class Dao_Container implements IDao_Container
 {
-    constructor(private readonly __runtime_persistence : Runtime_Persistence, private readonly __current_flow : Flow) { }
+    private readonly __flow_handler : Save_Flow_Handler;
+    private readonly __container_handler : Save_Container_Handler;
+    private readonly __delete_handler : Delete_Container_Handler;
+    private readonly __get_handler : Get_Container_Handler;
 
-    public save_new_root(container: Container): void 
-    {
-        const new_flow = crypto.randomUUID();
-        container.roots.push(new_flow);
-        if(this.__current_flow._.length) container.roots.push(this.__current_flow._); //use to come back to the previous flow
-        this.__update_the_current_flow(new_flow);
-        this.save_new_container(container);
+    constructor(runtime_persistence : Runtime_Persistence, current_flow : Flow) 
+    { 
+        this.__flow_handler = new Save_Flow_Handler(runtime_persistence, current_flow);
+        this.__container_handler = new Save_Container_Handler(runtime_persistence, current_flow);
+        this.__delete_handler = new Delete_Container_Handler(runtime_persistence, current_flow);
+        this.__get_handler = new Get_Container_Handler(runtime_persistence, current_flow);
     }
 
-    private __update_the_current_flow(flow : string) : void
+    public save_the_new_root(container: Container): void 
     {
-        this.__runtime_persistence.flows.push(flow);
-        this.__runtime_persistence.stack_flows.push(flow);
-        this.__current_flow._ = flow;
+        const new_flow_id = crypto.randomUUID();
+
+        this.__flow_handler.add_the_new_flow_to_the_root_container(container.roots, new_flow_id);
+
+        this.__flow_handler.save_and_update_the_current_flow_with(new_flow_id);
+
+        this.save_the_new_container(container);
     }
+
+    public save_the_new_container(container : Container): void 
+    {
+        this.__container_handler.save_id_into_the_conterners_ids(container.id);
+
+        this.__container_handler.save_data_not_related_to_the_flow(container);
+
+        this.__container_handler.save_data_related_to_the_flow(container);
+    }
+
+    public delete_container(container: Container): void 
+    {
+        this.__delete_handler.delete(container);
+    }
+
+    public get_all_containers_of_the_current_flow(): Container[] 
+    {
+        return this.__get_handler.get_all_containers_of_the_current_flow();
+    }
+}
+
+class Save_Flow_Handler
+{
+    constructor(private readonly __persistence : Runtime_Persistence, private readonly __current_flow : Flow) { }
+
+    public save_and_update_the_current_flow_with(flow : string) : void
+    {
+        this.__persistence.flows.push(flow);
+        this.__current_flow.id = flow;
+    }
+
+    public add_the_new_flow_to_the_root_container(roots : string[], new_flow : string) : void
+    {
+        roots.push(new_flow);
+
+        /**
+         * In order to keep track of its previous flow, if this is not the first root of this project, add the new id to the container. 
+         * If this is the first root of the project, the flow will be of length 0.
+         **/
+        if ( this.__current_flow.id.length !== 0 ) roots.push(this.__current_flow.id);
+    }
+}
+
+class Save_Container_Handler
+{
+    constructor(private readonly __persistence : Runtime_Persistence, private readonly __current_flow : Flow) { }
+
+    public save_id_into_the_conterners_ids(container_id : string) : void 
+    {
+        const containers_ids = this.__persistence.containers_ids;
+        const current_flow = this.__current_flow.id;
+
+        //init if not exist
+        if ( !containers_ids[current_flow] ) containers_ids[current_flow] = [];
+
+        //save
+        containers_ids[current_flow].push(container_id);
+    }
+
+    /**
+     * save data not related to the flow
+     * save the ptr of the container that will serve as a reference in the entire application
+     **/
+    public save_data_not_related_to_the_flow(container : Container) : void
+    {
+        const fix_data_persistence =  this.__persistence.containers_data_fix;
+        fix_data_persistence[container.id] = container;
+    }
+
+    /**
+     * save data related to the flow
+     * save ptrs of data that will change according to the flow in order to plug them to the fix data ptr
+     **/
+    public save_data_related_to_the_flow(container : Container) : void
+    {
+        const flow_data_persistence = this.__persistence.containers_data_flow;
+
+        //init if not exist
+        if ( !flow_data_persistence[container.id] ) flow_data_persistence[container.id] = { };
+
+        //save
+        flow_data_persistence[container.id][this.__current_flow.id] = { node : container.node, positions : container.positions };
+    }
+}
+
+class Delete_Container_Handler
+{
+    constructor(private readonly __persistence : Runtime_Persistence, private readonly __current_flow : Flow) { }
 
     public delete(container: Container): void 
     {
-        const index = this.__runtime_persistence.containers_ids[this.__current_flow._].indexOf(container.id);
-        this.__runtime_persistence.containers_ids[this.__current_flow._].splice(index, 1);
-        delete this.__runtime_persistence.containers_fix[container.id];
-        delete this.__runtime_persistence.containers_flow[container.id][this.__current_flow._];
+        const index = this.__persistence.containers_ids[this.__current_flow.id].indexOf(container.id);
+        this.__persistence.containers_ids[this.__current_flow.id].splice(index, 1);
+        delete this.__persistence.containers_data_fix[container.id];
+        delete this.__persistence.containers_data_flow[container.id][this.__current_flow.id];
     }
+}
 
-    public get_all(): Container[]
+class Get_Container_Handler
+{
+    constructor(private readonly __persistence : Runtime_Persistence, private readonly __current_flow : Flow) { }
+
+    public get_all_containers_of_the_current_flow(): Container[]
     {
         const result : Container[] = [];
 
-        this.__runtime_persistence.containers_ids[this.__current_flow._].forEach((id : string) =>
+        this.__persistence.containers_ids[this.__current_flow.id].forEach((id : string) =>
         {
-            result.push(this.__assemble_container(id, this.__current_flow._));
+            result.push(this.get_container_by_id_and_flow(id, this.__current_flow.id));
         });
 
         return result;
     }
 
-    //set all parts of the container that change following the current flow to be conform with the current flow
-    //use where container that are in both flow to be set with the rigth ptr such as positions or node
-    public update_all_ptr_to_the_current_flow(): void 
-    {
-        const containers_ids : string[] = this.__runtime_persistence.containers_ids[this.__current_flow._];
+    public get_container_by_id_and_flow(container_id : string, flow: string) : Container
+    {        
+        const container : Container = this.__persistence.containers_data_fix[container_id];
 
-        containers_ids.forEach(id =>
-        {
-            this.__assemble_container(id, this.__current_flow._);
-        });
-    }
-
-    public get_by_id(container_id: string): Container 
-    {
-        return this.__assemble_container(container_id, this.__current_flow._);
-    }
-
-    public save_new_container(container : Container): void 
-    {
-        if(!this.__runtime_persistence.containers_ids[this.__current_flow._])
-            this.__runtime_persistence.containers_ids[this.__current_flow._] = []
-        this.__runtime_persistence.containers_ids[this.__current_flow._].push(container.id);
-        this.__runtime_persistence.containers_fix[container.id] = container;
-        if(!this.__runtime_persistence.containers_flow[container.id])
-            this.__runtime_persistence.containers_flow[container.id] = { };
-        this.__runtime_persistence.containers_flow[container.id][this.__current_flow._] = { node : container.node, positions : container.positions };
-    }
-
-    public get_root_container_of_the_current_flow(): Container 
-    {
-        return this.get_root_container(this.__current_flow._);
-    }
-
-    public get_root_container(flow: string): Container 
-    {
-        let result : Container | null = null;
-
-        for(let data in this.__runtime_persistence.containers_fix)
-        {
-            const container_data = this.__runtime_persistence.containers_fix[data];
-            //need to be the first id
-            if(container_data.roots[0] == flow) result = this.__assemble_container(container_data.id, flow);
-        }
-        
-        if(result == null) throw new Error("Enable to find the container root of this flow");
-        
-        return result;
-    }
-
-    private __assemble_container(container_id : string, flow: string) : Container
-    {
-        console.log(container_id);
-        
-        const container : Container = this.__runtime_persistence.containers_fix[container_id];
-
-        const flow_data : IContainer_Data_Flow = this.__runtime_persistence.containers_flow[container_id][flow];
+        const flow_data : IContainer_Data_Flow = this.__persistence.containers_data_flow[container_id][flow];
 
         container.positions = flow_data.positions;
 
@@ -109,3 +156,4 @@ export class Dao_Container implements IDao_Container
         return container;
     }
 }
+

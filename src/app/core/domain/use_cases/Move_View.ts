@@ -1,48 +1,38 @@
-import { IMove_View_Handler } from './../handlers/Move_View/IMove_View_Handler';
+import { IMove_View_Handler } from './../handlers/handlers_use_case/Move_View/IMove_View_Handler';
 import { Vector } from "../../common/Vector/Vector";
 import { Vector_ } from "../../common/Vector/Vector_";
 import { Move_View_Request } from "../../port/driver/request/Move_View_Request";
-import { Matrix } from '../../common/Matrix/Matrix';
+
 
 export class Move_View_Use_case
 {
     constructor(private readonly __move_view_handler : IMove_View_Handler) { }
 
-    public handle(request : Move_View_Request) : void 
+    public handle_request_move_view(request : Move_View_Request) : void 
     {
-        const delta : number = 10;
-        let delta_vec = new Vector();
+        //*** put that in memory
+        const step : number = 10;
+
+        let delta = new Vector();
 
         switch (request.direction) 
         {
-            case "ArrowLeft":
-                delta_vec = Vector_.new([delta, 0])
-            break;
+            case "ArrowLeft": delta = Vector_.new([step, 0]); break;
 
-            case "ArrowRight":
-                delta_vec = Vector_.new([-delta, 0])
-            break;
+            case "ArrowRight": delta = Vector_.new([-step, 0]); break;
 
-            case "ArrowUp":
-                delta_vec = Vector_.new([0, delta])
-            break;
+            case "ArrowUp": delta = Vector_.new([0, step]); break;
 
-            case "ArrowDown":
-                delta_vec = Vector_.new([0, -delta])
-            break;
+            case "ArrowDown": delta = Vector_.new([0, -step]); break;
         
-            default:
-                throw new Error("key must be an arrow");
-
-            }
-            this.__move_view_handler.move_view_by_delta(delta_vec);
+            default: throw new Error("the key must be an arrow key");
+        }
+            //make fun assync, make a while loop, make a bool controle
+            this.__move_view_handler.move_view_by_delta_in_contious_async(delta);
     }
-}
 
-export interface IMove_View_Positions
-{
-    move_by_delta(delta : Vector) : void;
-    //refactor -> due to anim
-    copy() : Matrix<any>;
-    assign_values(matrix : Matrix<any>) : void
+    public handle_request_stop_move_view() : void
+    {
+        this.__move_view_handler.stop_move_view();
+    }
 }

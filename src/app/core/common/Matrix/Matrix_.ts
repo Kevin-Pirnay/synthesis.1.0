@@ -1,13 +1,16 @@
 import { Vector } from "../Vector/Vector";
 import { Vector_ } from "../Vector/Vector_";
 import { Matrix } from "./Matrix";
-import { Rotation } from "./Rotation";
 
 export class Matrix_
 {
     public static new = (vectors : Vector[] = []) : Matrix<any> => { return new Matrix(vectors); }
 
-    public static rotation = new Rotation();
+    public static rotation_x = (radian : number) : Matrix<3> => { return Rotation.rotation_X(radian); }
+
+    public static rotation_y = (radian : number) : Matrix<3> => { return Rotation.rotation_Y(radian); }
+
+    public static rotation_z = (radian : number) : Matrix<3> => { return Rotation.rotation_Z(radian); }
 
     //****************** non static **************************************************** */
 
@@ -219,35 +222,71 @@ class Multiply
     }
 }
 
+class Rotation 
+{
+    public static rotation_Y = (radian: number): Matrix<3> => 
+    {
+        return new Matrix(
+            [
+                Vector_.new([Math.cos(radian), 0, Math.sin(radian)]),
+                Vector_.new([0, 1, 0]),
+                Vector_.new([-Math.sin(radian), 0, Math.cos(radian)])
+            ]
+        );
+    };
+
+    public static rotation_X = (radian: number): Matrix<3> => 
+    {
+        return new Matrix(
+            [
+                Vector_.new([1, 0, 0]),
+                Vector_.new([0, Math.cos(radian), -Math.sin(radian)]),
+                Vector_.new([0, Math.sin(radian), Math.cos(radian)])
+            ]
+        );
+    };
+
+    public static rotation_Z = (radian: number): Matrix<3> => 
+    {
+        return new Matrix(
+            [
+                Vector_.new([Math.cos(radian), Math.sin(radian), 0]),
+                Vector_.new([-Math.sin(radian), Math.cos(radian), 0]),
+                Vector_.new([0, 0, 1])
+            ]
+        );
+    };
+}
+
 class Rotate
 {
     public static rotate_x_new(matrix : Matrix<any>, radian : number) : Matrix<any>
     {
-        return matrix.__.multiply_by_matrix_new(Matrix_.rotation.rotation_X(radian));
+        return matrix.__.multiply_by_matrix_new(Rotation.rotation_X(radian));
     }
 
     public static rotate_y_new(matrix : Matrix<any>, radian : number) : Matrix<any>
     {
-        return matrix.__.multiply_by_matrix_new(Matrix_.rotation.rotation_Y(radian));
+        return matrix.__.multiply_by_matrix_new(Rotation.rotation_Y(radian));
     }
 
     public static rotate_z_new(matrix : Matrix<any>, radian : number) : Matrix<any>
     {
-        return matrix.__.multiply_by_matrix_new(Matrix_.rotation.rotation_Z(radian));
+        return matrix.__.multiply_by_matrix_new(Rotation.rotation_Z(radian));
     }
 
     public static rotate_x(matrix : Matrix<any>, radian : number) : void
     {
-        matrix.__.multiply_by_matrix(Matrix_.rotation.rotation_X(radian));
+        matrix.__.multiply_by_matrix(Rotation.rotation_X(radian));
     }
 
     public static rotate_y(matrix : Matrix<any>, radian : number) : void
     {
-        matrix.__.multiply_by_matrix(Matrix_.rotation.rotation_Y(radian));
+        matrix.__.multiply_by_matrix(Rotation.rotation_Y(radian));
     }
 
     public static rotate_z(matrix : Matrix<any>, radian : number) : void
     {
-        matrix.__.multiply_by_matrix(Matrix_.rotation.rotation_Z(radian));
+        matrix.__.multiply_by_matrix(Rotation.rotation_Z(radian));
     }
 }

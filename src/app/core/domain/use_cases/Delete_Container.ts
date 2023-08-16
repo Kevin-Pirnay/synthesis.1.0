@@ -1,6 +1,6 @@
 import { Delete_Container_Request } from "../../port/driver/request/Delete_Container_Request";
 import { Delete_Container_Response } from "../../port/driver/response/Delete_Container_Response";
-import { INode_Linker } from "../handlers/Link_Node/INode_Linker";
+import { INode_Linker } from "../handlers/handlers_use_case/Link_Node/INode_Linker";
 import { IDelete_Container_Repository } from "../repository/interfaces/IDelete_Repository";
 
 /**
@@ -19,7 +19,7 @@ export class Delete_Container_Use_case
 
     public handle(request : Delete_Container_Request) : Delete_Container_Response
     {
-        const remove_container : IRemove_Container = this.__delete_repository.get_remove_container(request.container, this.__node_linker_handler, this.__delete_repository);
+        const remove_container : IRemove_Container = this.__delete_repository.get_remove_container(request.container, this.__node_linker_handler);
         remove_container.remove_all_units_that_contain_itself_from_the_tree();
         remove_container.link_its_parent_node_to_its_children_node();
         remove_container.update_its_children_ligatures_positions();
