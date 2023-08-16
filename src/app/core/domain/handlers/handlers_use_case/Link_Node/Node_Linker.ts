@@ -24,6 +24,11 @@ export class Node_Linker implements INode_Linker
         Remove_Handler.remove_unit_from_children(container_to_remove);
     }
 
+    public remove_unit_from_child(child_container: Container): void 
+    {
+        Remove_Handler.remove_unit_from_child(child_container);
+    }
+
     public get_container_units(container: Container) : Unit_Node | null
     {
         return Get_Handler.get_container_units(container);
@@ -83,6 +88,11 @@ class Remove_Handler
         {
             container.node.__.assign_new_parent_unit(null);
         });
+    }
+
+    public static remove_unit_from_child(child_container : Container) : void
+    {
+        child_container.node.__.assign_new_parent_unit(null);
     }
 }
 

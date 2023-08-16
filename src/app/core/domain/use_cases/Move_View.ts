@@ -11,7 +11,7 @@ export class Move_View_Use_case
     public handle_request_move_view(request : Move_View_Request) : void 
     {
         //*** put that in memory
-        const step : number = 10;
+        const step : number = 5;
 
         let delta = new Vector();
 

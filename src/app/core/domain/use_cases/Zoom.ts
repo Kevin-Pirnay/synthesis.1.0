@@ -13,7 +13,7 @@ export class Zoom_Use_case
 
     public handle_stop_zoom() : void
     {
-        this.__zoom_handler.stop_zoom
+        this.__zoom_handler.stop_zoom();
     }
 }
 

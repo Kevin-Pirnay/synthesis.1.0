@@ -8,5 +8,6 @@ export interface INode_Linker
     link_parent_to_children(container_to_remove : Container): void; 
     remove_unit_from_parent(container_to_remove : Container): void; 
     remove_unit_from_children(container_to_remove : Container): void;
+    remove_unit_from_child(child_container: Container): void ;
     get_container_units(container : Container): Unit_Node | null; 
 }

@@ -12,7 +12,7 @@ import { Ligature_Zoom_Positions } from "./injectors/Zoom_Positions";
 export class Zoom_Repository implements IZoom_Repository
 {
     private __zoom_level : number = 0;
-    private __alpha : number = 1.1;
+    private __alpha : number = 1.01;
     private readonly __stop_zoom_condition : Ptr_Boolean = new Ptr_Boolean();
 
     constructor(
