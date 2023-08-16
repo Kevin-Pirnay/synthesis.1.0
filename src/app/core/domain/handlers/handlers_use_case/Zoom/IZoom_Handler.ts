@@ -1,7 +1,7 @@
 import { Container } from "../../../entities/Container";
 import { Ligature } from "../../../entities/Ligature";
 
-export interface IZoom_Handeler
+export interface IZoom_Handler
 {
     zoom_by_direction(direction : number) : void;
     zoom_current_flow_by_factor(factor : number) : void;

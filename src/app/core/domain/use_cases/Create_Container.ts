@@ -1,5 +1,4 @@
 import { Ligature_ } from './../handlers/handlers_entities/Ligature_';
-import { IZoom_Handeler } from './../handlers/handlers_use_case/Zoom/IZoom_Handeler';
 import { INode_Linker } from './../handlers/handlers_use_case/Link_Node/INode_Linker';
 import { Matrix } from "../../common/Matrix/Matrix";
 import { Vector_ } from "../../common/Vector/Vector_";
@@ -12,6 +11,7 @@ import { Vector } from '../../common/Vector/Vector';
 import { Create_Container_Request } from '../../port/driver/request/request';
 import { Create_Container_Response } from '../../port/driver/response/Response';
 import { ICreate_Repository } from '../repository/interfaces/IRepository';
+import { IZoom_Handler } from '../handlers/handlers_use_case/Zoom/IZoom_Handler';
 
 
 export class Create_Container_Use_case
@@ -21,7 +21,7 @@ export class Create_Container_Use_case
     constructor(
         repository : ICreate_Repository,
         link_handler : INode_Linker,
-        zoom_handler : IZoom_Handeler
+        zoom_handler : IZoom_Handler
     ) 
     { 
         this.__create_handler = new Create_Handler(repository, link_handler, zoom_handler);
@@ -42,7 +42,7 @@ class Create_Handler
     constructor(
         private readonly __repository : ICreate_Repository,
         private readonly __link_handler : INode_Linker,
-        private readonly __zoom_handler : IZoom_Handeler
+        private readonly __zoom_handler : IZoom_Handler
     ) { } 
 
     public create_a_root_container(ratio : Matrix<4>, position : Vector) : Create_Container_Response

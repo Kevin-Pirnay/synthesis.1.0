@@ -4,10 +4,10 @@ import { Vector_ } from '../../../../common/Vector/Vector_';
 import { Container } from '../../../entities/Container';
 import { Ligature } from '../../../entities/Ligature';
 import { IZoom_Repository } from '../../../repository/interfaces/IRepository';
-import { IZoom_Handeler } from './IZoom_Handeler';
+import { IZoom_Handler } from './IZoom_Handler';
 
 
-export class Zoom_Handeler implements IZoom_Handeler
+export class Zoom_Handler implements IZoom_Handler
 {
     constructor(private readonly __repository : IZoom_Repository) { }
 

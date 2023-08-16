@@ -2,6 +2,7 @@ import { Flow } from './../../../core/domain/entities/Flow';
 import { Container } from "../../../core/domain/entities/Container";
 import { IDao_Container } from "../../../core/port/driven/dao/IDao_Container";
 import { IContainer_Data_Flow, Runtime_Persistence } from "../runtime_memory/Runtime_Persistence";
+import { Vector } from '../../../core/common/Vector/Vector';
 
 
 export class Dao_Container implements IDao_Container
@@ -47,6 +48,11 @@ export class Dao_Container implements IDao_Container
     public get_all_containers_of_the_current_flow(): Container[] 
     {
         return this.__get_handler.get_all_containers_of_the_current_flow();
+    }
+
+    public get_default_position_of_the_root() : Vector 
+    {
+        this.__get_handler.get_default_position_of_the_root();
     }
 }
 

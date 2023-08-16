@@ -4,8 +4,10 @@ import { Ligature } from "../../entities/Ligature";
 import { INode_Linker } from "../../handlers/handlers_use_case/Link_Node/INode_Linker";
 import { IMove_View_Positions } from "../../handlers/handlers_use_case/Move_View/Move_View_Handler";
 import { Ptr_Boolean } from '../../../common/Ptr_Boolean';
-import { IZoom_Positions } from "../../handlers/handlers_use_case/Zoom/Zoom_Handeler";
+import { IZoom_Positions } from "../../handlers/handlers_use_case/Zoom/Zoom_Handler";
 import { IRemove_Container } from "../../use_cases/Delete_Container";
+import { Vector } from "../../../common/Vector/Vector";
+import { ISubtree_Root } from "../../handlers/handlers_use_case/View_As_Root/View_As_Root_Handler";
 
 
 export interface ICreate_Repository 
@@ -39,4 +41,11 @@ export interface IZoom_Repository
     update_zoom_factor(direction: number): number;
     get_zoom_factor() : number;
     get_unzoom_factor() : number;
+}
+
+
+export interface IView_As_Root_Repository
+{
+    get_default_position_of_the_root(): Vector;
+    get_subtree_root(container: Container): ISubtree_Root;
 }

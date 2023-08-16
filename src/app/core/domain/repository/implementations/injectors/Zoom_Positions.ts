@@ -2,7 +2,7 @@ import { Matrix } from "../../../../common/Matrix/Matrix";
 import { Vector } from "../../../../common/Vector/Vector";
 import { Container } from "../../../entities/Container";
 import { Ligature } from "../../../entities/Ligature";
-import { IZoom_Positions } from "../../../handlers/handlers_use_case/Zoom/Zoom_Handeler";
+import { IZoom_Positions } from "../../../handlers/handlers_use_case/Zoom/Zoom_Handler";
 
 
 export class Ligature_Zoom_Positions implements IZoom_Positions 

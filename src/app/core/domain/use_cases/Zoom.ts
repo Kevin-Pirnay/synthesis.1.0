@@ -1,10 +1,10 @@
 import { Zoom_Request } from "../../port/driver/request/request";
-import { IZoom_Handeler } from "../handlers/handlers_use_case/Zoom/IZoom_Handeler";
+import { IZoom_Handler } from "../handlers/handlers_use_case/Zoom/IZoom_Handler";
 
 
 export class Zoom_Use_case
 {
-    constructor(private readonly __zoom_handler : IZoom_Handeler) { }
+    constructor(private readonly __zoom_handler : IZoom_Handler) { }
 
     public handle_zoom(request : Zoom_Request) : void
     {

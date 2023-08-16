@@ -13,8 +13,6 @@ import { INode_Linker } from "./handlers/handlers_use_case/Link_Node/INode_Linke
 import { Node_Linker } from "./handlers/handlers_use_case/Link_Node/Node_Linker";
 import { IMove_View_Handler } from "./handlers/handlers_use_case/Move_View/IMove_View_Handler";
 import { Move_View_Handler } from "./handlers/handlers_use_case/Move_View/Move_View_Handler";
-import { IZoom_Handeler } from "./handlers/handlers_use_case/Zoom/IZoom_Handeler";
-import { Zoom_Handeler } from "./handlers/handlers_use_case/Zoom/Zoom_Handeler";
 import { ICreate_Repository, IDelete_Container_Repository, IMove_View_Repository, IZoom_Repository } from "./repository/interfaces/IRepository";
 import { Create_Container_Use_case } from "./use_cases/Create_Container";
 import { Delete_Container_Use_case } from "./use_cases/Delete_Container";
@@ -23,6 +21,8 @@ import { Move_Ligature_Use_case } from "./use_cases/Move_Ligature";
 import { Move_View_Use_case } from "./use_cases/Move_View";
 import { Zoom_Use_case } from "./use_cases/Zoom";
 import { Zoom_Repository } from './repository/implementations/Zoom_Repository';
+import { IZoom_Handler } from './handlers/handlers_use_case/Zoom/IZoom_Handler';
+import { Zoom_Handler } from './handlers/handlers_use_case/Zoom/Zoom_Handler';
 
 
 export class Facade
@@ -38,7 +38,7 @@ export class Facade
     private readonly __delete_repository : IDelete_Container_Repository = new Delete_Container_Repository(this.__dao_container, this.__dao_ligature);
     private readonly __move_view_repository : IMove_View_Repository = new Move_View_Repository(this.__dao_container, this.__dao_ligature);
     
-    private readonly __zoom_handler : IZoom_Handeler = new Zoom_Handeler(this.__zoom_repository);
+    private readonly __zoom_handler : IZoom_Handler = new Zoom_Handler(this.__zoom_repository);
     private readonly __node_linker_handler : INode_Linker = new Node_Linker();
     private readonly __move_view_handler : IMove_View_Handler = new Move_View_Handler(this.__move_view_repository);
 

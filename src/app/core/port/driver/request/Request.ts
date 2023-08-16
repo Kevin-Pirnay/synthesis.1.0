@@ -36,3 +36,8 @@ export class Zoom_Request
 {
     constructor(public direction : number) { }
 }
+
+export class View_As_Root_Request
+{
+    constructor(public container : Container) { }
+}
