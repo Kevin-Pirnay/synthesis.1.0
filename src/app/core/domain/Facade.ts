@@ -64,7 +64,7 @@ export class Facade
     private readonly __view_as_root_use_case = new View_As_Root_Use_case(this.__view_as_root_handler);
     private readonly __mark_as_root_use_case = new Mark_As_Root_Use_case(this.__mark_as_root_repository);
     private readonly __paginate_use_case = new Init_Paginate_Use_case(this.__paginate_repository, this.__view_as_root_repository, this.__view_as_root_handler);
-    private readonly __view_paginate_use_case = new View_Paginate_Use_case(this.__paginate_repository, this.__view_as_root_repository, this.__view_as_root_handler);
+    private readonly __view_paginate_use_case = new View_Paginate_Use_case(this.__paginate_repository, this.__view_as_root_handler);
 
 
     public execute_create_container(request : Create_Container_Request) : Create_Container_Response

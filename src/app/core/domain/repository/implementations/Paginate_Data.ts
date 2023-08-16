@@ -28,8 +28,8 @@ export class Paginate_Data implements IPaginate_Data
 
             radian = angle * (Math.PI / 180);
 
-            this.__next.rotate_by_radian(radian + (Math.PI / 2) * (-direction));
-            this.__previous.rotate_by_radian(radian);
+            this.__next.rotate_on_y_by_radian(radian + (Math.PI / 2) * (-direction));
+            this.__previous.rotate_on_y_by_radian(radian);
 
             await new Promise(r => setTimeout(r, 1));
 
@@ -43,7 +43,7 @@ export class Paginate_Data implements IPaginate_Data
 
 export interface IPaginate_Positions 
 {
-    rotate_by_radian(radian: number): void;
+    rotate_on_y_by_radian(radian: number): void;
 }
 
 
@@ -60,11 +60,11 @@ export class Paginate_Positions implements IPaginate_Positions
         });
     }
 
-    rotate_by_radian(radian: number): void 
+    public rotate_on_y_by_radian(radian: number): void 
     {
         this.__positions.forEach(position => 
         {
-            position.rotate_by_radian(radian);
+            position.rotate_on_y_by_radian(radian);
         });
     }
 }
@@ -72,7 +72,7 @@ export class Paginate_Positions implements IPaginate_Positions
 
 export interface IPaginate_Position 
 {
-    rotate_by_radian(radian: number): void;
+    rotate_on_y_by_radian(radian: number): void;
 }
 
 
@@ -87,7 +87,7 @@ export class Abstract__Paginate_Position implements IPaginate_Position
         this.__fixe_pos = this.__abs_ratio.__.copy();
     }
 
-    rotate_by_radian(radian: number): void 
+    public rotate_on_y_by_radian(radian: number): void 
     {
         this.__abs_ratio.__.assign_new_data(this.__fixe_pos.__.rotate_y_new(radian));
     }
