@@ -15,3 +15,8 @@ export class View_As_Root_Response
 {
     constructor(public dtos : IDto[]) { }
 }
+
+export class Mark_As_Root_Response
+{
+    constructor(public dto : IDto) { }
+}

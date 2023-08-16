@@ -8,6 +8,7 @@ import { IZoom_Positions } from "../../handlers/handlers_use_case/Zoom/Zoom_Hand
 import { IRemove_Container } from "../../use_cases/Delete_Container";
 import { Vector } from "../../../common/Vector/Vector";
 import { ISubtree_Root } from "../../handlers/handlers_use_case/View_As_Root/View_As_Root_Handler";
+import { IMark_As_Root } from "../../use_cases/Mark_As_Root";
 
 
 export interface ICreate_Repository 
@@ -48,4 +49,12 @@ export interface IView_As_Root_Repository
 {
     get_default_position_of_the_root(): Vector;
     get_subtree_root(container: Container): ISubtree_Root;
+}
+
+
+export interface IMark_As_Root_Repository
+{
+    get_default_position_of_the_root(): Vector;
+    save_the_new_root(container: Container): void;
+    get_mark_as_root_data(container: Container): IMark_As_Root;
 }

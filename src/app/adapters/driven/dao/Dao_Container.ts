@@ -52,7 +52,7 @@ export class Dao_Container implements IDao_Container
 
     public get_default_position_of_the_root() : Vector 
     {
-        this.__get_handler.get_default_position_of_the_root();
+        return this.__get_handler.get_default_position_of_the_root();
     }
 }
 
@@ -163,6 +163,11 @@ class Get_Container_Handler
         container.node = flow_data.node;
 
         return container;
+    }
+
+    public get_default_position_of_the_root(): Vector 
+    {
+        return this.__persistence.default_position_of_the_root;
     }
 }
 

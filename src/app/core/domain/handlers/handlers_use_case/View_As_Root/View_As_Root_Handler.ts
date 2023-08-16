@@ -14,9 +14,9 @@ export class View_As_Root_Handler implements IView_As_Root_Handler
     {
         const root_position : Vector = this.__repository.get_default_position_of_the_root();
         
-        const root_subTree : ISubtree_Root = this.__repository.get_subtree_root(container);
+        const subtree_root : ISubtree_Root = this.__repository.get_subtree_root(container);
 
-        return this.__construct_tree_from_the_root_subtree(root_subTree, root_position);
+        return this.__construct_tree_from_the_root_subtree(subtree_root, root_position);
     }
 
     private __construct_tree_from_the_root_subtree(root_subTree : ISubtree_Root, root_position : Vector) : IData_Tree[]  
