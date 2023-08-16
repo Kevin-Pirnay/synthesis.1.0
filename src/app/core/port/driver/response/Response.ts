@@ -20,3 +20,8 @@ export class Mark_As_Root_Response
 {
     constructor(public dto : IDto) { }
 }
+
+export class Back_View_Response
+{
+    constructor(public dtos : IDto[]) { }
+}

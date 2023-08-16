@@ -54,6 +54,11 @@ export class Dao_Container implements IDao_Container
     {
         return this.__get_handler.get_default_position_of_the_root();
     }
+
+    public get_container_by_id(container_id: string): Container 
+    {
+       return this.__get_handler.get_container_by_id_for_the_current_flow(container_id);
+    }
 }
 
 class Save_Flow_Handler
@@ -163,6 +168,11 @@ class Get_Container_Handler
         container.node = flow_data.node;
 
         return container;
+    }
+
+    public get_container_by_id_for_the_current_flow(container_id : string) : Container
+    {
+        return this.get_container_by_id_and_flow(container_id, this.__current_flow.id);
     }
 
     public get_default_position_of_the_root(): Vector 

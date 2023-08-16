@@ -47,6 +47,7 @@ export interface IZoom_Repository
 
 export interface IView_As_Root_Repository
 {
+    get_subtree_root_by_id(container_id: string): ISubtree_Root;
     get_default_position_of_the_root(): Vector;
     get_subtree_root(container: Container): ISubtree_Root;
 }

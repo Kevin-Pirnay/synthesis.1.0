@@ -19,5 +19,12 @@ export class View_As_Root_Repository implements IView_As_Root_Repository
     {
         return new Subtree_Data(null, container);
     }
+
+    public get_subtree_root_by_id(container_id: string): ISubtree_Root 
+    {
+        const container : Container = this.__dao_container.get_container_by_id(container_id);
+
+        return this.get_subtree_root(container);
+    }
 }
 

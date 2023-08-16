@@ -70,11 +70,11 @@ export class SvgComponent
       case '+':
         this.__is_zooming = true;
         this.__svg_service.request_zoom(1);
-        break;
+      break;
       case '-':
-          this.__is_zooming = true;
-          this.__svg_service.request_zoom(-1);
-          break;
+        this.__is_zooming = true;
+        this.__svg_service.request_zoom(-1);
+      break;
 
       case "ArrowLeft":
       case "ArrowRight":

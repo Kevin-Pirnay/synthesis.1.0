@@ -46,3 +46,8 @@ export class Mark_As_Root_Request
 {
     constructor(public container : Container) { }
 }
+
+export class Back_View_Request
+{
+    constructor(public container_id : string) { }
+}

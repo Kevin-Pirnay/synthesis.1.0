@@ -19,6 +19,15 @@ export class View_As_Root_Handler implements IView_As_Root_Handler
         return this.__construct_tree_from_the_root_subtree(subtree_root, root_position);
     }
 
+    public get_subtree_from_this_container_id(container_id: string): IData_Tree[] 
+    {
+        const root_position : Vector = this.__repository.get_default_position_of_the_root();
+        
+        const root_subTree : ISubtree_Root = this.__repository.get_subtree_root_by_id(container_id);
+
+        return this.__construct_tree_from_the_root_subtree(root_subTree, root_position);
+    }
+
     private __construct_tree_from_the_root_subtree(root_subTree : ISubtree_Root, root_position : Vector) : IData_Tree[]  
     {
         const result : IData_Tree[] = [];
