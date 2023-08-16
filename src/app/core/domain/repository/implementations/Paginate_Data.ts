@@ -1,6 +1,6 @@
 import { Matrix } from "../../../common/Matrix/Matrix";
 import { IDto, Data_Type } from "../../../port/driver/dto/IDto";
-import { IPaginate_Data } from "../../use_cases/Paginate/View_Paginate";
+import { IPaginate_Data } from "./injectors/View_Paginate";
 
 
 export class Paginate_Data implements IPaginate_Data 

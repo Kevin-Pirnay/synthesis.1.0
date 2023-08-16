@@ -11,7 +11,7 @@ import { ISubtree_Root } from "../../handlers/handlers_use_case/View_As_Root/Vie
 import { IMark_As_Root } from "../../use_cases/Mark_As_Root";
 import { IDto } from "../../../port/driver/dto/IDto";
 import { IView_As_Root_Handler } from "../../handlers/handlers_use_case/View_As_Root/IView_As_Root_Handler";
-import { IPaginate_Data } from "../../use_cases/Paginate/View_Paginate";
+import { IPaginate_Data } from "../implementations/injectors/View_Paginate";
 
 
 export interface ICreate_Repository 
