@@ -57,6 +57,7 @@ class Save_Flow_Handler
     public save_and_update_the_current_flow_with(flow : string) : void
     {
         this.__persistence.flows.push(flow);
+
         this.__current_flow.id = flow;
     }
 
@@ -79,6 +80,7 @@ class Save_Container_Handler
     public save_id_into_the_conterners_ids(container_id : string) : void 
     {
         const containers_ids = this.__persistence.containers_ids;
+
         const current_flow = this.__current_flow.id;
 
         //init if not exist
@@ -95,6 +97,7 @@ class Save_Container_Handler
     public save_data_not_related_to_the_flow(container : Container) : void
     {
         const fix_data_persistence =  this.__persistence.containers_data_fix;
+        
         fix_data_persistence[container.id] = container;
     }
 

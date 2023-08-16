@@ -1,8 +1,8 @@
 import { Vector } from "../../common/Vector/Vector";
-import { Assign_Ligature_Request } from "../../port/driver/request/Assign_Ligature_Request";
-import { Move_ligature_Request } from "../../port/driver/request/Move_ligature_Request";
+import { Assign_Ligature_Request, Move_ligature_Request } from "../../port/driver/request/request";
 import { INode_Linker } from "../handlers/handlers_use_case/Link_Node/INode_Linker";
 import { Assing_Ligature } from "../repository/implementations/injectors/Assing_Ligature";
+
 
 export class Move_Ligature_Use_case
 {
@@ -28,12 +28,6 @@ export class Move_Ligature_Use_case
     }
 }
 
-/**
- * step to assign ligature if container is not null in request :
- * step 1: update tree : remove unit from old parent and child , create new unit and add unit to parent and child, change parent ligature
- * step 2: update position ligature
- * step 3: update relative postion child container to new parent container
- */
 
 export interface IAssign_Ligature
 {

@@ -2,10 +2,11 @@ import { IDao_Container } from '../../../port/driven/dao/IDao_Container';
 import { IDao_Ligature } from '../../../port/driven/dao/IDao_Ligature';
 import { Container } from '../../entities/Container';
 import { Ligature } from '../../entities/Ligature';
-import { IMove_View_Positions, Ptr_Boolean } from '../../handlers/handlers_use_case/Move_View/Move_View_Handler';
-import { IMove_View_Repository } from './../interfaces/IMove_View_Repository';
+import { IMove_View_Positions } from '../../handlers/handlers_use_case/Move_View/Move_View_Handler';
+import { Ptr_Boolean } from '../../../common/Ptr_Boolean';
 import { Ligature_Move_View_Positions } from './injectors/Move_View_Positions';
 import { Container_Move_View_Positions } from './injectors/Move_View_Positions';
+import { IMove_View_Repository } from '../interfaces/IRepository';
 
 export class Move_View_Repository implements IMove_View_Repository
 {

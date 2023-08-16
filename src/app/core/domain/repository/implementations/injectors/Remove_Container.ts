@@ -1,9 +1,10 @@
-import { Delete_Container_Response } from "../../../../port/driver/response/Delete_Container_Response";
+import { Delete_Container_Response } from "../../../../port/driver/response/Response";
 import { Unit_Node, Container } from "../../../entities/Container";
 import { INode_Linker } from "../../../handlers/handlers_use_case/Link_Node/INode_Linker";
 import { Node_Linker } from "../../../handlers/handlers_use_case/Link_Node/Node_Linker";
 import { IRemove_Container } from "../../../use_cases/Delete_Container";
-import { IDelete_Container_Repository } from "../../interfaces/IDelete_Repository";
+import { IDelete_Container_Repository } from "../../interfaces/IRepository";
+
 
 export class Remove_Container implements IRemove_Container 
 {

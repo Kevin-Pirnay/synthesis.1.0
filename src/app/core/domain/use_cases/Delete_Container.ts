@@ -1,15 +1,8 @@
-import { Delete_Container_Request } from "../../port/driver/request/Delete_Container_Request";
-import { Delete_Container_Response } from "../../port/driver/response/Delete_Container_Response";
+import { Delete_Container_Request } from "../../port/driver/request/request";
+import { Delete_Container_Response } from "../../port/driver/response/Response";
 import { INode_Linker } from "../handlers/handlers_use_case/Link_Node/INode_Linker";
-import { IDelete_Container_Repository } from "../repository/interfaces/IDelete_Repository";
+import { IDelete_Container_Repository } from "../repository/interfaces/IRepository";
 
-/**
- * 
- * step 1: remove unit from parent and chidren
- * step 2: link the parent node to the children node : by default the children will be link to the first parent
- * step 2: update position ligatures
- * step 3: remove unit from memory
- */
 
 export class Delete_Container_Use_case
 {

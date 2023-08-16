@@ -1,8 +1,9 @@
 import { Matrix } from "../../common/Matrix/Matrix";
 import { Matrix_ } from "../../common/Matrix/Matrix_";
 import { Vector_ } from "../../common/Vector/Vector_";
+import { Ligature_ } from "../handlers/handlers_entities/Ligature_";
 import { Container } from "./Container";
-import { Ligature_ } from "../handlers/Ligature_";
+
 
 export class Ligature
 {

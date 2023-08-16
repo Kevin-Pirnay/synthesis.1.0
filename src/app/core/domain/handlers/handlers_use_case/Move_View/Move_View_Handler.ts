@@ -1,6 +1,7 @@
 import { Vector } from '../../../../common/Vector/Vector';
-import { IMove_View_Repository } from './../../../repository/interfaces/IMove_View_Repository';
 import { IMove_View_Handler } from "./IMove_View_Handler";
+import { Ptr_Boolean } from '../../../../common/Ptr_Boolean';
+import { IMove_View_Repository } from '../../../repository/interfaces/IRepository';
 
 
 export class Move_View_Handler implements IMove_View_Handler
@@ -35,11 +36,6 @@ export class Move_View_Handler implements IMove_View_Handler
     {
         this.__repository.set_stop_move_view_condition_to(true);
     }
-}
-
-export class Ptr_Boolean
-{
-    value : boolean = false;
 }
 
 export interface IMove_View_Positions
