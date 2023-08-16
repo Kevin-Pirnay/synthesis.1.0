@@ -1,6 +1,6 @@
 
 import { Vector } from "../../../../common/Vector/Vector";
-import { Data_Type, IDto } from "../../../../port/driver/dto/IDto";
+import { Data_Type } from "../../../../port/driver/dto/IDto";
 import { Container } from "../../../entities/Container";
 import { IView_As_Root_Repository } from "../../../repository/interfaces/IRepository";
 import { IView_As_Root_Handler } from "./IView_As_Root_Handler";
@@ -24,6 +24,13 @@ export class View_As_Root_Handler implements IView_As_Root_Handler
         const root_position : Vector = this.__repository.get_default_position_of_the_root();
         
         const root_subTree : ISubtree_Root = this.__repository.get_subtree_root_by_id(container_id);
+
+        return this.__construct_tree_from_the_root_subtree(root_subTree, root_position);
+    }
+
+    public get_subtree_from_subtree_root(root_subTree: ISubtree_Root): IData_Tree[] 
+    {
+        const root_position : Vector = this.__repository.get_default_position_of_the_root();
 
         return this.__construct_tree_from_the_root_subtree(root_subTree, root_position);
     }

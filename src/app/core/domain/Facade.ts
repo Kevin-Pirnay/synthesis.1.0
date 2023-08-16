@@ -7,13 +7,13 @@ import { Runtime_Persistence } from './../../adapters/driven/runtime_memory/Runt
 import { Flow } from './entities/Flow';
 import { IDao_Container } from "../port/driven/dao/IDao_Container";
 import { IDao_Ligature } from "../port/driven/dao/IDao_Ligature";
-import { Create_Container_Request, Delete_Container_Request, Move_Container_Request, Move_ligature_Request, Assign_Ligature_Request, Zoom_Request, Move_View_Request, Mark_As_Root_Request, View_As_Root_Request } from "../port/driver/request/request";
-import { Create_Container_Response, Delete_Container_Response, Mark_As_Root_Response, View_As_Root_Response } from "../port/driver/response/Response";
+import { Create_Container_Request, Delete_Container_Request, Move_Container_Request, Move_ligature_Request, Assign_Ligature_Request, Zoom_Request, Move_View_Request, Mark_As_Root_Request, View_As_Root_Request, Paginate_Request, View_Paginate_Request } from "../port/driver/request/request";
+import { Create_Container_Response, Delete_Container_Response, Mark_As_Root_Response, Paginate_Response, View_As_Root_Response, View_Paginate_Response } from "../port/driver/response/Response";
 import { INode_Linker } from "./handlers/handlers_use_case/Link_Node/INode_Linker";
 import { Node_Linker } from "./handlers/handlers_use_case/Link_Node/Node_Linker";
 import { IMove_View_Handler } from "./handlers/handlers_use_case/Move_View/IMove_View_Handler";
 import { Move_View_Handler } from "./handlers/handlers_use_case/Move_View/Move_View_Handler";
-import { ICreate_Repository, IDelete_Container_Repository, IMark_As_Root_Repository, IMove_View_Repository, IView_As_Root_Repository, IZoom_Repository } from "./repository/interfaces/IRepository";
+import { ICreate_Repository, IDelete_Container_Repository, IMark_As_Root_Repository, IMove_View_Repository, IPaginate_Repository, IView_As_Root_Repository, IZoom_Repository } from "./repository/interfaces/IRepository";
 import { Create_Container_Use_case } from "./use_cases/Create_Container";
 import { Delete_Container_Use_case } from "./use_cases/Delete_Container";
 import { Move_Container_Use_case } from "./use_cases/Move_Container";
@@ -29,6 +29,9 @@ import { IView_As_Root_Handler } from './handlers/handlers_use_case/View_As_Root
 import { View_As_Root_Handler } from './handlers/handlers_use_case/View_As_Root/View_As_Root_Handler';
 import { Mark_As_Root_Use_case } from './use_cases/Mark_As_Root';
 import { Mark_As_Root_Repository } from './repository/implementations/Mark_As_Root_Repository';
+import { Paginate_Repository } from './repository/implementations/Paginate_Repository';
+import { Init_Paginate_Use_case } from './use_cases/Paginate/Init_Paginate';
+import { View_Paginate_Use_case } from './use_cases/Paginate/View_Paginate';
 
 
 export class Facade
@@ -45,6 +48,7 @@ export class Facade
     private readonly __move_view_repository : IMove_View_Repository = new Move_View_Repository(this.__dao_container, this.__dao_ligature);
     private readonly __view_as_root_repository : IView_As_Root_Repository = new View_As_Root_Repository(this.__dao_container);
     private readonly __mark_as_root_repository : IMark_As_Root_Repository = new Mark_As_Root_Repository(this.__dao_container);
+    private readonly __paginate_repository : IPaginate_Repository = new Paginate_Repository();
 
     private readonly __zoom_handler : IZoom_Handler = new Zoom_Handler(this.__zoom_repository);
     private readonly __node_linker_handler : INode_Linker = new Node_Linker();
@@ -59,7 +63,8 @@ export class Facade
     private readonly __move_ligature_use_case = new Move_Ligature_Use_case(this.__node_linker_handler);
     private readonly __view_as_root_use_case = new View_As_Root_Use_case(this.__view_as_root_handler);
     private readonly __mark_as_root_use_case = new Mark_As_Root_Use_case(this.__mark_as_root_repository);
-
+    private readonly __paginate_use_case = new Init_Paginate_Use_case(this.__paginate_repository, this.__view_as_root_repository, this.__view_as_root_handler);
+    private readonly __view_paginate_use_case = new View_Paginate_Use_case(this.__paginate_repository, this.__view_as_root_repository, this.__view_as_root_handler);
 
 
     public execute_create_container(request : Create_Container_Request) : Create_Container_Response
@@ -115,5 +120,15 @@ export class Facade
     public execute_mark_as_root(request : Mark_As_Root_Request) : Mark_As_Root_Response
     {
         return this.__mark_as_root_use_case.handle(request);
+    }
+
+    public execute_init_paginate(request : Paginate_Request) : Paginate_Response
+    {
+        return this.__paginate_use_case.handle(request);
+    }
+
+    public execute_view_paginate(request : View_Paginate_Request) : View_Paginate_Response
+    {
+        return this.__view_paginate_use_case.handle(request);
     }
 }

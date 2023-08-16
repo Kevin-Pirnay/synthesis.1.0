@@ -2,6 +2,7 @@ import { Vector } from "../../../common/Vector/Vector";
 import { Container } from "../../../domain/entities/Container";
 import { Ligature } from "../../../domain/entities/Ligature";
 
+
 export class Create_Container_Request
 {
     constructor(public position : Vector, public parent_container : Container | null = null) {}
@@ -50,4 +51,14 @@ export class Mark_As_Root_Request
 export class Back_View_Request
 {
     constructor(public container_id : string) { }
+}
+
+export class Paginate_Request
+{
+    constructor(public container : Container) { }
+}
+
+export class View_Paginate_Request
+{
+    constructor(public direction : number) { }
 }
