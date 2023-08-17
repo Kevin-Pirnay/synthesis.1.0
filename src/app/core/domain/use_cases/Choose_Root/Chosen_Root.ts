@@ -4,7 +4,7 @@ import { Choosen_Root_Response } from '../../../port/driver/response/Response';
 import { IChange_Root_Handler } from '../../handlers/handlers_use_case/Change_Root/IChange_Root_Handler';
 
 
-export class Choosen_Root_Use_case
+export class Chosen_Root_Use_case
 {
     constructor(private readonly __change_root_handler : IChange_Root_Handler) { }
     
