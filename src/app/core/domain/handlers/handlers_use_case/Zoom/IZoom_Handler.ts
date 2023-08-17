@@ -8,5 +8,6 @@ export interface IZoom_Handler
     update_container_with_current_zoom(container: Container): void;
     update_unit_with_current_zoom(ligature : Ligature, container: Container): void;  
     zoom_by_direction_in_contious_async(direction: number) : Promise<void>;
+    zoom_data_tree_by_factor(factor: number, data : IData_Tree[]) : void;
     stop_zoom() : void;
 }

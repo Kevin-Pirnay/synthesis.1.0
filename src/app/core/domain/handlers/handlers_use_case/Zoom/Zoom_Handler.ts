@@ -4,6 +4,7 @@ import { Vector_ } from '../../../../common/Vector/Vector_';
 import { Container } from '../../../entities/Container';
 import { Ligature } from '../../../entities/Ligature';
 import { IZoom_Repository } from '../../../repository/interfaces/IRepository';
+import { IData_Tree } from '../View_As_Root/View_As_Root_Handler';
 import { IZoom_Handler } from './IZoom_Handler';
 
 
