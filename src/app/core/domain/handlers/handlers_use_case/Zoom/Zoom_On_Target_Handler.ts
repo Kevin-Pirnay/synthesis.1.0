@@ -32,36 +32,7 @@ export class Zoom_On_Target_Handler implements IZoom_On_Target_Handler
         const zoom_factor_data: number = this.__zoom_factor.compute_a_zoom_factor();
         this.__zoom_by_fact.zoom(zoom_factor_data);
         const distance_data: Vector = this.__distance.compute_a_distance();
-        const unzoom_factor = 1/zoom_factor_data;
-        console.log(unzoom_factor);
-        
-        //this.__zoom_by_fact.zoom(unzoom_factor);
-        //this.__move_by_dist.move(distance_data);
-
-        let current_dist : Vector = Vector_.zero();
-        let current_zoom = 0;
-        let is_x = false;
-        let is_y = false;
-        let is_zoom = false;
-        //get distance
-        while(1)
-        {
-            if(current_dist._[0] > distance_data._[0]) { current_dist._[0] = distance_data._[0]; is_x = true; }
-            if(current_dist._[1] > distance_data._[1]) { current_dist._[1] = distance_data._[1]; is_y = true; }
-
-            if(current_zoom == zoom_factor_data) { current_zoom = current_zoom; is_zoom = true; }
-
-            if ( is_x && is_y && is_zoom ) break;
-
-            console.log(current_dist._[0], current_dist._[1], current_zoom);
-            
-
-            current_dist._[0]++;
-            current_dist._[1]++;
-            current_zoom++;
-
-            await new Promise(r => setTimeout(r,1));
-        }
+        this.__move_by_dist.move(distance_data);
     }
 }
 

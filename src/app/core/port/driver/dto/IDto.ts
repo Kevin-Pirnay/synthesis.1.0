@@ -9,5 +9,5 @@ export enum Data_Type
 {
     CONTAINER,
     LIGATURE,
-    ROOT_DTO
+    ROOT_CHOICE
 }

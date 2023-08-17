@@ -34,6 +34,11 @@ export class Dao_Ligature implements IDao_Ligature
     {
         return this.__get_handler.get_all_ligatures_of_the_current_flow();
     }
+
+    prepare_all_ptr_for_the_current_flow(): void 
+    {
+        this.__get_handler.prepare_all_ptr_for_the_current_flow();
+    }
 }
 
 class Save_Ligature_Handler
@@ -124,5 +129,13 @@ class Get_Ligature_Handler
         ligature.positions.abs_ratio.__.assign_new_data(flow_data.positions.abs_ratio);
 
         return ligature;
+    }
+
+    public prepare_all_ptr_for_the_current_flow() : void
+    {
+        this.__persistence.ligatures_ids[this.__current_flow.id].forEach((id : string) =>
+        {
+            this.get_ligature_by_id(id);
+        });
     }
 }

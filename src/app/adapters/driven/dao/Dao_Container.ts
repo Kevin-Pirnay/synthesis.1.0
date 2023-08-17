@@ -24,7 +24,7 @@ export class Dao_Container implements IDao_Container
     {
         const new_flow_id = crypto.randomUUID();
 
-        this.__flow_handler.add_the_new_flow_to_the_root_container(container.roots, new_flow_id);
+        this.__flow_handler.add_the_new_flow_to_the_root_container(container, new_flow_id);
 
         this.__flow_handler.save_and_update_the_current_flow_with(new_flow_id);
 
@@ -59,6 +59,16 @@ export class Dao_Container implements IDao_Container
     {
        return this.__get_handler.get_container_by_id_for_the_current_flow(container_id);
     }
+
+    prepare_all_ptr_for_the_current_flow(): void 
+    {
+        this.__get_handler.prepare_all_ptr_for_the_current_flow();
+    }
+
+    get_root_container_of_the_current_flow(): Container 
+    {
+        return this.__get_handler.get_root_container_of_the_current_flow();
+    }
 }
 
 class Save_Flow_Handler
@@ -72,15 +82,15 @@ class Save_Flow_Handler
         this.__current_flow.id = flow;
     }
 
-    public add_the_new_flow_to_the_root_container(roots : string[], new_flow : string) : void
+    public add_the_new_flow_to_the_root_container(container : Container, new_flow : string) : void
     {
-        roots.push(new_flow);
+        container.roots.push(new_flow);
 
         /**
-         * In order to keep track of its previous flow, if this is not the first root of this project, add the new id to the container. 
+         * In order to keep track of its previous flow, if this is not the first root of this project, set the back root. 
          * If this is the first root of the project, the flow will be of length 0.
          **/
-        if ( this.__current_flow.id.length !== 0 ) roots.push(this.__current_flow.id);
+        if ( this.__current_flow.id.length !== 0 ) container.back_root = this.__current_flow.id;
     }
 }
 
@@ -178,6 +188,35 @@ class Get_Container_Handler
     public get_default_position_of_the_root(): Vector 
     {
         return this.__persistence.default_position_of_the_root;
+    }
+
+    public prepare_all_ptr_for_the_current_flow(): void 
+    {
+        this.__persistence.containers_ids[this.__current_flow.id].forEach((id : string) =>
+        {
+            this.get_container_by_id_and_flow(id, this.__current_flow.id);
+        });
+    }
+
+    public get_root_container_of_the_current_flow(): Container 
+    {
+        return this.get_root_container(this.__current_flow.id);
+    }
+
+    public get_root_container(flow: string): Container 
+    {
+        let result : Container | null = null;
+
+        for(let data in this.__persistence.containers_data_fix)
+        {
+            const container_data = this.__persistence.containers_data_fix[data];
+
+            if(container_data.roots[0] == flow) result = this.get_container_by_id_and_flow(container_data.id, flow);
+        }
+        
+        if(result == null) throw new Error("Enable to find the root container of this flow");
+        
+        return result;
     }
 }
 

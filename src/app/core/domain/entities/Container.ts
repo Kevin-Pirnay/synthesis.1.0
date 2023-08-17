@@ -18,6 +18,8 @@ export class Container
 
     public readonly roots : string[] = [];
 
+    public back_root : string | null = null;
+
     constructor(id: string) { this.id = id; }
 }
 

@@ -35,7 +35,14 @@ export class Choose_Root_Repository implements IChoose_Root_Repository
 
     public get_choose_root_container(container : Container, zoom_handler : IZoom_Handler, move_view_handler : IMove_View_Handler): IChoose_Roots_Container
     {
-        return new Choose_Roots_Container(container, zoom_handler, move_view_handler);
+        const middle_point_x = 1/2 * 500;
+        const middle_point_y = 3/4 * 500;        
+        
+        const ratio_x = 1/5 * 500;
+        const ratio_y = 0;
+        const coordinates_and_ratio = new Matrix<2>([Vector_.new([middle_point_x,middle_point_y]), Vector_.new([ratio_x,ratio_y])]); //first middle_point - two ratio x and y
+
+        return new Choose_Roots_Container(container, zoom_handler, move_view_handler, coordinates_and_ratio);
     }
 
     public get_choose_root_roots(indexes : number[]): IChoose_Roots_Root 
@@ -54,18 +61,9 @@ class Choose_Roots_Container implements IChoose_Roots_Container
 {
     private readonly __zoom_on_target : IZoom_On_Target_Handler
 
-    constructor(container : Container, zoom_handler : IZoom_Handler, move_view_handler : IMove_View_Handler)
+    constructor(container : Container, zoom_handler : IZoom_Handler, move_view_handler : IMove_View_Handler, coordinates_and_ratio : Matrix<2>)
     {
         const abs_ratio = container.positions.abs_ratio;
-
-        //*** change that *** */
-        const middle_point_x = 1/2 * 500;
-        const middle_point_y = 3/4 * 500;        
-        
-        const ratio_x = 1/5 * 500;
-        const ratio_y = 0;
-        //*** change that *** */
-        const coordinates_and_ratio = new Matrix<2>([Vector_.new([middle_point_x,middle_point_y]), Vector_.new([ratio_x,ratio_y])]); //first middle_point - two ratio x and y
 
         this.__zoom_on_target = new Zoom_On_Target_Handler(abs_ratio, coordinates_and_ratio, zoom_handler, move_view_handler);
     }
@@ -79,22 +77,23 @@ class Choose_Roots_Container implements IChoose_Roots_Container
 class Choose_Roots_Root implements IChoose_Roots_Root
 {
     private readonly __roots : Root_Choice[] = [];
-    private readonly __rotate_root : IRotate_Roots_Dto;
+    private readonly __rotate_root : IRotate_Roots_Root;
 
     constructor(roots : string[], indexes : number[])
     {
         roots.forEach(root => this.__roots.push(new Root_Choice(root)));
-        this.__rotate_root = new Rotate_Root_Dto(this.__roots, indexes);
+        this.__rotate_root = new Rotate_Roots_Root(this.__roots, indexes);
     }
 
     public get_the_first_root_dto(): IDto 
     {
-        return new Dto(this.__roots[0], Data_Type.ROOT_DTO);
+        return new Dto(this.__roots[0], Data_Type.ROOT_CHOICE);
     }
 
     public animate_first_root_to_choose(): void 
     {
-        this.__rotate_root.rotate_roots(1);
+        const direction : number = 1;
+        this.__rotate_root.rotate_roots(direction);
     }
 
     public rotate(direction: number): void 
@@ -106,21 +105,21 @@ class Choose_Roots_Root implements IChoose_Roots_Root
     {
         const result : IDto[] = [];
 
-        indexes.forEach(index => result.push(new Dto(this.__roots[index], Data_Type.ROOT_DTO)));
+        indexes.forEach(index => result.push(new Dto(this.__roots[index], Data_Type.ROOT_CHOICE)));
 
         return result;
     }
 }
 
-interface IRotate_Roots_Dto
+interface IRotate_Roots_Root
 {
     rotate_roots(direction : number): void;
 }
 
-class Rotate_Root_Dto implements IRotate_Roots_Dto
+class Rotate_Roots_Root implements IRotate_Roots_Root
 {
-    private readonly __current : IRotate_Roots_Position | null = null;
-    private readonly __next : IRotate_Roots_Position | null = null;
+    private readonly __current : IRotate_Roots_Root_Position | null = null;
+    private readonly __next : IRotate_Roots_Root_Position | null = null;
 
     constructor(roots : Root_Choice[], indexes : number[]) 
     { 
@@ -157,13 +156,13 @@ class Rotate_Root_Dto implements IRotate_Roots_Dto
     }
 }
 
-interface IRotate_Roots_Position
+interface IRotate_Roots_Root_Position
 {
     init_position_for_rotation(vec : Vector) : void;
     rotate_position_on_a_certain_point(radian : number, position : Vector) : void;
 }
 
-class Rotate_Roots_Position implements IRotate_Roots_Position
+class Rotate_Roots_Position implements IRotate_Roots_Root_Position
 {
     private readonly __abs_ratio : Matrix<4>;
     private readonly __copy : Matrix<4>;
