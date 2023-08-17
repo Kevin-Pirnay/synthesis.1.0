@@ -211,7 +211,7 @@ class Get_Container_Handler
         {
             const container_data = this.__persistence.containers_data_fix[data];
 
-            if(container_data.roots[0] == flow) result = this.get_container_by_id_and_flow(container_data.id, flow);
+            if(container_data.roots.includes(flow)) result = this.get_container_by_id_and_flow(container_data.id, flow);
         }
         
         if(result == null) throw new Error("Enable to find the root container of this flow");
