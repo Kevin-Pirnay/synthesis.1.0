@@ -62,3 +62,18 @@ export class View_Paginate_Request
 {
     constructor(public direction : number) { }
 }
+
+export class Choose_Root_Request
+{
+    constructor(public container :Container) { }
+}
+
+export class Choosen_Root_Request
+{
+    constructor(public flow : string) { }
+}
+
+export class View_Choose_Root_Request
+{
+    constructor(public direction : number) { }
+}

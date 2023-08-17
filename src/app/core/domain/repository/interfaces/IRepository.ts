@@ -12,6 +12,9 @@ import { IMark_As_Root } from "../../use_cases/Mark_As_Root";
 import { IDto } from "../../../port/driver/dto/IDto";
 import { IView_As_Root_Handler } from "../../handlers/handlers_use_case/View_As_Root/IView_As_Root_Handler";
 import { IPaginate_Data } from "../implementations/injectors/View_Paginate";
+import { IMove_View_Handler } from "../../handlers/handlers_use_case/Move_View/IMove_View_Handler";
+import { IChoose_Root_Roots, IChoose_Root_Container } from "../../use_cases/Choose_Root/Init_Choose_Root";
+import { IZoom_Handler } from "../../handlers/handlers_use_case/Zoom/IZoom_Handler";
 
 
 export interface ICreate_Repository 
@@ -71,4 +74,14 @@ export interface IPaginate_Repository
     get_next_indexes(direction: number): number[];
     init_indexes(nb_idexes : number): number;
     store_subtrees_roots(subtrees_root: ISubtree_Root[]): void; 
+}
+
+
+export interface IChoose_Root_Repository
+{
+    get_next_indexes(direction: number): number[];
+    init_indexes_of_roots_to_choose(nb_indexes : number): number;
+    store_all_possible_roots(roots : string[]): void;
+    get_choose_root_container(container : Container, zoom_handler : IZoom_Handler, move_view_handler : IMove_View_Handler): IChoose_Root_Container;
+    get_choose_root_roots(indexes : number[]): IChoose_Root_Roots;
 }

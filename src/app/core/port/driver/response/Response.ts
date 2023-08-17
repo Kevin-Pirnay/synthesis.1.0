@@ -35,3 +35,18 @@ export class View_Paginate_Response
 {
     constructor(public dtos : IDto[]) { }
 }
+
+export class Choose_Root_Response
+{
+    constructor(public dtos : IDto[]) { }
+}
+
+export class Choosen_Root_Response
+{
+    constructor(public dtos : IDto[]) { }
+}
+
+export class View_Choose_Root_Response
+{
+    constructor(public dtos : IDto[]) { }
+}
