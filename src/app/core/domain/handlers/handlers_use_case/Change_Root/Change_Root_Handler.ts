@@ -11,7 +11,6 @@ export class Change_Root_Handler implements IChange_Root_Handler
         private __handler : IView_As_Root_Handler
     ) { }
     
-    //put that in a handler
     public change_root(flow: string) : IDto[] 
     {
         this.__change_root_repository.change_current_flow(flow);
