@@ -55,7 +55,7 @@ export class Dao_Container implements IDao_Container
         return this.__get_handler.get_default_position_of_the_root();
     }
 
-    public get_container_by_id(container_id: string): Container 
+    public get_container_by_id_for_the_current_flow(container_id: string): Container 
     {
        return this.__get_handler.get_container_by_id_for_the_current_flow(container_id);
     }
@@ -68,6 +68,11 @@ export class Dao_Container implements IDao_Container
     get_root_container_of_the_current_flow(): Container 
     {
         return this.__get_handler.get_root_container_of_the_current_flow();
+    }
+
+    public get_root_container(flow: string): Container 
+    {
+        return this.__get_handler.get_root_container(flow);
     }
 }
 

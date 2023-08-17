@@ -4,7 +4,7 @@ import { Indexes } from "../../handlers/handlers_use_case/Indexes/Indexes";
 import { ISubtree_Root, View_As_Root_Handler } from "../../handlers/handlers_use_case/View_As_Root/View_As_Root_Handler";
 import { IPaginate_Data } from "./injectors/View_Paginate";
 import { IPaginate_Repository } from "../interfaces/IRepository";
-import { Paginate_Data } from "./Paginate_Data";
+import { Paginate_Data } from "./injectors/Paginate_Data";
 
 
 export class Paginate_Repository implements IPaginate_Repository

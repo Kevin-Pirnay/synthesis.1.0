@@ -15,6 +15,7 @@ import { IPaginate_Data } from "../implementations/injectors/View_Paginate";
 import { IMove_View_Handler } from "../../handlers/handlers_use_case/Move_View/IMove_View_Handler";
 import { IChoose_Roots_Root, IChoose_Roots_Container } from "../../use_cases/Choose_Root/Init_Choose_Root";
 import { IZoom_Handler } from "../../handlers/handlers_use_case/Zoom/IZoom_Handler";
+import { ILink_Roots } from "../../use_cases/Link_Root/Init_Link_Roots";
 
 
 export interface ICreate_Repository 
@@ -91,4 +92,12 @@ export interface IChange_Root_Repository
 {
     change_current_flow(flow: string): void;
     get_root_container_from_the_current_flow() : Container;
+}
+
+
+export interface ILink_Roots_Repository
+{
+    get_link_roots_data(indexes: number[]): ILink_Roots;
+    init_indexes(): number;
+    store_all_subtrees_root(): void;
 }

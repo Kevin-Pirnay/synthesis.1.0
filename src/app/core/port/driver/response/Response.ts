@@ -50,3 +50,8 @@ export class View_Choose_Root_Response
 {
     constructor(public dtos : IDto[]) { }
 }
+
+export class View_Link_Roots_Response
+{
+    constructor(public dtos : IDto[]) { }
+}
