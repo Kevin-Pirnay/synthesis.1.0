@@ -8,7 +8,8 @@ import { Container } from "../../../entities/Container";
 import { IMove_View_Handler } from "../../../handlers/handlers_use_case/Move_View/IMove_View_Handler";
 import { IZoom_Handler } from "../../../handlers/handlers_use_case/Zoom/IZoom_Handler";
 import { IChoose_Roots_Container, IChoose_Roots_Root } from "../../../use_cases/Choose_Root/Init_Choose_Root";
-import { IZoom_On_Target, Zoom_On_Target } from '../../../handlers/handlers_use_case/Rotate/Rotate_Handler';
+import { IZoom_On_Target } from '../../../handlers/handlers_use_case/Rotate/Zoom_On_Target';
+import { Zoom_On_Target } from '../../../handlers/handlers_use_case/Rotate/Zoom_On_Target';
 
 
 //dont forget to remove root_dto from the view once it's ending
@@ -28,7 +29,7 @@ export class Choose_Roots_Container implements IChoose_Roots_Container
 
     public zoom_and_place_itself_at_the_bottom(): void 
     {
-        this.__zoom_on_target.zoom();
+        this.__zoom_on_target.move_and_zoom();
     }
 }
 
