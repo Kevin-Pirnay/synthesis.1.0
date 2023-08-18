@@ -1,3 +1,4 @@
+import { Cramer_Quadratic } from './../../../../common/Cramer/Cramer';
 import { Matrix } from "../../../../common/Matrix/Matrix";
 import { Vector } from "../../../../common/Vector/Vector";
 import { IMove_View_Handler } from "../Move_View/IMove_View_Handler";
@@ -193,26 +194,42 @@ class Zoom_quadratic_By_Step implements IZoom_By_Step
 
 class Move_Quadratic_By_Step implements IMove_By_Step
 {
-    private readonly __step_x : number;
-    private readonly __step_y : number;
     private readonly __handler : IMove_View_Handler;
+    private readonly __coeff_quad_eq : Vector;
+    private readonly __step_x : number;
+    private __current_step_x = 0;
+    private __current_step_y : number = 0;
 
     constructor(x_y_normalize : Vector, distance : number, move_handler : IMove_View_Handler) 
     { 
         this.__handler = move_handler;
 
         this.__step_x = x_y_normalize._[0] / distance;
-        const slope = x_y_normalize._[1] / (x_y_normalize[0] ** 2);
-        this.__step_y = 2 * slope * this.__step_x
+
+        const x = x_y_normalize._[0];
+        const y = x_y_normalize._[1];
+
+        const p1 = new Vector([0,0]);
+        const p2 = new Vector([x/2, y/2**2 ]);
+        const p3 = new Vector([x,y]);
+
+        this.__coeff_quad_eq = new Cramer_Quadratic(p1,p2,p3).get_coefficients();
     }
 
     public move_by_step(): void 
     {
-        const delta = Vector_.new([this.__step_x, this.__step_y]);
+        const delta = Vector_.new([this.__step_x, this.__current_step_y]);
 
         this.__handler.move_view_by_delta(delta);
+
+        this.__current_step_x += this.__step_x;
+
+        const a = this.__coeff_quad_eq._[0];
+        const b = this.__coeff_quad_eq._[1];
+        const x = this.__current_step_x;
+
+        this.__current_step_y =  2 * a * x + b;
     }
-    
 }
 
 class Step implements IStep
