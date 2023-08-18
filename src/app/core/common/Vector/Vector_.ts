@@ -2,7 +2,7 @@ import { Vector } from "./Vector";
 
 export class Vector_
 {
-    public static zero = () : Vector => { return new Vector(); }
+    public static zero = () : Vector => { return new Vector([0,0,0,0]); }
 
     public static new = (data : number[] = []) : Vector => { return new Vector(data); }
 

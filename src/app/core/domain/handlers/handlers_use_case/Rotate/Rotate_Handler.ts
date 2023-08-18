@@ -101,7 +101,7 @@ class Zoom_On_Target
     ) {
         const pre_process = new Pre_process(abs_ratio_target, coordinates_wanted, ratio, zoom_handler.get_current_zoom_fator()).result;
 
-        this.__move = new Move_Quadratic_By_Step(pre_process.slope, pre_process.distance, move_view_handler);
+        this.__move = new Move_Quadratic_By_Step(pre_process.x_y_normalize, pre_process.distance, move_view_handler);
         this.__zoom = new Zoom_quadratic_By_Step(pre_process.delta_factor, pre_process.distance, zoom_handler);
         this.__step = new Step(pre_process.distance);
     }
@@ -112,7 +112,7 @@ class Zoom_On_Target
 
         while(1)
         {
-            this.__move.increment_by_step();
+            this.__move.move_by_step();
 
             this.__zoom.zoom_by_step();
 
@@ -129,7 +129,7 @@ class Pre_Process_Result
 {
     constructor(
         public readonly delta_factor : number,
-        public readonly slope : number,
+        public readonly x_y_normalize : Vector,
         public readonly distance : number
     ) { }
 }
@@ -150,16 +150,16 @@ class Pre_process
     private __pre_process(abs_ratio_target: Matrix<4>, coordinates_wanted : Vector, ratio : number, current_zoom_factor : number) : Pre_Process_Result
     {
         const max_factor : number = new Compute_Max_Zoom_Factor(abs_ratio_target, ratio).max_factor;
-        const C_D_S = new Compute_Distance_and_Slope(abs_ratio_target, coordinates_wanted, max_factor);
+        const C_D_S = new Compute_Distance(abs_ratio_target, coordinates_wanted, max_factor);
         const delta_factor : number = max_factor - current_zoom_factor;
 
-        return new Pre_Process_Result(delta_factor, C_D_S.slope, C_D_S.distance);
+        return new Pre_Process_Result(delta_factor, C_D_S.x_y_normalize, C_D_S.distance);
     }
 }
 
 interface IMove_By_Step
 {
-    increment_by_step(): unknown;
+    move_by_step(): unknown;
 
 }
 
@@ -180,7 +180,7 @@ class Zoom_quadratic_By_Step implements IZoom_By_Step
 {
     private readonly __zoom_factor_step : number;
 
-    constructor(step_zoom_factor : number, distance : number, zoom_handler : IZoom_Handler) 
+    constructor(delta_factor : number, distance : number, zoom_handler : IZoom_Handler) 
     { 
 
     }
@@ -195,15 +195,22 @@ class Move_Quadratic_By_Step implements IMove_By_Step
 {
     private readonly __step_x : number;
     private readonly __step_y : number;
+    private readonly __handler : IMove_View_Handler;
 
-    constructor(slope : number, distance : number, move_handler : IMove_View_Handler) 
+    constructor(x_y_normalize : Vector, distance : number, move_handler : IMove_View_Handler) 
     { 
+        this.__handler = move_handler;
 
+        this.__step_x = x_y_normalize._[0] / distance;
+        const slope = x_y_normalize._[1] / (x_y_normalize[0] ** 2);
+        this.__step_y = 2 * slope * this.__step_x
     }
 
-    public increment_by_step(): void 
+    public move_by_step(): void 
     {
-        throw new Error("Method not implemented.");
+        const delta = Vector_.new([this.__step_x, this.__step_y]);
+
+        this.__handler.move_view_by_delta(delta);
     }
     
 }
@@ -234,10 +241,10 @@ class Step implements IStep
     }
 }
 
-class Compute_Distance_and_Slope
+class Compute_Distance
 {
     public readonly distance : number;
-    public readonly slope : number;
+    public readonly x_y_normalize : Vector;
 
     constructor(abs_ratio_target: Matrix<4>, coordinates_wanted : Vector, max_factor_zoom : number) 
     {
@@ -247,7 +254,7 @@ class Compute_Distance_and_Slope
 
         this.distance = dist * max_factor_zoom;
 
-        this.slope = this.__compute_slope(center_target, coordinates_wanted);
+        this.x_y_normalize = this.__compute_x_y_normalize(center_target, coordinates_wanted);
     }
     
     private __compute_distance(a: Vector, b: Vector) : number
@@ -266,12 +273,12 @@ class Compute_Distance_and_Slope
         return Vector_.new([x, y]);
     }
 
-    private __compute_slope(a: Vector, b: Vector) : number
+    private __compute_x_y_normalize(a: Vector, b: Vector) : Vector
     {
         const x = a._[0] - b._[0];
         const y = a._[1] - b._[1];
 
-        return y / x;
+        return Vector_.new([x,y]);
     }
 }
 

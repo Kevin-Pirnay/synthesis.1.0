@@ -1,3 +1,4 @@
+import { TestService } from './../../services/test/test.service';
 import { Component } from '@angular/core';
 import { IDto } from '../../../../core/port/driver/dto/IDto';
 import { Container } from '../../../../core/domain/entities/Container';
@@ -21,9 +22,10 @@ export class SvgComponent
   private __is_zooming : boolean = false;
   private __is_moving_view : boolean = false;
 
-  constructor(private readonly __svg_service : SvgService)
+  constructor(private readonly __svg_service : SvgService, private readonly __test : TestService)
   {
     this.dtos = this.__svg_service.dtos;
+    this.test();
   }
 
   public mouse_over_container(container : Container) : void
@@ -100,6 +102,11 @@ export class SvgComponent
   public dbclick_on_container(container : Container) : void
   {
     this.__svg_service.request_delete_container(container);
+  }
+
+  public test() : void
+  {
+    this.__test.test();
   }
 }
 
