@@ -10,17 +10,22 @@ export class TestService
 {
   public test() : void
   {
-    const p1 = Vector_.new([2,1,1]);
-    const p2 = Vector_.new([0,3,-1]);
-    const p3 = Vector_.new([1,2,2]);
+    // const p1 = Vector_.new([2,1,1]);
+    // const p2 = Vector_.new([0,3,-1]);
+    // const p3 = Vector_.new([1,2,2]);
 
-    const matrix = new Matrix([p1,p2,p3]);
+    // const matrix = new Matrix([p1,p2,p3]);
 
-    const y_res = new Vector([1,7,-4]);
+    // const y_res = new Vector([1,7,-4]);
 
-    const result = new Cramer_Quadratic(p1,p2,p3).get_coefficients(matrix, y_res);
+    // const result = new Cramer_Quadratic(p1,p2,p3).get_coefficients(matrix, y_res);
     
+    // console.log(result);
+
+    const result = Math.log(16) / Math.log(2);
+
     console.log(result);
+    
     
   }
 }

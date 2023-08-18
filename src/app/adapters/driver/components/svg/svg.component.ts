@@ -86,6 +86,10 @@ export class SvgComponent
         this.__svg_service.request_move_view(e.key);
       break;
 
+      case '£':
+        if (this.__focus_container) this.__svg_service.request_init_choose_root(this.__focus_container);
+      break;
+
       default:
         break;
     }
@@ -101,7 +105,8 @@ export class SvgComponent
   
   public dbclick_on_container(container : Container) : void
   {
-    this.__svg_service.request_delete_container(container);
+    //this.__svg_service.request_delete_container(container);
+    this.__svg_service.request_mark_as_root(container);
   }
 
   public test() : void

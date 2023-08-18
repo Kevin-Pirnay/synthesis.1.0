@@ -47,8 +47,11 @@ export interface IZoom_Repository
     init_stop_zoom_condition(): Ptr_Boolean;
     get_all_zooms_positions(): IZoom_Positions[];
     update_zoom_factor(direction: number): number;
+    update_zoom_level(level : number) : number;
     get_zoom_factor() : number;
     get_unzoom_factor() : number;
+    get_current_level() : number;
+    get_alpha() : number;
 }
 
 

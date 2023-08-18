@@ -60,6 +60,27 @@ export class Zoom_Repository implements IZoom_Repository
         if(direction !== -1 && direction !== 1) throw new Error("Directions must be either 1 or -1");
 
         this.__zoom_level += direction;
-        return this.__alpha ** this.__zoom_level;
+        const factor = this.__alpha ** this.__zoom_level;
+
+        return factor;
+    }
+
+    public update_zoom_level(level: number) : number
+    {
+        this.__zoom_level = level;
+
+        const factor = this.__alpha ** this.__zoom_level;
+
+        return factor;
+    }
+
+    public get_current_level() : number
+    {
+        return this.__zoom_level;
+    }
+
+    public get_alpha() : number
+    {
+        return this.__alpha;
     }
 }

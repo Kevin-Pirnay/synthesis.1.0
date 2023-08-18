@@ -4,7 +4,7 @@ import { IDto } from '../../../../core/port/driver/dto/IDto';
 import { Vector_ } from '../../../../core/common/Vector/Vector_';
 import { Container } from '../../../../core/domain/entities/Container';
 import { Ligature } from '../../../../core/domain/entities/Ligature';
-import { Create_Container_Request, Delete_Container_Request, Move_Container_Request, Move_ligature_Request, Assign_Ligature_Request, Move_View_Request, Zoom_Request, View_As_Root_Request, Mark_As_Root_Request } from '../../../../core/port/driver/request/request';
+import { Create_Container_Request, Delete_Container_Request, Move_Container_Request, Move_ligature_Request, Assign_Ligature_Request, Move_View_Request, Zoom_Request, View_As_Root_Request, Mark_As_Root_Request, Choose_Root_Request } from '../../../../core/port/driver/request/request';
 
 @Injectable({
   providedIn: 'root'
@@ -102,5 +102,17 @@ export class SvgService
     this.dtos.length = 0; 
         
     this.dtos.push(response.dto);
+  }
+
+  public request_init_choose_root(container : Container) : void
+  {
+    const request = new Choose_Root_Request(container);
+
+    const response = Pipeline.facade.execute_init_choose_roots(request);
+
+    console.log(response);
+    
+    
+    //response.dtos.forEach(dto => this.roots_dto.push(dto)); 
   }
 }

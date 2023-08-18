@@ -54,10 +54,10 @@ export class Zoom_On_Target implements IZoom_On_Target
         zoom_handler: IZoom_Handler,
         move_view_handler: IMove_View_Handler
     ) {
-        const pre_process = new Pre_process(abs_ratio_target, coordinates_wanted, ratio, zoom_handler.get_current_zoom_fator()).result;
+        const pre_process = new Pre_process(abs_ratio_target, coordinates_wanted, ratio, zoom_handler.get_current_zoom_fator(),zoom_handler.get_current_level(), zoom_handler.get_alpha()).result;
 
         this.__move = new Move_Quadratic_By_Step(pre_process.x_y_normalize, pre_process.distance, move_view_handler);
-        this.__zoom = new Zoom_quadratic_By_Step(pre_process.delta_factor, pre_process.distance, zoom_handler);
+        this.__zoom = new Zoom_quadratic_By_Step(pre_process.delta_zoom_level, pre_process.distance, zoom_handler);
         this.__step = new Step(pre_process.distance);
     }
 
@@ -69,7 +69,7 @@ export class Zoom_On_Target implements IZoom_On_Target
         {
             this.__move.move_by_step();
 
-            this.__zoom.zoom_by_step();
+            //this.__zoom.zoom_by_step();
 
             this.__step.next_step();
 
@@ -83,7 +83,7 @@ export class Zoom_On_Target implements IZoom_On_Target
 class Pre_Process_Result
 {
     constructor(
-        public readonly delta_factor : number,
+        public readonly delta_zoom_level : number,
         public readonly x_y_normalize : Vector,
         public readonly distance : number
     ) { }
@@ -97,21 +97,21 @@ class Pre_process
         abs_ratio_target: Matrix<4>,
         coordinates_wanted : Vector,
         ratio : number,
-        current_zoom_factor : number
+        current_factor : number,
+        current_zoom_level : number,
+        alpha : number
     ) 
-    {
-        this.result = this.__pre_process(abs_ratio_target, coordinates_wanted, ratio, current_zoom_factor);
+    {        
+        this.result = this.__pre_process(abs_ratio_target, coordinates_wanted, ratio, current_factor, current_zoom_level, alpha);
     }
 
-    private __pre_process(abs_ratio_target: Matrix<4>, coordinates_wanted : Vector, ratio : number, current_zoom_factor : number) : Pre_Process_Result
+    private __pre_process(abs_ratio_target: Matrix<4>, coordinates_wanted : Vector, ratio : number, current_factor : number, current_zoom_level : number, alpha : number) : Pre_Process_Result
     {
-        const max_factor : number = new Compute_Max_Zoom_Factor(abs_ratio_target, ratio).max_factor;
+        const C_M_Z_F_A_L = new Compute_Max_Zoom_Factor_And_Level(abs_ratio_target, ratio, current_factor, current_zoom_level, alpha);                
 
-        const C_D_S = new Compute_Distance(abs_ratio_target, coordinates_wanted, max_factor);
+        const C_D_S = new Compute_Distance(abs_ratio_target, coordinates_wanted, C_M_Z_F_A_L.max_factor);
 
-        const delta_factor : number = max_factor - current_zoom_factor;
-
-        return new Pre_Process_Result(delta_factor, C_D_S.x_y_normalize, C_D_S.distance);
+        return new Pre_Process_Result(C_M_Z_F_A_L.delta_level, C_D_S.x_y_normalize, C_D_S.distance);
     }
 }
 
@@ -142,16 +142,19 @@ class Zoom_quadratic_By_Step implements IZoom_By_Step
     private __zoom_factor_step : number = 0;
     private __current_factor : number = 0;
 
-    constructor(delta_factor : number, distance : number, zoom_handler : IZoom_Handler) 
+    constructor(delta_zoom_level : number, distance : number, zoom_handler : IZoom_Handler) 
     { 
         this.__handler = zoom_handler;
 
         const x0 = distance;
-        const y0 = delta_factor;
+        const y0 = delta_zoom_level;
 
-        const p1 = new Vector([0,0]);
-        const p2 = new Vector([x0/2, -((y0/2)**2) ]);
+        this.__current_factor = zoom_handler.get_current_zoom_fator();
+        
+        const p1 = new Vector([this.__current_factor,1]);
+        const p2 = new Vector([x0/2, (y0/2)**2]);
         const p3 = new Vector([x0,y0]);
+
 
         this.__coeff_quad_eq = new Cramer_Quadratic(p1,p2,p3).get_coefficients();
 
@@ -159,7 +162,7 @@ class Zoom_quadratic_By_Step implements IZoom_By_Step
 
     public zoom_by_step(): void 
     {
-        this.__handler.zoom_current_flow_by_factor(this.__current_factor);
+        this.__handler.zoom_current_flow_by_level(this.__current_factor);
 
         this.__current_step_x += 1;
 
@@ -169,7 +172,7 @@ class Zoom_quadratic_By_Step implements IZoom_By_Step
 
         this.__zoom_factor_step = 2 * a * x + b;
 
-        this.__current_factor += this.__zoom_factor_step;
+        this.__current_factor += this.__zoom_factor_step;        
     }
 }
 
@@ -182,24 +185,27 @@ class Move_Quadratic_By_Step implements IMove_By_Step
     private __current_step_y : number = 0;
 
     constructor(x_y_normalize : Vector, distance : number, move_handler : IMove_View_Handler) 
-    { 
+    {         
         this.__handler = move_handler;
 
-        this.__step_x = x_y_normalize._[0] / distance;
+        this.__step_x = x_y_normalize._[0] / distance;        
 
         const x = x_y_normalize._[0];
         const y = x_y_normalize._[1];
 
         const p1 = new Vector([0,0]);
-        const p2 = new Vector([x/2, y/2**2 ]);
+        const p2 = new Vector([x/2, (-y)]);
         const p3 = new Vector([x,y]);
+
+        console.log(x,y);
+        
 
         this.__coeff_quad_eq = new Cramer_Quadratic(p1,p2,p3).get_coefficients();
     }
 
     public move_by_step(): void 
     {
-        const delta = Vector_.new([this.__step_x, this.__current_step_y]);
+        const delta = Vector_.new([-this.__step_x, this.__current_step_y]);
 
         this.__handler.move_view_by_delta(delta);
 
@@ -248,11 +254,16 @@ class Compute_Distance
     {
         const center_target : Vector = this.__compute_center_point(abs_ratio_target);
 
-        const dist : number = this.__compute_distance(center_target, coordinates_wanted);
+        //const dist : number = this.__compute_distance(center_target, coordinates_wanted);
+        const dist : number = this.__compute_distance(abs_ratio_target._[0], coordinates_wanted);
 
-        this.distance = dist * max_factor_zoom;
+        this.distance = dist /// max_factor_zoom;
 
-        this.x_y_normalize = this.__compute_x_y_normalize(center_target, coordinates_wanted);
+        //this.x_y_normalize = this.__compute_x_y_normalize(center_target, coordinates_wanted);
+        this.x_y_normalize = this.__compute_x_y_normalize(abs_ratio_target._[0], coordinates_wanted);
+
+        console.log(coordinates_wanted);
+        
     }
     
     private __compute_distance(a: Vector, b: Vector) : number
@@ -260,7 +271,9 @@ class Compute_Distance
         const x2 = (a._[0] - b._[0]) ** 2;
         const y2 = (a._[1] - b._[1]) ** 2;
 
-        return Math.sqrt(x2 + y2);
+        const distance =  Math.sqrt(x2 + y2);        
+
+        return distance;
     }
 
     private __compute_center_point(matrix : Matrix<4>) : Vector
@@ -276,24 +289,35 @@ class Compute_Distance
         const x = a._[0] - b._[0];
         const y = a._[1] - b._[1];
 
-        return Vector_.new([x,y]);
+        const result = Vector_.new([x,y]);
+
+        return result;
     }
 }
 
-class Compute_Max_Zoom_Factor
+class Compute_Max_Zoom_Factor_And_Level
 {
     public readonly max_factor : number;
+    public readonly delta_level : number;
 
-    constructor(abs_ratio_target: Matrix<4>, ratio_x : number) 
+    constructor(abs_ratio_target: Matrix<4>, ratio_x : number, current_factor : number, current_level : number, alpha : number) 
     {
         const width_target = this.__compute_x_width_target(abs_ratio_target);
 
-        this.max_factor = this.__compute_max_zoom_factor(width_target, ratio_x);
+        this.max_factor = this.__compute_max_zoom_factor(ratio_x, width_target);
+
+        const max_level = Math.log(this.max_factor) / Math.log(current_factor + 0.1);
+
+        this.delta_level = max_level - current_level;
+
+        console.log(current_level, max_level, this.delta_level, alpha, current_factor, this.max_factor);
     }
 
-    private __compute_max_zoom_factor(x_with_wanted : number, x_width_target : number)
+    private __compute_max_zoom_factor(x_with_wanted : number, x_width_target : number) : number
     {
-        return x_with_wanted / x_width_target;
+        const factor = x_with_wanted / x_width_target;        
+
+        return factor;
     }
 
     private __compute_x_width_target(abs_ratio: Matrix<4>) : number

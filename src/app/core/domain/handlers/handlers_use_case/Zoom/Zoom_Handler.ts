@@ -4,7 +4,6 @@ import { Vector_ } from '../../../../common/Vector/Vector_';
 import { Container } from '../../../entities/Container';
 import { Ligature } from '../../../entities/Ligature';
 import { IZoom_Repository } from '../../../repository/interfaces/IRepository';
-import { IData_Tree } from '../View_As_Root/View_As_Root_Handler';
 import { IZoom_Handler } from './IZoom_Handler';
 
 
@@ -15,11 +14,6 @@ export class Zoom_Handler implements IZoom_Handler
     get_current_zoom_fator() : number
     {
         return this.__repository.get_zoom_factor();
-    }
-
-    zoom_data_tree_by_factor(factor: number, data: IData_Tree[]): void 
-    {
-        throw new Error('Method not implemented.');
     }
 
     public update_container_with_current_zoom(container: Container): void 
@@ -70,7 +64,7 @@ export class Zoom_Handler implements IZoom_Handler
         this.__repository.set_stop_zoom_condition_to(true);
     }
 
-    public zoom_current_flow_by_factor(factor: number): void 
+    public zoom_current_flow_by_level(level: number): void 
     {
         const positions : IZoom_Positions[] = this.__repository.get_all_zooms_positions();
 
@@ -79,7 +73,18 @@ export class Zoom_Handler implements IZoom_Handler
         this.__zoom(positions, unzoom_factor);
 
         //zoom by factor
-        this.__zoom(positions, factor);  
+        const zoom_factor = this.__repository.update_zoom_level(level);
+        this.__zoom(positions, zoom_factor);
+    }
+
+    public get_current_level() : number
+    {
+        return this.__repository.get_current_level();
+    }
+
+    public get_alpha() : number
+    {
+        return this.__repository.get_alpha();
     }
     
     private __zoom(positions : IZoom_Positions[], factor : number) : void
