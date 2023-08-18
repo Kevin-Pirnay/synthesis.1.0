@@ -10,22 +10,47 @@ export class TestService
 {
   public test() : void
   {
-    // const p1 = Vector_.new([2,1,1]);
-    // const p2 = Vector_.new([0,3,-1]);
-    // const p3 = Vector_.new([1,2,2]);
+    // const p1 = Vector_.new([1,2]);
+    // const p2 = Vector_.new([2,2.7]);
+    // const p3 = Vector_.new([3,3.2]);
 
     // const matrix = new Matrix([p1,p2,p3]);
 
     // const y_res = new Vector([1,7,-4]);
 
-    // const result = new Cramer_Quadratic(p1,p2,p3).get_coefficients(matrix, y_res);
+    // const result = new Cramer_Quadratic(p1,p2,p3).get_coefficients();
     
     // console.log(result);
 
-    const result = Math.log(16) / Math.log(2);
+    //const result = Math.log(16) / Math.log(2);
 
-    console.log(result);
-    
+    //console.log(result);
+
+    let result =-2;
+    let previous_x = -2;
+    let current_x = -2;
+    let previous_y = -2;
+    let current_y = -2;
+
+    const interval = 1;
+
+    for(let i = 0; i < (2 + 4)/interval; i++)
+    {
+      current_x += interval;
+        current_y = -1/6 * (current_x * current_x) + 2/3 * current_x + 0;
+        previous_y = -1/6 * (previous_x * previous_x) + 2/3 * previous_x + 0;
+
+        const delta_y = current_y - previous_y;
+
+        result = result + delta_y;        
+        
+        previous_x += interval
+        //previous_y = current_y;
+    }
+    console.log(result, 0);
+    console.log(current_x);
+
+    console.log(-1/6 * 16 + 2/3 * 4 + 0);
     
   }
 }
@@ -92,8 +117,8 @@ class Cramer_Quadratic
     return result;
   }
 
-  public get_coefficients(matrix : Matrix<3>, y_vec : Vector) : Vector
+  public get_coefficients() : Vector
   {
-    return this.__run_cramer_rule(matrix, y_vec);
+    return this.__run_cramer_rule(this.__matrix, this.__y_vector);
   }
 }

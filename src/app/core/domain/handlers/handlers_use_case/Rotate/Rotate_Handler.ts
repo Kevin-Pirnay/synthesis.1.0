@@ -181,8 +181,8 @@ class Move_Quadratic_By_Step implements IMove_By_Step
     private readonly __handler : IMove_View_Handler;
     private readonly __coeff_quad_eq : Vector;
     private readonly __step_x : number;
-    private __current_step_x = 0;
-    private __current_step_y : number = 0;
+    private __current_x : number = 0;
+    private __previous_y : number = 0;
 
     constructor(x_y_normalize : Vector, distance : number, move_handler : IMove_View_Handler) 
     {         
@@ -194,28 +194,30 @@ class Move_Quadratic_By_Step implements IMove_By_Step
         const y = x_y_normalize._[1];
 
         const p1 = new Vector([0,0]);
-        const p2 = new Vector([x/2, (-y)]);
-        const p3 = new Vector([x,y]);
-
-        console.log(x,y);
-        
+        const p2 = new Vector([x/2, (1/y)]);
+        const p3 = new Vector([x,y]);        
 
         this.__coeff_quad_eq = new Cramer_Quadratic(p1,p2,p3).get_coefficients();
     }
 
     public move_by_step(): void 
     {
-        const delta = Vector_.new([-this.__step_x, this.__current_step_y]);
-
-        this.__handler.move_view_by_delta(delta);
-
-        this.__current_step_x += this.__step_x;
+        this.__current_x += this.__step_x;
 
         const a = this.__coeff_quad_eq._[0];
         const b = this.__coeff_quad_eq._[1];
-        const x = this.__current_step_x;
+        const c = this.__coeff_quad_eq._[2];
+        const x = this.__current_x;
 
-        this.__current_step_y =  2 * a * x + b;
+        const current_y = a * (x*x) + b * x + c;
+
+        const delta = current_y - this.__previous_y;
+
+        const delta_vec = Vector_.new([-this.__step_x, -delta]);
+
+        this.__handler.move_view_by_delta(delta_vec);
+
+        this.__previous_y = current_y;
     }
 }
 
