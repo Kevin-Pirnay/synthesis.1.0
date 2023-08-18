@@ -54,9 +54,9 @@ export class Zoom_On_Target implements IZoom_On_Target
         zoom_handler: IZoom_Handler,
         move_view_handler: IMove_View_Handler
     ) {
-        const pre_process = new Pre_process(abs_ratio_target, coordinates_wanted, ratio, zoom_handler.get_current_zoom_fator(),zoom_handler.get_current_level(), zoom_handler.get_alpha()).result;
+        const pre_process = new Pre_process(abs_ratio_target, coordinates_wanted, ratio, zoom_handler.get_current_zoom_fator(), zoom_handler.get_alpha()).result;
 
-        this.__move = new Move_Quadratic_By_Step(pre_process.x_y_normalize, pre_process.distance, pre_process.max_factor, move_view_handler);
+        this.__move = new Move_Quadratic_By_Step(pre_process.x_y_normalize, pre_process.distance, move_view_handler, zoom_handler);
         this.__zoom = new Zoom_quadratic_By_Step(pre_process.delta_zoom_level, pre_process.distance, zoom_handler);
         this.__step = new Step(pre_process.distance);
     }
@@ -86,7 +86,6 @@ class Pre_Process_Result
         public readonly delta_zoom_level : number,
         public readonly x_y_normalize : Vector,
         public readonly distance : number,
-        public readonly max_factor : number
     ) { }
 }
 
@@ -99,20 +98,19 @@ class Pre_process
         coordinates_wanted : Vector,
         ratio : number,
         current_factor : number,
-        current_zoom_level : number,
         alpha : number
     ) 
     {        
-        this.result = this.__pre_process(abs_ratio_target, coordinates_wanted, ratio, current_factor, current_zoom_level, alpha);
+        this.result = this.__pre_process(abs_ratio_target, coordinates_wanted, ratio, current_factor, alpha);
     }
 
-    private __pre_process(abs_ratio_target: Matrix<4>, coordinates_wanted : Vector, ratio : number, current_factor : number, current_zoom_level : number, alpha : number) : Pre_Process_Result
+    private __pre_process(abs_ratio_target: Matrix<4>, coordinates_wanted : Vector, ratio : number, current_factor : number, alpha : number) : Pre_Process_Result
     {
-        const C_M_Z_F_A_L = new Compute_Max_Zoom_Factor_And_Level(abs_ratio_target, ratio, current_factor, current_zoom_level, alpha);                
+        const C_M_Z_F_A_L = new Compute_Max_Zoom_Factor_And_Level(abs_ratio_target, ratio, current_factor, alpha);                
 
-        const C_D_S = new Compute_Distance(abs_ratio_target, coordinates_wanted, C_M_Z_F_A_L.max_factor);
+        const C_D_S = new Compute_Distance(abs_ratio_target, coordinates_wanted);
 
-        return new Pre_Process_Result(C_M_Z_F_A_L.delta_level, C_D_S.x_y_normalize, C_D_S.distance, C_M_Z_F_A_L.max_factor);
+        return new Pre_Process_Result(C_M_Z_F_A_L.delta_level, C_D_S.x_y_normalize, C_D_S.distance);
     }
 }
 
@@ -186,6 +184,7 @@ class Zoom_quadratic_By_Step implements IZoom_By_Step
 class Move_Quadratic_By_Step implements IMove_By_Step
 {
     private readonly __handler : IMove_View_Handler;
+    private readonly __zoom_handler : IZoom_Handler;
     private readonly __coeff_quad_eq : Vector;
     private readonly __step_x : number;
     private __current_x : number = 0;
@@ -194,11 +193,12 @@ class Move_Quadratic_By_Step implements IMove_By_Step
     constructor(x_y_normalize : Vector, distance : number, move_handler : IMove_View_Handler, zoom_handler : IZoom_Handler) 
     {         
         this.__handler = move_handler;
+        this.__zoom_handler = zoom_handler;
 
-        this.__step_x = (x_y_normalize._[0] / distance) * max_factor;        
+        this.__step_x = x_y_normalize._[0] / distance;       
 
-        const x = x_y_normalize._[0] //* max_factor;
-        const y = x_y_normalize._[1] //* max_factor;
+        const x = x_y_normalize._[0];
+        const y = x_y_normalize._[1];
 
         const p1 = new Vector([0,0]);
         const p2 = new Vector([x/2, (1/y)]);
@@ -216,11 +216,11 @@ class Move_Quadratic_By_Step implements IMove_By_Step
         const c = this.__coeff_quad_eq._[2];
         const x = this.__current_x;
 
-        const current_y = a * (x*x) + b * x + c;
+        const current_y = (a * (x*x) + b * x + c);
 
         const delta = current_y - this.__previous_y;
 
-        const delta_vec = Vector_.new([-this.__step_x, -delta]);
+        const delta_vec = Vector_.new([-this.__step_x * this.__zoom_handler.get_current_zoom_fator(), -delta * this.__zoom_handler.get_current_zoom_fator()]);
 
         this.__handler.move_view_by_delta(delta_vec);
 
@@ -259,14 +259,12 @@ class Compute_Distance
     public readonly distance : number;
     public readonly x_y_normalize : Vector;
 
-    constructor(abs_ratio_target: Matrix<4>, coordinates_wanted : Vector, max_factor_zoom : number) 
+    constructor(abs_ratio_target: Matrix<4>, coordinates_wanted : Vector) 
     {
         const center_target : Vector = this.__compute_center_point(abs_ratio_target);
 
         //const dist : number = this.__compute_distance(center_target, coordinates_wanted);
-        const dist : number = this.__compute_distance(abs_ratio_target._[0], coordinates_wanted);
-
-        this.distance = dist //* max_factor_zoom;
+        this.distance = this.__compute_distance(abs_ratio_target._[0], coordinates_wanted);
 
         //this.x_y_normalize = this.__compute_x_y_normalize(center_target, coordinates_wanted);
         this.x_y_normalize = this.__compute_x_y_normalize(abs_ratio_target._[0], coordinates_wanted);        
@@ -306,13 +304,13 @@ class Compute_Max_Zoom_Factor_And_Level
     public readonly max_factor : number;
     public readonly delta_level : number;
 
-    constructor(abs_ratio_target: Matrix<4>, ratio_x : number, current_factor : number, current_level : number, alpha : number) 
+    constructor(abs_ratio_target: Matrix<4>, ratio_x : number, current_level : number, alpha : number) 
     {
         const width_target = this.__compute_x_width_target(abs_ratio_target);
 
         this.max_factor = this.__compute_max_zoom_factor(ratio_x, width_target);
 
-        const max_level = Math.log(this.max_factor) / Math.log(current_factor + 0.01);
+        const max_level = Math.log(this.max_factor) / Math.log(alpha);
 
         this.delta_level = max_level - current_level;
     }
