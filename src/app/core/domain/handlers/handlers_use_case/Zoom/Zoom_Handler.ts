@@ -12,6 +12,16 @@ export class Zoom_Handler implements IZoom_Handler
 {
     constructor(private readonly __repository : IZoom_Repository) { }
 
+    get_current_zoom_fator() : number
+    {
+        return this.__repository.get_zoom_factor();
+    }
+
+    zoom_data_tree_by_factor(factor: number, data: IData_Tree[]): void 
+    {
+        throw new Error('Method not implemented.');
+    }
+
     public update_container_with_current_zoom(container: Container): void 
     {
         const zoom_factor : number = this.__repository.get_zoom_factor();
