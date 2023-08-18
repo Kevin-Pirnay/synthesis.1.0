@@ -6,57 +6,6 @@ import { IZoom_Handler } from "../Zoom/IZoom_Handler";
 import { Vector_ } from '../../../../common/Vector/Vector_';
 
 
-export class Rotate_On_Target_Handler
-{
-    public async rotate(direction: number, axe_rotation : Vector, center_rotation : Vector, rate : number, max_angle : number, phase : number, data : IRotate_On_Target_Data[]): Promise<void> 
-    {
-        data.forEach(data => data.init_axe_rotation(axe_rotation));
-
-        let angle = 0;
-        while (1) 
-        {
-            const radian = angle * Math.PI / 180 * direction;
-            
-            for(let i = 0; i <= data.length; i++)
-            {
-                const dephasage = radian + (phase * direction * i);
-
-                data[data.length - i].rotate_position_on_a_certain_point(dephasage, center_rotation);
-            }
-
-            await new Promise(r => setTimeout(r, 1));
-
-            angle += (1 * rate);
-
-            if (Math.abs(angle) >= max_angle) break;
-        }
-    }
-
-    public async rotate_and_zoom(direction: number, axe_rotation : Vector, center_rotation : Vector, rate : number, max_angle : number, phase : number, data : IRotate_On_Target_Data[]): Promise<void> 
-    {
-        data.forEach(data => data.init_axe_rotation(axe_rotation));
-
-        let angle = 0;
-        while (1) 
-        {
-            const radian = angle * Math.PI / 180 * direction;
-            
-            for(let i = 0; i <= data.length; i++)
-            {
-                const dephasage = radian + (phase * direction * i);
-
-                data[data.length - i].rotate_position_on_a_certain_point(dephasage, center_rotation);
-            }
-
-            await new Promise(r => setTimeout(r, 1));
-
-            angle += (1 * rate);
-
-            if (Math.abs(angle) >= max_angle) break;
-        }
-    }
-}
-
 interface IRotate_On_Target_Data
 {
     init_axe_rotation(axe_rotation : Vector) : void;
@@ -86,8 +35,13 @@ class Rotate_On_Target_Data implements IRotate_On_Target_Data
     }
 }
 
+export interface IZoom_On_Target
+{
+    zoom() : void;
+}
 
-class Zoom_On_Target
+
+export class Zoom_On_Target implements IZoom_On_Target
 {
     private readonly __move : IMove_By_Step;
     private readonly __zoom : IZoom_By_Step;
@@ -144,14 +98,17 @@ class Pre_process
         coordinates_wanted : Vector,
         ratio : number,
         current_zoom_factor : number
-    ) {
+    ) 
+    {
         this.result = this.__pre_process(abs_ratio_target, coordinates_wanted, ratio, current_zoom_factor);
     }
 
     private __pre_process(abs_ratio_target: Matrix<4>, coordinates_wanted : Vector, ratio : number, current_zoom_factor : number) : Pre_Process_Result
     {
         const max_factor : number = new Compute_Max_Zoom_Factor(abs_ratio_target, ratio).max_factor;
+
         const C_D_S = new Compute_Distance(abs_ratio_target, coordinates_wanted, max_factor);
+
         const delta_factor : number = max_factor - current_zoom_factor;
 
         return new Pre_Process_Result(delta_factor, C_D_S.x_y_normalize, C_D_S.distance);
@@ -179,16 +136,40 @@ interface IStep
 
 class Zoom_quadratic_By_Step implements IZoom_By_Step
 {
-    private readonly __zoom_factor_step : number;
+    private readonly __handler : IZoom_Handler;
+    private readonly __coeff_quad_eq : Vector;
+    private __current_step_x = 0;
+    private __zoom_factor_step : number = 0;
+    private __current_factor : number = 0;
 
     constructor(delta_factor : number, distance : number, zoom_handler : IZoom_Handler) 
     { 
+        this.__handler = zoom_handler;
+
+        const x0 = distance;
+        const y0 = delta_factor;
+
+        const p1 = new Vector([0,0]);
+        const p2 = new Vector([x0/2, -((y0/2)**2) ]);
+        const p3 = new Vector([x0,y0]);
+
+        this.__coeff_quad_eq = new Cramer_Quadratic(p1,p2,p3).get_coefficients();
 
     }
 
     public zoom_by_step(): void 
     {
-        throw new Error("Method not implemented.");
+        this.__handler.zoom_current_flow_by_factor(this.__current_factor);
+
+        this.__current_step_x += 1;
+
+        const a = this.__coeff_quad_eq._[0];
+        const b = this.__coeff_quad_eq._[1];
+        const x = this.__current_step_x;
+
+        this.__zoom_factor_step = 2 * a * x + b;
+
+        this.__current_factor += this.__zoom_factor_step;
     }
 }
 

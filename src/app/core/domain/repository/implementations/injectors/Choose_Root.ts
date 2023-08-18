@@ -1,7 +1,5 @@
 import { Dto } from './../../../../port/driver/dto/Dto';
 import { Root_Choice } from './../../../entities/Root_Choice';
-import { Zoom_On_Target_Handler } from './../../../handlers/handlers_use_case/Zoom/Zoom_On_Target_Handler';
-import { IZoom_On_Target_Handler } from './../../../handlers/handlers_use_case/Zoom/IZoom_On_Target_Handler';
 import { Matrix } from "../../../../common/Matrix/Matrix";
 import { Vector } from "../../../../common/Vector/Vector";
 import { Vector_ } from "../../../../common/Vector/Vector_";
@@ -10,23 +8,27 @@ import { Container } from "../../../entities/Container";
 import { IMove_View_Handler } from "../../../handlers/handlers_use_case/Move_View/IMove_View_Handler";
 import { IZoom_Handler } from "../../../handlers/handlers_use_case/Zoom/IZoom_Handler";
 import { IChoose_Roots_Container, IChoose_Roots_Root } from "../../../use_cases/Choose_Root/Init_Choose_Root";
+import { IZoom_On_Target, Zoom_On_Target } from '../../../handlers/handlers_use_case/Rotate/Rotate_Handler';
 
 
 //dont forget to remove root_dto from the view once it's ending
 export class Choose_Roots_Container implements IChoose_Roots_Container 
 {
-    private readonly __zoom_on_target: IZoom_On_Target_Handler;
+    private readonly __zoom_on_target: IZoom_On_Target;
 
     constructor(container: Container, zoom_handler: IZoom_Handler, move_view_handler: IMove_View_Handler, coordinates_and_ratio: Matrix<2>) 
     {
         const abs_ratio = container.positions.abs_ratio;
 
-        this.__zoom_on_target = new Zoom_On_Target_Handler(abs_ratio, coordinates_and_ratio, zoom_handler, move_view_handler);
+        const coordinates : Vector = coordinates_and_ratio._[0];
+        const ratio : number = coordinates_and_ratio._[1]._[0];
+
+        this.__zoom_on_target = new Zoom_On_Target(abs_ratio, coordinates, ratio, zoom_handler, move_view_handler);
     }
 
     public zoom_and_place_itself_at_the_bottom(): void 
     {
-        this.__zoom_on_target.move_by_a_distance_and_zoom_at_a_certain_ratio();
+        this.__zoom_on_target.zoom();
     }
 }
 
