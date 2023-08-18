@@ -56,7 +56,7 @@ export class Zoom_On_Target implements IZoom_On_Target
     ) {
         const pre_process = new Pre_process(abs_ratio_target, coordinates_wanted, ratio, zoom_handler.get_current_zoom_fator(),zoom_handler.get_current_level(), zoom_handler.get_alpha()).result;
 
-        this.__move = new Move_Quadratic_By_Step(pre_process.x_y_normalize, pre_process.distance, move_view_handler);
+        this.__move = new Move_Quadratic_By_Step(pre_process.x_y_normalize, pre_process.distance, pre_process.max_factor, move_view_handler);
         this.__zoom = new Zoom_quadratic_By_Step(pre_process.delta_zoom_level, pre_process.distance, zoom_handler);
         this.__step = new Step(pre_process.distance);
     }
@@ -69,7 +69,7 @@ export class Zoom_On_Target implements IZoom_On_Target
         {
             this.__move.move_by_step();
 
-            //this.__zoom.zoom_by_step();
+            this.__zoom.zoom_by_step();
 
             this.__step.next_step();
 
@@ -85,7 +85,8 @@ class Pre_Process_Result
     constructor(
         public readonly delta_zoom_level : number,
         public readonly x_y_normalize : Vector,
-        public readonly distance : number
+        public readonly distance : number,
+        public readonly max_factor : number
     ) { }
 }
 
@@ -111,7 +112,7 @@ class Pre_process
 
         const C_D_S = new Compute_Distance(abs_ratio_target, coordinates_wanted, C_M_Z_F_A_L.max_factor);
 
-        return new Pre_Process_Result(C_M_Z_F_A_L.delta_level, C_D_S.x_y_normalize, C_D_S.distance);
+        return new Pre_Process_Result(C_M_Z_F_A_L.delta_level, C_D_S.x_y_normalize, C_D_S.distance, C_M_Z_F_A_L.max_factor);
     }
 }
 
@@ -138,9 +139,9 @@ class Zoom_quadratic_By_Step implements IZoom_By_Step
 {
     private readonly __handler : IZoom_Handler;
     private readonly __coeff_quad_eq : Vector;
-    private __current_step_x = 0;
-    private __zoom_factor_step : number = 0;
-    private __current_factor : number = 0;
+    private __current_x = 0;
+    private __previous_y : number = 0;
+    private __current_level : number = 0;
 
     constructor(delta_zoom_level : number, distance : number, zoom_handler : IZoom_Handler) 
     { 
@@ -148,31 +149,37 @@ class Zoom_quadratic_By_Step implements IZoom_By_Step
 
         const x0 = distance;
         const y0 = delta_zoom_level;
+        this.__current_level = zoom_handler.get_current_level();
 
-        this.__current_factor = zoom_handler.get_current_zoom_fator();
+        console.log(this.__current_level, delta_zoom_level, distance);        
         
-        const p1 = new Vector([this.__current_factor,1]);
-        const p2 = new Vector([x0/2, (y0/2)**2]);
+        
+        const p1 = new Vector([0,this.__current_level]);
+        const p2 = new Vector([x0/2, y0/2]);
         const p3 = new Vector([x0,y0]);
 
 
         this.__coeff_quad_eq = new Cramer_Quadratic(p1,p2,p3).get_coefficients();
-
     }
 
     public zoom_by_step(): void 
     {
-        this.__handler.zoom_current_flow_by_level(this.__current_factor);
-
-        this.__current_step_x += 1;
+        this.__current_x += 1;
 
         const a = this.__coeff_quad_eq._[0];
         const b = this.__coeff_quad_eq._[1];
-        const x = this.__current_step_x;
+        const c = this.__coeff_quad_eq._[2]
+        const x = this.__current_x;
 
-        this.__zoom_factor_step = 2 * a * x + b;
+        const current_y = a * (x*x) + b * x + c;
 
-        this.__current_factor += this.__zoom_factor_step;        
+        const delta = current_y - this.__previous_y;
+
+        this.__current_level += delta;        
+
+        this.__handler.zoom_current_flow_by_level(this.__current_level); 
+
+        this.__previous_y = current_y;      
     }
 }
 
@@ -184,14 +191,14 @@ class Move_Quadratic_By_Step implements IMove_By_Step
     private __current_x : number = 0;
     private __previous_y : number = 0;
 
-    constructor(x_y_normalize : Vector, distance : number, move_handler : IMove_View_Handler) 
+    constructor(x_y_normalize : Vector, distance : number, move_handler : IMove_View_Handler, zoom_handler : IZoom_Handler) 
     {         
         this.__handler = move_handler;
 
-        this.__step_x = x_y_normalize._[0] / distance;        
+        this.__step_x = (x_y_normalize._[0] / distance) * max_factor;        
 
-        const x = x_y_normalize._[0];
-        const y = x_y_normalize._[1];
+        const x = x_y_normalize._[0] //* max_factor;
+        const y = x_y_normalize._[1] //* max_factor;
 
         const p1 = new Vector([0,0]);
         const p2 = new Vector([x/2, (1/y)]);
@@ -259,13 +266,10 @@ class Compute_Distance
         //const dist : number = this.__compute_distance(center_target, coordinates_wanted);
         const dist : number = this.__compute_distance(abs_ratio_target._[0], coordinates_wanted);
 
-        this.distance = dist /// max_factor_zoom;
+        this.distance = dist //* max_factor_zoom;
 
         //this.x_y_normalize = this.__compute_x_y_normalize(center_target, coordinates_wanted);
-        this.x_y_normalize = this.__compute_x_y_normalize(abs_ratio_target._[0], coordinates_wanted);
-
-        console.log(coordinates_wanted);
-        
+        this.x_y_normalize = this.__compute_x_y_normalize(abs_ratio_target._[0], coordinates_wanted);        
     }
     
     private __compute_distance(a: Vector, b: Vector) : number
@@ -308,11 +312,9 @@ class Compute_Max_Zoom_Factor_And_Level
 
         this.max_factor = this.__compute_max_zoom_factor(ratio_x, width_target);
 
-        const max_level = Math.log(this.max_factor) / Math.log(current_factor + 0.1);
+        const max_level = Math.log(this.max_factor) / Math.log(current_factor + 0.01);
 
         this.delta_level = max_level - current_level;
-
-        console.log(current_level, max_level, this.delta_level, alpha, current_factor, this.max_factor);
     }
 
     private __compute_max_zoom_factor(x_with_wanted : number, x_width_target : number) : number

@@ -46,12 +46,7 @@ export class TestService
         
         previous_x += interval
         //previous_y = current_y;
-    }
-    console.log(result, 0);
-    console.log(current_x);
-
-    console.log(-1/6 * 16 + 2/3 * 4 + 0);
-    
+    }    
   }
 }
 

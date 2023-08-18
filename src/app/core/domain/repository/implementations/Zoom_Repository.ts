@@ -68,7 +68,7 @@ export class Zoom_Repository implements IZoom_Repository
     public update_zoom_level(level: number) : number
     {
         this.__zoom_level = level;
-
+        
         const factor = this.__alpha ** this.__zoom_level;
 
         return factor;
