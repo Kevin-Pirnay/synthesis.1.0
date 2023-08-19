@@ -90,6 +90,10 @@ export class SvgComponent
         if (this.__focus_container) this.__svg_service.request_init_choose_root(this.__focus_container);
       break;
 
+      case '*':
+        this.__svg_service.rotate_target();
+      break;
+
       default:
         break;
     }

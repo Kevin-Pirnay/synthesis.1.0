@@ -115,4 +115,9 @@ export class SvgService
     
     //response.dtos.forEach(dto => this.roots_dto.push(dto)); 
   }
+
+  public rotate_target() : void
+  {
+    Pipeline.facade.rotate_data(this.dtos);
+  }
 }

@@ -51,7 +51,7 @@ class Create_Handler
 
         this.__repository.save_root(container);
 
-        this.__zoom_handler.update_container_with_current_zoom(container);
+        this.__zoom_handler.update_container_with_current_zoom(container);        
 
         return new Create_Container_Response([new Dto(container, Data_Type.CONTAINER)]);
     }
