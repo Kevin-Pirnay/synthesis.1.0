@@ -13,10 +13,10 @@ export class Root_Choice
         //change that
         const abs_ratio = new Matrix(
             [
-                Vector_.zero(),
-                Vector_.new([30,0]),
-                Vector_.new([30,30]),
-                Vector_.new([0,30])
+                Vector_.zero(3),
+                Vector_.new([30,0,0]),
+                Vector_.new([30,30,0]),
+                Vector_.new([0,30,0])
             ]
         );
         this.positions.abs_ratio.__.assign_new_data(abs_ratio);
@@ -28,5 +28,5 @@ export class Root_Choice
 
 class Root_Choice_Position
 {
-    public readonly abs_ratio : Matrix<4> = Matrix_.new([Vector_.zero(), Vector_.zero(), Vector_.zero(), Vector_.zero()]);
+    public readonly abs_ratio : Matrix<4> = Matrix_.new([Vector_.zero(3), Vector_.zero(3), Vector_.zero(3), Vector_.zero(3)]);
 }

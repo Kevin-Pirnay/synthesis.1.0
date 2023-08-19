@@ -8,7 +8,7 @@ export class Move_View_Handler implements IMove_View_Handler
 {
     constructor(private readonly __repository : IMove_View_Repository) { }
 
-    public move_view_by_delta(delta : Vector) : void
+    public move_view_by_delta(delta : Vector<2>) : void
     {
         const positions : IMove_View_Positions[] = this.__repository.get_all_move_views_positions();
 
@@ -18,7 +18,7 @@ export class Move_View_Handler implements IMove_View_Handler
         });
     }
 
-    public async move_view_by_delta_in_contious_async(delta : Vector) : Promise<void>
+    public async move_view_by_delta_in_contious_async(delta : Vector<2>) : Promise<void>
     {
         const ptr_condition : Ptr_Boolean = this.__repository.init_stop_move_view_condition();
 
@@ -40,7 +40,7 @@ export class Move_View_Handler implements IMove_View_Handler
 
 export interface IMove_View_Positions
 {
-    move_by_delta(delta : Vector) : void;
+    move_by_delta(delta : Vector<2>) : void;
     //refactor -> due to anim
     //copy() : Matrix<any>;
     //assign_values(matrix : Matrix<any>) : void

@@ -13,7 +13,7 @@ export class Rotate_On_Target
    private readonly __positions : IRotate_Positions_On_Target;
    private readonly __step : IStep;
 
-    constructor (data : IData_Tree[], max_angle : number, axe_rotation: Vector, zoom_handler : IZoom_Handler)
+    constructor (data : IData_Tree[], max_angle : number, axe_rotation: Vector<2>, zoom_handler : IZoom_Handler)
     {
         const data_positions : IRotate_Position_Data[] = this.__get_rotation_data(data);
 
@@ -77,8 +77,8 @@ class Rotate_Positions_On_Target implements IRotate_Positions_On_Target
 
     constructor(
         positions: IRotate_Position_Data[], 
-        center_point : Vector, phase : number, 
-        axe_rotation : Vector,
+        center_point : Vector<2>, phase : number, 
+        axe_rotation : Vector<2>,
         direction : number, 
         max_angle : number, 
         init_angle : number, 
@@ -120,7 +120,7 @@ interface IInit_The_Target
 
 class Init_The_Target_With_Rotation_Y implements IInit_The_Target
 {   
-    constructor(private readonly __positions : IRotate_Position_Data[], private readonly __axe_rotation : Vector, private readonly __radian : number) { }
+    constructor(private readonly __positions : IRotate_Position_Data[], private readonly __axe_rotation : Vector<2>, private readonly __radian : number) { }
 
     public translate_the_target(): void 
     {
@@ -181,7 +181,7 @@ interface IRotate_By_Step
 class Zoom_quadratic_By_Step implements IZoom_By_Step
 {
     private readonly __handler: IZoom_Handler;
-    private readonly __coeff_quad_eq: Vector;
+    private readonly __coeff_quad_eq: Vector<3>;
     private __current_x = 0;
     private __previous_y: number = 0;
     private __current_level: number = 0;
@@ -230,7 +230,7 @@ class Rotate_Y_By_Step implements IRotate_By_Step
         private readonly __positions : IRotate_Position_Data[],
         private readonly __phase : number,
         private readonly __direction : number,
-        private readonly __center_point : Vector
+        private readonly __center_point : Vector<2>
     ) { }   
 
     private __current_angle : number = 0;
@@ -249,8 +249,8 @@ class Rotate_Y_By_Step implements IRotate_By_Step
 
 interface IRotate_Position_Data
 {
-    init_axe_rotation(axe_rotation : Vector) : void;
-    rotate_position_on_a_certain_point(matrix_rotation : Matrix<4>, center_rotation : Vector) : void;
+    init_axe_rotation(axe_rotation : Vector<2>) : void;
+    rotate_position_on_a_certain_point(matrix_rotation : Matrix<4>, center_rotation : Vector<2>) : void;
     rotate_on_itself(matrix_rotation : Matrix<3>) : void
 }
 
@@ -265,20 +265,20 @@ class Rotate_Position_Data implements IRotate_Position_Data
         this.__fix_data = this.__abs_ratio.__.copy();
     }
 
-    public init_axe_rotation(axe_rotation : Vector): void 
+    public init_axe_rotation(axe_rotation : Vector<2>): void 
     {
         this.__fix_data.__.add_by_vector(axe_rotation);
         this.__abs_ratio.__.add_by_vector(axe_rotation);
     }
 
-    public rotate_position_on_a_certain_point(matrix_rotation : Matrix<3>, position: Vector): void 
+    public rotate_position_on_a_certain_point(matrix_rotation : Matrix<3>, center: Vector<2>): void 
     {
-        this.__abs_ratio.__.assign_new_data(this.__fix_data.__.multiply_by_matrix_new(matrix_rotation).__.add_by_vector(position));
+        this.__abs_ratio.__.assign_new_data(this.__fix_data.__.multiply_by_matrix_new(matrix_rotation).__.add_by_vector(center));
     }
 
     public rotate_on_itself(matrix_rotation : Matrix<3>) : void
     {
-        const delta_origin : Vector = this.__abs_ratio._[0].__.copy();
+        const delta_origin : Vector<3> = this.__abs_ratio._[0].__.copy();
 
         this.__fix_data.__.substract_by_vector(delta_origin);
         this.__abs_ratio.__.substract_by_vector(delta_origin);

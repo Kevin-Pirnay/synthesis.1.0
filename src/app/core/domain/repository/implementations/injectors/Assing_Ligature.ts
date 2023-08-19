@@ -41,9 +41,9 @@ export class Assing_Ligature implements IAssign_Ligature
 
     public update_the_relative_position_of_its_child_container_to_the_new_parent_container(): void 
     {
-        const rel_root: Vector = this.__child_container.positions.rel_root;
+        const rel_root: Vector<3> = this.__child_container.positions.rel_root;
 
-        const delta_pos_from_parent: Vector = this.__child_container.positions.abs_root.__.substract_by_vector_new(this.__container_to_assign.positions.abs_root);
+        const delta_pos_from_parent: Vector<3> = this.__child_container.positions.abs_root.__.substract_by_vector_new(this.__container_to_assign.positions.abs_root);
 
         rel_root.__.assign_new_data(delta_pos_from_parent);
     }

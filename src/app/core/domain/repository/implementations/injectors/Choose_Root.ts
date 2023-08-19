@@ -21,7 +21,7 @@ export class Choose_Roots_Container implements IChoose_Roots_Container
     {
         const abs_ratio = container.positions.abs_ratio;
 
-        const coordinates : Vector = coordinates_and_ratio._[0];
+        const coordinates : Vector<3> = coordinates_and_ratio._[0];
         const ratio : number = coordinates_and_ratio._[1]._[0];
 
         this.__zoom_on_target = new Zoom_On_Target(abs_ratio, coordinates, ratio, zoom_handler, move_view_handler);
@@ -120,8 +120,8 @@ export class Rotate_Roots_Root implements IRotate_Roots_Root
 
 export interface IRotate_Roots_Root_Position 
 {
-    init_position_for_rotation(vec: Vector): void;
-    rotate_position_on_a_certain_point(radian: number, position: Vector): void;
+    init_position_for_rotation(vec: Vector<3>): void;
+    rotate_position_on_a_certain_point(radian: number, position: Vector<3>): void;
 }
 
 
@@ -136,13 +136,13 @@ export class Rotate_Roots_Position implements IRotate_Roots_Root_Position
         this.__copy = this.__abs_ratio.__.copy();
     }
 
-    public init_position_for_rotation(vec_pos: Vector): void 
+    public init_position_for_rotation(vec_pos: Vector<3>): void 
     {
         this.__copy.__.add_by_vector(vec_pos);
         this.__abs_ratio.__.add_by_vector(vec_pos);
     }
 
-    public rotate_position_on_a_certain_point(radian: number, position: Vector): void 
+    public rotate_position_on_a_certain_point(radian: number, position: Vector<3>): void 
     {
         this.__abs_ratio.__.assign_new_data(this.__copy.__.rotate_z_new(radian).__.add_by_vector(position));
     }

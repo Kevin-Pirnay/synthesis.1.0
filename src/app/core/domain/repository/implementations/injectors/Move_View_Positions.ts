@@ -7,7 +7,7 @@ import { IMove_View_Positions } from "../../../handlers/handlers_use_case/Move_V
 
 export class Container_Move_View_Positions implements IMove_View_Positions 
 {
-    private readonly __abs_root: Vector;
+    private readonly __abs_root: Vector<3>;
     private readonly __abs_ratio: Matrix<4>;
 
     constructor(container: Container) 
@@ -26,7 +26,7 @@ export class Container_Move_View_Positions implements IMove_View_Positions
         return this.__abs_ratio.__.copy();
     }
 
-    public move_by_delta(delta: Vector): void 
+    public move_by_delta(delta: Vector<3>): void 
     {
         this.__abs_ratio.__.add_by_vector(delta);
         this.__abs_root.__.add_by_vector(delta);
@@ -53,7 +53,7 @@ export class Ligature_Move_View_Positions implements IMove_View_Positions
         return this.__abs_ratio.__.copy();
     }
 
-    public move_by_delta(delta: Vector): void 
+    public move_by_delta(delta: Vector<3>): void 
     {
         this.__abs_ratio.__.add_by_vector(delta);
     }

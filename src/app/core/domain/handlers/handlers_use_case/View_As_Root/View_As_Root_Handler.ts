@@ -12,7 +12,7 @@ export class View_As_Root_Handler implements IView_As_Root_Handler
 
     public get_subtree_from_this_container(container : Container): IData_Tree[] 
     {
-        const root_position : Vector = this.__repository.get_default_position_of_the_root();
+        const root_position : Vector<3> = this.__repository.get_default_position_of_the_root();
         
         const subtree_root : ISubtree_Root = this.__repository.get_subtree_root(container);
 
@@ -21,7 +21,7 @@ export class View_As_Root_Handler implements IView_As_Root_Handler
 
     public get_subtree_from_this_container_id(container_id: string): IData_Tree[] 
     {
-        const root_position : Vector = this.__repository.get_default_position_of_the_root();
+        const root_position : Vector<3> = this.__repository.get_default_position_of_the_root();
         
         const root_subTree : ISubtree_Root = this.__repository.get_subtree_root_by_id(container_id);
 
@@ -30,12 +30,12 @@ export class View_As_Root_Handler implements IView_As_Root_Handler
 
     public get_subtree_from_subtree_root(root_subTree: ISubtree_Root): IData_Tree[] 
     {
-        const root_position : Vector = this.__repository.get_default_position_of_the_root();
+        const root_position : Vector<3> = this.__repository.get_default_position_of_the_root();
 
         return this.__construct_tree_from_the_root_subtree(root_subTree, root_position);
     }
 
-    private __construct_tree_from_the_root_subtree(root_subTree : ISubtree_Root, root_position : Vector) : IData_Tree[]  
+    private __construct_tree_from_the_root_subtree(root_subTree : ISubtree_Root, root_position : Vector<3>) : IData_Tree[]  
     {
         const result : IData_Tree[] = [];
 
@@ -72,7 +72,7 @@ export interface IData_Tree
 
 export interface ISubtree_Root
 {
-    set_its_positions(pos : Vector) : void;
+    set_its_positions(pos : Vector<3>) : void;
     add_children_to_the_frontier(frontier : ISubtree_Root[], children : ISubtree_Root[]) : void;
     added_to_the_result(result : IData_Tree[]) : void;
     get_his_children() : ISubtree_Root[];

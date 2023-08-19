@@ -6,18 +6,18 @@ import { Container } from "../../entities/Container";
 
 export class Container_ 
 {
-    public static new = (ratio: Matrix<4>, pos_target: Vector, abs_root_parent: Vector) : Container => { return Creation.new(ratio, pos_target, abs_root_parent); }
+    public static new = (ratio: Matrix<4>, pos_target: Vector<2>, abs_root_parent: Vector<3>) : Container => { return Creation.new(ratio, pos_target, abs_root_parent); }
 
     constructor(private readonly __container: Container) { }
 
-    public update_position_by_delta = (delta: Vector) : void =>  { Update_Position.update_position_by_delta(this.__container, delta); }
+    public update_position_by_delta = (delta: Vector<2>) : void =>  { Update_Position.update_position_by_delta(this.__container, delta); }
 
-    public update_position_from_abs_root = (abs_root: Vector) => { Update_Position.update_position_from_abs_root(this.__container, abs_root); }
+    public update_position_from_abs_root = (abs_root: Vector<3>) => { Update_Position.update_position_from_abs_root(this.__container, abs_root); }
 }
 
 class Creation
 {
-    public static new = (ratio: Matrix<4>, pos_target: Vector, abs_root_parent: Vector): Container => 
+    public static new = (ratio: Matrix<4>, pos_target: Vector<2>, abs_root_parent: Vector<3>): Container => 
     {        
         const container = new Container(crypto.randomUUID());
 
@@ -41,7 +41,7 @@ class Creation
 
 class Update_Position
 {
-    public static update_position_by_delta = (container : Container, delta: Vector): void => 
+    public static update_position_by_delta = (container : Container, delta: Vector<2>): void => 
     {
         const c_pos = container.positions;
 
@@ -56,7 +56,7 @@ class Update_Position
         c_pos.abs_ratio.__.assign_new_data(abs_ratio);
     };
 
-    public static update_position_from_abs_root = (container : Container, abs_root: Vector): void => 
+    public static update_position_from_abs_root = (container : Container, abs_root: Vector<3>): void => 
     {
         const c_pos = container.positions;
 

@@ -89,7 +89,7 @@ export class Zoom_Handler implements IZoom_Handler
     
     private __zoom(positions : IZoom_Positions[], factor : number) : void
     {
-        const center : Vector = Vector_.new([window.innerWidth / 2, window.innerHeight / 2]);
+        const center : Vector<2> = Vector_.new([window.innerWidth / 2, window.innerHeight / 2]);
 
         positions.forEach((position : IZoom_Positions) =>
         {
@@ -107,8 +107,8 @@ export class Zoom_Handler implements IZoom_Handler
 
 export interface IZoom_Positions
 {
-    substract_abs_pos_by_delta(delta : Vector) : void;
+    substract_abs_pos_by_delta(delta : Vector<3>) : void;
     multiply_abs_pos_by_factor(factor : number) : void;
-    add_abs_pos_by_delta(delta : Vector) : void;
+    add_abs_pos_by_delta(delta : Vector<3>) : void;
 }
 

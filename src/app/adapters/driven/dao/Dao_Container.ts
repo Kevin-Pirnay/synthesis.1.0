@@ -50,7 +50,7 @@ export class Dao_Container implements IDao_Container
         return this.__get_handler.get_all_containers_of_the_current_flow();
     }
 
-    public get_default_position_of_the_root() : Vector 
+    public get_default_position_of_the_root() : Vector<3> 
     {
         return this.__get_handler.get_default_position_of_the_root();
     }
@@ -190,7 +190,7 @@ class Get_Container_Handler
         return this.get_container_by_id_and_flow(container_id, this.__current_flow.id);
     }
 
-    public get_default_position_of_the_root(): Vector 
+    public get_default_position_of_the_root(): Vector<3> 
     {
         return this.__persistence.default_position_of_the_root;
     }

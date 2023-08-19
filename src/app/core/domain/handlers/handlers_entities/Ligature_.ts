@@ -14,7 +14,7 @@ export class Ligature_
 
     public update_ratio = (): void => { Position.update_ratio(this.__ligature) }
 
-    public update_ratio_by_delta = (delta : Vector) : void => { Position.update_ratio_by_delta(this.__ligature, delta) };
+    public update_ratio_by_delta = (delta : Vector<2>) : void => { Position.update_ratio_by_delta(this.__ligature, delta) };
 }
 
 class Position
@@ -25,11 +25,11 @@ class Position
 
         const child_pos: Matrix<4> = ligature.child.positions.abs_ratio;
 
-        const a: Vector = parent_pos._[1].__.add_by_vector_new(parent_pos._[2]).__.multiply_by_factor(1 / 2);
+        const a: Vector<3> = parent_pos._[1].__.add_by_vector_new(parent_pos._[2]).__.multiply_by_factor(1 / 2);
 
-        const c: Vector = child_pos._[0].__.add_by_vector_new(child_pos._[3]).__.multiply_by_factor(1 / 2);
+        const c: Vector<3> = child_pos._[0].__.add_by_vector_new(child_pos._[3]).__.multiply_by_factor(1 / 2);
 
-        const b: Vector = Vector_.new([1 / 2 * (parent_pos._[0]._[0] + child_pos._[0]._[0]), 1 / 2 * (child_pos._[3]._[1] + child_pos._[3]._[1])]);
+        const b: Vector<3> = Vector_.new([1 / 2 * (parent_pos._[0]._[0] + child_pos._[0]._[0]), 1 / 2 * (child_pos._[3]._[1] + child_pos._[3]._[1])]);
 
         return Matrix_.new([a, b, c]);
     }
@@ -39,13 +39,13 @@ class Position
         ligature.positions.abs_ratio.__.assign_new_data(Position.__get_abs_ratio(ligature));
     }
 
-    public static update_ratio_by_delta(ligature : Ligature, delta : Vector) : void
+    public static update_ratio_by_delta(ligature : Ligature, delta : Vector<2>) : void
     {
         const abs_ratio : Matrix<3> = ligature.positions.abs_ratio;
 
         abs_ratio._[0].__.add_by_vector(delta);
 
-        const b: Vector = Vector_.new([1 / 2 * (abs_ratio._[0]._[0] + abs_ratio._[2]._[0]), 1 / 2 * (abs_ratio._[2]._[1] + abs_ratio._[2]._[1])]);
+        const b: Vector<3> = Vector_.new([1 / 2 * (abs_ratio._[0]._[0] + abs_ratio._[2]._[0]), 1 / 2 * (abs_ratio._[2]._[1] + abs_ratio._[2]._[1])]);
 
         abs_ratio._[1].__.assign_new_data(b);
     }

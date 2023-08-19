@@ -52,11 +52,11 @@ export class TestService
 class Cramer_Quadratic
 {
   private readonly __matrix : Matrix<3> = new Matrix();
-  private readonly __y_vector : Vector = new Vector();
+  private readonly __y_vector : Vector<3> = new Vector();
 
-  constructor(a: Vector, b : Vector, c : Vector) // 3 dots
+  constructor(a: Vector<3>, b : Vector<3>, c : Vector<3>) // 3 dots
   {
-    const vectors : Vector[] = [a,b,c];
+    const vectors : Vector<3>[] = [a,b,c];
 
     for(let i = 0; i < vectors.length; i++ )
     {
@@ -86,7 +86,7 @@ class Cramer_Quadratic
     return a * d - c * b;
   }
 
-  private __run_cramer_rule(matrix : Matrix<3>, y_vec : Vector) : Vector
+  private __run_cramer_rule(matrix : Matrix<3>, y_vec : Vector<3>) : Vector<3>
   {
     const determinant = this.__compute_determinant_3_by_3(matrix);
     
@@ -111,7 +111,7 @@ class Cramer_Quadratic
     return result;
   }
 
-  public get_coefficients() : Vector
+  public get_coefficients() : Vector<3>
   {
     return this.__run_cramer_rule(this.__matrix, this.__y_vector);
   }

@@ -14,7 +14,7 @@ export class Subtree_Data implements ISubtree_Root
         children.forEach(child => frontier.unshift(child));
     }
 
-    public set_its_positions(pos: Vector): void 
+    public set_its_positions(pos: Vector<3>): void 
     {
         if (this.__ligature) {
             const c_abs_root = this.__container.positions.rel_root.__.add_by_vector_new(pos);
@@ -50,7 +50,7 @@ export class Subtree_Data implements ISubtree_Root
 
     public set_children_positions(children: ISubtree_Root[]): void 
     {
-        const parent_root_pos: Vector = this.__container.positions.abs_root;
+        const parent_root_pos: Vector<3> = this.__container.positions.abs_root;
 
         children.forEach(child => child.set_its_positions(parent_root_pos));
     }

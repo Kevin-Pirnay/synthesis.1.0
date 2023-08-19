@@ -10,7 +10,7 @@ export class View_As_Root_Repository implements IView_As_Root_Repository
 {   
     constructor(private readonly __dao_container : IDao_Container) { }
 
-    public get_default_position_of_the_root(): Vector 
+    public get_default_position_of_the_root(): Vector<3> 
     {
         return this.__dao_container.get_default_position_of_the_root();
     }

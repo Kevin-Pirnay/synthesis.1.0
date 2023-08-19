@@ -14,7 +14,7 @@ export class Ligature_Zoom_Positions implements IZoom_Positions
         this.__abs_ratio = ligature.positions.abs_ratio;
     }
 
-    public substract_abs_pos_by_delta(delta: Vector): void 
+    public substract_abs_pos_by_delta(delta: Vector<3>): void 
     {
         this.__abs_ratio.__.substract_by_vector(delta);
     }
@@ -24,7 +24,7 @@ export class Ligature_Zoom_Positions implements IZoom_Positions
         this.__abs_ratio.__.multiply_by_factor(factor);
     }
 
-    public add_abs_pos_by_delta(delta: Vector): void 
+    public add_abs_pos_by_delta(delta: Vector<3>): void 
     {
         this.__abs_ratio.__.add_by_vector(delta);
     }
@@ -33,7 +33,7 @@ export class Ligature_Zoom_Positions implements IZoom_Positions
 
 export class Container_Zoom_Positions implements IZoom_Positions 
 {
-    private readonly __abs_root: Vector;
+    private readonly __abs_root: Vector<3>;
     private readonly __abs_ratio: Matrix<4>;
 
     constructor(container: Container) 
@@ -42,7 +42,7 @@ export class Container_Zoom_Positions implements IZoom_Positions
         this.__abs_ratio = container.positions.abs_ratio;
     }
 
-    public substract_abs_pos_by_delta(delta: Vector): void 
+    public substract_abs_pos_by_delta(delta: Vector<3>): void 
     {
         this.__abs_root.__.substract_by_vector(delta);
         this.__abs_ratio.__.substract_by_vector(delta);
@@ -54,7 +54,7 @@ export class Container_Zoom_Positions implements IZoom_Positions
         this.__abs_ratio.__.multiply_by_factor(factor);
     }
 
-    public add_abs_pos_by_delta(delta: Vector): void 
+    public add_abs_pos_by_delta(delta: Vector<3>): void 
     {
         this.__abs_root.__.add_by_vector(delta);
         this.__abs_ratio.__.add_by_vector(delta);

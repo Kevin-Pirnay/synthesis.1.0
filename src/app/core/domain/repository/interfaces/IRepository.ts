@@ -58,14 +58,14 @@ export interface IZoom_Repository
 export interface IView_As_Root_Repository
 {
     get_subtree_root_by_id(container_id: string): ISubtree_Root;
-    get_default_position_of_the_root(): Vector;
+    get_default_position_of_the_root(): Vector<3>;
     get_subtree_root(container: Container): ISubtree_Root;
 }
 
 
 export interface IMark_As_Root_Repository
 {
-    get_default_position_of_the_root(): Vector;
+    get_default_position_of_the_root(): Vector<3>;
     save_the_new_root(container: Container): void;
     get_mark_as_root_data(container: Container): IMark_As_Root;
 }

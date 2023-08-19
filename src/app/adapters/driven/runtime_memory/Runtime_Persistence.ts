@@ -20,7 +20,7 @@ export class Runtime_Persistence
     public readonly current_flow : Flow = this.__flow;
     public readonly flows : string[] = [];
 
-    public readonly default_position_of_the_root: Vector = Vector_.new([100,250]);
+    public readonly default_position_of_the_root: Vector<3> = Vector_.new([100,250,0]);
 }
 
 export interface IContainer_Data_Flow

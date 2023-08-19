@@ -45,9 +45,9 @@ class Create_Handler
         private readonly __zoom_handler : IZoom_Handler
     ) { } 
 
-    public create_a_root_container(ratio : Matrix<4>, position : Vector) : Create_Container_Response
+    public create_a_root_container(ratio : Matrix<4>, position : Vector<3>) : Create_Container_Response
     {
-        const container : Container = Container_.new(ratio, position, Vector_.zero());
+        const container : Container = Container_.new(ratio, position, Vector_.zero(3));
 
         this.__repository.save_root(container);
 
@@ -56,7 +56,7 @@ class Create_Handler
         return new Create_Container_Response([new Dto(container, Data_Type.CONTAINER)]);
     }
 
-    public create_a_new_unit(parent_container : Container, default_ratio : Matrix<4>, position : Vector) : Create_Container_Response
+    public create_a_new_unit(parent_container : Container, default_ratio : Matrix<4>, position : Vector<3>) : Create_Container_Response
     {
         const container : Container = Container_.new(default_ratio, position, parent_container.positions.abs_root);
 

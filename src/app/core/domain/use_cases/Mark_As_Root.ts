@@ -9,7 +9,7 @@ export class Mark_As_Root_Use_case
 
     public handle(request : Mark_As_Root_Request) : Mark_As_Root_Response
     {
-        const root_position : Vector = this.__repository.get_default_position_of_the_root();
+        const root_position : Vector<3> = this.__repository.get_default_position_of_the_root();
 
         const mark_as_root : IMark_As_Root = this.__repository.get_mark_as_root_data(request.container);
 
@@ -23,6 +23,6 @@ export class Mark_As_Root_Use_case
 
 export interface IMark_As_Root
 {
-    update_its_node_relationship_and_positions_for_the_new_flow(root_position : Vector) : void
+    update_its_node_relationship_and_positions_for_the_new_flow(root_position : Vector<3>) : void
     get_dto_response(): Mark_As_Root_Response;
 }

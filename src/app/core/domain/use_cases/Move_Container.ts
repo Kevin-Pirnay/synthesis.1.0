@@ -18,9 +18,9 @@ export class Move_Container_Use_case
 
 export interface IMove_Container
 {
-    get_the_delta_from_its_current_position_and_the_target_position() : Vector;
-    update_its_position(delta : Vector) : void;
-    update_the_positions_of_its_children_ligatures_and_update_relative_positions_of_its_children_containers(delta : Vector) : void;
+    get_the_delta_from_its_current_position_and_the_target_position() : Vector<3>;
+    update_its_position(delta : Vector<3>) : void;
+    update_the_positions_of_its_children_ligatures_and_update_relative_positions_of_its_children_containers(delta : Vector<3>) : void;
     update_positions_of_its_parents_ligatures() : void 
 }
 

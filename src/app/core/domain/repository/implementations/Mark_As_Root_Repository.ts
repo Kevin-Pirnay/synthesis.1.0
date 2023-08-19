@@ -14,7 +14,7 @@ export class Mark_As_Root_Repository implements IMark_As_Root_Repository
         this.__container_dao.save_the_new_root(container);
     }
 
-    public get_default_position_of_the_root(): Vector 
+    public get_default_position_of_the_root(): Vector<3> 
     {
         return this.__container_dao.get_default_position_of_the_root();
     }

@@ -19,7 +19,7 @@ export class Zoom_On_Target implements IZoom_On_Target
 
     constructor(
         abs_ratio_target: Matrix<4>,
-        coordinates_wanted: Vector,
+        coordinates_wanted: Vector<3>,
         ratio: number,
         zoom_handler: IZoom_Handler,
         move_view_handler: IMove_View_Handler
@@ -53,7 +53,7 @@ export class Pre_Process_Result
 {
     constructor(
         public readonly delta_zoom_level: number,
-        public readonly x_y_normalize: Vector,
+        public readonly x_y_normalize: Vector<2>,
         public readonly distance: number
     ) { }
 }
@@ -64,7 +64,7 @@ export class Pre_process
 
     constructor(
         abs_ratio_target: Matrix<4>,
-        coordinates_wanted: Vector,
+        coordinates_wanted: Vector<3>,
         ratio: number,
         current_factor: number,
         alpha: number
@@ -72,7 +72,7 @@ export class Pre_process
         this.result = this.__pre_process(abs_ratio_target, coordinates_wanted, ratio, current_factor, alpha);
     }
 
-    private __pre_process(abs_ratio_target: Matrix<4>, coordinates_wanted: Vector, ratio: number, current_factor: number, alpha: number): Pre_Process_Result 
+    private __pre_process(abs_ratio_target: Matrix<4>, coordinates_wanted: Vector<2>, ratio: number, current_factor: number, alpha: number): Pre_Process_Result 
     {
         const C_M_Z_F_A_L = new Compute_Max_Zoom_Factor_And_Level(abs_ratio_target, ratio, current_factor, alpha);
 
@@ -102,7 +102,7 @@ export interface IStep
 export class Zoom_quadratic_By_Step implements IZoom_By_Step 
 {
     private readonly __handler: IZoom_Handler;
-    private readonly __coeff_quad_eq: Vector;
+    private readonly __coeff_quad_eq: Vector<3>;
     private __current_x = 0;
     private __previous_y: number = 0;
     private __current_level: number = 0;
@@ -148,12 +148,12 @@ export class Move_Quadratic_By_Step implements IMove_By_Step
 {
     private readonly __handler: IMove_View_Handler;
     private readonly __zoom_handler: IZoom_Handler;
-    private readonly __coeff_quad_eq: Vector;
+    private readonly __coeff_quad_eq: Vector<3>;
     private readonly __step_x: number;
     private __current_x: number = 0;
     private __previous_y: number = 0;
 
-    constructor(x_y_normalize: Vector, distance: number, move_handler: IMove_View_Handler, zoom_handler: IZoom_Handler) 
+    constructor(x_y_normalize: Vector<2>, distance: number, move_handler: IMove_View_Handler, zoom_handler: IZoom_Handler) 
     {
         this.__handler = move_handler;
         this.__zoom_handler = zoom_handler;
@@ -220,11 +220,11 @@ export class Step implements IStep
 export class Compute_Distance 
 {
     public readonly distance: number;
-    public readonly x_y_normalize: Vector;
+    public readonly x_y_normalize: Vector<2>;
 
-    constructor(abs_ratio_target: Matrix<4>, coordinates_wanted: Vector) 
+    constructor(abs_ratio_target: Matrix<4>, coordinates_wanted: Vector<2>) 
     {
-        const center_target: Vector = this.__compute_center_point(abs_ratio_target);
+        const center_target: Vector<2> = this.__compute_center_point(abs_ratio_target);
 
         //const dist : number = this.__compute_distance(center_target, coordinates_wanted);
         this.distance = this.__compute_distance(abs_ratio_target._[0], coordinates_wanted);
@@ -233,7 +233,7 @@ export class Compute_Distance
         this.x_y_normalize = this.__compute_x_y_normalize(abs_ratio_target._[0], coordinates_wanted);
     }
 
-    private __compute_distance(a: Vector, b: Vector): number 
+    private __compute_distance(a: Vector<2>, b: Vector<2>): number 
     {
         const x2 = (a._[0] - b._[0]) ** 2;
         const y2 = (a._[1] - b._[1]) ** 2;
@@ -243,7 +243,7 @@ export class Compute_Distance
         return distance;
     }
 
-    private __compute_center_point(matrix: Matrix<4>): Vector 
+    private __compute_center_point(matrix: Matrix<4>): Vector<2> 
     {
         const x = (matrix._[0]._[0] + matrix._[1]._[0]) * 1 / 2;
         const y = (matrix._[0]._[1] + matrix._[3]._[1]) * 1 / 2;
@@ -251,7 +251,7 @@ export class Compute_Distance
         return Vector_.new([x, y]);
     }
 
-    private __compute_x_y_normalize(a: Vector, b: Vector): Vector 
+    private __compute_x_y_normalize(a: Vector<2>, b: Vector<2>): Vector<2>
     {
         const x = a._[0] - b._[0];
         const y = a._[1] - b._[1];

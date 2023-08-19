@@ -10,11 +10,11 @@ import { Mark_As_Root_Response } from '../../../../port/driver/response/Response
 export class Mark_As_Root implements IMark_As_Root {
     constructor(private readonly __cotainer: Container) { }
 
-    public update_its_node_relationship_and_positions_for_the_new_flow(root_point: Vector): void {
+    public update_its_node_relationship_and_positions_for_the_new_flow(root_point: Vector<3>): void {
         const temp_rel_ratio: Matrix<4> = this.__cotainer.positions.rel_ratio;
         this.__cotainer.positions = new Container_Positions();
         this.__cotainer.positions.rel_ratio.__.assign_new_data(temp_rel_ratio);
-        this.__cotainer.positions.rel_root.__.assign_new_data(Vector_.zero());
+        this.__cotainer.positions.rel_root.__.assign_new_data(Vector_.zero(3));
         this.__cotainer.__.update_position_from_abs_root(root_point);
         this.__cotainer.node = new Node();
     }

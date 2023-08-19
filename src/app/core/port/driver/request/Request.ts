@@ -5,7 +5,7 @@ import { Ligature } from "../../../domain/entities/Ligature";
 
 export class Create_Container_Request
 {
-    constructor(public position : Vector, public parent_container : Container | null = null) {}
+    constructor(public position : Vector<3>, public parent_container : Container | null = null) {}
 }
 
 export class Delete_Container_Request
@@ -15,12 +15,12 @@ export class Delete_Container_Request
 
 export class Move_Container_Request
 {
-    constructor(public new_pos : Vector, public container : Container) { }
+    constructor(public new_pos : Vector<3>, public container : Container) { }
 }
 
 export class Move_ligature_Request
 {
-    constructor(public new_pos : Vector, public ligature : Ligature) { }
+    constructor(public new_pos : Vector<3>, public ligature : Ligature) { }
 }
 
 export class Assign_Ligature_Request

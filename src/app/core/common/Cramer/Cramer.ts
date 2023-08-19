@@ -17,7 +17,7 @@ export class Cramer
         return a * d - c * b;
     }
 
-    protected __run_cramer_rule(matrix : Matrix<3>, y_vec : Vector) : Vector
+    protected __run_cramer_rule(matrix : Matrix<3>, y_vec : Vector<3>) : Vector<3>
     {
         const determinant = this.__compute_determinant_3_by_3(matrix);
         
@@ -42,7 +42,7 @@ export class Cramer
         return result;
     }
 
-    public get_coefficients(matrix : Matrix<3>, y_vec : Vector) : Vector
+    public get_coefficients(matrix : Matrix<3>, y_vec : Vector<3>) : Vector<3>
     {
         return this.__run_cramer_rule(matrix, y_vec);
     }
@@ -51,13 +51,13 @@ export class Cramer
 export class Cramer_Quadratic extends Cramer
 {
     private readonly __matrix : Matrix<3> = new Matrix();
-    private readonly __y_vector : Vector = new Vector();
+    private readonly __y_vector : Vector<3> = new Vector();
   
-    constructor(a: Vector, b : Vector, c : Vector) // 3 dots
+    constructor(a: Vector<3>, b : Vector<3>, c : Vector<3>) // 3 dots
     {
         super();
 
-        const vectors : Vector[] = [a,b,c];
+        const vectors : Vector<3>[] = [a,b,c];
     
         for(let i = 0; i < vectors.length; i++ )
         {
@@ -73,7 +73,7 @@ export class Cramer_Quadratic extends Cramer
         }    
     }
 
-    public override get_coefficients() : Vector
+    public override get_coefficients() : Vector<3>
     {
         return this.__run_cramer_rule(this.__matrix, this.__y_vector);
     }
