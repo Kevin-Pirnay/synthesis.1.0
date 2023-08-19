@@ -19,7 +19,7 @@ export class Rotate_On_Target
 
         const init_angle = 0//Math.PI/4;
 
-        const max_angle = 360 * 1;
+        const max_angle = 180 * 1;
 
         const center_rotation = Vector_.new([200, 200, 0]);
 
@@ -131,7 +131,6 @@ interface IInit_The_Target
 {
     translate_the_target(): void;
     rotate_the_target_on_itself(): void;
-
 }
 
 class Init_The_Target_With_Rotation_Y implements IInit_The_Target
@@ -259,7 +258,6 @@ class Rotate_Y_By_Step implements IRotate_By_Step
         const rotation_matrix = Matrix_.rotation_y(dephasage);
         
         this.__positions.forEach(position => position.rotate_position_on_a_certain_point(rotation_matrix, this.__center_point));
-        this.__positions.forEach(position => position.zoom());
 
         this.__current_angle++;        
     }
@@ -270,18 +268,20 @@ interface IRotate_Position_Data
     init_axe_rotation(axe_rotation : Vector<2>) : void;
     rotate_position_on_a_certain_point(matrix_rotation : Matrix<4>, center_rotation : Vector<3>) : void;
     rotate_on_itself(matrix_rotation : Matrix<3>, delta_origin : Vector<3>) : void;
-    zoom() : void;
 }
 
 class Rotate_Position_Data implements IRotate_Position_Data
 {
     private readonly __abs_ratio: Matrix<any>;
     private readonly __fix_data: Matrix<any>;
+    private readonly __zoom_fix : Matrix<any>;
 
     constructor(abs_ratio : Matrix<any>, private readonly __delta_origin : Vector<3>, private readonly __zoom_handler : IZoom_Handler) 
     {
         this.__abs_ratio = abs_ratio;
         this.__fix_data = this.__abs_ratio.__.copy();
+        this.__zoom_fix = this.__abs_ratio.__.copy();
+    
     }
 
     public init_axe_rotation(axe_rotation : Vector<2>): void 
@@ -305,16 +305,6 @@ class Rotate_Position_Data implements IRotate_Position_Data
 
         this.__abs_ratio.__.add_by_vector(this.__delta_origin);
         this.__fix_data.__.add_by_vector(this.__delta_origin);        
-    }
-
-    public zoom() : void
-    {
-        const factor = this.__zoom_handler.get_current_zoom_fator();
-        this.__fix_data.__.substract_by_vector(this.__delta_origin);
-
-        this.__fix_data.__.multiply_by_factor(factor);
-
-        this.__fix_data.__.add_by_vector(this.__delta_origin);
     }
 }
 
