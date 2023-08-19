@@ -6,6 +6,10 @@ import { IMove_View_Handler } from "../Move_View/IMove_View_Handler";
 import { IZoom_Handler } from "../Zoom/IZoom_Handler";
 
 
+export interface IZoom_On_Target 
+{
+    move_and_zoom(): void;
+}
 
 export class Zoom_On_Target implements IZoom_On_Target 
 {
@@ -44,10 +48,7 @@ export class Zoom_On_Target implements IZoom_On_Target
         }
     }
 }
-export interface IZoom_On_Target 
-{
-    move_and_zoom(): void;
-}
+
 export class Pre_Process_Result 
 {
     constructor(

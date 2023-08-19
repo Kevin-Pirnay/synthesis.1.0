@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Matrix } from '../../../../core/common/Matrix/Matrix';
 import { Vector } from '../../../../core/common/Vector/Vector';
-import { Vector_ } from '../../../../core/common/Vector/Vector_';
 
 @Injectable({
   providedIn: 'root'
