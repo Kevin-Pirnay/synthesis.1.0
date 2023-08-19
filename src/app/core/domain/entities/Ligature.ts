@@ -27,5 +27,5 @@ export class Ligature
 
 export class Ligature_Positions
 {
-    public readonly abs_ratio : Matrix<3> = Matrix_.new([Vector_.zero(), Vector_.zero(), Vector_.zero()]);
+    public readonly abs_ratio : Matrix<3> = Matrix_.new([Vector_.zero(3), Vector_.zero(3), Vector_.zero(3)]);
 }

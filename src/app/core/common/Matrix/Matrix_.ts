@@ -4,7 +4,7 @@ import { Matrix } from "./Matrix";
 
 export class Matrix_
 {
-    public static new = (vectors : Vector[] = []) : Matrix<any> => { return new Matrix(vectors); }
+    public static new = (vectors : Vector<any>[] = []) : Matrix<any> => { return new Matrix(vectors); }
 
     public static rotation_x = (radian : number) : Matrix<3> => { return Rotation.rotation_X(radian); }
 
@@ -18,17 +18,17 @@ export class Matrix_
 
     constructor(matrix : Matrix<any>) { this.__matrix = matrix; }
 
-    public add = (vector : Vector) : Matrix<any> => { this.__matrix._.push(vector); return this.__matrix }
+    public add = (vector : Vector<any>) : Matrix<any> => { this.__matrix._.push(vector); return this.__matrix }
 
     public assign_new_data = (data : Matrix<any>) : Matrix<any> => { Assign_Data.assign_new_data(this.__matrix, data); return this.__matrix; }
 
-    public add_by_vector = (vector : Vector) : Matrix<any> => { Add_Vector.add_by_vector(this.__matrix, vector); return this.__matrix; }
+    public add_by_vector = (vector : Vector<any>) : Matrix<any> => { Add_Vector.add_by_vector(this.__matrix, vector); return this.__matrix; }
 
-    public add_by_vector_new = (vector : Vector) : Matrix<any> => { return Add_Vector.add_by_vector_new(this.__matrix, vector); }
+    public add_by_vector_new = (vector : Vector<any>) : Matrix<any> => { return Add_Vector.add_by_vector_new(this.__matrix, vector); }
 
-    public substract_by_vector = (vector : Vector) : Matrix<any> => { Substract_Vector.substract_by_vector(this.__matrix, vector); return this.__matrix; }
+    public substract_by_vector = (vector : Vector<any>) : Matrix<any> => { Substract_Vector.substract_by_vector(this.__matrix, vector); return this.__matrix; }
 
-    public substract_by_vector_new = (vector : Vector) : Matrix<any> => { return Substract_Vector.substract_by_vector_new(this.__matrix, vector); }
+    public substract_by_vector_new = (vector : Vector<any>) : Matrix<any> => { return Substract_Vector.substract_by_vector_new(this.__matrix, vector); }
 
     public copy = () : Matrix<any> => { return Copy.copy(this.__matrix); }
 
@@ -75,7 +75,7 @@ class Assign_Data
 
 class Add_Vector
 {
-    public static add_by_vector = (matrix : Matrix<any>, vector : Vector) : void =>
+    public static add_by_vector = (matrix : Matrix<any>, vector : Vector<any>) : void =>
     {
         for(let i = 0; i < matrix._.length; i++)
         {
@@ -86,7 +86,7 @@ class Add_Vector
         }
     }
 
-    public static add_by_vector_new = (m_o : Matrix<any>, vector : Vector) : Matrix<any> =>
+    public static add_by_vector_new = (m_o : Matrix<any>, vector : Vector<any>) : Matrix<any> =>
     {
         const result : Matrix<any> = m_o.__.copy();
 
@@ -104,7 +104,7 @@ class Add_Vector
 
 class Substract_Vector
 {
-    public static substract_by_vector = (matrix : Matrix<any>, vector : Vector) : void =>
+    public static substract_by_vector = (matrix : Matrix<any>, vector : Vector<any>) : void =>
     {
         for(let i = 0; i < matrix._.length; i++)
         {
@@ -115,7 +115,7 @@ class Substract_Vector
         }
     }
 
-    public static substract_by_vector_new = (m_o : Matrix<any>, vector : Vector) : Matrix<any> =>
+    public static substract_by_vector_new = (m_o : Matrix<any>, vector : Vector<any>) : Matrix<any> =>
     {
         const result : Matrix<any> = m_o.__.copy();
 
@@ -201,7 +201,7 @@ class Multiply
     
         for(let i = 0; i < m_o._.length; i++) //for each old points
         {
-            const new_vector = Vector_.zero();//new point
+            const new_vector = Vector_.zero(3);//new point
             
             for(let j = 0; j < transform._.length; j++) //for each axes of transform
             {

@@ -1,6 +1,6 @@
 import { Vector_ } from "./Vector_";
 
-export class Vector
+export class Vector<T>
 {
   public readonly __ = new Vector_(this);
   public readonly _ : number[] = [];
