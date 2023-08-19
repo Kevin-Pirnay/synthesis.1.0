@@ -17,7 +17,7 @@ export class Container_
 
 class Creation
 {
-    public static new = (ratio: Matrix<4>, pos_target: Vector<2>, abs_root_parent: Vector<3>): Container => 
+    public static new = (ratio: Matrix<4>, pos_target: Vector<3>, abs_root_parent: Vector<3>): Container => 
     {        
         const container = new Container(crypto.randomUUID());
 
@@ -33,7 +33,7 @@ class Creation
 
         container.positions.abs_root.__.assign_new_data(abs_root);
 
-        container.positions.abs_ratio.__.assign_new_data(abs_ratio);
+        container.positions.abs_ratio.__.assign_new_data(abs_ratio);        
 
         return container;
     };

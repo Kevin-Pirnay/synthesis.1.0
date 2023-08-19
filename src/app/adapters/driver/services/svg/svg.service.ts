@@ -17,7 +17,7 @@ export class SvgService
 
   public request_create_container(e : MouseEvent, parent_container : Container | null = null) : void
   {
-    const request = new Create_Container_Request(Vector_.new([e.clientX, e.clientY]), parent_container);
+    const request = new Create_Container_Request(Vector_.new([e.clientX, e.clientY,0]), parent_container);
 
     const response = Pipeline.facade.execute_create_container(request);
     
@@ -39,14 +39,14 @@ export class SvgService
 
   public request_move_container(e : MouseEvent, container : Container) : void
   {    
-    const request = new Move_Container_Request(Vector_.new([e.clientX, e.clientY]), container);
+    const request = new Move_Container_Request(Vector_.new([e.clientX, e.clientY,0]), container);
 
     Pipeline.facade.execute_move_container(request);
   }
 
   public request_move_ligature(e : MouseEvent, ligature : Ligature) : void
   {    
-    const request = new Move_ligature_Request(Vector_.new([e.clientX, e.clientY]), ligature);
+    const request = new Move_ligature_Request(Vector_.new([e.clientX, e.clientY,0]), ligature);
 
     Pipeline.facade.execute_move_ligature(request);
   }

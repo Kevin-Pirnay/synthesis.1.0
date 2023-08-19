@@ -201,7 +201,7 @@ class Multiply
     
         for(let i = 0; i < m_o._.length; i++) //for each old points
         {
-            const new_vector = Vector_.zero(3);//new point
+            const new_vector = Vector_.zero(m_o._[i]._.length);//new point
             
             for(let j = 0; j < transform._.length; j++) //for each axes of transform
             {

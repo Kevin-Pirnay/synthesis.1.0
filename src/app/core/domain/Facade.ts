@@ -169,6 +169,6 @@ export class Facade
     public rotate_data(dtos :IDto[])
     {
         const axe_rotation = Vector_.new([window.innerWidth / 4, 0]);
-        new Rotate_On_Target(dtos, 90, axe_rotation, this.__zoom_handler).zoom_and_rotate();
+        new Rotate_On_Target(dtos, this.__zoom_handler).zoom_and_rotate();
     }
 }

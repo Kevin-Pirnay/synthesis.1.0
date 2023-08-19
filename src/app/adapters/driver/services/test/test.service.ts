@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Matrix } from '../../../../core/common/Matrix/Matrix';
 import { Vector } from '../../../../core/common/Vector/Vector';
+import { Vector_ } from '../../../../core/common/Vector/Vector_';
+import { Matrix_ } from '../../../../core/common/Matrix/Matrix_';
 
 @Injectable({
   providedIn: 'root'
@@ -9,43 +11,14 @@ export class TestService
 {
   public test() : void
   {
-    // const p1 = Vector_.new([1,2]);
-    // const p2 = Vector_.new([2,2.7]);
-    // const p3 = Vector_.new([3,3.2]);
+    const a = Vector_.new([5,8,2]);
+    const b = Vector_.new([2,2,2]);
 
-    // const matrix = new Matrix([p1,p2,p3]);
+    const matrix : Matrix<2> = Matrix_.new([a,b]);
 
-    // const y_res = new Vector([1,7,-4]);
-
-    // const result = new Cramer_Quadratic(p1,p2,p3).get_coefficients();
+    console.log(matrix.__.substract_by_vector(b));
     
-    // console.log(result);
-
-    //const result = Math.log(16) / Math.log(2);
-
-    //console.log(result);
-
-    let result =-2;
-    let previous_x = -2;
-    let current_x = -2;
-    let previous_y = -2;
-    let current_y = -2;
-
-    const interval = 1;
-
-    for(let i = 0; i < (2 + 4)/interval; i++)
-    {
-      current_x += interval;
-        current_y = -1/6 * (current_x * current_x) + 2/3 * current_x + 0;
-        previous_y = -1/6 * (previous_x * previous_x) + 2/3 * previous_x + 0;
-
-        const delta_y = current_y - previous_y;
-
-        result = result + delta_y;        
-        
-        previous_x += interval
-        //previous_y = current_y;
-    }    
+   
   }
 }
 
