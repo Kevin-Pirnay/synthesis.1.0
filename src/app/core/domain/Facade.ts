@@ -42,7 +42,6 @@ import { Change_Root_Repository } from './repository/implementations/Change_Root
 import { Dao_Flow } from '../../adapters/driven/dao/Dao_Flow';
 import { IDao_Flow } from '../port/driven/dao/IDao_Flow';
 import { IDto } from '../port/driver/dto/IDto';
-import { Vector_ } from '../common/Vector/Vector_';
 import { Rotate_On_Target } from './handlers/handlers_use_case/On_Target/Rotate_On_Target';
 
 
@@ -168,7 +167,6 @@ export class Facade
 
     public rotate_data(dtos :IDto[])
     {
-        const axe_rotation = Vector_.new([window.innerWidth / 4, 0]);
         new Rotate_On_Target(dtos, this.__zoom_handler).zoom_and_rotate();
     }
 }
