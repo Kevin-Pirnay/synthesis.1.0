@@ -17,8 +17,6 @@ export class TestService
     const matrix : Matrix<2> = Matrix_.new([a,b]);
 
     console.log(matrix.__.substract_by_vector(b));
-    
-   
   }
 }
 

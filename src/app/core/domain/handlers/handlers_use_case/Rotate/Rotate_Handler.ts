@@ -7,7 +7,7 @@ import { Vector_ } from '../../../../common/Vector/Vector_';
 import { Matrix_ } from '../../../../common/Matrix/Matrix_';
 
 
-//manage such as you can easaly choose rotation matrix
+//manage such as you can easely choose rotation matrix
 export class Rotate_On_Target
 {
    private readonly __positions : IRotate_Positions_On_Target;
@@ -15,21 +15,23 @@ export class Rotate_On_Target
 
     constructor (data : IData_Tree[], zoom_handler : IZoom_Handler)
     {
-        const axe_rotation = Vector_.new([0, 0, 0]);
-
-        const init_angle = 0//Math.PI/4;
-
-        const max_angle = 360 * 1;
-
-        const center_rotation = Vector_.new([200, 200, 0]);
-
         const delta_origine : Vector<3> = data[0].element.positions.abs_ratio._[0].__.copy();
 
-        const data_positions : IRotate_Position_Data[] = this.__get_rotation_data(data, delta_origine);
+        const data_positions : IRotate_Position_Data[] = this.__get_rotation_data(data);
 
-        const phase = 0//Math.PI / 4;
+        const x = 250;
 
-        const delta_level = 120;
+        const axe_rotation = Vector_.new([-200, 0, 0]);
+        
+        const init_angle = 0;
+        
+        const max_angle = 90;
+        
+        const center_rotation = Vector_.new([250, 250, 100]);
+
+        const phase = 3 * Math.PI / 2;
+
+        const delta_level = 0;
 
         const direction = 1;
 
@@ -44,12 +46,13 @@ export class Rotate_On_Target
 
         this.__positions.init_axe_rotation();
 
-        this.__positions.init_rotation_on_itself();
+        this.__positions.set_phase();
 
         while(1)
         {
+            
             this.__positions.zoom_by_step();
-
+            
             this.__positions.rotate_by_step();
 
             if ( this.__step.complete() ) break;
@@ -60,14 +63,14 @@ export class Rotate_On_Target
         }
     }
 
-    private __get_rotation_data(data : IData_Tree[], delta_origine : Vector<3>) : IRotate_Position_Data[]
+    private __get_rotation_data(data : IData_Tree[]) : IRotate_Position_Data[]
     {
         const result : IRotate_Position_Data[] = [];
 
         data.forEach(data =>
         {
             const abs_ratio : Matrix<any> = data.element.positions.abs_ratio;
-            result.push(new Rotate_Position_Data(abs_ratio, delta_origine));
+            result.push(new Rotate_Position_Data(abs_ratio));
         });
 
         return result;
@@ -78,8 +81,8 @@ interface IRotate_Positions_On_Target
 {
     rotate_by_step(): void;
     zoom_by_step(): void;
-    init_rotation_on_itself(): void;
     init_axe_rotation(): void;
+    set_phase() : void;
 
 }
 
@@ -116,21 +119,20 @@ class Rotate_Positions_On_Target implements IRotate_Positions_On_Target
         this.__zoom.zoom_by_step();
     }
 
-    public init_rotation_on_itself(): void 
-    {
-        this.__init.rotate_the_target_on_itself();
-    }
-
     public init_axe_rotation(): void 
     {
         this.__init.translate_the_target();
+    }
+
+    public set_phase(): void 
+    {
+        this.__rotate.set_phase();
     }
 }
 
 interface IInit_The_Target
 {
     translate_the_target(): void;
-    rotate_the_target_on_itself(): void;
 }
 
 class Init_The_Target_With_Rotation_Y implements IInit_The_Target
@@ -140,13 +142,6 @@ class Init_The_Target_With_Rotation_Y implements IInit_The_Target
     public translate_the_target(): void 
     {
         this.__positions.forEach(position => position.init_axe_rotation(this.__axe_rotation))
-    }
-
-    public rotate_the_target_on_itself(): void 
-    {
-        const matrix = Matrix_.rotation_y(this.__radian);      
-        
-        this.__positions.forEach(position => position.rotate_on_itself(matrix, this.__delta_origin));
     }
 }
 
@@ -173,7 +168,7 @@ class Step implements IStep
     }
 
     public complete(): boolean 
-    {
+    {        
        return this.__current_step > this.__max_step ? true : false; 
     }
 
@@ -191,6 +186,7 @@ interface IZoom_By_Step
 interface IRotate_By_Step
 {
     rotate_by_step(): void;
+    set_phase() : void;
 }
 
 class Zoom_quadratic_By_Step implements IZoom_By_Step
@@ -246,20 +242,24 @@ class Rotate_Y_By_Step implements IRotate_By_Step
         private readonly __phase : number,
         private readonly __direction : number,
         private readonly __center_point : Vector<2>,
-    ) { }   
-
-    //private __current_angle : number = 0;
-    
+    ) { }       
 
     public rotate_by_step(): void 
     {
-        //const radian : number = this.__current_angle * Math.PI / 180 * this.__direction;
-        const dephasage = Math.PI/180 + (this.__phase * this.__direction);
-        const rotation_matrix = Matrix_.rotation_y(dephasage);
+        const radian = Math.PI/180 * this.__direction;
+
+        const rotation_matrix = Matrix_.rotation_y(radian);
         
         this.__positions.forEach(position => position.rotate_position_on_a_certain_point(rotation_matrix, this.__center_point));
+    }
 
-        //this.__current_angle++;        
+    public set_phase() : void
+    {
+        const phase = this.__phase * this.__direction;
+
+        const rotation_matrix = Matrix_.rotation_y(phase);
+        
+        this.__positions.forEach(position => position.rotate_position_on_a_certain_point(rotation_matrix, this.__center_point));
     }
 }
 
@@ -267,14 +267,13 @@ interface IRotate_Position_Data
 {
     init_axe_rotation(axe_rotation : Vector<2>) : void;
     rotate_position_on_a_certain_point(matrix_rotation : Matrix<4>, center_rotation : Vector<3>) : void;
-    rotate_on_itself(matrix_rotation : Matrix<3>, delta_origin : Vector<3>) : void;
 }
 
 class Rotate_Position_Data implements IRotate_Position_Data
 {
     private readonly __abs_ratio: Matrix<any>;
 
-    constructor(abs_ratio : Matrix<any>, private readonly __delta_origin : Vector<3>) 
+    constructor(abs_ratio : Matrix<any>) 
     {
         this.__abs_ratio = abs_ratio;
     }
@@ -287,16 +286,8 @@ class Rotate_Position_Data implements IRotate_Position_Data
     public rotate_position_on_a_certain_point(matrix_rotation : Matrix<3>, center: Vector<3>): void 
     {
         const copy = this.__abs_ratio.__.copy().__.substract_by_vector(center);
+
         this.__abs_ratio.__.assign_new_data(copy.__.multiply_by_matrix_new(matrix_rotation).__.add_by_vector_new(center));
-    }
-
-    public rotate_on_itself(matrix_rotation : Matrix<3>) : void
-    { 
-        this.__abs_ratio.__.substract_by_vector(this.__delta_origin);
-
-        this.__abs_ratio.__.multiply_by_matrix(matrix_rotation);
-
-        this.__abs_ratio.__.add_by_vector(this.__delta_origin);
     }
 }
 
