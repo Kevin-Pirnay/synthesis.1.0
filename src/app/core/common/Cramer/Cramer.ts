@@ -41,15 +41,13 @@ export class Cramer
 
         return result;
     }
-
-    public get_coefficients(matrix : Matrix<3>, y_vec : Vector<3>) : Vector<3>
-    {
-        return this.__run_cramer_rule(matrix, y_vec);
-    }
 }
 
 export class Cramer_Quadratic extends Cramer
 {
+
+    public readonly coefficients : Vector<3>;
+
     private readonly __matrix : Matrix<3> = new Matrix();
     private readonly __y_vector : Vector<3> = new Vector();
   
@@ -70,11 +68,8 @@ export class Cramer_Quadratic extends Cramer
             this.__matrix._.push(vector);
     
             this.__y_vector._[i] = (vectors[i]._[1]);
-        }    
-    }
-
-    public override get_coefficients() : Vector<3>
-    {
-        return this.__run_cramer_rule(this.__matrix, this.__y_vector);
+        }  
+        
+        this.coefficients = this.__run_cramer_rule(this.__matrix, this.__y_vector);
     }
 }

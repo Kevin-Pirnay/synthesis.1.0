@@ -1,4 +1,4 @@
-import { Cramer_Quadratic } from './../../../../common/Cramer/Cramer';
+import { Cramer_Quadratic } from '../../../../common/Cramer/Cramer';
 import { Matrix } from "../../../../common/Matrix/Matrix";
 import { Vector } from "../../../../common/Vector/Vector";
 import { Vector_ } from "../../../../common/Vector/Vector_";
@@ -35,14 +35,15 @@ export class Zoom_On_Target implements IZoom_On_Target
     {
         this.__step.init();
 
-        while (1) {
+        while (1) 
+        {
+            if (this.__step.complete()) break;
+
             this.__move.move_by_step();
 
             this.__zoom.zoom_by_step();
 
             this.__step.next_step();
-
-            if (this.__step.complete()) break;
 
             await new Promise(r => setTimeout(r, 1));
         }
@@ -119,14 +120,15 @@ export class Zoom_quadratic_By_Step implements IZoom_By_Step
         const p2 = new Vector([x0 / 2, y0 / 2]);
         const p3 = new Vector([x0, y0]);
 
-
-        this.__coeff_quad_eq = new Cramer_Quadratic(p1, p2, p3).get_coefficients();
+        this.__coeff_quad_eq = new Cramer_Quadratic(p1, p2, p3).coefficients;
     }
 
     public zoom_by_step(): void 
     {
+        //update_current_step_by_one
         this.__current_x += 1;
 
+        //get_the_current_y_of_this_step
         const a = this.__coeff_quad_eq._[0];
         const b = this.__coeff_quad_eq._[1];
         const c = this.__coeff_quad_eq._[2];
@@ -134,8 +136,10 @@ export class Zoom_quadratic_By_Step implements IZoom_By_Step
 
         const current_y = a * (x * x) + b * x + c;
 
+        //get_the_delta_btween_this_step_and_the_previous_step
         const delta = current_y - this.__previous_y;
 
+        //get_the_delta_btween_this_step_and_the_previous_step
         this.__current_level += delta;
 
         this.__handler.zoom_current_flow_by_level(this.__current_level);
@@ -167,7 +171,7 @@ export class Move_Quadratic_By_Step implements IMove_By_Step
         const p2 = new Vector([x / 2, (1 / y)]);
         const p3 = new Vector([x, y]);
 
-        this.__coeff_quad_eq = new Cramer_Quadratic(p1, p2, p3).get_coefficients();
+        this.__coeff_quad_eq = new Cramer_Quadratic(p1, p2, p3).coefficients;
     }
 
     public move_by_step(): void 
@@ -214,7 +218,7 @@ export class Step implements IStep
 
     public complete(): boolean 
     {
-        return this.__current_step > this.__max_step ? true : false;
+        return this.__current_step >= this.__max_step ? true : false;
     }
 }
 

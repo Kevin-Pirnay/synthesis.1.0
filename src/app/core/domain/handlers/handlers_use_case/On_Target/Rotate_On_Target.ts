@@ -1,4 +1,4 @@
-import { IData_Tree } from './../View_As_Root/View_As_Root_Handler';
+import { IData_Tree } from '../View_As_Root/View_As_Root_Handler';
 import { Matrix } from "../../../../common/Matrix/Matrix";
 import { Vector } from "../../../../common/Vector/Vector";
 import { IZoom_Handler } from "../Zoom/IZoom_Handler";
@@ -20,7 +20,7 @@ export class Rotate_On_Target
         const data_positions : IRotate_Position_Data[] = this.__get_rotation_data(data);
 
         //const x = -delta_origine._[0] + 249;        
-        const x = 100
+        const x = 100 
         const axe_rotation = Vector_.new([x, 0, 0]);
                 
         const max_angle = 90;
@@ -205,7 +205,7 @@ class Zoom_quadratic_By_Step implements IZoom_By_Step
         const p3 = new Vector([x0, y0]);
 
 
-        this.__coeff_quad_eq = new Cramer_Quadratic(p1, p2, p3).get_coefficients();
+        this.__coeff_quad_eq = new Cramer_Quadratic(p1, p2, p3).coefficients;
     }
 
     public zoom_by_step(): void 

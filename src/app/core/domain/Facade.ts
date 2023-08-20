@@ -43,7 +43,7 @@ import { Dao_Flow } from '../../adapters/driven/dao/Dao_Flow';
 import { IDao_Flow } from '../port/driven/dao/IDao_Flow';
 import { IDto } from '../port/driver/dto/IDto';
 import { Vector_ } from '../common/Vector/Vector_';
-import { Rotate_On_Target } from './handlers/handlers_use_case/Rotate/Rotate_Handler';
+import { Rotate_On_Target } from './handlers/handlers_use_case/On_Target/Rotate_On_Target';
 
 
 export class Facade
