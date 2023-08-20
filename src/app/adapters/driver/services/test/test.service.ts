@@ -11,7 +11,20 @@ export class TestService
 {
   public test() : void
   {
-    
+        const p1 = new Vector([0, 0]);
+        const p2 = new Vector([2, 2]);
+        const p3 = new Vector([6, 2/3]);
+
+        const coeff_quad_eq = new Cramer_Quadratic(p1, p2, p3).get_coefficients();
+        console.log(coeff_quad_eq);
+
+        const p1_ = new Vector([0, 0]);
+        const p2_ = new Vector([6, 6]);
+        const p3_ = new Vector([18, 2]);
+
+        const coeff_quad_eq_ = new Cramer_Quadratic(p1_, p2_, p3_).get_coefficients();
+        console.log(coeff_quad_eq_);
+        
   }
 }
 

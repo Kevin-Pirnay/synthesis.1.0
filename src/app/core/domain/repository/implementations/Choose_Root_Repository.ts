@@ -32,7 +32,7 @@ export class Choose_Root_Repository implements IChoose_Root_Repository
     public get_choose_root_container(container : Container, zoom_handler : IZoom_Handler, move_view_handler : IMove_View_Handler): IChoose_Roots_Container
     {
         const middle_point_x = 1/2 * 500;
-        const middle_point_y = 3/4 * 500;        
+        const middle_point_y = 1/2 * 500;        
         
         const ratio_x = 1/5 * 500;
         const ratio_y = 0;

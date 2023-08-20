@@ -9,6 +9,8 @@ import { IZoom_Handler } from './IZoom_Handler';
 
 export class Zoom_Handler implements IZoom_Handler
 {
+    private readonly __center = Vector_.new([250,250,0]);
+
     constructor(private readonly __repository : IZoom_Repository) { }
 
     public get_current_unzoom_factor() :  number
@@ -43,11 +45,11 @@ export class Zoom_Handler implements IZoom_Handler
 
         //unzoom all the positions
         const unzoom_factor = this.__repository.get_unzoom_factor();
-        this.__zoom(positions, unzoom_factor);        
+        this.__zoom(this.__center, positions, unzoom_factor);        
         
         //zoom all the positions by adding one to the factor zoom
         const zoom_factor = this.__repository.update_zoom_factor(direction);
-        this.__zoom(positions, zoom_factor); 
+        this.__zoom(this.__center, positions, zoom_factor); 
     }
 
     public async zoom_by_direction_in_contious_async(direction: number) : Promise<void>
@@ -75,11 +77,11 @@ export class Zoom_Handler implements IZoom_Handler
 
         //unzoom all the positions
         const unzoom_factor = this.__repository.get_unzoom_factor();
-        this.__zoom(positions, unzoom_factor);
+        this.__zoom(this.__center, positions, unzoom_factor);
 
         //zoom by factor
         const zoom_factor = this.__repository.update_zoom_level(level);
-        this.__zoom(positions, zoom_factor);
+        this.__zoom(this.__center, positions, zoom_factor);
     }
 
     public get_current_level() : number
@@ -91,23 +93,26 @@ export class Zoom_Handler implements IZoom_Handler
     {
         return this.__repository.get_alpha();
     }
-    
-    private __zoom(positions : IZoom_Positions[], factor : number) : void
+
+    public zoom_on_a_point(point_to_zoom : Vector<3>, factor : number) : void
     {
-        //const center : Vector<3> = Vector_.new([window.innerWidth / 2, window.innerHeight / 2, 0]);
-        const center : Vector<3> = Vector_.new([250, 250, 0]);
+        const positions : IZoom_Positions[] = this.__repository.get_all_zooms_positions();
 
-
+        this.__zoom(point_to_zoom, positions, factor );
+    }
+    
+    private __zoom(point_to_zoom : Vector<3> ,positions : IZoom_Positions[], factor : number) : void
+    {
         positions.forEach((position : IZoom_Positions) =>
         {
             //move center to origin
-            position.substract_abs_pos_by_delta(center);
+            position.substract_abs_pos_by_delta(point_to_zoom);
 
             //multiply factor
             position.multiply_abs_pos_by_factor(factor);
 
             //move back to center 
-            position.add_abs_pos_by_delta(center);
+            position.add_abs_pos_by_delta(point_to_zoom);
         });
     }
 }

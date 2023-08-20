@@ -19,8 +19,8 @@ export class Rotate_On_Target
 
         const data_positions : IRotate_Position_Data[] = this.__get_rotation_data(data);
 
-        const x = -delta_origine._[0] + 249;        
-
+        //const x = -delta_origine._[0] + 249;        
+        const x = 100
         const axe_rotation = Vector_.new([x, 0, 0]);
                 
         const max_angle = 90;
