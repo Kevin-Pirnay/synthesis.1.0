@@ -36,7 +36,7 @@ export class Choose_Root_Repository implements IChoose_Root_Repository
         
         const ratio_x = 1/5 * 500;
         const ratio_y = 0;
-        const coordinates_and_ratio = new Matrix<2>([Vector_.new([middle_point_x,middle_point_y]), Vector_.new([ratio_x,ratio_y])]); //first middle_point - two ratio x and y
+        const coordinates_and_ratio = new Matrix<2>([Vector_.new([middle_point_x,middle_point_y,0]), Vector_.new([ratio_x,ratio_y])]); //first middle_point - two ratio x and y
 
         return new Choose_Roots_Container(container, zoom_handler, move_view_handler, coordinates_and_ratio);
     }

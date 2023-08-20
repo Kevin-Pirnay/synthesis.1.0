@@ -19,17 +19,17 @@ export class Rotate_On_Target
 
         const data_positions : IRotate_Position_Data[] = this.__get_rotation_data(data);
 
-        const x = 250;
+        const x = -delta_origine._[0] + 249;        
 
-        const axe_rotation = Vector_.new([100, 0, 0]);
+        const axe_rotation = Vector_.new([x, 0, 0]);
                 
         const max_angle = 90;
         
-        const center_rotation = Vector_.new([250, 250, 100]);
+        const center_rotation = Vector_.new([250, 250, x]);
 
         const phase = 3 * Math.PI / 2;
 
-        const delta_level = 0;
+        const delta_level = 50;
 
         const direction = 1;
 
@@ -53,7 +53,6 @@ export class Rotate_On_Target
             this.__positions.zoom_by_step();
             
             this.__positions.rotate_by_step();
-
 
             this.__step.next_step();
 

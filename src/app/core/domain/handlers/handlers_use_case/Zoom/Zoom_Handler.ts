@@ -89,7 +89,9 @@ export class Zoom_Handler implements IZoom_Handler
     
     private __zoom(positions : IZoom_Positions[], factor : number) : void
     {
-        const center : Vector<2> = Vector_.new([window.innerWidth / 2, window.innerHeight / 2]);
+        //const center : Vector<3> = Vector_.new([window.innerWidth / 2, window.innerHeight / 2, 0]);
+        const center : Vector<3> = Vector_.new([250, 250, 0]);
+
 
         positions.forEach((position : IZoom_Positions) =>
         {

@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Matrix } from '../../../../core/common/Matrix/Matrix';
 import { Vector } from '../../../../core/common/Vector/Vector';
-import { Vector_ } from '../../../../core/common/Vector/Vector_';
-import { Matrix_ } from '../../../../core/common/Matrix/Matrix_';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +10,15 @@ export class TestService
 {
   public test() : void
   {
-    const a = Vector_.new([5,8,2]);
-    const b = Vector_.new([2,2,2]);
+    let result = 0;
 
-    const matrix : Matrix<2> = Matrix_.new([a,b]);
+    for (let i = 0; i < 90; i++)
+    {
+      result += 1.1 ** 20/90;
+    }
 
-    console.log(matrix.__.substract_by_vector(b));
+    console.log(result);
+    
   }
 }
 
