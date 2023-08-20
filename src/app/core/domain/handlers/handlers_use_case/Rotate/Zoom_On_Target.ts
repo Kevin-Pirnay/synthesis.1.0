@@ -173,6 +173,7 @@ export class Move_Quadratic_By_Step implements IMove_By_Step
     public move_by_step(): void 
     {
         this.__current_x += this.__step_x;
+        const current_factor = this.__zoom_handler.get_current_zoom_fator();
 
         const a = this.__coeff_quad_eq._[0];
         const b = this.__coeff_quad_eq._[1];
@@ -181,13 +182,13 @@ export class Move_Quadratic_By_Step implements IMove_By_Step
 
         const current_y = (a * (x * x) + b * x + c);
 
-        const delta = current_y - this.__previous_y;
+        const delta = current_y - this.__previous_y ;
 
-        const delta_vec = Vector_.new([-this.__step_x * this.__zoom_handler.get_current_zoom_fator(), -delta * this.__zoom_handler.get_current_zoom_fator()]);
+        const delta_vec = Vector_.new([-this.__step_x * current_factor, -delta * current_factor]);
 
         this.__handler.move_view_by_delta(delta_vec);
 
-        this.__previous_y = current_y;
+        this.__previous_y = current_y;        
     }
 }
 

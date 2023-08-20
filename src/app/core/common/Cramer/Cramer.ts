@@ -53,7 +53,7 @@ export class Cramer_Quadratic extends Cramer
     private readonly __matrix : Matrix<3> = new Matrix();
     private readonly __y_vector : Vector<3> = new Vector();
   
-    constructor(a: Vector<3>, b : Vector<3>, c : Vector<3>) // 3 dots
+    constructor(a: Vector<2>, b : Vector<2>, c : Vector<2>) // 3 dots
     {
         super();
 

@@ -11,6 +11,11 @@ export class Zoom_Handler implements IZoom_Handler
 {
     constructor(private readonly __repository : IZoom_Repository) { }
 
+    public get_current_unzoom_factor() :  number
+    {
+        return this.__repository.get_unzoom_factor();
+    }
+
     get_current_zoom_fator() : number
     {
         return this.__repository.get_zoom_factor();

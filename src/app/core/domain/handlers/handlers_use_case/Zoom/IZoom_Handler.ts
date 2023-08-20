@@ -5,6 +5,7 @@ import { Ligature } from "../../../entities/Ligature";
 export interface IZoom_Handler
 {
     get_current_zoom_fator() : number;
+    get_current_unzoom_factor() :  number
     zoom_by_direction(direction : number) : void;
     zoom_current_flow_by_level(factor : number) : void;
     update_container_with_current_zoom(container: Container): void;
