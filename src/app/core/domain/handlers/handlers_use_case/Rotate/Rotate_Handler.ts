@@ -21,10 +21,8 @@ export class Rotate_On_Target
 
         const x = 250;
 
-        const axe_rotation = Vector_.new([-200, 0, 0]);
-        
-        const init_angle = 0;
-        
+        const axe_rotation = Vector_.new([100, 0, 0]);
+                
         const max_angle = 90;
         
         const center_rotation = Vector_.new([250, 250, 100]);
@@ -35,7 +33,7 @@ export class Rotate_On_Target
 
         const direction = 1;
 
-        this.__positions = new Rotate_Positions_On_Target(data_positions, center_rotation, phase, axe_rotation, direction, max_angle, init_angle, delta_level, delta_origine, zoom_handler);
+        this.__positions = new Rotate_Positions_On_Target(data_positions, center_rotation, phase, axe_rotation, direction, max_angle, delta_level, zoom_handler);
 
         this.__step = new Step(max_angle);
     }
@@ -44,18 +42,18 @@ export class Rotate_On_Target
     {        
         this.__step.init();
 
-        this.__positions.init_axe_rotation();
-
         this.__positions.set_phase();
+
+        this.__positions.init_axe_rotation();
 
         while(1)
         {
-            
+            if ( this.__step.complete() ) break;
+
             this.__positions.zoom_by_step();
             
             this.__positions.rotate_by_step();
 
-            if ( this.__step.complete() ) break;
 
             this.__step.next_step();
 
@@ -99,12 +97,10 @@ class Rotate_Positions_On_Target implements IRotate_Positions_On_Target
         axe_rotation : Vector<2>,
         direction : number, 
         max_angle : number, 
-        init_angle : number, 
         delta_level : number, 
-        delta_origin : Vector<3>,
         zoom_handler : IZoom_Handler) 
     {
-        this.__init = new Init_The_Target_With_Rotation_Y(positions, delta_origin, axe_rotation, init_angle);
+        this.__init = new Init_The_Target_With_Rotation_Y(positions, axe_rotation);
         this.__zoom = new Zoom_quadratic_By_Step(delta_level, max_angle, zoom_handler);
         this.__rotate = new Rotate_Y_By_Step(positions, phase, direction, center_point);
     }
@@ -137,7 +133,7 @@ interface IInit_The_Target
 
 class Init_The_Target_With_Rotation_Y implements IInit_The_Target
 {   
-    constructor(private readonly __positions : IRotate_Position_Data[], private readonly __delta_origin : Vector<3>, private readonly __axe_rotation : Vector<2>, private readonly __radian : number) { }
+    constructor(private readonly __positions : IRotate_Position_Data[], private readonly __axe_rotation : Vector<2>) { }
 
     public translate_the_target(): void 
     {
@@ -169,7 +165,7 @@ class Step implements IStep
 
     public complete(): boolean 
     {        
-       return this.__current_step > this.__max_step ? true : false; 
+       return this.__current_step >= this.__max_step ? true : false; 
     }
 
     public init(): void 
@@ -260,6 +256,8 @@ class Rotate_Y_By_Step implements IRotate_By_Step
         const rotation_matrix = Matrix_.rotation_y(phase);
         
         this.__positions.forEach(position => position.rotate_position_on_a_certain_point(rotation_matrix, this.__center_point));
+        //this.__positions.forEach(position => position.init_axe_rotation(Vector_.new([100,0])));
+
     }
 }
 
