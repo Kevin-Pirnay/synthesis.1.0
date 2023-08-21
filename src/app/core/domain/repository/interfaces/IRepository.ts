@@ -60,6 +60,7 @@ export interface IView_As_Root_Repository
     get_subtree_root_by_id(container_id: string): ISubtree_Root;
     get_default_position_of_the_root(): Vector<3>;
     get_subtree_root(container: Container): ISubtree_Root;
+    get_subtree_root_from_root_flow() : ISubtree_Root;
 }
 
 

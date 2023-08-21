@@ -107,4 +107,14 @@ export class StateService
   {
     if ( this.__data.is_there_a_container_on_focus() ) this.__pipeline.request_delete_container(this.__data.container_on_focus());
   }
+
+  public report_click_on_back_view(container_id: string) : void
+  {
+    this.__pipeline.request_back_view(container_id);
+  }
+
+  public report_click_back_view_root() : void 
+  {
+    this.__pipeline.request_back_view(null);
+  }
 }

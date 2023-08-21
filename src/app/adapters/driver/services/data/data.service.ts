@@ -14,6 +14,7 @@ import { __assign } from 'tslib';
 export class DataService 
 {
   private readonly __dtos : IDto[] = [];
+  private readonly __stack_view_ids : string[] = [];
 
   private readonly __event : Event_State;
   private readonly __focus : Focus_State;
@@ -32,8 +33,8 @@ export class DataService
 
     this.__set = new Set_State(this.__event, this.__focus, this.__aside);
     this.__ask = new Ask_State(this.__event, this.__focus);
-    this.__get = new Get_Data_State(this.__focus, this.__dtos, this.__aside);
-    this.__data = new Data_Handler(this.__dtos);
+    this.__get = new Get_Data_State(this.__focus, this.__dtos, this.__aside, this.__stack_view_ids);
+    this.__data = new Data_Handler(this.__dtos, this.__stack_view_ids);
   }
   
   public set_mouse_is_down_on_a_container = (container : Container) : void => { this.__set.set_mouse_is_down_on_a_container(container); }
@@ -55,7 +56,7 @@ export class DataService
   public set_is_view_moving = (value : boolean) : void => { this.__set.set_is_view_moving(value); }
 
   public set_show_back_view = (value : boolean) => { this.__set.set_show_back_view(value); }
-  
+
   public set_show_menu = (value : boolean) => { this.__set.set_show_menu(value); }
 
   public is_mouse_down_on_something = () : boolean => { return this.__ask.is_mouse_down_on_something(); }
@@ -80,6 +81,8 @@ export class DataService
 
   public get_dtos_ptr = () : IDto[] => { return this.__get.get_dtos_ptr(); }
 
+  public get_stack_view_ids_ptr = () : string[] => { return this.__get.get_stack_view_ids_ptr(); }
+
   public get_nullable_container_on_focus = () : Container | null => {  return this.__get.get_nullable_container_on_focus(); }
 
   public get_nullable_ligature_on_focus = () : Ligature | null => {  return this.__get.get_nullable_ligature_on_focus(); }
@@ -96,6 +99,7 @@ export class DataService
 
   public delete_from_its_dtos = (ids_to_delete: string[])  => { this.__data.delete_from_its_dtos(ids_to_delete); }
 
+  public add_id_to_the_stack_view_ids = (id : string) : void => { this.__data.add_id_to_the_stack_view_ids(id); }
 }
 
 class Event_State
@@ -244,7 +248,12 @@ class Ask_State
 
 class Get_Data_State
 {
-  constructor(private readonly __focus : Focus_State, private readonly __dtos : IDto[], private readonly __aside : Aside_State) { }
+  constructor(
+    private readonly __focus : Focus_State, 
+    private readonly __dtos : IDto[], 
+    private readonly __aside : Aside_State, 
+    private readonly __stack_view_ids : string[]
+  ) { }
 
   public container_on_focus() : Container
   {
@@ -294,11 +303,16 @@ class Get_Data_State
   {
     return this.__aside.is_showing_back_view;
   }
+
+  public get_stack_view_ids_ptr() : string[]
+  {
+    return this.__stack_view_ids;
+  }
 }
 
 class Data_Handler
 {
-  constructor(private readonly __dtos : IDto[]) { }
+  constructor(private readonly __dtos : IDto[], private readonly __stack_view_ids : string[]) { }
 
   public add_dtos(dtos : IDto[]) : void
   {
@@ -326,6 +340,11 @@ class Data_Handler
     this.__dtos.length = 0;
 
     new_list.forEach(dto => this.__dtos.push(dto));
+  }
+
+  public add_id_to_the_stack_view_ids(id : string) : void
+  {
+    this.__stack_view_ids.push(id);
   }
 }
 

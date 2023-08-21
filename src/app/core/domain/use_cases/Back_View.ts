@@ -12,8 +12,10 @@ export class Back_View_Use_case
 
     public handle(request : Back_View_Request) : Back_View_Response
     {
-        const dtos : IDto[] = this.__handler.get_subtree_from_this_container_id(request.container_id);
-
+        const dtos : IDto[] = request.container_id !== null
+        ? this.__handler.get_subtree_from_this_container_id(request.container_id)
+        : this.__handler.get_subtree_from_root_of_the_current_flow();
+        
         return new Back_View_Response(dtos);
     }
 }

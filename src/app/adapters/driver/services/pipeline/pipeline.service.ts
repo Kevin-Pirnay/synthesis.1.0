@@ -70,6 +70,15 @@ export class PipelineService
       const dtos : IDto[] = this.__request.request_view_as_root(container);
 
       this.__data.replace_its_current_dtos_by(dtos);
+
+      this.__data.add_id_to_the_stack_view_ids(container.id);
+  }
+
+  public request_back_view(container_id : string | null) : void
+  {
+    const dtos : IDto[] = this.__request.request_back_view(container_id);
+
+    this.__data.replace_its_current_dtos_by(dtos);
   }
 
   public request_mark_as_root(container : Container) : void

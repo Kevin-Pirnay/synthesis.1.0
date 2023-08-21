@@ -50,7 +50,7 @@ export class Mark_As_Root_Request
 
 export class Back_View_Request
 {
-    constructor(public container_id : string) { }
+    constructor(public container_id : string | null) { }
 }
 
 export class Paginate_Request
