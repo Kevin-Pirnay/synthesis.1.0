@@ -54,7 +54,7 @@ export class SvgComponent
 
   public mouse_over_container(container : Container) : void
   {
-    
+    this.__state.report_mouse_over_container(container);
   }
 }
 

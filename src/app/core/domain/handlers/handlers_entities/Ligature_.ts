@@ -14,7 +14,7 @@ export class Ligature_
 
     public update_ratio = (): void => { Position.update_ratio(this.__ligature) }
 
-    public update_ratio_by_delta = (delta : Vector<2>) : void => { Position.update_ratio_by_delta(this.__ligature, delta) };
+    public update_ratio_by_delta = (delta : Vector<3>) : void => { Position.update_ratio_by_delta(this.__ligature, delta) };
 }
 
 class Position
@@ -39,7 +39,7 @@ class Position
         ligature.positions.abs_ratio.__.assign_new_data(Position.__get_abs_ratio(ligature));
     }
 
-    public static update_ratio_by_delta(ligature : Ligature, delta : Vector<2>) : void
+    public static update_ratio_by_delta(ligature : Ligature, delta : Vector<3>) : void
     {
         const abs_ratio : Matrix<3> = ligature.positions.abs_ratio;
 

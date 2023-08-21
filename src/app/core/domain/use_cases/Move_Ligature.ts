@@ -1,4 +1,5 @@
 import { Vector } from "../../common/Vector/Vector";
+import { Vector_ } from "../../common/Vector/Vector_";
 import { Assign_Ligature_Request, Move_ligature_Request } from "../../port/driver/request/request";
 import { INode_Linker } from "../handlers/handlers_use_case/Link_Node/INode_Linker";
 import { Assing_Ligature } from "../repository/implementations/injectors/Assing_Ligature";
@@ -11,7 +12,9 @@ export class Move_Ligature_Use_case
     public handle_move_ligature(request : Move_ligature_Request) : void
     {
         //refactor
-        const delta : Vector<3> = request.new_pos.__.substract_by_vector_new(request.ligature.positions.abs_ratio._[0]);
+        const adjust_pos : Vector<3> = request.new_pos.__.substract_by_vector(Vector_.new([-6,-6,0])) //in order_to have access to the container under the grip
+
+        const delta : Vector<3> = adjust_pos.__.substract_by_vector_new(request.ligature.positions.abs_ratio._[0]);
 
         request.ligature.__.update_ratio_by_delta(delta);
     }

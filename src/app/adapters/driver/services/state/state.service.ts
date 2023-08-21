@@ -46,7 +46,7 @@ export class StateService
   }
 
   public report_mouse_over_container(container : Container) : void
-  {
+  {    
     if ( this.__data.is_mouse_down_on_grip() ) this.__data.set_container_on_focus(container);
   }
 }
