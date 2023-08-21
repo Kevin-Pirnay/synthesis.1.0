@@ -10,6 +10,7 @@ import { IZoom_Handler } from '../../handlers/handlers_use_case/Zoom/IZoom_Handl
 import { IChoose_Roots_Container, IChoose_Roots_Root } from '../../use_cases/Choose_Root/Init_Choose_Root';
 import { Choose_Roots_Container } from './injectors/Choose_Root';
 import { Choose_Roots_Root } from './injectors/Choose_Root';
+import { Vector } from '../../../common/Vector/Vector';
 
 
 export class Choose_Root_Repository implements IChoose_Root_Repository
@@ -22,11 +23,13 @@ export class Choose_Root_Repository implements IChoose_Root_Repository
         return this.__indexes.init_indexes(nb_indexes);
     }
 
-    public store_all_possible_roots(roots : string[]): void
+    public store_all_possible_roots(container : Container): void
     {
         this.__roots.length = 0;
 
-        roots.forEach(root => this.__roots.push(root));
+        container.roots.forEach(root => this.__roots.push(root));
+
+        if (container.back_root)  this.__roots.push(container.back_root);
     }
 
     public get_choose_root_container(container : Container, zoom_handler : IZoom_Handler, move_view_handler : IMove_View_Handler): IChoose_Roots_Container
@@ -35,10 +38,9 @@ export class Choose_Root_Repository implements IChoose_Root_Repository
         const middle_point_y = 1/2 * 500;        
         
         const ratio_x = 1/5 * 500;
-        const ratio_y = 0;
-        const coordinates_and_ratio = new Matrix<2>([Vector_.new([middle_point_x,middle_point_y,0]), Vector_.new([ratio_x,ratio_y])]); //first middle_point - two ratio x and y
+        const coordinates = new Vector<2>([middle_point_x,middle_point_y, 0]); //first middle_point - two ratio x and y
         //change that
-        return new Choose_Roots_Container(container, zoom_handler, move_view_handler, coordinates_and_ratio);
+        return new Choose_Roots_Container(container, zoom_handler, move_view_handler, coordinates, ratio_x);
     }
 
     public get_choose_root_roots(indexes : number[]): IChoose_Roots_Root 

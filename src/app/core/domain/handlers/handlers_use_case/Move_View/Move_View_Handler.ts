@@ -18,7 +18,7 @@ export class Move_View_Handler implements IMove_View_Handler
         });
     }
 
-    public async move_view_by_delta_in_contious_async(delta : Vector<2>) : Promise<void>
+    public async move_view_by_delta_in_contious_async(delta : Vector<3>) : Promise<void>
     {
         const ptr_condition : Ptr_Boolean = this.__repository.init_stop_move_view_condition();
 

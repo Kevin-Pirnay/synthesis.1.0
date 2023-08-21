@@ -17,13 +17,9 @@ export class Choose_Roots_Container implements IChoose_Roots_Container
 {
     private readonly __zoom_on_target: IZoom_On_Target;
 
-    constructor(container: Container, zoom_handler: IZoom_Handler, move_view_handler: IMove_View_Handler, coordinates_and_ratio: Matrix<2>) 
+    constructor(container: Container, zoom_handler: IZoom_Handler, move_view_handler: IMove_View_Handler, coordinates : Vector<3>, ratio : number) 
     {
         const abs_ratio = container.positions.abs_ratio;
-
-        const coordinates : Vector<3> = coordinates_and_ratio._[0];
-
-        const ratio : number = coordinates_and_ratio._[1]._[0];
 
         this.__zoom_on_target = new Zoom_On_Target(abs_ratio, coordinates, ratio, zoom_handler, move_view_handler);
     }

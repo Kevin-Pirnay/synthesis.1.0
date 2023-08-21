@@ -16,7 +16,7 @@ export class Init_Choose_Root_Use_case
     
     public handle(request : Choose_Root_Request) : Choose_Root_Response
     {
-        this.__choose_repository.store_all_possible_roots(request.container.roots);
+        this.__choose_repository.store_all_possible_roots(request.container);
 
         const first_index : number = this.__choose_repository.init_indexes_of_roots_to_choose(request.container.roots.length);
 

@@ -28,7 +28,7 @@ export class Zoom_On_Target implements IZoom_On_Target
 
         this.__move = new Move_Quadratic_By_Step(pre_process.x_y_normalize, pre_process.distance, move_view_handler, zoom_handler);
         this.__zoom = new Zoom_quadratic_By_Step(pre_process.delta_zoom_level, pre_process.distance, zoom_handler);
-        this.__step = new Step(pre_process.distance);
+        this.__step = new Step(pre_process.distance);        
     }
 
     public async move_and_zoom(): Promise<void> 
@@ -165,7 +165,7 @@ export class Move_Quadratic_By_Step implements IMove_By_Step
         this.__step_x = x_y_normalize._[0] / distance;
 
         const x = x_y_normalize._[0];
-        const y = x_y_normalize._[1];
+        const y = x_y_normalize._[1] !== 0 ? x_y_normalize._[1] : 1;
 
         const p1 = new Vector([0, 0]);
         const p2 = new Vector([x / 2, (1 / y)]);
@@ -188,7 +188,7 @@ export class Move_Quadratic_By_Step implements IMove_By_Step
 
         const delta = current_y - this.__previous_y;
 
-        const delta_vec = Vector_.new([-this.__step_x * current_factor, -delta * current_factor]);
+        const delta_vec = Vector_.new([-this.__step_x * current_factor, -delta * current_factor, 0]);
 
         this.__handler.move_view_by_delta(delta_vec);
 
