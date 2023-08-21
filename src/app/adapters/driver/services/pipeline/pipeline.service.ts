@@ -92,6 +92,13 @@ export class PipelineService
   {
     const dtos : IDto[] = this.__request.request_init_choose_root(container);
 
-    this.__data.add_dtos(dtos);
+    this.__data.add_root_choices(dtos);
+  }
+
+  public request_view_choose_root(direction : number) : void
+  {
+    const dtos : IDto[] = this.__request.request_view_choose_root(direction);
+
+    this.__data.add_root_choices(dtos);
   }
 }

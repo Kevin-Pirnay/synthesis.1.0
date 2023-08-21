@@ -15,6 +15,7 @@ export class DataService
 {
   private readonly __dtos : IDto[] = [];
   private readonly __stack_view_ids : string[] = [];
+  private readonly __roots_choices : IDto[] = [];
 
   private readonly __event : Event_State;
   private readonly __focus : Focus_State;
@@ -33,8 +34,8 @@ export class DataService
 
     this.__set = new Set_State(this.__event, this.__focus, this.__aside);
     this.__ask = new Ask_State(this.__event, this.__focus);
-    this.__get = new Get_Data_State(this.__focus, this.__dtos, this.__aside, this.__stack_view_ids);
-    this.__data = new Data_Handler(this.__dtos, this.__stack_view_ids);
+    this.__get = new Get_Data_State(this.__focus, this.__dtos, this.__aside, this.__stack_view_ids, this.__roots_choices);
+    this.__data = new Data_Handler(this.__dtos, this.__stack_view_ids, this.__roots_choices);
   }
   
   public set_mouse_is_down_on_a_container = (container : Container) : void => { this.__set.set_mouse_is_down_on_a_container(container); }
@@ -85,6 +86,8 @@ export class DataService
 
   public get_stack_view_ids_ptr = () : string[] => { return this.__get.get_stack_view_ids_ptr(); }
 
+  public get_roots_choices_ptr = () : IDto[] => { return this.__get.get_roots_choices_ptr(); }
+
   public get_nullable_container_on_focus = () : Container | null => {  return this.__get.get_nullable_container_on_focus(); }
 
   public get_nullable_ligature_on_focus = () : Ligature | null => {  return this.__get.get_nullable_ligature_on_focus(); }
@@ -96,6 +99,8 @@ export class DataService
   public get_is_showing_choose_root_ptr = () : Ptr<boolean> => { return this.__get.get_is_showing_choose_root_ptr(); }
 
   public add_dtos = (dtos : IDto[]) : void => { this.__data.add_dtos(dtos); }
+
+  public add_root_choices = (dtos: IDto[]) : void => { this.__data.add_roots_to_roots_choices(dtos) }
 
   public replace_its_current_dtos_by = (dtos : IDto[]) : void => { this.__data.replace_its_current_dtos_by(dtos); }
 
@@ -264,7 +269,8 @@ class Get_Data_State
     private readonly __focus : Focus_State, 
     private readonly __dtos : IDto[], 
     private readonly __aside : Aside_State, 
-    private readonly __stack_view_ids : string[]
+    private readonly __stack_view_ids : string[],
+    private readonly __roots_choices : IDto[]
   ) { }
 
   public container_on_focus() : Container
@@ -325,11 +331,20 @@ class Get_Data_State
   {
     return this.__stack_view_ids;
   }
+
+  public get_roots_choices_ptr() : IDto[]
+  {
+    return this.__roots_choices;
+  }
 }
 
 class Data_Handler
 {
-  constructor(private readonly __dtos : IDto[], private readonly __stack_view_ids : string[]) { }
+  constructor(
+    private readonly __dtos : IDto[], 
+    private readonly __stack_view_ids : string[],
+    private readonly __roots_choices : IDto[]
+  ) { }
 
   public add_dtos(dtos : IDto[]) : void
   {
@@ -362,6 +377,11 @@ class Data_Handler
   public add_id_to_the_stack_view_ids(id : string) : void
   {
     this.__stack_view_ids.push(id);
+  }
+
+  public add_roots_to_roots_choices(roots : IDto[]) : void
+  {
+    roots.forEach(root => this.__roots_choices.push(root));
   }
 }
 

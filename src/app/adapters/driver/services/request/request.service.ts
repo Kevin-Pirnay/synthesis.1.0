@@ -2,7 +2,7 @@ import { Vector_ } from '../../../../core/common/Vector/Vector_';
 import { Container } from '../../../../core/domain/entities/Container';
 import { Ligature } from '../../../../core/domain/entities/Ligature';
 import { IDto } from '../../../../core/port/driver/dto/IDto';
-import { Create_Container_Request, Delete_Container_Request, Move_Container_Request, Move_ligature_Request, Assign_Ligature_Request, Move_View_Request, Zoom_Request, Choose_Root_Request, Mark_As_Root_Request, View_As_Root_Request, Back_View_Request } from '../../../../core/port/driver/request/request';
+import { Create_Container_Request, Delete_Container_Request, Move_Container_Request, Move_ligature_Request, Assign_Ligature_Request, Move_View_Request, Zoom_Request, Choose_Root_Request, Mark_As_Root_Request, View_As_Root_Request, Back_View_Request, View_Choose_Root_Request } from '../../../../core/port/driver/request/request';
 import { Pipeline } from './../../../../core/port/driver/Pipeline';
 import { Injectable } from '@angular/core';
 
@@ -108,5 +108,14 @@ export class RequestService
     const response = Pipeline.facade.execute_init_choose_roots(request);
     
     return response.dtos
+  }
+
+  public request_view_choose_root(direction : number) : IDto[]
+  {
+    const request = new View_Choose_Root_Request(direction);
+
+    const response = Pipeline.facade.execute_view_choose_roots(request);  
+
+    return response.dtos;
   }
 }

@@ -127,4 +127,19 @@ export class StateService
   {
     if ( this.__data.is_there_a_container_on_focus() ) this.__pipeline.request_init_choose_root(this.__data.container_on_focus());
   }
+
+  public report_click_on_back_choose_roots() : void
+  {
+    this.__pipeline.request_back_view(null);
+  }
+
+  public report_click_on_previous_choose_root() : void
+  {
+    this.__pipeline.request_view_choose_root(-1);
+  }
+
+  public report_click_on_next_choose_roots() : void
+  {
+    this.__pipeline.request_view_choose_root(1)
+  }
 }
