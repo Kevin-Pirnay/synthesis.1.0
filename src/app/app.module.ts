@@ -1,16 +1,18 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './adapters/driver/base/app.component';
 import { SvgComponent } from './adapters/driver/components/svg/svg.component';
-import { MenuComponent } from './adapters/driver/components/menu/menu.component';
+import { AsideComponent } from './adapters/driver/components/aside/base/aside.component';
+import { AppComponent } from './adapters/driver/base/app.component';
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { MenuComponent } from "./adapters/driver/components/aside/menu/menu.component";
+
 
 @NgModule({
   declarations: [
     AppComponent,
     SvgComponent,
-    MenuComponent
+    MenuComponent,
+    AsideComponent
   ],
   imports: [
     BrowserModule,

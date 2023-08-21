@@ -1,17 +1,13 @@
 
-
-
 <svg
     x="0"
     y="0"
-    width="500"
-    height="500"
+    attr.width="{{window_width}}"
+    attr.height="{{window_height}}"
     class="svg"
     tabindex="1"
-    (mousemove)="mouse_move($event)"
     (mouseup)="mouse_up($event)"
-    (keydown)="key_press($event)"
-    (keyup)="key_up()"
+    (mousemove)="mouse_move($event)"
     >
     
     <ng-container *ngFor="let dto of dtos">
@@ -21,8 +17,6 @@
             class="container"
             id="{{dto.element.id}}"
             (mousedown)="mouse_down_on_container(dto.element)"
-            (mouseover)="mouse_over_container(dto.element)"
-            (dblclick)="dbclick_on_container(dto.element)"
             attr.d="
                 M {{dto.element.positions.abs_ratio._[0]._[0]}} {{dto.element.positions.abs_ratio._[0]._[1]}} 
                 L {{dto.element.positions.abs_ratio._[1]._[0]}} {{dto.element.positions.abs_ratio._[1]._[1]}} 
@@ -34,6 +28,7 @@
             <path 
                 *ngIf="dto.type == 1" 
                 class="ligature"
+                (mousedown)="mouse_down_on_ligature(dto.element)"
                 attr.d="
                     M {{dto.element.positions.abs_ratio._[0]._[0]}} {{dto.element.positions.abs_ratio._[0]._[1]}} 
                     Q {{dto.element.positions.abs_ratio._[1]._[0]}},{{dto.element.positions.abs_ratio._[1]._[1]}}
@@ -42,8 +37,9 @@
 
             <path
                 class="grip"
-                *ngIf="dto.type == 1" 
-                (mousedown)="mouse_down_on_grip(dto.element)"
+                *ngIf="dto.type == 2" 
+                class="grip"
+                (mousedown)="mouse_down_on_grip()"
                 attr.d="
                     M {{dto.element.positions.abs_ratio._[0]._[0] -5 }} {{dto.element.positions.abs_ratio._[0]._[1] - 5}} 
                     L {{dto.element.positions.abs_ratio._[0]._[0] + 5}} {{dto.element.positions.abs_ratio._[0]._[1] - 5}} 

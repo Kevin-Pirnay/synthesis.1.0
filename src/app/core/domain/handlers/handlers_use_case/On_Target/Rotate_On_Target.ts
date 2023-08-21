@@ -1,4 +1,4 @@
-import { IData_Tree } from '../View_As_Root/View_As_Root_Handler';
+import { IData_Tree } from './../View_As_Root/View_As_Root_Handler';
 import { Matrix } from "../../../../common/Matrix/Matrix";
 import { Vector } from "../../../../common/Vector/Vector";
 import { IZoom_Handler } from "../Zoom/IZoom_Handler";
@@ -15,6 +15,7 @@ export class Rotate_On_Target
 
     constructor (data : IData_Tree[], zoom_handler : IZoom_Handler)
     {
+        //refactor
         const delta_origine : Vector<3> = data[0].element.positions.abs_ratio._[0].__.copy();
 
         const data_positions : IRotate_Position_Data[] = this.__get_rotation_data(data);
@@ -64,9 +65,10 @@ export class Rotate_On_Target
     {
         const result : IRotate_Position_Data[] = [];
 
-        data.forEach(data =>
+        data.forEach((data : IData_Tree) =>
         {
             const abs_ratio : Matrix<any> = data.element.positions.abs_ratio;
+
             result.push(new Rotate_Position_Data(abs_ratio));
         });
 
@@ -255,7 +257,6 @@ class Rotate_Y_By_Step implements IRotate_By_Step
         const rotation_matrix = Matrix_.rotation_y(phase);
         
         this.__positions.forEach(position => position.rotate_position_on_a_certain_point(rotation_matrix, this.__center_point));
-        //this.__positions.forEach(position => position.init_axe_rotation(Vector_.new([100,0])));
 
     }
 }

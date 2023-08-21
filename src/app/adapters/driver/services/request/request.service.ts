@@ -1,40 +1,33 @@
-import { Pipeline } from './../../../../core/port/driver/Pipeline';
-import { Injectable } from '@angular/core';
-import { IDto } from '../../../../core/port/driver/dto/IDto';
 import { Vector_ } from '../../../../core/common/Vector/Vector_';
 import { Container } from '../../../../core/domain/entities/Container';
 import { Ligature } from '../../../../core/domain/entities/Ligature';
-import { Create_Container_Request, Delete_Container_Request, Move_Container_Request, Move_ligature_Request, Assign_Ligature_Request, Move_View_Request, Zoom_Request, View_As_Root_Request, Mark_As_Root_Request, Choose_Root_Request } from '../../../../core/port/driver/request/request';
+import { IDto } from '../../../../core/port/driver/dto/IDto';
+import { Create_Container_Request, Delete_Container_Request, Move_Container_Request, Move_ligature_Request, Assign_Ligature_Request, Move_View_Request, Zoom_Request, Choose_Root_Request, Mark_As_Root_Request, View_As_Root_Request } from '../../../../core/port/driver/request/request';
+import { Pipeline } from './../../../../core/port/driver/Pipeline';
+import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SvgService 
+export class RequestService 
 {
-  public readonly dtos : IDto[] = [];
 
-  constructor() { }
-
-  public request_create_container(e : MouseEvent, parent_container : Container | null = null) : void
+  public request_create_container(e : MouseEvent, parent_container : Container | null = null) : IDto[]
   {
     const request = new Create_Container_Request(Vector_.new([e.clientX, e.clientY,0]), parent_container);
 
     const response = Pipeline.facade.execute_create_container(request);
     
-    response.dtos.forEach(dto => this.dtos.push(dto));    
+    return response.dtos;   
   }
 
-  public request_delete_container(container : Container) : void
+  public request_delete_container(container : Container) : string[]
   {
     const request = new Delete_Container_Request(container);
 
     const response = Pipeline.facade.execute_delete_container(request);
 
-    const new_list = this.dtos.filter(dto => !response.ids_to_remove.includes(dto.element.id));
-
-    this.dtos.length = 0;
-
-    new_list.forEach(dto => this.dtos.push(dto));
+    return response.ids_to_remove;
   }
 
   public request_move_container(e : MouseEvent, container : Container) : void
@@ -82,26 +75,22 @@ export class SvgService
     Pipeline.facade.execute_stop_move_view();
   }
 
-  public request_view_as_root(container : Container) : void
+  public request_view_as_root(container : Container) : IDto[]
   {
     const request = new View_As_Root_Request(container);
 
     const response = Pipeline.facade.execute_view_as_root(request);
 
-    this.dtos.length = 0;
-
-    response.dtos.forEach(dto => this.dtos.push(dto));
+    return response.dtos;
   }
 
-  public request_mark_as_root(container : Container) : void
+  public request_mark_as_root(container : Container) : IDto
   {
     const request = new Mark_As_Root_Request(container);
     
     const response = Pipeline.facade.execute_mark_as_root(request);
 
-    this.dtos.length = 0; 
-        
-    this.dtos.push(response.dto);
+    return response.dto;
   }
 
   public request_init_choose_root(container : Container) : void
@@ -118,6 +107,6 @@ export class SvgService
 
   public rotate_target() : void
   {
-    Pipeline.facade.rotate_data(this.dtos);
+    //Pipeline.facade.rotate_data(this.dtos);
   }
 }
