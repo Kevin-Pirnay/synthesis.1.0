@@ -82,4 +82,14 @@ export class StateService
     if ( this.__data.is_zooming() ) this.__pipeline.request_stop_zoomimg();
     if ( this.__data.is_view_moving() ) this.__pipeline.request_stop_moving_view();
   }
+
+  public report_click_on_show_menu() : void
+  {
+    throw new Error('Method not implemented.');
+  }
+
+  public report_click_on_show_back_view() : void
+  {
+    throw new Error('Method not implemented.');
+  }
 }

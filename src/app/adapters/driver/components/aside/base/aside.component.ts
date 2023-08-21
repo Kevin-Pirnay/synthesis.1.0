@@ -1,4 +1,7 @@
+import { DataService } from './../../../services/data/data.service';
 import { Component } from '@angular/core';
+import { StateService } from '../../../services/state/state.service';
+import { Ptr } from '../../../../../core/common/Ptr';
 
 @Component({
   selector: 'app-aside',
@@ -7,9 +10,14 @@ import { Component } from '@angular/core';
 })
 export class AsideComponent 
 {
-  //put that in data
-  public is_showing_menu : boolean = true;
-  public is_showing_back_view : boolean = false;
+  public readonly is_showing_menu_ptr : Ptr<boolean>;
+  public readonly is_showing_back_view : Ptr<boolean>;
+
+  constructor(data : DataService, private readonly __state : StateService) 
+  { 
+    this.is_showing_menu_ptr = data.get_is_showing_menu_ptr();
+    this.is_showing_back_view =data.get_is_showing_back_view_ptr();
+  }
 
   private __reset_show() : void
   {
@@ -19,15 +27,11 @@ export class AsideComponent
 
   public click_on_show_menu() : void
   {
-    this.__reset_show();
-
-    this.is_showing_menu = true;
+    this.__state.report_click_on_show_menu();
   }
 
   public click_on_show_back_view() : void
   {
-    this.__reset_show();
-
-    this.is_showing_back_view = true;
+    this.__state.report_click_on_show_back_view();
   }
 }

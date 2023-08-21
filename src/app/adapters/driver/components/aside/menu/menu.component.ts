@@ -11,25 +11,25 @@ import { PipelineService } from '../../../services/pipeline/pipeline.service';
 })
 export class MenuComponent 
 { 
-    private readonly __container_on_focus : Ptr<Container>;
+    private readonly __container_on_focus_ptr : Ptr<Container>;
 
     constructor(data : DataService, private readonly __pipeline : PipelineService)
     {
-      this.__container_on_focus = data.get_container_on_focus_ptr();
+      this.__container_on_focus_ptr = data.get_container_on_focus_ptr();
     } 
 
     public delete_container() : void
     {
-      if ( this.__container_on_focus._ ) this.__pipeline.request_delete_container(this.__container_on_focus._);
+      if ( this.__container_on_focus_ptr._ ) this.__pipeline.request_delete_container(this.__container_on_focus_ptr._);
     }
 
     public view_as_root() : void
     {
-      if ( this.__container_on_focus._ ) this.__pipeline.request_view_as_root(this.__container_on_focus._);
+      if ( this.__container_on_focus_ptr._ ) this.__pipeline.request_view_as_root(this.__container_on_focus_ptr._);
     }
 
     public mark_as_root() : void
     {
-      if ( this.__container_on_focus._ ) this.__pipeline.request_mark_as_root(this.__container_on_focus._);
+      if ( this.__container_on_focus_ptr._ ) this.__pipeline.request_mark_as_root(this.__container_on_focus_ptr._);
     }
 }

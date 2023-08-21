@@ -4,6 +4,7 @@ import { Container } from './../../../../core/domain/entities/Container';
 import { Injectable } from '@angular/core';
 import { Ptr } from '../../../../core/common/Ptr';
 import { Data_Type } from '../../../../core/domain/handlers/handlers_entities/Data_Type';
+import { __assign } from 'tslib';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class DataService
 
   private readonly __event : Event_State;
   private readonly __focus : Focus_State;
+  private readonly __aside : Aside_State;
 
   private readonly __set : Set_State;
   private readonly __ask : Ask_State;
@@ -26,10 +28,11 @@ export class DataService
   {
     this.__event = new Event_State();
     this.__focus = new Focus_State();
+    this.__aside = new Aside_State();
 
     this.__set = new Set_State(this.__event, this.__focus);
     this.__ask = new Ask_State(this.__event, this.__focus);
-    this.__get = new Get_Data_State(this.__focus, this.__dtos);
+    this.__get = new Get_Data_State(this.__focus, this.__dtos, this.__aside);
     this.__data = new Data_Handler(this.__dtos);
   }
   
@@ -77,6 +80,10 @@ export class DataService
 
   public get_nullable_ligature_on_focus = () : Ligature | null => {  return this.__get.get_nullable_ligature_on_focus(); }
 
+  public get_is_showing_menu_ptr = () : Ptr<boolean> => { return this.__get.get_is_showing_menu_ptr(); }
+
+  public get_is_showing_back_view_ptr = () : Ptr<boolean> => { return this.__get.get_is_showing_back_view_ptr(); }
+
   public add_dtos = (dtos : IDto[]) : void => { this.__data.add_dtos(dtos); }
 
   public replace_its_current_dtos_by = (dtos : IDto[]) : void => { this.__data.replace_its_current_dtos_by(dtos); }
@@ -94,7 +101,12 @@ class Event_State
   public is_mouse_down_on_ligature : boolean = false;
   public is_zooming : boolean = false;
   public is_view_moving : boolean = false;
+}
 
+class Aside_State
+{
+  public is_showing_menu : Ptr<boolean> = new Ptr();
+  public is_showing_back_view : Ptr<boolean> = new Ptr();
 }
 
 class Focus_State
@@ -211,7 +223,7 @@ class Ask_State
 
 class Get_Data_State
 {
-  constructor(private readonly __focus : Focus_State, private readonly __dtos : IDto[]) { }
+  constructor(private readonly __focus : Focus_State, private readonly __dtos : IDto[], private readonly __aside : Aside_State) { }
 
   public container_on_focus() : Container
   {
@@ -250,6 +262,16 @@ class Get_Data_State
   public get_dtos_ptr() : IDto[]
   {
     return this.__dtos;
+  }
+
+  public get_is_showing_menu_ptr() : Ptr<boolean>
+  {
+    return this.__aside.is_showing_menu;
+  }
+
+  public get_is_showing_back_view_ptr() : Ptr<boolean>
+  {
+    return this.__aside.is_showing_back_view;
   }
 }
 
