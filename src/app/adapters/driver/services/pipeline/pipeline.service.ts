@@ -90,6 +90,8 @@ export class PipelineService
 
   public request_init_choose_root(container : Container) : void
   {
-    this.__request.request_init_choose_root(container);
+    const dtos : IDto[] = this.__request.request_init_choose_root(container);
+
+    this.__data.add_dtos(dtos);
   }
 }

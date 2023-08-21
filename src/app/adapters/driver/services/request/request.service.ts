@@ -101,12 +101,12 @@ export class RequestService
     return response.dto;
   }
 
-  public request_init_choose_root(container : Container) : void
+  public request_init_choose_root(container : Container) : IDto[]
   {    
     const request = new Choose_Root_Request(container);
 
     const response = Pipeline.facade.execute_init_choose_roots(request);
     
-    //response.dtos.forEach(dto => this.roots_dto.push(dto)); 
+    return response.dtos
   }
 }
