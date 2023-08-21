@@ -12,11 +12,13 @@ export class AsideComponent
 {
   public readonly is_showing_menu_ptr : Ptr<boolean>;
   public readonly is_showing_back_view_ptr : Ptr<boolean>;
+  public readonly is_showing_choose_root_ptr : Ptr<boolean>;
 
   constructor(data : DataService, private readonly __state : StateService) 
   { 
     this.is_showing_menu_ptr = data.get_is_showing_menu_ptr();
-    this.is_showing_back_view_ptr =data.get_is_showing_back_view_ptr();
+    this.is_showing_back_view_ptr = data.get_is_showing_back_view_ptr();
+    this.is_showing_choose_root_ptr = data.get_is_showing_choose_root_ptr();
     data.set_show_menu(true);
   }
 
@@ -28,5 +30,10 @@ export class AsideComponent
   public click_on_show_back_view() : void
   {
     this.__state.report_click_on_show_back_view();
+  }
+
+  public click_on_show_choose_root() : void
+  {
+    this.__state.report_click_on_show_choose_root();
   }
 }

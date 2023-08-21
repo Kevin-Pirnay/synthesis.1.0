@@ -87,4 +87,9 @@ export class PipelineService
 
     this.__data.replace_its_current_dtos_by_a_dto(dto);
   }
+
+  public request_init_choose_root(container : Container) : void
+  {
+    this.__request.request_init_choose_root(container);
+  }
 }

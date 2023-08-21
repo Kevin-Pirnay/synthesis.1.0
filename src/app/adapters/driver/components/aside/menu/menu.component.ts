@@ -33,4 +33,9 @@ export class MenuComponent
     {
       this.__state.report_click_on_mark_as_root();
     }
+
+    public click_on_choose_root() : void
+    {
+      this.__state.report_click_on_choose_root();
+    }
 }

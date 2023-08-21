@@ -117,4 +117,14 @@ export class StateService
   {
     this.__pipeline.request_back_view(null);
   }
+
+  public report_click_on_show_choose_root() : void
+  {
+    this.__data.set_show_choose_root(true);
+  }
+
+  public report_click_on_choose_root() : void
+  {
+    if ( this.__data.is_there_a_container_on_focus() ) this.__pipeline.request_init_choose_root(this.__data.container_on_focus());
+  }
 }

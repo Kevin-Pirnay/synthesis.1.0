@@ -6,6 +6,7 @@ import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { MenuComponent } from "./adapters/driver/components/aside/menu/menu.component";
 import { BackViewComponent } from './adapters/driver/components/aside/back-view/back-view.component';
+import { ChooseRootComponent } from './adapters/driver/components/aside/choose-root/choose-root.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { BackViewComponent } from './adapters/driver/components/aside/back-view/
     SvgComponent,
     MenuComponent,
     AsideComponent,
-    BackViewComponent
+    BackViewComponent,
+    ChooseRootComponent
   ],
   imports: [
     BrowserModule,

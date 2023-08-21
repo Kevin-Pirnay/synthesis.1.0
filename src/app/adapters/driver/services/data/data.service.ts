@@ -57,6 +57,8 @@ export class DataService
 
   public set_show_back_view = (value : boolean) => { this.__set.set_show_back_view(value); }
 
+  public set_show_choose_root = (value: boolean) => { this.__set.set_show_choose_root(value); }
+
   public set_show_menu = (value : boolean) => { this.__set.set_show_menu(value); }
 
   public is_mouse_down_on_something = () : boolean => { return this.__ask.is_mouse_down_on_something(); }
@@ -91,6 +93,8 @@ export class DataService
 
   public get_is_showing_back_view_ptr = () : Ptr<boolean> => { return this.__get.get_is_showing_back_view_ptr(); }
 
+  public get_is_showing_choose_root_ptr = () : Ptr<boolean> => { return this.__get.get_is_showing_choose_root_ptr(); }
+
   public add_dtos = (dtos : IDto[]) : void => { this.__data.add_dtos(dtos); }
 
   public replace_its_current_dtos_by = (dtos : IDto[]) : void => { this.__data.replace_its_current_dtos_by(dtos); }
@@ -115,6 +119,7 @@ class Aside_State
 {
   public is_showing_menu : Ptr<boolean> = new Ptr();
   public is_showing_back_view : Ptr<boolean> = new Ptr();
+  public is_showing_choose_root : Ptr<boolean> = new Ptr();
 }
 
 class Focus_State
@@ -194,17 +199,24 @@ class Set_State
   {
     this.__aside.is_showing_menu._ = false;
     this.__aside.is_showing_back_view._ = false;
+    this.__aside.is_showing_choose_root._ = false
   }
 
-  public set_show_back_view(value : boolean) 
+  public set_show_back_view(value : boolean) : void
   {
     this.__reset_show_tags_aside();
     this.__aside.is_showing_back_view._ = value;
   }
-  public set_show_menu(value : boolean) 
+  public set_show_menu(value : boolean) : void
   {
     this.__reset_show_tags_aside();
     this.__aside.is_showing_menu._ = value;
+  }
+
+  public set_show_choose_root(value: boolean) : void
+  {
+    this.__reset_show_tags_aside();
+    this.__aside.is_showing_choose_root._ = value;
   }
 }
 
@@ -302,6 +314,11 @@ class Get_Data_State
   public get_is_showing_back_view_ptr() : Ptr<boolean>
   {
     return this.__aside.is_showing_back_view;
+  }
+
+  public get_is_showing_choose_root_ptr() : Ptr<boolean>
+  {
+    return this.__aside.is_showing_choose_root;
   }
 
   public get_stack_view_ids_ptr() : string[]

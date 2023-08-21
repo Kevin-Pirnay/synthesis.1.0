@@ -11,7 +11,6 @@ import { Injectable } from '@angular/core';
 })
 export class RequestService 
 {
-
   public request_create_container(e : MouseEvent, parent_container : Container | null = null) : IDto[]
   {
     const request = new Create_Container_Request(Vector_.new([e.clientX, e.clientY,0]), parent_container);
@@ -107,9 +106,6 @@ export class RequestService
     const request = new Choose_Root_Request(container);
 
     const response = Pipeline.facade.execute_init_choose_roots(request);
-
-    console.log(response);
-    
     
     //response.dtos.forEach(dto => this.roots_dto.push(dto)); 
   }
