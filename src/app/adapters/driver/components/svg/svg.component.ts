@@ -47,9 +47,14 @@ export class SvgComponent
     this.__state.report_mouse_down_on_ligature(ligature);
   }
 
-  public mouse_down_on_grip() : void
+  public mouse_down_on_grip(ligature : Ligature) : void
   {
-    this.__state.report_mouse_down_on_grip();
+    this.__state.report_mouse_down_on_grip(ligature);
+  }
+
+  public mouse_over_container(container : Container) : void
+  {
+    
   }
 }
 
