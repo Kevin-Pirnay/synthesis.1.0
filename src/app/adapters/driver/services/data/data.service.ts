@@ -1,5 +1,5 @@
+import { IDto } from './../../../../core/port/driver/dto/IDto';
 import { Ligature } from '../../../../core/domain/entities/Ligature';
-import { IDto } from '../../../../core/port/driver/dto/IDto';
 import { Container } from './../../../../core/domain/entities/Container';
 import { Injectable } from '@angular/core';
 import { Ptr } from '../../../../core/common/Ptr';
@@ -29,7 +29,7 @@ export class DataService
 
     this.__set = new Set_State(this.__event, this.__focus);
     this.__ask = new Ask_State(this.__event, this.__focus);
-    this.__get = new Get_Data_State(this.__focus);
+    this.__get = new Get_Data_State(this.__focus, this.__dtos);
     this.__data = new Data_Handler(this.__dtos);
   }
   
@@ -66,6 +66,12 @@ export class DataService
   public container_on_focus = () : Container => { return this.__get.container_on_focus(); }
 
   public ligature_on_focus = () : Ligature => { return this.__get.ligature_on_focus(); }
+
+  public get_container_on_focus_ptr = () : Ptr<Container> => { return this.__get.get_container_on_focus_ptr(); }
+
+  public get_ligature_on_focus_ptr = () : Ptr<Ligature> => { return this.__get.get_ligature_on_focus_ptr(); }
+
+  public get_dtos_ptr = () : IDto[] => { return this.__get.get_dtos_ptr(); }
 
   public add_dtos = (dtos : IDto[]) : void => { this.__data.add_dtos(dtos); }
 
@@ -201,7 +207,7 @@ class Ask_State
 
 class Get_Data_State
 {
-  constructor(private readonly __focus : Focus_State) { }
+  constructor(private readonly __focus : Focus_State, private readonly __dtos : IDto[]) { }
 
   public container_on_focus() : Container
   {
@@ -215,6 +221,21 @@ class Get_Data_State
     if ( this.__focus.ligature_currently_on_focus._ == null ) throw new Error("No Ligature is currently on focus");
 
     return this.__focus.ligature_currently_on_focus._;
+  }
+
+  public get_container_on_focus_ptr() : Ptr<Container>
+  {
+    return this.__focus.container_currently_on_focus;
+  }
+
+  public get_ligature_on_focus_ptr() : Ptr<Ligature>
+  {
+    return this.__focus.ligature_currently_on_focus
+  }
+
+  public get_dtos_ptr() : IDto[]
+  {
+    return this.__dtos;
   }
 }
 

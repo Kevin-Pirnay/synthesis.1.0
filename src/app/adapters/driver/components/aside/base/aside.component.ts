@@ -17,14 +17,14 @@ export class AsideComponent
     this.is_showing_back_view = false;
   }
 
-  public shows_menu() : void
+  public click_on_show_menu() : void
   {
     this.__reset_show();
 
     this.is_showing_menu = true;
   }
 
-  public shows_back_view() : void
+  public click_on_show_back_view() : void
   {
     this.__reset_show();
 
