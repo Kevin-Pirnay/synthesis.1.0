@@ -20,7 +20,7 @@ export class SvgComponent
 
   constructor(data_service : DataService, private readonly __state : StateService) 
   { 
-    this.dtos = data_service.dtos;
+    this.dtos = data_service.get_dtos_ptr();
 
     this.window_width = window.innerWidth;
 
