@@ -1,5 +1,6 @@
 import { Matrix } from "../../../../common/Matrix/Matrix";
-import { IDto, Data_Type } from "../../../../port/driver/dto/IDto";
+import { IDto } from "../../../../port/driver/dto/IDto";
+import { Data_Type } from "../../../handlers/handlers_entities/Data_Type";
 import { IPaginate_Data } from "./View_Paginate";
 
 

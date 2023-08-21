@@ -1,3 +1,4 @@
+import { Data_Type } from "../../../domain/handlers/handlers_entities/Data_Type";
 
 export interface IDto
 {
@@ -5,9 +6,3 @@ export interface IDto
     type : Data_Type;
 }
 
-export enum Data_Type 
-{
-    CONTAINER,
-    LIGATURE,
-    ROOT_CHOICE
-}

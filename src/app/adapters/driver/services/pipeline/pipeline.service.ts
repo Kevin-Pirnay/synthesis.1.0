@@ -8,11 +8,11 @@ import { IDto } from '../../../../core/port/driver/dto/IDto';
 @Injectable({
   providedIn: 'root'
 })
-export class PipelineService {
-
+export class PipelineService 
+{
   constructor(private readonly __request : RequestService, private readonly __data : DataService) { }
 
-  public request_create_container(e : MouseEvent, parent_container : Container | null = null) : void
+  public request_create_container(e : MouseEvent, parent_container : Container | null) : void
   {
     const dtos : IDto[] = this.__request.request_create_container(e, parent_container);
 

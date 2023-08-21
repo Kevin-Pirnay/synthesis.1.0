@@ -73,4 +73,9 @@ export class DataService
 
     new_list.forEach(dto => this.dtos.push(dto));
   }
+
+  public is_there_a_container_on_focus() : boolean
+  {
+    return this.__container_currently_on_focus ? true : false;
+  }
 }

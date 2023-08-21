@@ -3,7 +3,8 @@ import { INode_Linker } from './../handlers/handlers_use_case/Link_Node/INode_Li
 import { Matrix } from "../../common/Matrix/Matrix";
 import { Vector_ } from "../../common/Vector/Vector_";
 import { Dto } from "../../port/driver/dto/Dto";
-import { Data_Type, IDto } from "../../port/driver/dto/IDto";
+import { IDto } from "../../port/driver/dto/IDto";
+import { Data_Type } from "../handlers/handlers_entities/Data_Type";
 import { Container } from "../entities/Container";
 import { Container_ } from "../handlers/handlers_entities/Container_";
 import { Ligature } from "../entities/Ligature";
