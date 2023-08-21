@@ -92,4 +92,19 @@ export class StateService
   {
     this.__data.set_show_back_view(true);
   }
+
+  public report_click_on_mark_as_root() : void 
+  {
+    if ( this.__data.is_there_a_container_on_focus() ) this.__pipeline.request_mark_as_root(this.__data.container_on_focus());
+  }
+
+  public report_click_on_view_as_root() : void 
+  {
+    if ( this.__data.is_there_a_container_on_focus() ) this.__pipeline.request_view_as_root(this.__data.container_on_focus());
+  }
+
+  public report_click_on_delete_container() : void 
+  {
+    if ( this.__data.is_there_a_container_on_focus() ) this.__pipeline.request_delete_container(this.__data.container_on_focus());
+  }
 }

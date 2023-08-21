@@ -3,6 +3,7 @@ import { Ptr } from '../../../../../core/common/Ptr';
 import { Container } from '../../../../../core/domain/entities/Container';
 import { DataService } from '../../../services/data/data.service';
 import { PipelineService } from '../../../services/pipeline/pipeline.service';
+import { StateService } from '../../../services/state/state.service';
 
 @Component({
   selector: 'app-menu',
@@ -13,23 +14,23 @@ export class MenuComponent
 { 
     private readonly __container_on_focus_ptr : Ptr<Container>;
 
-    constructor(data : DataService, private readonly __pipeline : PipelineService)
+    constructor(data : DataService, private readonly __state : StateService)
     {
       this.__container_on_focus_ptr = data.get_container_on_focus_ptr();
     } 
 
-    public delete_container() : void
+    public click_on_delete_container() : void
     {
-      if ( this.__container_on_focus_ptr._ ) this.__pipeline.request_delete_container(this.__container_on_focus_ptr._);
+      this.__state.report_click_on_delete_container();
     }
 
-    public view_as_root() : void
+    public click_on_view_as_root() : void
     {
-      if ( this.__container_on_focus_ptr._ ) this.__pipeline.request_view_as_root(this.__container_on_focus_ptr._);
+      this.__state.report_click_on_view_as_root();
     }
 
-    public mark_as_root() : void
+    public click_on_mark_as_root() : void
     {
-      if ( this.__container_on_focus_ptr._ ) this.__pipeline.request_mark_as_root(this.__container_on_focus_ptr._);
+      this.__state.report_click_on_mark_as_root();
     }
 }
