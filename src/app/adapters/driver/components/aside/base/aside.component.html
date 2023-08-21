@@ -1,4 +1,10 @@
 
 <section class="aside">
-    <app-menu></app-menu>
+    <ul class="tabs">
+        <li (click)="shows_menu()">menu</li>
+        <li (click)="shows_back_view()">back view</li>
+    </ul>
+
+    <app-menu *ngIf="is_showing_menu"></app-menu>
+    <app-back-view *ngIf="is_showing_back_view"></app-back-view>
 </section>

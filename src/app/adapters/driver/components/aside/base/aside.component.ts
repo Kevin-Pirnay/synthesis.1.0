@@ -5,6 +5,29 @@ import { Component } from '@angular/core';
   templateUrl: './aside.component.html',
   styleUrls: ['./aside.component.css']
 })
-export class AsideComponent {
+export class AsideComponent 
+{
+  //put that in data
+  public is_showing_menu : boolean = true;
+  public is_showing_back_view : boolean = false;
 
+  private __reset_show() : void
+  {
+    this.is_showing_menu = false;
+    this.is_showing_back_view = false;
+  }
+
+  public shows_menu() : void
+  {
+    this.__reset_show();
+
+    this.is_showing_menu = true;
+  }
+
+  public shows_back_view() : void
+  {
+    this.__reset_show();
+
+    this.is_showing_back_view = true;
+  }
 }
