@@ -11,12 +11,12 @@ import { Ptr } from '../../../../../core/common/Ptr';
 export class AsideComponent 
 {
   public readonly is_showing_menu_ptr : Ptr<boolean>;
-  public readonly is_showing_back_view : Ptr<boolean>;
+  public readonly is_showing_back_view_ptr : Ptr<boolean>;
 
   constructor(data : DataService, private readonly __state : StateService) 
   { 
     this.is_showing_menu_ptr = data.get_is_showing_menu_ptr();
-    this.is_showing_back_view =data.get_is_showing_back_view_ptr();
+    this.is_showing_back_view_ptr =data.get_is_showing_back_view_ptr();
     data.set_show_menu(true);
   }
 
