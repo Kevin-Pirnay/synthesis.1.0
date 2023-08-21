@@ -26,6 +26,8 @@ export class Remove_Container implements IRemove_Container
 
         this.__children_unit = this.__container_to_remove.node.children;
         this.__unit_to_remove = handler.get_container_units(this.__container_to_remove);
+
+        if ( this.__unit_to_remove == null ) throw new Error("cannot delete a root container");
     }
 
     public update_its_children_ligatures_positions(): void 
@@ -35,7 +37,9 @@ export class Remove_Container implements IRemove_Container
 
     public remove_itself_from_memory(): void 
     {
-        this.__delete_repository.delete_unit_from_memory(this.__children_unit[0]);
+        if ( !this.__unit_to_remove ) return;
+
+        this.__delete_repository.delete_unit_from_memory(this.__unit_to_remove);
     }
 
     public remove_all_units_that_contain_itself_from_the_tree(): void 

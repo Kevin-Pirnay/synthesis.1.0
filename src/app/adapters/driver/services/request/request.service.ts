@@ -58,6 +58,11 @@ export class RequestService
     Pipeline.facade.execute_move_view(request);
   }
 
+  public request_stop_moving_view() : void
+  {
+    Pipeline.facade.execute_stop_move_view();
+  }
+
   public request_zoom(direction : number) : void
   {    
     const request = new Zoom_Request(direction);
@@ -65,14 +70,9 @@ export class RequestService
     Pipeline.facade.execute_zoom(request);
   }
 
-  public request_unzoom() : void
+  public request_stop_zoomimg() : void
   {    
     Pipeline.facade.execute_stop_zoom();
-  }
-
-  public request_stop_moving_view() : void
-  {
-    Pipeline.facade.execute_stop_move_view();
   }
 
   public request_view_as_root(container : Container) : IDto[]

@@ -17,6 +17,8 @@ export class PipelineService
     const dtos : IDto[] = this.__request.request_create_container(e, parent_container);
 
     this.__data.add_dtos(dtos);
+
+    this.__data.set_container_on_focus_from_dtos(dtos);
   }
 
   public request_delete_container(container : Container) : void
@@ -24,6 +26,8 @@ export class PipelineService
     const ids_to_delete : string[] = this.__request.request_delete_container(container);
 
     this.__data.delete_from_its_dtos(ids_to_delete);
+
+    this.__data.set_container_on_focus(null);
   }
 
   public request_move_container(e : MouseEvent, container : Container) : void
@@ -53,7 +57,7 @@ export class PipelineService
 
   public request_unzoom() : void
   {  
-    this.__request.request_unzoom();  
+    this.__request.request_stop_zoomimg();  
   }
 
   public request_stop_moving_view() : void

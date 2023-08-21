@@ -27,7 +27,7 @@ export class Move_Container implements IMove_Container
     {
         this.__container.node.children.forEach((unit: Unit_Node) => 
         {
-            if (unit.container) unit.container.positions.rel_ratio.__.substract_by_vector(delta);
+            if (unit.container) unit.container.positions.rel_root.__.substract_by_vector(delta);
 
             if (unit.ligature) unit.ligature.__.update_ratio();
         });
