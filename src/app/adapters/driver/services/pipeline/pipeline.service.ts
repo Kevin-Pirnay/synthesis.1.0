@@ -55,7 +55,7 @@ export class PipelineService
     this.__request.request_zoom(direction);
   }
 
-  public request_unzoom() : void
+  public request_stop_zoomimg() : void
   {  
     this.__request.request_stop_zoomimg();  
   }

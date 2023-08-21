@@ -49,4 +49,37 @@ export class StateService
   {    
     if ( this.__data.is_mouse_down_on_grip() ) this.__data.set_container_on_focus(container);
   }
+
+  public report_key_down(e: KeyboardEvent) : void 
+  {
+    switch (e.key) 
+    {
+      case '+':
+        this.__data.set_is_zooming(true)
+        this.__pipeline.request_zoom(1);
+      break;
+      case '-':
+        this.__data.set_is_zooming(true)
+        this.__pipeline.request_zoom(-1);
+      break;
+
+      case "ArrowLeft":
+      case "ArrowRight":
+      case "ArrowUp":
+      case "ArrowDown":
+        this.__data.set_is_view_moving(true);
+        this.__pipeline.request_move_view(e.key);
+      break;
+
+
+      default:
+        break;
+    }
+  }
+
+  public report_key_up() : void
+  {
+    if ( this.__data.is_zooming() ) this.__pipeline.request_stop_zoomimg();
+    if ( this.__data.is_view_moving() ) this.__pipeline.request_stop_moving_view();
+  }
 }

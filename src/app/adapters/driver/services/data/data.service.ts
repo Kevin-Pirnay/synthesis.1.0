@@ -13,6 +13,8 @@ export class DataService
   private __is_mouse_down_on_container : boolean = false;
   private __is_mouse_down_on_grip : boolean = false;
   private __is_mouse_down_on_ligature : boolean = false;
+  private __is_zooming : boolean = false;
+  private __is_view_moving : boolean = false;
 
   public container_currently_on_focus : Ptr<Container> = new Ptr();
   private ligature_currently_on_focus : Ptr<Ligature> = new Ptr();
@@ -121,6 +123,26 @@ export class DataService
   public set_ligature_on_focus(ligature : Ligature | null) : void
   {
     this.ligature_currently_on_focus._ = ligature;
+  }
+
+  public set_is_zooming(value : boolean) : void
+  {
+    this.__is_zooming = value;
+  }
+
+  public set_is_view_moving(value : boolean) : void
+  {
+    this.__is_view_moving = value;
+  }
+
+  public is_zooming() : boolean
+  {
+    return this.__is_zooming;
+  }
+
+  public is_view_moving() : boolean
+  {
+    return this.__is_view_moving;
   }
 }
 

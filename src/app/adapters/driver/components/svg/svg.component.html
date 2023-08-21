@@ -8,6 +8,8 @@
     tabindex="1"
     (mouseup)="mouse_up($event)"
     (mousemove)="mouse_move($event)"
+    (keydown)="key_down($event)"
+    (keyup)="key_up()"
     >
     
     <ng-container *ngFor="let dto of dtos">
@@ -42,7 +44,7 @@
                 class="grip"
                 (mousedown)="mouse_down_on_grip(dto.element)"
                 attr.d="
-                    M {{dto.element.positions.abs_ratio._[0]._[0] -5 }} {{dto.element.positions.abs_ratio._[0]._[1] - 5}} 
+                    M {{dto.element.positions.abs_ratio._[0]._[0] - 5}} {{dto.element.positions.abs_ratio._[0]._[1] - 5}} 
                     L {{dto.element.positions.abs_ratio._[0]._[0] + 5}} {{dto.element.positions.abs_ratio._[0]._[1] - 5}} 
                     L {{dto.element.positions.abs_ratio._[0]._[0] + 5}} {{dto.element.positions.abs_ratio._[0]._[1] + 5}} 
                     L {{dto.element.positions.abs_ratio._[0]._[0] - 5}} {{dto.element.positions.abs_ratio._[0]._[1] + 5}} " 

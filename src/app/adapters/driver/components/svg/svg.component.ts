@@ -56,5 +56,15 @@ export class SvgComponent
   {
     this.__state.report_mouse_over_container(container);
   }
+
+  public key_down(e : KeyboardEvent) : void
+  {
+    this.__state.report_key_down(e);
+  }
+
+  public key_up() : void
+  {
+    this.__state.report_key_up();
+  }
 }
 
