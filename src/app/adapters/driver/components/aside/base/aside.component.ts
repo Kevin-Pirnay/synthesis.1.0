@@ -17,12 +17,7 @@ export class AsideComponent
   { 
     this.is_showing_menu_ptr = data.get_is_showing_menu_ptr();
     this.is_showing_back_view =data.get_is_showing_back_view_ptr();
-  }
-
-  private __reset_show() : void
-  {
-    this.is_showing_menu = false;
-    this.is_showing_back_view = false;
+    data.set_show_menu(true);
   }
 
   public click_on_show_menu() : void

@@ -85,11 +85,11 @@ export class StateService
 
   public report_click_on_show_menu() : void
   {
-    throw new Error('Method not implemented.');
+    this.__data.set_show_menu(true);
   }
 
   public report_click_on_show_back_view() : void
   {
-    throw new Error('Method not implemented.');
+    this.__data.set_show_back_view(true);
   }
 }

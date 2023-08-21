@@ -30,7 +30,7 @@ export class DataService
     this.__focus = new Focus_State();
     this.__aside = new Aside_State();
 
-    this.__set = new Set_State(this.__event, this.__focus);
+    this.__set = new Set_State(this.__event, this.__focus, this.__aside);
     this.__ask = new Ask_State(this.__event, this.__focus);
     this.__get = new Get_Data_State(this.__focus, this.__dtos, this.__aside);
     this.__data = new Data_Handler(this.__dtos);
@@ -53,6 +53,10 @@ export class DataService
   public set_is_zooming = (value : boolean) : void => { this.__set.set_is_zooming(value); }
 
   public set_is_view_moving = (value : boolean) : void => { this.__set.set_is_view_moving(value); }
+
+  public set_show_back_view = (value : boolean) => { this.__set.set_show_back_view(value); }
+  
+  public set_show_menu = (value : boolean) => { this.__set.set_show_menu(value); }
 
   public is_mouse_down_on_something = () : boolean => { return this.__ask.is_mouse_down_on_something(); }
 
@@ -117,7 +121,7 @@ class Focus_State
 
 class Set_State
 {
-  constructor(private readonly __event : Event_State, private readonly __focus : Focus_State) { }
+  constructor(private readonly __event : Event_State, private readonly __focus : Focus_State, private readonly __aside : Aside_State) { }
   
   private __reset_elements_on_focus()  : void
   {
@@ -180,6 +184,23 @@ class Set_State
   public set_is_view_moving(value : boolean) : void
   {
     this.__event.is_view_moving = value;
+  }
+
+  private __reset_show_tags_aside() : void
+  {
+    this.__aside.is_showing_menu._ = false;
+    this.__aside.is_showing_back_view._ = false;
+  }
+
+  public set_show_back_view(value : boolean) 
+  {
+    this.__reset_show_tags_aside();
+    this.__aside.is_showing_back_view._ = value;
+  }
+  public set_show_menu(value : boolean) 
+  {
+    this.__reset_show_tags_aside();
+    this.__aside.is_showing_menu._ = value;
   }
 }
 
