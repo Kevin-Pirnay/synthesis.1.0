@@ -5,6 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './choose-root.component.html',
   styleUrls: ['./choose-root.component.css']
 })
-export class ChooseRootComponent {
+export class ChooseRootComponent 
+{
 
 }
