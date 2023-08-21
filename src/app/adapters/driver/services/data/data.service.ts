@@ -92,6 +92,20 @@ export class DataService
     dtos.forEach(dto => this.dtos.push(dto));
   }
 
+  public replace_its_current_dtos_by(dtos : IDto[]) : void
+  {
+    this.dtos.length = 0; 
+        
+    dtos.forEach(dto => this.dtos.push(dto));
+  }
+
+  public replace_its_current_dtos_by_a_dto(dto : IDto) : void
+  {
+    this.dtos.length = 0; 
+        
+    this.dtos.push(dto);
+  }
+
   public delete_from_its_dtos(ids_to_delete: string[]) 
   {
     const new_list = this.dtos.filter(dto => !ids_to_delete.includes(dto.element.id));

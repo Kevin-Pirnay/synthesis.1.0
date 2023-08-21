@@ -22,4 +22,14 @@ export class MenuComponent
     {
       if ( this.__container_on_focus._ ) this.__pipeline.request_delete_container(this.__container_on_focus._);
     }
+
+    public view_as_root() : void
+    {
+      if ( this.__container_on_focus._ ) this.__pipeline.request_view_as_root(this.__container_on_focus._);
+    }
+
+    public mark_as_root() : void
+    {
+      if ( this.__container_on_focus._ ) this.__pipeline.request_mark_as_root(this.__container_on_focus._);
+    }
 }

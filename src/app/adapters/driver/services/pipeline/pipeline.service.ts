@@ -64,4 +64,18 @@ export class PipelineService
   {
     this.__request.request_stop_moving_view();
   }
+
+  public request_view_as_root(container : Container) : void
+  {
+      const dtos : IDto[] = this.__request.request_view_as_root(container);
+
+      this.__data.replace_its_current_dtos_by(dtos);
+  }
+
+  public request_mark_as_root(container : Container) : void
+  {
+    const dto : IDto = this.__request.request_mark_as_root(container);
+
+    this.__data.replace_its_current_dtos_by_a_dto(dto);
+  }
 }
