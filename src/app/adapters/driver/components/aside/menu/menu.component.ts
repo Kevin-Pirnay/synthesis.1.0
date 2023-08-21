@@ -15,7 +15,7 @@ export class MenuComponent
 
     constructor(data : DataService, private readonly __pipeline : PipelineService)
     {
-      this.__container_on_focus = data.container_currently_on_focus;
+      this.__container_on_focus = data.get_container_on_focus_ptr();
     } 
 
     public delete_container() : void
