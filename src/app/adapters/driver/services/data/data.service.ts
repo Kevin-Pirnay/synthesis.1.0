@@ -73,6 +73,10 @@ export class DataService
 
   public get_dtos_ptr = () : IDto[] => { return this.__get.get_dtos_ptr(); }
 
+  public get_nullable_container_on_focus = () : Container | null => {  return this.__get.get_nullable_container_on_focus(); }
+
+  public get_nullable_ligature_on_focus = () : Ligature | null => {  return this.__get.get_nullable_ligature_on_focus(); }
+
   public add_dtos = (dtos : IDto[]) : void => { this.__data.add_dtos(dtos); }
 
   public replace_its_current_dtos_by = (dtos : IDto[]) : void => { this.__data.replace_its_current_dtos_by(dtos); }
@@ -216,11 +220,21 @@ class Get_Data_State
     return this.__focus.container_currently_on_focus._;
   }
 
+  public get_nullable_container_on_focus() : Container | null
+  {
+    return this.__focus.container_currently_on_focus._; 
+  }
+
   public ligature_on_focus() : Ligature
   {
     if ( this.__focus.ligature_currently_on_focus._ == null ) throw new Error("No Ligature is currently on focus");
 
     return this.__focus.ligature_currently_on_focus._;
+  }
+
+  public get_nullable_ligature_on_focus() : Ligature | null
+  {
+    return this.__focus.ligature_currently_on_focus._; 
   }
 
   public get_container_on_focus_ptr() : Ptr<Container>

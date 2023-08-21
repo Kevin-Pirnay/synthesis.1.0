@@ -18,7 +18,7 @@ export class StateService
   {
     if ( !this.__data.is_mouse_down_on_something() ) this.__data.is_there_a_container_on_focus() ? this.__pipeline.request_create_container(e, this.__data.container_on_focus()) : this.__pipeline.request_create_container(e, null);
 
-    if ( this.__data.is_mouse_down_on_grip() ) this.__pipeline.request_assign_ligature(this.__data.ligature_on_focus(), this.__data.container_currently_on_focus._);
+    if ( this.__data.is_mouse_down_on_grip() ) this.__pipeline.request_assign_ligature(this.__data.ligature_on_focus(), this.__data.get_nullable_container_on_focus());
 
     this.__data.set_mouse_is_up();
   }
