@@ -64,6 +64,8 @@ export class DataService
 
   public set_show_paginate = (value: boolean) : void =>  { this.__set.set_show_paginate(value); }
 
+  public set_show_link_roots = (value: boolean) => { this.__set.set_show_link_roots(value); }
+
   public is_mouse_down_on_something = () : boolean => { return this.__ask.is_mouse_down_on_something(); }
 
   public is_mouse_down_on_container = () : boolean => { return this.__ask.is_mouse_down_on_container(); }
@@ -101,6 +103,8 @@ export class DataService
   public get_is_showing_choose_root_ptr = () : Ptr<boolean> => { return this.__get.get_is_showing_choose_root_ptr(); }
 
   public get_is_showing_paginate_ptr = (): Ptr<boolean> => { return this.__get.get_is_showing_paginate_ptr(); }
+
+  public get_is_showing_link_roots_ptr = (): Ptr<boolean> => { return this.__get.get_is_showing_link_roots_ptr(); }
   
   public add_dtos = (dtos : IDto[]) : void => { this.__data.add_dtos(dtos); }
 
@@ -130,7 +134,7 @@ class Aside_State
   public is_showing_back_view : Ptr<boolean> = new Ptr();
   public is_showing_choose_root : Ptr<boolean> = new Ptr();
   public is_showing_paginate : Ptr<boolean> = new Ptr();
-
+  public is_showing_link_roots : Ptr<boolean> = new Ptr();
 }
 
 class Focus_State
@@ -212,6 +216,7 @@ class Set_State
     this.__aside.is_showing_back_view._ = false;
     this.__aside.is_showing_choose_root._ = false;
     this.__aside.is_showing_paginate._ = false;
+    this.__aside.is_showing_link_roots._ = false;
   }
 
   public set_show_back_view(value : boolean) : void
@@ -235,6 +240,12 @@ class Set_State
   {
     this.__reset_show_tags_aside();
     this.__aside.is_showing_paginate._ = value;
+  }
+
+  public set_show_link_roots(value: boolean) : void
+  {
+    this.__reset_show_tags_aside();
+    this.__aside.is_showing_link_roots._ = value;
   }
 }
 
@@ -343,6 +354,11 @@ class Get_Data_State
   public get_is_showing_paginate_ptr(): Ptr<boolean> 
   {
     return this.__aside.is_showing_paginate;
+  }
+
+  public get_is_showing_link_roots_ptr(): Ptr<boolean> 
+  {
+    return this.__aside.is_showing_link_roots;
   }
 
   public get_stack_view_ids_ptr() : string[]

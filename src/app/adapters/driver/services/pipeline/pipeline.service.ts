@@ -115,4 +115,18 @@ export class PipelineService
 
     this.__data.replace_its_current_dtos_by(dtos);
   } 
+
+  public request_init_link_roots() : void
+  {
+    const dtos : IDto[] = this.__request.request_init_link_roots();
+
+    this.__data.replace_its_current_dtos_by(dtos);
+  }
+
+  public request_view_links_roots(direction : number) : void
+  {
+    const dtos : IDto[] = this.__request.request_view_links_roots(direction);
+
+    this.__data.replace_its_current_dtos_by(dtos);
+  }
 }

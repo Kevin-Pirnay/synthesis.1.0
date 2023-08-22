@@ -43,4 +43,9 @@ export class MenuComponent
     {
       this.__state.report_click_on_paginate();
     }
+
+    public click_on_link_roots() : void
+    {
+      this.__state.report_click_on_link_roots();
+    }
 }

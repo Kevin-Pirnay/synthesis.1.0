@@ -14,6 +14,7 @@ export class AsideComponent
   public readonly is_showing_back_view_ptr : Ptr<boolean>;
   public readonly is_showing_choose_root_ptr : Ptr<boolean>;
   public readonly is_showing_paginate_ptr : Ptr<boolean>;
+  public readonly is_showing_link_roots_ptr : Ptr<boolean>;
 
   constructor(data : DataService, private readonly __state : StateService) 
   { 
@@ -21,6 +22,7 @@ export class AsideComponent
     this.is_showing_back_view_ptr = data.get_is_showing_back_view_ptr();
     this.is_showing_choose_root_ptr = data.get_is_showing_choose_root_ptr();
     this.is_showing_paginate_ptr = data.get_is_showing_paginate_ptr();
+    this.is_showing_link_roots_ptr = data.get_is_showing_link_roots_ptr();
     data.set_show_menu(true);
   }
 
@@ -42,5 +44,10 @@ export class AsideComponent
   public click_on_show_paginate() : void
   {
     this.__state.report_click_on_show_paginate();
+  }
+
+  public click_on_show_link_roots() : void
+  {
+    this.__state.report_click_on_show_link_roots();
   }
 }

@@ -16,6 +16,33 @@ export class StateService
     private readonly __pipeline : PipelineService
   ) { }
 
+  public report_key_down(e: KeyboardEvent) : void 
+  {
+    switch (e.key) 
+    {
+      case '+':
+        this.__data.set_is_zooming(true)
+        this.__pipeline.request_zoom(1);
+      break;
+      case '-':
+        this.__data.set_is_zooming(true)
+        this.__pipeline.request_zoom(-1);
+      break;
+
+      case "ArrowLeft":
+      case "ArrowRight":
+      case "ArrowUp":
+      case "ArrowDown":
+        this.__data.set_is_view_moving(true);
+        this.__pipeline.request_move_view(e.key);
+      break;
+
+
+      default:
+        break;
+    }
+  }
+
   public report_mouse_up(e : MouseEvent) : void
   {
     if ( !this.__data.is_mouse_down_on_something() ) this.__data.is_there_a_container_on_focus() ? this.__pipeline.request_create_container(e, this.__data.container_on_focus()) : this.__pipeline.request_create_container(e, null);
@@ -50,33 +77,6 @@ export class StateService
   public report_mouse_over_container(container : Container) : void
   {    
     if ( this.__data.is_mouse_down_on_grip() ) this.__data.set_container_on_focus(container);
-  }
-
-  public report_key_down(e: KeyboardEvent) : void 
-  {
-    switch (e.key) 
-    {
-      case '+':
-        this.__data.set_is_zooming(true)
-        this.__pipeline.request_zoom(1);
-      break;
-      case '-':
-        this.__data.set_is_zooming(true)
-        this.__pipeline.request_zoom(-1);
-      break;
-
-      case "ArrowLeft":
-      case "ArrowRight":
-      case "ArrowUp":
-      case "ArrowDown":
-        this.__data.set_is_view_moving(true);
-        this.__pipeline.request_move_view(e.key);
-      break;
-
-
-      default:
-        break;
-    }
   }
 
   public report_key_up() : void
@@ -165,8 +165,33 @@ export class StateService
     this.__data.set_show_paginate(true);
   }
 
-  public report_clik_on_back() 
+  public report_clik_on_back() : void //change that and in general be more precise
   {
     this.__pipeline.request_back_view(null);
+  }
+
+  public report_click_on_next_link_roots() : void
+  {
+    this.__pipeline.request_view_links_roots(1);
+  }
+
+  public report_click_on_previous_link_root() : void
+  {
+    this.__pipeline.request_view_links_roots(-1);
+  }
+
+  public report_click_on_back_link_roots() : void
+  {
+    this.__pipeline.request_back_view(null);
+  }
+
+  public report_click_on_show_link_roots() : void
+  {
+    this.__data.set_show_link_roots(true);
+  }
+
+  report_click_on_link_roots() : void
+  {
+    this.__pipeline.request_init_link_roots();
   }
 }
