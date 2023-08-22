@@ -12,13 +12,11 @@ export class Chosen_Root_Use_case
     constructor(
         private readonly __change_root_handler : IChange_Root_Handler, 
         private readonly __repository : IChoose_Root_Repository,
-        private readonly __zoom_handler : IZoom_Handler,
-        private readonly __move_view_handler : IMove_View_Handler
     ) { }
     
     public async handle(request : Choosen_Root_Request) : Promise<Choosen_Root_Response>
     {
-        const chosen_root : IChoosen_Root = this.__repository.get_chosen_root(request.chosen_root, this.__zoom_handler, this.__move_view_handler); 
+        const chosen_root : IChoosen_Root = this.__repository.get_chosen_root(request.chosen_root); 
 
         await chosen_root.anim();
         

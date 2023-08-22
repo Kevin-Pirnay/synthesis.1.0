@@ -92,7 +92,7 @@ export interface IChoose_Root_Repository
     store_all_possible_roots(container : Container): void
     get_choose_root_container(container : Container, zoom_handler : IZoom_Handler, move_view_handler : IMove_View_Handler): IChoose_Roots_Container;
     get_choose_root_roots(indexes : number[]): IChoose_Roots_Root;
-    get_chosen_root(chosen_root: Root_Choice, zoom_handler : IZoom_Handler, move_view_handler : IMove_View_Handler): IChoosen_Root
+    get_chosen_root(chosen_root: Root_Choice): IChoosen_Root
 }
 
 

@@ -1,3 +1,4 @@
+import { Quad_Callback } from '../../../../../adapters/driven/dao/Dao_Anim';
 import { Cramer_Quadratic } from '../../../../common/Cramer/Cramer';
 import { Matrix } from "../../../../common/Matrix/Matrix";
 import { Vector } from "../../../../common/Vector/Vector";
@@ -22,13 +23,15 @@ export class Zoom_On_Target implements IZoom_On_Target
         coordinates_wanted: Vector<3>,
         ratio: number,
         zoom_center_point : Vector<3>,
+        move_quad : Quad_Callback,
+        zoom_quad : Quad_Callback,
         zoom_handler: IZoom_Handler,
         move_view_handler: IMove_View_Handler
     ) {
         const pre_process = new Pre_process(abs_ratio_target, coordinates_wanted, ratio, zoom_handler.get_current_zoom_fator(), zoom_handler.get_alpha()).result;
 
-        this.__move = new Move_Quadratic_By_Step(pre_process.x_y_normalize, pre_process.distance, move_view_handler, zoom_handler);
-        this.__zoom = new Zoom_quadratic_By_Step(pre_process.delta_zoom_level, pre_process.distance, zoom_center_point, zoom_handler);
+        this.__move = new Move_Quadratic_By_Step(pre_process.x_y_normalize, pre_process.distance, move_view_handler, zoom_handler, move_quad);
+        this.__zoom = new Zoom_quadratic_By_Step(pre_process.delta_zoom_level, pre_process.distance, zoom_center_point, zoom_handler, zoom_quad);
         this.__step = new Step(pre_process.distance);        
     }
 
@@ -110,7 +113,7 @@ export class Zoom_quadratic_By_Step implements IZoom_By_Step
     private __previous_y: number = 0;
     private __current_level: number = 0;
 
-    constructor(delta_zoom_level: number, distance: number, zoom_center_point : Vector<3>, zoom_handler: IZoom_Handler) 
+    constructor(delta_zoom_level: number, distance: number, zoom_center_point : Vector<3>, zoom_handler: IZoom_Handler, zoom_quad : Quad_Callback) 
     {
         this.__handler = zoom_handler;
         this.__zoom_center_point = zoom_center_point;
@@ -120,7 +123,7 @@ export class Zoom_quadratic_By_Step implements IZoom_By_Step
         this.__current_level = zoom_handler.get_current_level();
 
         const p1 = new Vector([0, this.__current_level]);
-        const p2 = new Vector([x0 / 2, y0 / 2]);
+        const p2 = zoom_quad(x0,y0);
         const p3 = new Vector([x0, y0]);
 
         this.__coeff_quad_eq = new Cramer_Quadratic(p1, p2, p3).coefficients;        
@@ -160,7 +163,7 @@ export class Move_Quadratic_By_Step implements IMove_By_Step
     private __current_x: number = 0;
     private __previous_y: number = 0;
 
-    constructor(x_y_normalize: Vector<2>, distance: number, move_handler: IMove_View_Handler, zoom_handler: IZoom_Handler) 
+    constructor(x_y_normalize: Vector<2>, distance: number, move_handler: IMove_View_Handler, zoom_handler: IZoom_Handler, move_quad : Quad_Callback) 
     {
         this.__handler = move_handler;
         this.__zoom_handler = zoom_handler;
@@ -173,7 +176,7 @@ export class Move_Quadratic_By_Step implements IMove_By_Step
         const y = x_y_normalize._[1] !== 0 ? x_y_normalize._[1] : 1;
 
         const p1 = new Vector([0, 0]);
-        const p2 = new Vector([x / 2, (1 / y)]);
+        const p2 = move_quad(x,y);
         const p3 = new Vector([x, y]);
 
         

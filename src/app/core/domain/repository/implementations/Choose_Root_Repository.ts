@@ -15,6 +15,7 @@ import { IDao_Anim } from '../../../port/driven/dao/IDao_Anim';
 import { Root_Choice } from '../../entities/Root_Choice';
 import { IChoosen_Root } from '../../use_cases/Choose_Root/Chosen_Root';
 import { IZoom_On_Target, Zoom_On_Target } from '../../handlers/handlers_use_case/On_Target/Zoom_On_Target';
+import { Quad_Callback } from '../../../../adapters/driven/dao/Dao_Anim';
 
 
 export class Choose_Root_Repository implements IChoose_Root_Repository
@@ -45,8 +46,12 @@ export class Choose_Root_Repository implements IChoose_Root_Repository
         const ratio : number = this.__dao_anim.get_ratio_choose_roots_anim();
 
         const zoom_center_point : Vector<3> = this.__dao_anim.get_zoom_center_point_choose_roots_anim();
+
+        const move_quad : Quad_Callback = this.__dao_anim.get_move_quad_choose_roots_anim();
+
+        const zoom_quad : Quad_Callback = this.__dao_anim.get_zoom_quad_choose_roots_anim();
        
-        return new Choose_Roots_Container(container, zoom_handler, move_view_handler, coordinates, ratio, zoom_center_point);
+        return new Choose_Roots_Container(container, zoom_handler, move_view_handler, coordinates, ratio, zoom_center_point, move_quad, zoom_quad);
     }
 
     public get_choose_root_roots(indexes : number[]): IChoose_Roots_Root 
@@ -65,9 +70,9 @@ export class Choose_Root_Repository implements IChoose_Root_Repository
         return this.__indexes.get_next_indexes(direction);
     }
 
-    public get_chosen_root(chosen_root: Root_Choice, zoom_handler : IZoom_Handler, move_view_handler : IMove_View_Handler): IChoosen_Root
+    public get_chosen_root(chosen_root: Root_Choice): IChoosen_Root
     {
-        return new Chosen_Root(chosen_root, zoom_handler, move_view_handler);
+        return new Chosen_Root(chosen_root);
     }
 }
 
@@ -75,7 +80,7 @@ class Chosen_Root implements IChoosen_Root
 {
     private readonly __abs_ratio: Matrix<4>;
 
-    constructor(chosen_root: Root_Choice, zoom_handler : IZoom_Handler, move_view_handler : IMove_View_Handler) 
+    constructor(chosen_root: Root_Choice) 
     { 
         this.__abs_ratio = chosen_root.positions.abs_ratio;
     }
@@ -86,7 +91,7 @@ class Chosen_Root implements IChoosen_Root
         let count = 0;
         while(1)
         {
-            if(count >= 600) break;
+            if(count >= window.innerWidth + 100) break;
 
             pos._[0]._[0]--
             pos._[0]._[1]--
@@ -105,17 +110,6 @@ class Chosen_Root implements IChoosen_Root
             count++;            
         }
     }
-
-    private __get_center_root(root : Root_Choice) : Vector<3>
-    {
-        // const positions : Matrix<4> = root.positions.abs_ratio;
-
-        // const x = (positions._[0]._[0] + positions._[1]._[0]) * 1/2;
-        // const y = (positions._[0]._[1] + positions._[1]._[1]) * 1/2;
-
-        return Vector_.new([window.innerWidth/4,window.innerHeight/4,0]);
-    }
-
 }
 
 

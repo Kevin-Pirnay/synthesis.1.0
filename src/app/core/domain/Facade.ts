@@ -91,7 +91,7 @@ export class Facade
     private readonly __view_paginate_use_case = new View_Paginate_Use_case(this.__paginate_repository, this.__view_as_root_handler);
     private readonly __init_choose_roots_use_case = new Init_Choose_Root_Use_case(this.__choose_roots_repository, this.__zoom_handler, this.__move_view_handler);
     private readonly __view_choose_roots_use_case = new View_Choose_Root_Use_case(this.__choose_roots_repository);
-    private readonly __chosen_root_use_case = new Chosen_Root_Use_case(this.__change_root_handler, this.__choose_roots_repository, this.__zoom_handler, this.__move_view_handler);
+    private readonly __chosen_root_use_case = new Chosen_Root_Use_case(this.__change_root_handler, this.__choose_roots_repository);
     private readonly __init_link_roots_use_case = new Init_Link_Roots_Use_case(this.__link_roots_repository, this.__view_as_root_handler);
     private readonly __view_link_roots_use_case = new View_Link_Roots_Use_case(this.__link_roots_repository, this.__view_as_root_handler);
 

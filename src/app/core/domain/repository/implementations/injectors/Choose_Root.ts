@@ -10,6 +10,7 @@ import { IMove_View_Handler } from "../../../handlers/handlers_use_case/Move_Vie
 import { IZoom_Handler } from "../../../handlers/handlers_use_case/Zoom/IZoom_Handler";
 import { IChoose_Roots_Container, IChoose_Roots_Root } from "../../../use_cases/Choose_Root/Init_Choose_Root";
 import { IZoom_On_Target, Zoom_On_Target } from '../../../handlers/handlers_use_case/On_Target/Zoom_On_Target';
+import { Quad_Callback } from '../../../../../adapters/driven/dao/Dao_Anim';
 
 
 //dont forget to remove root_dto from the view once it's ending
@@ -17,11 +18,11 @@ export class Choose_Roots_Container implements IChoose_Roots_Container
 {
     private readonly __zoom_on_target: IZoom_On_Target;
 
-    constructor(container: Container, zoom_handler: IZoom_Handler, move_view_handler: IMove_View_Handler, coordinates : Vector<3>, ratio : number, zoom_center_point : Vector<3>) 
+    constructor(container: Container, zoom_handler: IZoom_Handler, move_view_handler: IMove_View_Handler, coordinates : Vector<3>, ratio : number, zoom_center_point : Vector<3>, mov_quad : Quad_Callback, zoom_quad : Quad_Callback) 
     {
         const abs_ratio = container.positions.abs_ratio;
 
-        this.__zoom_on_target = new Zoom_On_Target(abs_ratio, coordinates, ratio, zoom_center_point, zoom_handler, move_view_handler);
+        this.__zoom_on_target = new Zoom_On_Target(abs_ratio, coordinates, ratio, zoom_center_point, mov_quad, zoom_quad, zoom_handler, move_view_handler);
     }
 
     public async zoom_and_place_itself_at_the_bottom(): Promise<void> 
