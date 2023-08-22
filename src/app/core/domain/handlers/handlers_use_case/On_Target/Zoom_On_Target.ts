@@ -51,6 +51,8 @@ export class Zoom_On_Target implements IZoom_On_Target
 
             await new Promise(r => setTimeout(r, 1));
         }
+
+        this.__zoom.reinit_zoom_level();
     }
 }
 
@@ -95,7 +97,7 @@ export interface IMove_By_Step
 export interface IZoom_By_Step 
 {
     zoom_by_step(): unknown;
-
+    reinit_zoom_level() : void;
 }
 export interface IStep 
 {
@@ -151,6 +153,11 @@ export class Zoom_quadratic_By_Step implements IZoom_By_Step
         this.__handler.zoom_current_flow_by_level_toward_this_point(this.__current_level, this.__zoom_center_point);
 
         this.__previous_y = current_y;
+    }
+
+    public reinit_zoom_level() : void
+    {
+        this.__handler.reinit_zoom_level();
     }
 }
 

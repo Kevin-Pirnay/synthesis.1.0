@@ -74,6 +74,11 @@ export class Zoom_Handler implements IZoom_Handler
         this.__repository.set_stop_zoom_condition_to(true);
     }
 
+    public reinit_zoom_level(): void 
+    {
+        this.__repository.update_zoom_level(0);
+    }
+
     public zoom_current_flow_by_level(level: number): void 
     {
         const positions : IZoom_Positions[] = this.__repository.get_all_zooms_positions();

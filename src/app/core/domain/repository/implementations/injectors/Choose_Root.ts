@@ -122,7 +122,6 @@ export class Rotate_Roots_Root implements IRotate_Roots_Root
             await new Promise(r => setTimeout(r, 1));
 
             step.next_step();
-
         }
     }
 }
