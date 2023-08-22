@@ -19,4 +19,9 @@ export class PaginateComponent
   {
     this.__state.report_clik_on_previous_paginate();
   }
+
+  public clik_on_back_paginate() : void
+  {
+    this.__state.report_clik_on_back();
+  }
 }

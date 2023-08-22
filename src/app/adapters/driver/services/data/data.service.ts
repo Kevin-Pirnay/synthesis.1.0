@@ -210,7 +210,8 @@ class Set_State
   {
     this.__aside.is_showing_menu._ = false;
     this.__aside.is_showing_back_view._ = false;
-    this.__aside.is_showing_choose_root._ = false
+    this.__aside.is_showing_choose_root._ = false;
+    this.__aside.is_showing_paginate._ = false;
   }
 
   public set_show_back_view(value : boolean) : void
