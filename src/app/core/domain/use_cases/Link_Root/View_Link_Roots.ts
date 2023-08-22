@@ -1,7 +1,7 @@
 // import { IDto } from "../../../port/driver/dto/IDto";
-// import { View_Link_Roots_Request } from "../../../port/driver/request/View_Link_Roots_Request";
-// import { View_Link_Roots_Response } from "../../../port/driver/response/View_Link_Roots_Response";
-// import { ILink_Roots_Repository } from "../../repository/interfaces/ILink_Roots_Repository";
+// import { View_Link_Roots_Response } from "../../../port/driver/response/Response";
+// import { ILink_Roots_Repository } from "../../repository/interfaces/IRepository";
+
 // import { ILink_Roots } from "./Init_Link_Roots";
 
 // export class View_Link_Roots_Use_case

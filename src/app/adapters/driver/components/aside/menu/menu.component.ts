@@ -38,4 +38,9 @@ export class MenuComponent
     {
       this.__state.report_click_on_choose_root();
     }
+
+    public click_on_paginate() : void
+    {
+      this.__state.report_click_on_paginate();
+    }
 }

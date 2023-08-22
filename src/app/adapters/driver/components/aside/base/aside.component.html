@@ -4,9 +4,11 @@
         <li (click)="click_on_show_menu()">menu</li>
         <li (click)="click_on_show_back_view()">back view</li>
         <li (click)="click_on_show_choose_root()">choose root</li>
+        <li (click)="click_on_show_paginate()">choose root</li>
     </ul>
 
     <app-menu *ngIf="is_showing_menu_ptr._"></app-menu>
     <app-back-view *ngIf="is_showing_back_view_ptr._"></app-back-view>
     <app-choose-root *ngIf="is_showing_choose_root_ptr._"></app-choose-root>
+    <app-paginate *ngIf="is_showing_paginate_ptr._"></app-paginate>
 </section>

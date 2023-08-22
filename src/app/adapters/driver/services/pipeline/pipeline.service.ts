@@ -101,4 +101,18 @@ export class PipelineService
 
     this.__data.add_root_choices(dtos);
   }
+
+  public request_init_paginate(container : Container) : void
+  {
+    const dtos : IDto[] = this.__request.request_init_paginate(container);
+
+    this.__data.replace_its_current_dtos_by(dtos);
+  } 
+
+  public request_view_paginate(direction : number) : void
+  {
+    const dtos : IDto[] = this.__request.request_view_paginate(direction);
+
+    this.__data.replace_its_current_dtos_by(dtos);
+  } 
 }

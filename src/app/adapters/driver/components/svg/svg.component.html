@@ -52,10 +52,15 @@
 
         </g>
 
+        
+    </ng-container>
+    
+    <ng-container *ngFor="let dto of roots_choices">
+
         <path
         *ngIf="dto.type == 2" 
         class="root_choice"
-        
+    
         attr.d="
             M {{dto.element.positions.abs_ratio._[0]._[0]}} {{dto.element.positions.abs_ratio._[0]._[1]}} 
             L {{dto.element.positions.abs_ratio._[1]._[0]}} {{dto.element.positions.abs_ratio._[1]._[1]}} 

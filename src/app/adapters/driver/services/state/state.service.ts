@@ -4,6 +4,8 @@ import { Container } from '../../../../core/domain/entities/Container';
 import { Ligature } from '../../../../core/domain/entities/Ligature';
 import { PipelineService } from '../pipeline/pipeline.service';
 
+//refactor to have a better understanding to where the function are called eg: menu or others asides components
+
 @Injectable({
   providedIn: 'root'
 })
@@ -141,5 +143,25 @@ export class StateService
   public report_click_on_next_choose_roots() : void
   {
     this.__pipeline.request_view_choose_root(1)
+  }
+
+  public report_click_on_paginate() : void // menu
+  {
+    if ( this.__data.is_there_a_container_on_focus() ) this.__pipeline.request_init_paginate(this.__data.container_on_focus());
+  }
+
+  public report_clik_on_previous_paginate() : void
+  {
+    this.__pipeline.request_view_paginate(-1);
+  }
+
+  public report_clik_on_next_paginate() : void
+  {
+    this.__pipeline.request_view_paginate(1);
+  }
+
+  public report_click_on_show_paginate() : void
+  {
+    this.__data.set_show_paginate(true);
   }
 }

@@ -14,6 +14,7 @@ import { Container } from '../../../../core/domain/entities/Container';
 export class SvgComponent 
 {
   public readonly dtos : IDto[];
+  public readonly roots_choices : IDto[];
   public readonly window_width : number;
   public readonly window_height : number;
 
@@ -21,6 +22,8 @@ export class SvgComponent
   constructor(data_service : DataService, private readonly __state : StateService) 
   { 
     this.dtos = data_service.get_dtos_ptr();
+
+    this.roots_choices = data_service.get_roots_choices_ptr();
 
     this.window_width = window.innerWidth;
 

@@ -56,11 +56,13 @@ export class DataService
 
   public set_is_view_moving = (value : boolean) : void => { this.__set.set_is_view_moving(value); }
 
-  public set_show_back_view = (value : boolean) => { this.__set.set_show_back_view(value); }
+  public set_show_back_view = (value : boolean) : void => { this.__set.set_show_back_view(value); }
 
-  public set_show_choose_root = (value: boolean) => { this.__set.set_show_choose_root(value); }
+  public set_show_choose_root = (value: boolean) : void => { this.__set.set_show_choose_root(value); }
 
-  public set_show_menu = (value : boolean) => { this.__set.set_show_menu(value); }
+  public set_show_menu = (value : boolean) : void => { this.__set.set_show_menu(value); }
+
+  public set_show_paginate = (value: boolean) : void =>  { this.__set.set_show_paginate(value); }
 
   public is_mouse_down_on_something = () : boolean => { return this.__ask.is_mouse_down_on_something(); }
 
@@ -89,15 +91,17 @@ export class DataService
   public get_roots_choices_ptr = () : IDto[] => { return this.__get.get_roots_choices_ptr(); }
 
   public get_nullable_container_on_focus = () : Container | null => {  return this.__get.get_nullable_container_on_focus(); }
-
+  
   public get_nullable_ligature_on_focus = () : Ligature | null => {  return this.__get.get_nullable_ligature_on_focus(); }
-
+  
   public get_is_showing_menu_ptr = () : Ptr<boolean> => { return this.__get.get_is_showing_menu_ptr(); }
-
+  
   public get_is_showing_back_view_ptr = () : Ptr<boolean> => { return this.__get.get_is_showing_back_view_ptr(); }
-
+  
   public get_is_showing_choose_root_ptr = () : Ptr<boolean> => { return this.__get.get_is_showing_choose_root_ptr(); }
 
+  public get_is_showing_paginate_ptr = (): Ptr<boolean> => { return this.__get.get_is_showing_paginate_ptr(); }
+  
   public add_dtos = (dtos : IDto[]) : void => { this.__data.add_dtos(dtos); }
 
   public add_root_choices = (dtos: IDto[]) : void => { this.__data.add_roots_to_roots_choices(dtos) }
@@ -125,6 +129,8 @@ class Aside_State
   public is_showing_menu : Ptr<boolean> = new Ptr();
   public is_showing_back_view : Ptr<boolean> = new Ptr();
   public is_showing_choose_root : Ptr<boolean> = new Ptr();
+  public is_showing_paginate : Ptr<boolean> = new Ptr();
+
 }
 
 class Focus_State
@@ -222,6 +228,12 @@ class Set_State
   {
     this.__reset_show_tags_aside();
     this.__aside.is_showing_choose_root._ = value;
+  }
+
+  public set_show_paginate(value: boolean) : void
+  {
+    this.__reset_show_tags_aside();
+    this.__aside.is_showing_paginate._ = value;
   }
 }
 
@@ -325,6 +337,11 @@ class Get_Data_State
   public get_is_showing_choose_root_ptr() : Ptr<boolean>
   {
     return this.__aside.is_showing_choose_root;
+  }
+
+  public get_is_showing_paginate_ptr(): Ptr<boolean> 
+  {
+    return this.__aside.is_showing_paginate;
   }
 
   public get_stack_view_ids_ptr() : string[]

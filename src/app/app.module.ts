@@ -7,6 +7,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { MenuComponent } from "./adapters/driver/components/aside/menu/menu.component";
 import { BackViewComponent } from './adapters/driver/components/aside/back-view/back-view.component';
 import { ChooseRootComponent } from './adapters/driver/components/aside/choose-root/choose-root.component';
+import { PaginateComponent } from './adapters/driver/components/aside/paginate/paginate.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { ChooseRootComponent } from './adapters/driver/components/aside/choose-r
     MenuComponent,
     AsideComponent,
     BackViewComponent,
-    ChooseRootComponent
+    ChooseRootComponent,
+    PaginateComponent
   ],
   imports: [
     BrowserModule,
