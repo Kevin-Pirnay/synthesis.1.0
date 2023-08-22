@@ -110,6 +110,8 @@ export class DataService
 
   public add_root_choices = (dtos: IDto[]) : void => { this.__data.add_roots_to_roots_choices(dtos) }
 
+  public replace_roots_choices_by = (dtos: IDto[]) : void => { this.__data.replace_roots_choices_by(dtos); }
+
   public replace_its_current_dtos_by = (dtos : IDto[]) : void => { this.__data.replace_its_current_dtos_by(dtos); }
 
   public replace_its_current_dtos_by_a_dto = (dto : IDto) : void =>  { this.__data.replace_its_current_dtos_by_a_dto(dto); }
@@ -117,6 +119,8 @@ export class DataService
   public delete_from_its_dtos = (ids_to_delete: string[])  => { this.__data.delete_from_its_dtos(ids_to_delete); }
 
   public add_id_to_the_stack_view_ids = (id : string) : void => { this.__data.add_id_to_the_stack_view_ids(id); }
+
+  public remove_all_roots_choices = () : void => { this.__data.remove_all_roots_choices(); }
 }
 
 class Event_State
@@ -416,6 +420,18 @@ class Data_Handler
   public add_roots_to_roots_choices(roots : IDto[]) : void
   {
     roots.forEach(root => this.__roots_choices.push(root));
+  }
+
+  public replace_roots_choices_by(roots: IDto[]) 
+  {
+    this.__roots_choices.length = 0;
+
+    roots.forEach(root => this.__roots_choices.push(root));
+  }
+
+  public remove_all_roots_choices() : void
+  {
+    this.__roots_choices.length = 0;
   }
 }
 

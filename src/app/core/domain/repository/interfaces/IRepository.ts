@@ -85,7 +85,7 @@ export interface IPaginate_Repository
 export interface IChoose_Root_Repository
 {
     get_next_indexes(direction: number): number[];
-    init_indexes_of_roots_to_choose(nb_indexes : number): number;
+    init_indexes_of_roots_to_choose(): number;
     store_all_possible_roots(container : Container): void
     get_choose_root_container(container : Container, zoom_handler : IZoom_Handler, move_view_handler : IMove_View_Handler): IChoose_Roots_Container;
     get_choose_root_roots(indexes : number[]): IChoose_Roots_Root;

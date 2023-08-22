@@ -99,7 +99,16 @@ export class PipelineService
   {
     const dtos : IDto[] = this.__request.request_view_choose_root(direction);
 
-    this.__data.add_root_choices(dtos);
+    this.__data.replace_roots_choices_by(dtos);
+  }
+
+  public request_chosen_root(flow : string) : void
+  {
+    const dtos : IDto[] = this.__request.request_chosen_root(flow);
+
+    this.__data.replace_its_current_dtos_by(dtos);
+
+    this.__data.remove_all_roots_choices();
   }
 
   public request_init_paginate(container : Container) : void

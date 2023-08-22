@@ -3,6 +3,7 @@ import { DataService } from '../data/data.service';
 import { Container } from '../../../../core/domain/entities/Container';
 import { Ligature } from '../../../../core/domain/entities/Ligature';
 import { PipelineService } from '../pipeline/pipeline.service';
+import { Root_Choice } from '../../../../core/domain/entities/Root_Choice';
 
 //refactor to have a better understanding to where the function are called eg: menu or others asides components
 
@@ -193,5 +194,10 @@ export class StateService
   report_click_on_link_roots() : void
   {
     this.__pipeline.request_init_link_roots();
+  }
+
+  public report_click_on_root_choice(root: Root_Choice) : void
+  {
+    this.__pipeline.request_chosen_root(root.root_id);
   }
 }

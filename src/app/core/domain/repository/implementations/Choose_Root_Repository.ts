@@ -18,9 +18,9 @@ export class Choose_Root_Repository implements IChoose_Root_Repository
     private readonly __roots : string[] = [];
     private readonly __indexes : IIndexes = new Indexes();
 
-    public init_indexes_of_roots_to_choose(nb_indexes : number): number 
+    public init_indexes_of_roots_to_choose(): number 
     {
-        return this.__indexes.init_indexes(nb_indexes);
+        return this.__indexes.init_indexes(this.__roots.length);
     }
 
     public store_all_possible_roots(container : Container): void

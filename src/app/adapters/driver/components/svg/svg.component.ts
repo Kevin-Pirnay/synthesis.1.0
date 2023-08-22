@@ -4,6 +4,7 @@ import { IDto } from '../../../../core/port/driver/dto/IDto';
 import { DataService } from '../../services/data/data.service';
 import { Ligature } from '../../../../core/domain/entities/Ligature';
 import { Container } from '../../../../core/domain/entities/Container';
+import { Root_Choice } from '../../../../core/domain/entities/Root_Choice';
 
 
 @Component({
@@ -68,6 +69,11 @@ export class SvgComponent
   public key_up() : void
   {
     this.__state.report_key_up();
+  }
+
+  public click_on_root_choice(root : Root_Choice) : void
+  {
+    this.__state.report_click_on_root_choice(root);
   }
 }
 
