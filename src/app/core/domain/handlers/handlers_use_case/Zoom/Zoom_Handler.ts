@@ -9,9 +9,12 @@ import { IZoom_Handler } from './IZoom_Handler';
 
 export class Zoom_Handler implements IZoom_Handler
 {
-    private readonly __center = Vector_.new([250,250,0]);
+    private readonly __center : Vector<3>;
 
-    constructor(private readonly __repository : IZoom_Repository) { }
+    constructor(private readonly __repository : IZoom_Repository) 
+    {
+        this.__center = __repository.get_center_zoom_point();
+    }
 
     public get_current_unzoom_factor() :  number
     {
@@ -82,6 +85,19 @@ export class Zoom_Handler implements IZoom_Handler
         //zoom by factor
         const zoom_factor = this.__repository.update_zoom_level(level);
         this.__zoom(this.__center, positions, zoom_factor);
+    }
+
+    public zoom_current_flow_by_level_toward_this_point(level: number, point : Vector<3>): void 
+    {
+        const positions : IZoom_Positions[] = this.__repository.get_all_zooms_positions();
+
+        //unzoom all the positions
+        const unzoom_factor = this.__repository.get_unzoom_factor();
+        this.__zoom(point, positions, unzoom_factor);
+
+        //zoom by factor
+        const zoom_factor = this.__repository.update_zoom_level(level);
+        this.__zoom(point, positions, zoom_factor);
     }
 
     public get_current_level() : number

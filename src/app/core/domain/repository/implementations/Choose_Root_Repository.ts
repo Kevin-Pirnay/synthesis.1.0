@@ -40,8 +40,10 @@ export class Choose_Root_Repository implements IChoose_Root_Repository
         const coordinates : Vector<3> = this.__dao_anim.get_coordinates_choose_roots_anim();
 
         const ratio : number = this.__dao_anim.get_ratio_choose_roots_anim();
+
+        const zoom_center_point : Vector<3> = this.__dao_anim.get_zoom_center_point_choose_roots_anim();
        
-        return new Choose_Roots_Container(container, zoom_handler, move_view_handler, coordinates, ratio);
+        return new Choose_Roots_Container(container, zoom_handler, move_view_handler, coordinates, ratio, zoom_center_point);
     }
 
     public get_choose_root_roots(indexes : number[]): IChoose_Roots_Root 

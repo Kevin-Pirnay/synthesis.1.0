@@ -7,11 +7,20 @@ import { Runtime_Persistence } from "../runtime_memory/Runtime_Persistence";
 
 export class Dao_Anim implements IDao_Anim
 {
-    constructor(private readonly __runtime_persistence : Runtime_Persistence) { }
+    private readonly __center_choose_root_anim : Vector<3> = Vector_.new([500, 500, 0]);
+
+    constructor(private readonly __runtime_persistence : Runtime_Persistence) 
+    {         
+    }
+
+    public get_center_zoom_point(): Vector<3> 
+    {
+        return new Vector<3>([window.innerWidth / 2, window.innerHeight/2, 0]);
+    }
 
     public get_coordinates_choose_roots_anim(): Vector<3> 
     {
-        return new Vector<3>([500,500, 0]);
+        return this.__center_choose_root_anim;
     }
 
     public get_ratio_choose_roots_anim(): number 
@@ -31,6 +40,11 @@ export class Dao_Anim implements IDao_Anim
 
     public get_rate_choose_roots_anim(): number 
     {
-        return 0.8
+        return 0.8;
+    }
+
+    public get_zoom_center_point_choose_roots_anim(): Vector<3> 
+    {
+        return this.__center_choose_root_anim;
     }
 }

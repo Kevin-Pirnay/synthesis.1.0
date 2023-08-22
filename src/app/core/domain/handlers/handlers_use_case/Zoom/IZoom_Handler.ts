@@ -9,6 +9,7 @@ export interface IZoom_Handler
     get_current_unzoom_factor() :  number
     zoom_by_direction(direction : number) : void;
     zoom_current_flow_by_level(factor : number) : void;
+    zoom_current_flow_by_level_toward_this_point(level: number, point : Vector<3>): void 
     zoom_on_a_point(point_to_zoom : Vector<3>, factor : number) : void
     update_container_with_current_zoom(container: Container): void;
     update_unit_with_current_zoom(ligature : Ligature, container: Container): void;  

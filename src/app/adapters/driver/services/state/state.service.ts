@@ -128,7 +128,12 @@ export class StateService
 
   public report_click_on_choose_root() : void
   {
-    if ( this.__data.is_there_a_container_on_focus() ) this.__pipeline.request_init_choose_root(this.__data.container_on_focus());
+    if ( this.__data.is_there_a_container_on_focus() )
+    {
+      this.__pipeline.request_init_choose_root(this.__data.container_on_focus());
+      
+      this.__data.set_show_choose_root(true);
+    } 
   }
 
   public report_click_on_back_choose_roots() : void

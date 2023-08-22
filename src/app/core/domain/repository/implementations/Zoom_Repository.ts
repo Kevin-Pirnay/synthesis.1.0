@@ -1,4 +1,6 @@
+import { IDao_Anim } from './../../../port/driven/dao/IDao_Anim';
 import { Ptr_Boolean } from "../../../common/Ptr_Boolean";
+import { Vector } from "../../../common/Vector/Vector";
 import { IDao_Container } from "../../../port/driven/dao/IDao_Container";
 import { IDao_Ligature } from "../../../port/driven/dao/IDao_Ligature";
 import { Container } from "../../entities/Container";
@@ -17,8 +19,14 @@ export class Zoom_Repository implements IZoom_Repository
 
     constructor(
         private readonly __dao_container : IDao_Container,  
-        private readonly __dao_ligature : IDao_Ligature
+        private readonly __dao_ligature : IDao_Ligature,
+        private readonly __dao_anim : IDao_Anim
     ) { }
+
+    public get_center_zoom_point(): Vector<3> 
+    {
+        return this.__dao_anim.get_center_zoom_point();
+    }
 
     public init_stop_zoom_condition(): Ptr_Boolean 
     {

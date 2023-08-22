@@ -43,6 +43,7 @@ export interface IMove_View_Repository
 
 export interface IZoom_Repository
 {
+    get_center_zoom_point(): Vector<3>;
     set_stop_zoom_condition_to(arg0: boolean): void;
     init_stop_zoom_condition(): Ptr_Boolean;
     get_all_zooms_positions(): IZoom_Positions[];

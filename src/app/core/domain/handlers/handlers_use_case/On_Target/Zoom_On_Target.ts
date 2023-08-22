@@ -21,13 +21,14 @@ export class Zoom_On_Target implements IZoom_On_Target
         abs_ratio_target: Matrix<4>,
         coordinates_wanted: Vector<3>,
         ratio: number,
+        zoom_center_point : Vector<3>,
         zoom_handler: IZoom_Handler,
         move_view_handler: IMove_View_Handler
     ) {
         const pre_process = new Pre_process(abs_ratio_target, coordinates_wanted, ratio, zoom_handler.get_current_zoom_fator(), zoom_handler.get_alpha()).result;
 
         this.__move = new Move_Quadratic_By_Step(pre_process.x_y_normalize, pre_process.distance, move_view_handler, zoom_handler);
-        this.__zoom = new Zoom_quadratic_By_Step(pre_process.delta_zoom_level, pre_process.distance, zoom_handler);
+        this.__zoom = new Zoom_quadratic_By_Step(pre_process.delta_zoom_level, pre_process.distance, zoom_center_point, zoom_handler);
         this.__step = new Step(pre_process.distance);        
     }
 
@@ -104,13 +105,15 @@ export class Zoom_quadratic_By_Step implements IZoom_By_Step
 {
     private readonly __handler: IZoom_Handler;
     private readonly __coeff_quad_eq: Vector<3>;
+    private readonly __zoom_center_point : Vector<3>
     private __current_x = 0;
     private __previous_y: number = 0;
     private __current_level: number = 0;
 
-    constructor(delta_zoom_level: number, distance: number, zoom_handler: IZoom_Handler) 
+    constructor(delta_zoom_level: number, distance: number, zoom_center_point : Vector<3>, zoom_handler: IZoom_Handler) 
     {
         this.__handler = zoom_handler;
+        this.__zoom_center_point = zoom_center_point;
 
         const x0 = distance;
         const y0 = delta_zoom_level;
@@ -142,7 +145,7 @@ export class Zoom_quadratic_By_Step implements IZoom_By_Step
         //get_the_delta_btween_this_step_and_the_previous_step
         this.__current_level += delta;
 
-        this.__handler.zoom_current_flow_by_level(this.__current_level);
+        this.__handler.zoom_current_flow_by_level_toward_this_point(this.__current_level, this.__zoom_center_point);
 
         this.__previous_y = current_y;
     }

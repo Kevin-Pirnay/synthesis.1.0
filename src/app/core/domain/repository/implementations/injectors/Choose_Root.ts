@@ -17,11 +17,11 @@ export class Choose_Roots_Container implements IChoose_Roots_Container
 {
     private readonly __zoom_on_target: IZoom_On_Target;
 
-    constructor(container: Container, zoom_handler: IZoom_Handler, move_view_handler: IMove_View_Handler, coordinates : Vector<3>, ratio : number) 
+    constructor(container: Container, zoom_handler: IZoom_Handler, move_view_handler: IMove_View_Handler, coordinates : Vector<3>, ratio : number, zoom_center_point : Vector<3>) 
     {
         const abs_ratio = container.positions.abs_ratio;
 
-        this.__zoom_on_target = new Zoom_On_Target(abs_ratio, coordinates, ratio, zoom_handler, move_view_handler);
+        this.__zoom_on_target = new Zoom_On_Target(abs_ratio, coordinates, ratio, zoom_center_point, zoom_handler, move_view_handler);
     }
 
     public zoom_and_place_itself_at_the_bottom(): void 
