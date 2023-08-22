@@ -2,7 +2,6 @@ import { IDto } from '../../../port/driver/dto/IDto';
 import { Choosen_Root_Request } from '../../../port/driver/request/request';
 import { Choosen_Root_Response } from '../../../port/driver/response/Response';
 import { IChange_Root_Handler } from '../../handlers/handlers_use_case/Change_Root/IChange_Root_Handler';
-import { IZoom_Handler } from '../../handlers/handlers_use_case/Zoom/IZoom_Handler';
 import { IChoose_Root_Repository } from '../../repository/interfaces/IRepository';
 
 

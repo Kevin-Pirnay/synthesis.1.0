@@ -91,7 +91,7 @@ class Chosen_Root implements IChoosen_Root
         let count = 0;
         while(1)
         {
-            if(count >= window.innerWidth + 100) break;
+            if(count >= window.innerWidth) break;
 
             pos._[0]._[0]--
             pos._[0]._[1]--

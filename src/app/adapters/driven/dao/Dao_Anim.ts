@@ -10,7 +10,7 @@ export type Quad_Callback = (x: number, y : number) => Vector<3>;
 export class Dao_Anim implements IDao_Anim
 {
     private readonly __y : number = window.innerHeight * 55/100;
-    
+
     private readonly __center_choose_root_anim : Vector<3> = Vector_.new([window.innerWidth / 2, this.__y, 0]);
 
     constructor(private readonly __runtime_persistence : Runtime_Persistence) 
@@ -61,7 +61,7 @@ export class Dao_Anim implements IDao_Anim
 
     public get_move_quad_choose_roots_anim(): Quad_Callback 
     {
-        const callback : Quad_Callback = (x : number , y : number) : Vector<3> => { return new Vector([x / 2, (1 / 2*y)]); } //1/y
+        const callback : Quad_Callback = (x : number , y : number) : Vector<3> => { return new Vector([x / 2, (1 / (2*y))]); } //1/y
 
         return callback;
     }
