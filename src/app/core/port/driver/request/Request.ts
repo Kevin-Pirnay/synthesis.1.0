@@ -77,3 +77,8 @@ export class View_Choose_Root_Request
 {
     constructor(public direction : number) { }
 }
+
+export class View_Link_Roots_Request
+{
+    constructor(public direction : number) { }
+}

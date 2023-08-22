@@ -8,6 +8,7 @@ import { MenuComponent } from "./adapters/driver/components/aside/menu/menu.comp
 import { BackViewComponent } from './adapters/driver/components/aside/back-view/back-view.component';
 import { ChooseRootComponent } from './adapters/driver/components/aside/choose-root/choose-root.component';
 import { PaginateComponent } from './adapters/driver/components/aside/paginate/paginate.component';
+import { LinkRootsComponent } from './adapters/driver/components/aside/link-roots/link-roots.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { PaginateComponent } from './adapters/driver/components/aside/paginate/p
     AsideComponent,
     BackViewComponent,
     ChooseRootComponent,
-    PaginateComponent
+    PaginateComponent,
+    LinkRootsComponent
   ],
   imports: [
     BrowserModule,

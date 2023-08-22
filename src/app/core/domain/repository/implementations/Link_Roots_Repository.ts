@@ -1,26 +1,26 @@
-import { Dao_Flow } from "../../../../adapters/driven/dao/Dao_Flow";
 import { IDto } from "../../../port/driver/dto/IDto";
 import { Indexes } from "../../handlers/handlers_use_case/Indexes/Indexes";
 import { IData_Tree, ISubtree_Root } from "../../handlers/handlers_use_case/View_As_Root/View_As_Root_Handler";
 import { ILink_Roots } from "../../use_cases/Link_Root/Init_Link_Roots";
 import { ILink_Roots_Repository } from "../interfaces/IRepository";
 import { Container } from '../../entities/Container';
-import { Dao_Container } from '../../../../adapters/driven/dao/Dao_Container';
 import { Subtree_Data } from './injectors/Subtree_Data';
 import { Matrix } from "../../../common/Matrix/Matrix";
 import { IView_As_Root_Handler } from "../../handlers/handlers_use_case/View_As_Root/IView_As_Root_Handler";
+import { IDao_Container } from "../../../port/driven/dao/IDao_Container";
+import { IDao_Flow } from "../../../port/driven/dao/IDao_Flow";
 
 
 export class Link_Roots_Repository implements ILink_Roots_Repository
 {
-    private readonly __dao_flow : Dao_Flow;
-    private readonly __dao_container : Dao_Container;
+    private readonly __dao_flow : IDao_Flow;
+    private readonly __dao_container : IDao_Container;
 
     private readonly __indexes : Indexes;
     private readonly __subtrees_roots : ISubtree_Root[] = [];
     private __current_subtree : ISubtree_Root | null = null;
 
-    constructor(dao_flow : Dao_Flow, dao_container : Dao_Container) 
+    constructor(dao_flow : IDao_Flow, dao_container : IDao_Container) 
     {
         this.__dao_flow = dao_flow;
         this.__dao_container = dao_container;
@@ -37,11 +37,16 @@ export class Link_Roots_Repository implements ILink_Roots_Repository
         return this.__indexes.init_indexes(this.__subtrees_roots.length);
     }
 
+    public get_next_indexes(direction: number): number[] 
+    {
+        return this.__indexes.get_next_indexes(direction);
+    }
+
     public store_all_subtrees_root(): void 
     {
         const all_flows : string[] = this.__dao_flow.get_all_flows();
-        const current_flow = this.__dao_flow.get_current_flow();
-        const flows = all_flows.filter(flow => flow !== current_flow);
+        const current_flow : string = this.__dao_flow.get_current_flow();
+        const flows : string[] = all_flows.filter(flow => flow !== current_flow);
 
         flows.forEach(flow => 
         {
@@ -91,7 +96,7 @@ interface ILink_Root
 
 class Link_Root implements ILink_Root
 {
-    private readonly __positions : IData_Tree_Positions[];
+    private readonly __positions : IData_Tree_Positions[] = [];
 
     constructor(data_tree : IData_Tree[])
     {

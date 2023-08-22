@@ -101,7 +101,8 @@ export interface IChange_Root_Repository
 
 export interface ILink_Roots_Repository
 {
-    get_link_roots_data(indexes: number[]): ILink_Roots;
+    get_next_indexes(direction: number): number[];
+    get_link_roots_data(indexes: number[], view_as_root_handler : IView_As_Root_Handler): ILink_Roots;
     init_indexes(): number;
     store_all_subtrees_root(): void;
 }
