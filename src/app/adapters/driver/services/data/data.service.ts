@@ -43,6 +43,8 @@ export class DataService
   public set_mouse_is_down_on_a_ligature = (ligature : Ligature) : void => { this.__set.set_mouse_is_down_on_a_ligature(ligature); }
   
   public set_mouse_is_down_on_a_grip = (ligature : Ligature) : void => { this.__set.set_mouse_is_down_on_a_grip(ligature); }
+
+  public set_mouse_is_down_on_root_choice = () : void => { this.__set.set_mouse_is_down_on_a_root_choice();}
   
   public set_container_on_focus_from_dtos = (dtos : IDto[]) : void => { this.__set.set_container_on_focus_from_dtos(dtos); }
 
@@ -128,6 +130,7 @@ class Event_State
   public is_mouse_down_on_container : boolean = false;
   public is_mouse_down_on_grip : boolean = false;
   public is_mouse_down_on_ligature : boolean = false;
+  public is_mouse_down_on_root_choice : boolean = false;
   public is_zooming : boolean = false;
   public is_view_moving : boolean = false;
 }
@@ -164,11 +167,18 @@ class Set_State
     this.__focus.container_currently_on_focus._ = container;
   }
 
+  public set_mouse_is_down_on_a_root_choice() : void
+  {
+    this.__reset_elements_on_focus();
+    this.__event.is_mouse_down_on_root_choice = true;
+  }
+
   public set_mouse_is_up() : void
   {
     this.__event.is_mouse_down_on_container = false;
     this.__event.is_mouse_down_on_grip = false;
     this.__event.is_mouse_down_on_ligature = false;
+    this.__event.is_mouse_down_on_root_choice = false;
   }
 
   public set_mouse_is_down_on_a_ligature(ligature : Ligature) : void
@@ -262,6 +272,7 @@ class Ask_State
     return this.__event.is_mouse_down_on_container 
         || this.__event.is_mouse_down_on_ligature 
         || this.__event.is_mouse_down_on_grip 
+        || this.__event.is_mouse_down_on_root_choice
         ? true : false;
   }
 

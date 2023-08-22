@@ -123,7 +123,7 @@ export class Zoom_quadratic_By_Step implements IZoom_By_Step
         const p2 = new Vector([x0 / 2, y0 / 2]);
         const p3 = new Vector([x0, y0]);
 
-        this.__coeff_quad_eq = new Cramer_Quadratic(p1, p2, p3).coefficients;
+        this.__coeff_quad_eq = new Cramer_Quadratic(p1, p2, p3).coefficients;        
     }
 
     public zoom_by_step(): void 
@@ -165,6 +165,8 @@ export class Move_Quadratic_By_Step implements IMove_By_Step
         this.__handler = move_handler;
         this.__zoom_handler = zoom_handler;
 
+        if(distance == 0) distance = 1;
+
         this.__step_x = x_y_normalize._[0] / distance;
 
         const x = x_y_normalize._[0];
@@ -174,6 +176,7 @@ export class Move_Quadratic_By_Step implements IMove_By_Step
         const p2 = new Vector([x / 2, (1 / y)]);
         const p3 = new Vector([x, y]);
 
+        
         this.__coeff_quad_eq = new Cramer_Quadratic(p1, p2, p3).coefficients;
     }
 
@@ -288,6 +291,8 @@ export class Compute_Max_Zoom_Factor_And_Level
 
     private __compute_max_zoom_factor(x_with_wanted: number, x_width_target: number): number 
     {
+        if(x_width_target == 0) x_width_target = 1;
+
         const factor = x_with_wanted / x_width_target;
 
         return factor;

@@ -201,8 +201,10 @@ export class StateService
     this.__pipeline.request_init_link_roots();
   }
 
-  public report_click_on_root_choice(root: Root_Choice) : void
+  public report_mouse_down_on_root_choice(root: Root_Choice) : void
   {
+    this.__data.set_mouse_is_down_on_root_choice();
+    
     this.__pipeline.request_chosen_root(root);
   }
 }

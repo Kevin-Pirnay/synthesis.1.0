@@ -19,7 +19,7 @@ export class PipelineService
 
     this.__data.add_dtos(dtos);
 
-    this.__data.set_container_on_focus_from_dtos(dtos);
+    this.__data.set_container_on_focus_from_dtos(dtos);    
   }
 
   public request_delete_container(container : Container) : void
@@ -93,7 +93,9 @@ export class PipelineService
   {
     const dtos : IDto[] = await this.__request.request_init_choose_root(container);
 
-    this.__data.add_root_choices(dtos);
+    this.__data.replace_its_current_dtos_by_a_dto(dtos[1])
+
+    this.__data.add_root_choices([dtos[0]]);
   }
 
   public request_view_choose_root(direction : number) : void

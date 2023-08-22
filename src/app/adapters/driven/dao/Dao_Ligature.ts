@@ -135,6 +135,8 @@ class Get_Ligature_Handler
 
     public prepare_all_ptr_for_the_current_flow() : void
     {
+        if(!this.__persistence.ligatures_ids[this.__current_flow.id]) return;
+        
         this.__persistence.ligatures_ids[this.__current_flow.id].forEach((id : string) =>
         {
             this.get_ligature_by_id(id);

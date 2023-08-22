@@ -60,7 +60,7 @@
         <path
         *ngIf="dto.type == 2" 
         class="root_choice"
-        (click)="click_on_root_choice(dto.element)"
+        (mousedown)="mouse_down_on_root_choice(dto.element)"
         attr.d="
             M {{dto.element.positions.abs_ratio._[0]._[0]}} {{dto.element.positions.abs_ratio._[0]._[1]}} 
             L {{dto.element.positions.abs_ratio._[1]._[0]}} {{dto.element.positions.abs_ratio._[1]._[1]}} 

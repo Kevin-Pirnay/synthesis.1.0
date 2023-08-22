@@ -73,34 +73,47 @@ export class Choose_Root_Repository implements IChoose_Root_Repository
 
 class Chosen_Root implements IChoosen_Root
 {
-    private readonly __handler : IZoom_On_Target;
+    private readonly __abs_ratio: Matrix<4>;
 
     constructor(chosen_root: Root_Choice, zoom_handler : IZoom_Handler, move_view_handler : IMove_View_Handler) 
     { 
-        const abs_ratio = chosen_root.positions.abs_ratio;
-
-        const coordinates : Vector<3> = this.__get_center_root(chosen_root);
-
-        const ratio : number = window.innerWidth;
-
-        const zoom_center_point : Vector<3> = coordinates;
-
-        this.__handler = new Zoom_On_Target(abs_ratio, coordinates, ratio, zoom_center_point, zoom_handler, move_view_handler);
+        this.__abs_ratio = chosen_root.positions.abs_ratio;
     }
 
     public async anim(): Promise<void> 
     {
-        await this.__handler.move_and_zoom();
+        const pos = this.__abs_ratio
+        let count = 0;
+        while(1)
+        {
+            if(count >= 600) break;
+
+            pos._[0]._[0]--
+            pos._[0]._[1]--
+
+            pos._[1]._[0]++
+            pos._[1]._[1]--
+            
+            pos._[2]._[0]++
+            pos._[2]._[1]++
+
+            pos._[3]._[0]--
+            pos._[3]._[1]++
+
+            await new Promise(r=> setTimeout(r,1));
+
+            count++;            
+        }
     }
 
     private __get_center_root(root : Root_Choice) : Vector<3>
     {
-        const positions : Matrix<4> = root.positions.abs_ratio;
+        // const positions : Matrix<4> = root.positions.abs_ratio;
 
-        const x = (positions._[0]._[0] + positions._[1]._[0]) * 1/2;
-        const y = (positions._[0]._[1] + positions._[1]._[1]) * 1/2;
+        // const x = (positions._[0]._[0] + positions._[1]._[0]) * 1/2;
+        // const y = (positions._[0]._[1] + positions._[1]._[1]) * 1/2;
 
-        return Vector_.new([x,y,0]);
+        return Vector_.new([window.innerWidth/4,window.innerHeight/4,0]);
     }
 
 }

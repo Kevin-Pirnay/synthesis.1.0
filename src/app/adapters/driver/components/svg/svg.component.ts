@@ -71,9 +71,9 @@ export class SvgComponent
     this.__state.report_key_up();
   }
 
-  public click_on_root_choice(root : Root_Choice) : void
+  public mouse_down_on_root_choice(root : Root_Choice) : void
   {
-    this.__state.report_click_on_root_choice(root);
+    this.__state.report_mouse_down_on_root_choice(root);
   }
 }
 
