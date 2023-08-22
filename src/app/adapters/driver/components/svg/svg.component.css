@@ -8,3 +8,8 @@
 {
     fill: blue;
 }
+
+.container:hover
+{
+    cursor: grabbing;
+}

@@ -104,6 +104,8 @@ class Get_Ligature_Handler
     {
         const result : Ligature[] = [];
 
+        if(!this.__persistence.ligatures_ids[this.__current_flow.id]) return result;
+
         this.__persistence.ligatures_ids[this.__current_flow.id].forEach((id : string) =>
         {
             result.push(this.get_ligature_by_id(id));

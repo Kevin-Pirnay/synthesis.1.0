@@ -1,11 +1,11 @@
 
 <section class="aside">
     <ul class="tabs">
-        <li (click)="click_on_show_menu()">menu</li>
-        <li (click)="click_on_show_back_view()">back view</li>
-        <li (click)="click_on_show_choose_root()">choose root</li>
-        <li (click)="click_on_show_paginate()">paginate</li>
-        <li (click)="click_on_show_link_roots()">link roots</li>
+        <li class="aside-items" (click)="click_on_show_menu()">menu</li>
+        <li class="aside-items" (click)="click_on_show_back_view()">back view</li>
+        <li class="aside-items" (click)="click_on_show_choose_root()">choose root</li>
+        <li class="aside-items" (click)="click_on_show_paginate()">paginate</li>
+        <li class="aside-items" (click)="click_on_show_link_roots()">link roots</li>
     </ul>
 
     <app-menu *ngIf="is_showing_menu_ptr._"></app-menu>

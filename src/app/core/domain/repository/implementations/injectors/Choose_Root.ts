@@ -36,11 +36,11 @@ export class Choose_Roots_Root implements IChoose_Roots_Root
     private readonly __roots: Root_Choice[] = [];
     private readonly __rotate_root: IRotate_Roots_Root;
 
-    constructor(roots: string[], indexes: number[]) 
+    constructor(roots: string[], indexes: number[], axe_rotation : Vector<3>, center_rotation : Vector<3>, rate : number) 
     {
         roots.forEach(root => this.__roots.push(new Root_Choice(root)));
 
-        this.__rotate_root = new Rotate_Roots_Root(this.__roots, indexes);
+        this.__rotate_root = new Rotate_Roots_Root(this.__roots, indexes, axe_rotation, center_rotation, rate);
     }
 
     public get_the_first_root_dto(): IDto 
@@ -82,7 +82,12 @@ export class Rotate_Roots_Root implements IRotate_Roots_Root
     private readonly __current: IRotate_Roots_Root_Position | null = null;
     private readonly __next: IRotate_Roots_Root_Position | null = null;
 
-    constructor(roots: Root_Choice[], indexes: number[]) 
+    constructor(
+        roots: Root_Choice[], 
+        indexes: number[], 
+        private readonly __axe_rotation : Vector<3>, 
+        private readonly __center_rotation : Vector<3>, 
+        private readonly __rate : number) 
     {
         if (indexes[1] == undefined) throw new Error("Rotation must have a next index set at the index 1, to set current to null put -1 at the index 0");
 
@@ -93,28 +98,89 @@ export class Rotate_Roots_Root implements IRotate_Roots_Root
 
     public async rotate_roots(direction: number): Promise<void> 
     {
-        const axe_rotation = Vector_.new([(250 * direction), 0, 0]);
-        const center_rotation = Vector_.new([1 / 2 * 500, 500]);
+        if (this.__current) this.__current.init_position_for_rotation(this.__axe_rotation);
 
-        if (this.__current) this.__current.init_position_for_rotation(axe_rotation);
-        if (this.__next) this.__next.init_position_for_rotation(axe_rotation);
+        if (this.__next) this.__next.init_position_for_rotation(this.__axe_rotation);
 
-        //put that in class and use callback???
-        let angle = 0;
-        const rate = 0.8;
-        while (1) {
-            const radian = angle * Math.PI / 180 * direction;
-            const dephasage = radian + (Math.PI / 2 * direction);
+        const step = new Step(direction, this.__rate, 90);
 
-            if (this.__current) this.__current.rotate_position_on_a_certain_point(dephasage, center_rotation);
-            if (this.__next) this.__next.rotate_position_on_a_certain_point(radian, center_rotation);
+       step.init();
+
+        while (1) 
+        {
+            if (step.complete()) break;
+
+            const dephase : number = step.get_radian_for_current();
+
+            const phase : number = step.get_radian_for_next();
+
+            if (this.__current) this.__current.rotate_position_on_a_certain_point(dephase, this.__center_rotation);
+
+            if (this.__next) this.__next.rotate_position_on_a_certain_point(phase, this.__center_rotation);
 
             await new Promise(r => setTimeout(r, 1));
 
-            angle += (1 * rate);
-            if (Math.abs(angle) >= 90) break;
+            step.next_step();
+
         }
     }
+}
+
+interface IStep
+{
+    init() :  void;
+    get_radian_for_current() : number;
+    get_radian_for_next() : number;
+    next_step() : void;
+    complete() : boolean;
+}
+
+class Step implements IStep
+{
+    private __angle : number;
+    private __step : number
+    private __radian : number;
+    private __phase : number;
+    private __dephase : number;
+    private __complete : number;
+
+    constructor(direction : number, rate : number, max_angle : number) 
+    {         
+        this.__angle = 0;
+        this.__radian = Math.PI / 180 * direction;
+        this.__phase = direction > 0 ? 0 : Math.PI
+        this.__dephase = Math.PI / 2 * direction;
+        this.__step = 1 * rate;
+        this.__complete = max_angle;
+    }
+    
+    public init(): void 
+    {
+        this.__angle = 0;
+    }
+
+    public get_radian_for_current(): number 
+    {
+        return this.__dephase + this.__phase + this.__radian * this.__angle;
+    }
+
+    public get_radian_for_next(): number 
+    {        
+        return this.__phase + this.__radian * this.__angle;
+    }
+
+    public next_step(): void 
+    {
+        this.__angle += this.__step;
+    }
+
+    public complete() : boolean
+    {
+        if (Math.abs(this.__angle) >= this.__complete - this.__step) this.__angle = this.__complete;
+
+        return Math.abs(this.__angle) >= this.__complete ? true : false;
+    }
+    
 }
 
 

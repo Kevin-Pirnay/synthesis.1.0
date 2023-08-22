@@ -47,6 +47,8 @@ import { Rotate_On_Target } from './handlers/handlers_use_case/On_Target/Rotate_
 import { Init_Link_Roots_Use_case } from './use_cases/Link_Root/Init_Link_Roots';
 import { View_Link_Roots_Use_case } from './use_cases/Link_Root/View_Link_Roots';
 import { Link_Roots_Repository } from './repository/implementations/Link_Roots_Repository';
+import { IDao_Anim } from '../port/driven/dao/IDao_Anim';
+import { Dao_Anim } from '../../adapters/driven/dao/Dao_Anim';
 
 
 export class Facade
@@ -57,6 +59,7 @@ export class Facade
     private readonly __dao_container : IDao_Container = new Dao_Container(this.__runtime_persistence, this.__flow);
     private readonly __dao_ligature : IDao_Ligature = new Dao_Ligature(this.__runtime_persistence, this.__flow);
     private readonly __dao_flow : IDao_Flow = new Dao_Flow(this.__runtime_persistence, this.__flow);
+    private readonly __dao_anim : IDao_Anim = new Dao_Anim(this.__runtime_persistence);
 
     private readonly __create_repository : ICreate_Repository = new Create_Repository(this.__dao_container, this.__dao_ligature);
     private readonly __zoom_repository : IZoom_Repository = new Zoom_Repository(this.__dao_container, this.__dao_ligature);
@@ -65,7 +68,7 @@ export class Facade
     private readonly __view_as_root_repository : IView_As_Root_Repository = new View_As_Root_Repository(this.__dao_container);
     private readonly __mark_as_root_repository : IMark_As_Root_Repository = new Mark_As_Root_Repository(this.__dao_container);
     private readonly __paginate_repository : IPaginate_Repository = new Paginate_Repository();
-    private readonly __choose_roots_repository : IChoose_Root_Repository = new Choose_Root_Repository();
+    private readonly __choose_roots_repository : IChoose_Root_Repository = new Choose_Root_Repository(this.__dao_anim);
     private readonly __change_root_repository : IChange_Root_Repository = new Change_Root_Repository(this.__dao_container, this.__dao_ligature, this.__dao_flow);
     private readonly __link_roots_repository : ILink_Roots_Repository = new Link_Roots_Repository(this.__dao_flow, this.__dao_container);
 
