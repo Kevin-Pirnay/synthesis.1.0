@@ -4,6 +4,7 @@ import { DataService } from '../data/data.service';
 import { Container } from '../../../../core/domain/entities/Container';
 import { Ligature } from '../../../../core/domain/entities/Ligature';
 import { IDto } from '../../../../core/port/driver/dto/IDto';
+import { Root_Choice } from '../../../../core/domain/entities/Root_Choice';
 
 @Injectable({
   providedIn: 'root'
@@ -88,9 +89,9 @@ export class PipelineService
     this.__data.replace_its_current_dtos_by_a_dto(dto);
   }
 
-  public request_init_choose_root(container : Container) : void
+  public async request_init_choose_root(container : Container) : Promise<void>
   {
-    const dtos : IDto[] = this.__request.request_init_choose_root(container);
+    const dtos : IDto[] = await this.__request.request_init_choose_root(container);
 
     this.__data.add_root_choices(dtos);
   }
@@ -102,9 +103,9 @@ export class PipelineService
     this.__data.replace_roots_choices_by(dtos);
   }
 
-  public request_chosen_root(flow : string) : void
+  public async request_chosen_root(chosen_root : Root_Choice) : Promise<void>
   {
-    const dtos : IDto[] = this.__request.request_chosen_root(flow);
+    const dtos : IDto[] = await this.__request.request_chosen_root(chosen_root);
 
     this.__data.replace_its_current_dtos_by(dtos);
 

@@ -8,7 +8,7 @@ import { IZoom_Handler } from "../Zoom/IZoom_Handler";
 
 export interface IZoom_On_Target 
 {
-    move_and_zoom(): void;
+    move_and_zoom(): Promise<void>;
 }
 
 export class Zoom_On_Target implements IZoom_On_Target 

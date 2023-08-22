@@ -16,6 +16,8 @@ import { IMove_View_Handler } from "../../handlers/handlers_use_case/Move_View/I
 import { IChoose_Roots_Root, IChoose_Roots_Container } from "../../use_cases/Choose_Root/Init_Choose_Root";
 import { IZoom_Handler } from "../../handlers/handlers_use_case/Zoom/IZoom_Handler";
 import { ILink_Roots } from "../../use_cases/Link_Root/Init_Link_Roots";
+import { Root_Choice } from "../../entities/Root_Choice";
+import { IChoosen_Root } from "../../use_cases/Choose_Root/Chosen_Root";
 
 
 export interface ICreate_Repository 
@@ -90,6 +92,7 @@ export interface IChoose_Root_Repository
     store_all_possible_roots(container : Container): void
     get_choose_root_container(container : Container, zoom_handler : IZoom_Handler, move_view_handler : IMove_View_Handler): IChoose_Roots_Container;
     get_choose_root_roots(indexes : number[]): IChoose_Roots_Root;
+    get_chosen_root(chosen_root: Root_Choice, zoom_handler : IZoom_Handler, move_view_handler : IMove_View_Handler): IChoosen_Root
 }
 
 

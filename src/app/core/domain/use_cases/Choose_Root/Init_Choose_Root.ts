@@ -14,7 +14,7 @@ export class Init_Choose_Root_Use_case
         private readonly __move_view_handler : IMove_View_Handler
     ) { }
     
-    public handle(request : Choose_Root_Request) : Choose_Root_Response
+    public async handle(request : Choose_Root_Request) : Promise<Choose_Root_Response>
     {
         this.__choose_repository.store_all_possible_roots(request.container);
 
@@ -22,7 +22,7 @@ export class Init_Choose_Root_Use_case
 
         const choose_root_container : IChoose_Roots_Container = this.__choose_repository.get_choose_root_container(request.container, this.__zoom_handler, this.__move_view_handler);
 
-        choose_root_container.zoom_and_place_itself_at_the_bottom();
+        await choose_root_container.zoom_and_place_itself_at_the_bottom();
 
         const choose_roots_data : IChoose_Roots_Root = this.__choose_repository.get_choose_root_roots([-1, first_index]);
 
@@ -36,7 +36,7 @@ export class Init_Choose_Root_Use_case
 
 export interface IChoose_Roots_Container
 {
-    zoom_and_place_itself_at_the_bottom() : void;
+    zoom_and_place_itself_at_the_bottom() : Promise<void> ;
 } 
 
 export interface IChoose_Roots_Root

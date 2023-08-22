@@ -12,6 +12,9 @@ import { Choose_Roots_Container } from './injectors/Choose_Root';
 import { Choose_Roots_Root } from './injectors/Choose_Root';
 import { Vector } from '../../../common/Vector/Vector';
 import { IDao_Anim } from '../../../port/driven/dao/IDao_Anim';
+import { Root_Choice } from '../../entities/Root_Choice';
+import { IChoosen_Root } from '../../use_cases/Choose_Root/Chosen_Root';
+import { IZoom_On_Target, Zoom_On_Target } from '../../handlers/handlers_use_case/On_Target/Zoom_On_Target';
 
 
 export class Choose_Root_Repository implements IChoose_Root_Repository
@@ -61,6 +64,45 @@ export class Choose_Root_Repository implements IChoose_Root_Repository
     {
         return this.__indexes.get_next_indexes(direction);
     }
+
+    public get_chosen_root(chosen_root: Root_Choice, zoom_handler : IZoom_Handler, move_view_handler : IMove_View_Handler): IChoosen_Root
+    {
+        return new Chosen_Root(chosen_root, zoom_handler, move_view_handler);
+    }
+}
+
+class Chosen_Root implements IChoosen_Root
+{
+    private readonly __handler : IZoom_On_Target;
+
+    constructor(chosen_root: Root_Choice, zoom_handler : IZoom_Handler, move_view_handler : IMove_View_Handler) 
+    { 
+        const abs_ratio = chosen_root.positions.abs_ratio;
+
+        const coordinates : Vector<3> = this.__get_center_root(chosen_root);
+
+        const ratio : number = window.innerWidth;
+
+        const zoom_center_point : Vector<3> = coordinates;
+
+        this.__handler = new Zoom_On_Target(abs_ratio, coordinates, ratio, zoom_center_point, zoom_handler, move_view_handler);
+    }
+
+    public async anim(): Promise<void> 
+    {
+        await this.__handler.move_and_zoom();
+    }
+
+    private __get_center_root(root : Root_Choice) : Vector<3>
+    {
+        const positions : Matrix<4> = root.positions.abs_ratio;
+
+        const x = (positions._[0]._[0] + positions._[1]._[0]) * 1/2;
+        const y = (positions._[0]._[1] + positions._[1]._[1]) * 1/2;
+
+        return Vector_.new([x,y,0]);
+    }
+
 }
 
 

@@ -1,6 +1,7 @@
 import { Vector } from "../../../common/Vector/Vector";
 import { Container } from "../../../domain/entities/Container";
 import { Ligature } from "../../../domain/entities/Ligature";
+import { Root_Choice } from "../../../domain/entities/Root_Choice";
 
 
 export class Create_Container_Request
@@ -70,7 +71,7 @@ export class Choose_Root_Request
 
 export class Choosen_Root_Request
 {
-    constructor(public flow : string) { }
+    constructor(public chosen_root : Root_Choice) { }
 }
 
 export class View_Choose_Root_Request

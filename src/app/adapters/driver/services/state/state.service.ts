@@ -131,7 +131,7 @@ export class StateService
     if ( this.__data.is_there_a_container_on_focus() )
     {
       this.__pipeline.request_init_choose_root(this.__data.container_on_focus());
-      
+
       this.__data.set_show_choose_root(true);
     } 
   }
@@ -203,6 +203,6 @@ export class StateService
 
   public report_click_on_root_choice(root: Root_Choice) : void
   {
-    this.__pipeline.request_chosen_root(root.root_id);
+    this.__pipeline.request_chosen_root(root);
   }
 }

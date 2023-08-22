@@ -24,9 +24,9 @@ export class Choose_Roots_Container implements IChoose_Roots_Container
         this.__zoom_on_target = new Zoom_On_Target(abs_ratio, coordinates, ratio, zoom_center_point, zoom_handler, move_view_handler);
     }
 
-    public zoom_and_place_itself_at_the_bottom(): void 
+    public async zoom_and_place_itself_at_the_bottom(): Promise<void> 
     {
-        this.__zoom_on_target.move_and_zoom();
+        await this.__zoom_on_target.move_and_zoom();
     }
 }
 
@@ -73,7 +73,7 @@ export class Choose_Roots_Root implements IChoose_Roots_Root
 
 export interface IRotate_Roots_Root 
 {
-    rotate_roots(direction: number): void;
+    rotate_roots(direction: number): Promise<void> ;
 }
 
 
@@ -175,10 +175,10 @@ class Step implements IStep
     }
 
     public complete() : boolean
-    {
-        if (Math.abs(this.__angle) >= this.__complete - this.__step) this.__angle = this.__complete;
+    {        
+        if (this.__angle >= this.__complete - this.__step && this.__angle < this.__complete) { this.__angle = this.__complete; return false; }
 
-        return Math.abs(this.__angle) >= this.__complete ? true : false;
+        return this.__angle >= this.__complete ? true : false;
     }
     
 }
