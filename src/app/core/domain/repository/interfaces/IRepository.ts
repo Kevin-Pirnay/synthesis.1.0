@@ -38,6 +38,7 @@ export interface IDelete_Container_Repository
 
 export interface IMove_View_Repository
 {
+    get_move_view_positions_from_subtree(data: IData_Tree[]): IMove_View_Positions[];
     init_stop_move_view_condition(): Ptr_Boolean;
     get_all_move_views_positions(): IMove_View_Positions[];
     set_stop_move_view_condition_to(value : boolean) : void
@@ -100,7 +101,7 @@ export interface IChoose_Root_Repository
 
 export interface IChange_Flow_Repository
 {
-    add_the_subtree_to_another_flow(data_to_merge : IData_Tree[], container_to_link: Container, origin_flow: string): IData_Tree[];
+    add_the_subtree_to_another_flow(data_tree_to_merge: IData_Tree[], container_to_link: Container, origin_flow: string, move_view_handler : IMove_View_Handler): IData_Tree[] 
     change_current_flow(flow: string): void;
     get_root_container_from_the_current_flow() : Container;
 }

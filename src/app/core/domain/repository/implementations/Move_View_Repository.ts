@@ -1,3 +1,4 @@
+import { IData_Tree } from './../../handlers/handlers_use_case/View_As_Root/View_As_Root_Handler';
 import { IDao_Container } from '../../../port/driven/dao/IDao_Container';
 import { IDao_Ligature } from '../../../port/driven/dao/IDao_Ligature';
 import { Container } from '../../entities/Container';
@@ -7,6 +8,8 @@ import { Ptr_Boolean } from '../../../common/Ptr_Boolean';
 import { Ligature_Move_View_Positions } from './injectors/Move_View_Positions';
 import { Container_Move_View_Positions } from './injectors/Move_View_Positions';
 import { IMove_View_Repository } from '../interfaces/IRepository';
+import { Data_Type } from '../../handlers/handlers_entities/Data_Type';
+
 
 export class Move_View_Repository implements IMove_View_Repository
 {
@@ -38,6 +41,19 @@ export class Move_View_Repository implements IMove_View_Repository
 
         containers.forEach(container => result.push(new Container_Move_View_Positions(container)));
         ligatures.forEach(ligature => result.push(new Ligature_Move_View_Positions(ligature)));
+
+        return result;
+    }
+
+    public get_move_view_positions_from_subtree(data: IData_Tree[]): IMove_View_Positions[] 
+    {
+        const result : IMove_View_Positions[] = [];
+
+        data.forEach((data : IData_Tree) =>
+        {
+            if(data.type == Data_Type.CONTAINER) result.push(new Container_Move_View_Positions(data.element));
+            if(data.type == Data_Type.LIGATURE) result.push(new Ligature_Move_View_Positions(data.element));
+        });
 
         return result;
     }
