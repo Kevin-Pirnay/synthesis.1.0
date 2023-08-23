@@ -23,11 +23,11 @@ export class Cramer
         
         const result = new Vector();
 
-        for(let i = 0; i < y_vec._.length; i++) //for each equation
+        for(let i = 0; i < y_vec._.length; i++) //for each equations
         {
             const current_matrix = matrix.__.copy();
 
-            for(let j = 0; j < matrix._.length; j++) //for each vector
+            for(let j = 0; j < matrix._.length; j++) //for each vectors
             {
                 current_matrix._[j]._[i] = y_vec._[j];
             }

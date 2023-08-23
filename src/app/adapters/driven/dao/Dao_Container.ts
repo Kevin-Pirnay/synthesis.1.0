@@ -3,6 +3,8 @@ import { Container } from "../../../core/domain/entities/Container";
 import { IDao_Container } from "../../../core/port/driven/dao/IDao_Container";
 import { IContainer_Data_Flow, Runtime_Persistence } from "../runtime_memory/Runtime_Persistence";
 import { Vector } from '../../../core/common/Vector/Vector';
+import { Matrix } from '../../../core/common/Matrix/Matrix';
+import { Vector_ } from '../../../core/common/Vector/Vector_';
 
 
 export class Dao_Container implements IDao_Container
@@ -78,6 +80,11 @@ export class Dao_Container implements IDao_Container
     public get_root_container_of_this_flow(flow: string): Container 
     {
         return this.__get_handler.get_root_container_of_this_flow(flow); 
+    }
+
+    public get_default_rel_ratio(): Matrix<4> 
+    {
+        return this.__get_handler.get_default_ratio();
     }
 }
 
@@ -242,6 +249,16 @@ class Get_Container_Handler
         if(result == null) throw new Error("Enable to find the root container of this flow");
         
         return result;
+    }
+
+    public get_default_ratio(): Matrix<4> 
+    {
+        return  new Matrix([
+            Vector_.zero(3),
+            Vector_.new([30,0,0]),
+            Vector_.new([30,30,0]),
+            Vector_.new([0,30,0])
+        ]);
     }
 }
 

@@ -14,15 +14,9 @@ export class Create_Repository implements ICreate_Repository
         private readonly __dao_ligature : IDao_Ligature
     ) { }
 
-    //*** change that
     get_default_container_rel_ratio(): Matrix<4> 
     {
-        return  new Matrix([
-                    Vector_.zero(3),
-                    Vector_.new([30,0,0]),
-                    Vector_.new([30,30,0]),
-                    Vector_.new([0,30,0])
-            ]);
+        return this.__dao_container.get_default_rel_ratio();
     }
 
     save_root(container: Container) : void 

@@ -27,8 +27,8 @@ export class Move_View_Use_case
         
             default: throw new Error("the key must be an arrow key");
         }
-            //make fun assync, make a while loop, make a bool controle
-            this.__move_view_handler.move_view_by_delta_in_contious_async(delta);
+
+        this.__move_view_handler.move_view_by_delta_in_contious_async(delta);
     }
 
     public handle_request_stop_move_view() : void

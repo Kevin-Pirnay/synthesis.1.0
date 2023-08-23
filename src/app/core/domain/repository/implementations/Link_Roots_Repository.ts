@@ -52,7 +52,9 @@ export class Link_Roots_Repository implements ILink_Roots_Repository
     public store_all_possible_flow(): void 
     {
         this.__origin_flow = this.__dao_flow.get_current_flow();
+
         this.__flows.push(this.__origin_flow);
+
         this.__flows = this.__dao_flow.get_all_flows().filter(flow => flow !== this.__origin_flow);
     }
 
@@ -74,6 +76,7 @@ class Link_Roots implements ILink_Roots
     constructor(indexes: number[], flows : string[], inputs_current : Inputs_Init_Link_Root, inputs_next : Inputs_Init_Link_Root, change_flow_handler : IChange_Flow_Handler, zoom_handler : IZoom_Handler) 
     {        
         this.__current = new Link_Root(flows[indexes[0]], inputs_current, change_flow_handler, zoom_handler);
+        
         this.__next = new Link_Root(flows[indexes[1]], inputs_next, change_flow_handler, zoom_handler);
     }
 

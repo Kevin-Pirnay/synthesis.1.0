@@ -16,13 +16,3 @@ export class Zoom_Use_case
         this.__zoom_handler.stop_zoom();
     }
 }
-
-
-/* need to unzoom each time relative position is involved
-/* why need to unzzom
- * create container : parent pos, target pos no need to unzoom but abs_ratio need to be computed
- * move container : no need since rel is updated by delta 
- * 
- * 
- * 
-*/

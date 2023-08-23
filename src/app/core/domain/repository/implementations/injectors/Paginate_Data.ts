@@ -15,6 +15,7 @@ export class Paginate_Data implements IPaginate_Data
         this.__next = new Paginate_Positions(dto2);
     }
 
+    //refactor
     public async rotate(direction: number): Promise<void> 
     {
         if (direction !== 1 && direction !== -1) throw new Error("direction must be either 1 or -1");

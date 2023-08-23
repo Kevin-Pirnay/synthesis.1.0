@@ -131,6 +131,7 @@ export class Zoom_quadratic_By_Step implements IZoom_By_Step
         this.__coeff_quad_eq = new Cramer_Quadratic(p1, p2, p3).coefficients;        
     }
 
+    //refactor
     public zoom_by_step(): void 
     {
         //update_current_step_by_one

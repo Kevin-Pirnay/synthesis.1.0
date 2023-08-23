@@ -20,7 +20,9 @@ export class Subtree_Data implements ISubtree_Root
         if ( this.__ligature ) 
         {
             const c_abs_root = this.__container.positions.rel_root.__.add_by_vector_new(pos);
+
             this.__container.__.update_position_from_abs_root(c_abs_root);
+            
             this.__ligature.__.update_ratio();
         }
 

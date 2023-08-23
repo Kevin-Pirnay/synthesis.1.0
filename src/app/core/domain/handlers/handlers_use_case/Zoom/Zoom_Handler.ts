@@ -1,6 +1,5 @@
 import { Ptr_Boolean } from '../../../../common/Ptr_Boolean';
 import { Vector } from '../../../../common/Vector/Vector';
-import { Vector_ } from '../../../../common/Vector/Vector_';
 import { Container } from '../../../entities/Container';
 import { Ligature } from '../../../entities/Ligature';
 import { IZoom_Repository } from '../../../repository/interfaces/IRepository';

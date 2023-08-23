@@ -23,6 +23,6 @@ export class Mark_As_Root_Use_case
 
 export interface IMark_As_Root
 {
-    update_its_node_relationship_and_positions_for_the_new_flow(root_position : Vector<3>) : void
+    update_its_node_relationship_and_positions_for_the_new_flow(root_position : Vector<3>) : void;
     get_dto_response(): Mark_As_Root_Response;
 }

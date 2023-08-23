@@ -1,4 +1,4 @@
-import { Vector } from "../../../common/Vector/Vector";
+import { Vector_ } from "../../../common/Vector/Vector_";
 import { IDao_Container } from "../../../port/driven/dao/IDao_Container";
 import { IDao_Flow } from "../../../port/driven/dao/IDao_Flow";
 import { IDao_Ligature } from "../../../port/driven/dao/IDao_Ligature";
@@ -67,7 +67,7 @@ class Data_To_Merge implements IData_To_Merge
         ligature_dao : IDao_Ligature, 
         flow_dao : IDao_Flow) 
     { 
-
+        
     }
 
     public save_the_data_to_merge_in_the_current_flow(): void 
@@ -150,7 +150,13 @@ class Translate implements ITranslate
     
     public translate_data_to_merge(): void 
     {
-        const delta : Vector<3> = 
+        const x : number = this.__container_to_link.positions.abs_ratio._[0]._[0] + this.__data[0].element.positions.abs_ratio._[0]._[0];
+
+        const y : number = this.__container_to_link.positions.abs_ratio._[0]._[1] + this.__data[0].element.positions.abs_ratio._[0]._[1];
+
+        const delta = Vector_.new([x,y,0]);
+
+        this.__move_view_handler.move_the_subtree_by_delta(this.__data, delta);
     }
 }
 
