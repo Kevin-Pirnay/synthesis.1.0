@@ -58,6 +58,8 @@ export class DataService
 
   public set_is_view_moving = (value : boolean) : void => { this.__set.set_is_view_moving(value); }
 
+  public set_is_linking_roots = (value : boolean) : void => { this.__set.set_is_linking_roots(value); }
+
   public set_show_back_view = (value : boolean) : void => { this.__set.set_show_back_view(value); }
 
   public set_show_choose_root = (value: boolean) : void => { this.__set.set_show_choose_root(value); }
@@ -79,6 +81,8 @@ export class DataService
   public is_zooming = () : boolean => { return this.__ask.is_zooming(); }
 
   public is_view_moving = () : boolean => { return this.__ask.is_view_moving(); }
+
+  public is_linking_roots = () : boolean => { return this.__ask.is_linking_roots(); }
 
   public container_on_focus = () : Container => { return this.__get.container_on_focus(); }
 
@@ -133,6 +137,7 @@ class Event_State
   public is_mouse_down_on_root_choice : boolean = false;
   public is_zooming : boolean = false;
   public is_view_moving : boolean = false;
+  public is_linking_roots : boolean = false;
 }
 
 class Aside_State
@@ -179,6 +184,8 @@ class Set_State
     this.__event.is_mouse_down_on_grip = false;
     this.__event.is_mouse_down_on_ligature = false;
     this.__event.is_mouse_down_on_root_choice = false;
+    this.__event.is_zooming = false;
+    this.__event.is_view_moving = false;
   }
 
   public set_mouse_is_down_on_a_ligature(ligature : Ligature) : void
@@ -222,6 +229,11 @@ class Set_State
   public set_is_view_moving(value : boolean) : void
   {
     this.__event.is_view_moving = value;
+  }
+
+  public set_is_linking_roots(value : boolean) : void
+  {
+    this.__event.is_linking_roots = value;
   }
 
   private __reset_show_tags_aside() : void
@@ -299,6 +311,11 @@ class Ask_State
   public is_view_moving() : boolean
   {
     return this.__event.is_view_moving;
+  }
+
+  public is_linking_roots() : boolean
+  {
+    return this.__event.is_linking_roots;
   }
 }
 

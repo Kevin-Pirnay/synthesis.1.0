@@ -62,7 +62,14 @@ export class StateService
 
   public report_mouse_down_on_container(container : Container) : void
   {
-    this.__data.set_mouse_is_down_on_a_container(container);
+    if ( this.__data.is_linking_roots() ) 
+    { 
+      this.__pipeline.request_select_links_roots(container);
+
+      this.__data.set_is_linking_roots(false);       
+    }
+
+    else this.__data.set_mouse_is_down_on_a_container(container);
   }
 
   public report_mouse_down_on_ligature(ligature : Ligature) : void
@@ -199,6 +206,8 @@ export class StateService
   report_click_on_link_roots() : void
   {
     if ( this.__data.is_there_a_container_on_focus() ) this.__pipeline.request_init_link_roots(this.__data.container_on_focus());
+
+    this.__data.set_is_linking_roots(true);
   }
 
   public report_mouse_down_on_root_choice(root: Root_Choice) : void

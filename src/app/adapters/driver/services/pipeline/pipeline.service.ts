@@ -142,4 +142,12 @@ export class PipelineService
 
     observer.subscribe((dtos : IDto[]) => this.__data.replace_its_current_dtos_by(dtos));
   }
+
+  public request_select_links_roots(container : Container) : void
+  {
+    const dtos : IDto[] = this.__request.request_select_links_roots(container);
+
+    this.__data.replace_its_current_dtos_by(dtos);
+  }
+
 }
