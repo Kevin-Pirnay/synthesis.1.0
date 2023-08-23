@@ -2,7 +2,8 @@ import { Vector } from '../../../../common/Vector/Vector';
 import { IMove_View_Handler } from "./IMove_View_Handler";
 import { Ptr_Boolean } from '../../../../common/Ptr_Boolean';
 import { IMove_View_Repository } from '../../../repository/interfaces/IRepository';
-import { IData_Tree } from '../View_As_Root/View_As_Root_Handler';
+import { IData_Tree } from "../View_As_Root/IData_Tree";
+import { IMove_View_Positions } from './IMove_View_Positions';
 
 
 export class Move_View_Handler implements IMove_View_Handler
@@ -49,7 +50,3 @@ export class Move_View_Handler implements IMove_View_Handler
     }
 }
 
-export interface IMove_View_Positions
-{
-    move_by_delta(delta : Vector<2>) : void;
-}

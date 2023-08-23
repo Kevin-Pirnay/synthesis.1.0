@@ -1,9 +1,9 @@
-import { IData_Tree } from './../View_As_Root/View_As_Root_Handler';
 import { Matrix } from "../../../../common/Matrix/Matrix";
 import { Vector } from "../../../../common/Vector/Vector";
 import { IZoom_Handler } from "../Zoom/IZoom_Handler";
 import { Cramer_Quadratic } from '../../../../common/Cramer/Cramer';
 import { Matrix_ } from '../../../../common/Matrix/Matrix_';
+import { IData_Tree } from "../View_As_Root/IData_Tree";
 
 
 export class Zoom_And_Rotate_Inputs

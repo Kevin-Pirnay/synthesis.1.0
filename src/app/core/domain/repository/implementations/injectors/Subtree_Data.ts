@@ -4,7 +4,8 @@ import { IDto } from "../../../../port/driver/dto/IDto";
 import { Data_Type } from "../../../handlers/handlers_entities/Data_Type";
 import { Container } from "../../../entities/Container";
 import { Ligature } from "../../../entities/Ligature";
-import { ISubtree_Root } from '../../../handlers/handlers_use_case/View_As_Root/View_As_Root_Handler';
+import { ISubtree_Root } from "../../../handlers/handlers_use_case/View_As_Root/ISubtree_Root";
+
 
 export class Subtree_Data implements ISubtree_Root 
 {

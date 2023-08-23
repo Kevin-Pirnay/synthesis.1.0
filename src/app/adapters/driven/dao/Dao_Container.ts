@@ -117,14 +117,16 @@ class Save_Container_Handler
 
     public save_id_into_the_containers_ids(container_id : string) : void 
     {
-        const containers_ids = this.__persistence.containers_ids;
+        const containers_ids : {[flow: string]: string[]} = this.__persistence.containers_ids;
 
-        const current_flow = this.__current_flow.id;
+        const current_flow : string = this.__current_flow.id;
 
         //init if not exist
         if ( !containers_ids[current_flow] ) containers_ids[current_flow] = [];
 
         //save
+        if ( containers_ids[current_flow].find(id => id == container_id) ) return;
+        
         containers_ids[current_flow].push(container_id);
     }
 

@@ -1,9 +1,9 @@
 import { Vector } from "../../../common/Vector/Vector";
 import { Container } from "../../entities/Container";
-import { ISubtree_Root } from '../../handlers/handlers_use_case/View_As_Root/View_As_Root_Handler';
 import { IView_As_Root_Repository } from '../interfaces/IRepository';
 import { Subtree_Data } from './injectors/Subtree_Data';
 import { IDao_Container } from '../../../port/driven/dao/IDao_Container';
+import { ISubtree_Root } from "../../handlers/handlers_use_case/View_As_Root/ISubtree_Root";
 
 
 export class View_As_Root_Repository implements IView_As_Root_Repository

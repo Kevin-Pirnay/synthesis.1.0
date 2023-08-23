@@ -2,7 +2,7 @@ import { Matrix } from "../../../../common/Matrix/Matrix";
 import { Vector } from "../../../../common/Vector/Vector";
 import { Container } from "../../../entities/Container";
 import { Ligature } from "../../../entities/Ligature";
-import { IMove_View_Positions } from "../../../handlers/handlers_use_case/Move_View/Move_View_Handler";
+import { IMove_View_Positions } from "../../../handlers/handlers_use_case/Move_View/IMove_View_Positions";
 
 
 export class Container_Move_View_Positions implements IMove_View_Positions 

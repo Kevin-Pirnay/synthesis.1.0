@@ -1,6 +1,5 @@
 import { IDto } from "../../../port/driver/dto/IDto";
 import { Indexes } from "../../handlers/handlers_use_case/Indexes/Indexes";
-import { IData_Tree } from "../../handlers/handlers_use_case/View_As_Root/View_As_Root_Handler";
 import { ILink_Roots } from "../../use_cases/Link_Root/Init_Link_Roots";
 import { ILink_Roots_Repository } from "../interfaces/IRepository";
 import { IDao_Flow } from "../../../port/driven/dao/IDao_Flow";
@@ -11,6 +10,7 @@ import { Observer } from "../../../common/Observer/Observer";
 import { Vector } from "../../../common/Vector/Vector";
 import { IDao_Anim } from "../../../port/driven/dao/IDao_Anim";
 import { Container } from "../../entities/Container";
+import { IData_Tree } from "../../handlers/handlers_use_case/View_As_Root/IData_Tree";
 
 
 export class Link_Roots_Repository implements ILink_Roots_Repository

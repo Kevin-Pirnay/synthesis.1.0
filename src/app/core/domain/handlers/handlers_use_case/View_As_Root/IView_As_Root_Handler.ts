@@ -1,5 +1,6 @@
 import { Container } from "../../../entities/Container";
-import { ISubtree_Root, IData_Tree } from "./View_As_Root_Handler";
+import { ISubtree_Root } from "./ISubtree_Root";
+import { IData_Tree } from "./IData_Tree";
 
 
 export interface IView_As_Root_Handler

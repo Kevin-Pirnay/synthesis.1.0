@@ -1,9 +1,10 @@
 
 import { Vector } from "../../../../common/Vector/Vector";
-import { Data_Type } from "../../handlers_entities/Data_Type";
 import { Container } from "../../../entities/Container";
 import { IView_As_Root_Repository } from "../../../repository/interfaces/IRepository";
 import { IView_As_Root_Handler } from "./IView_As_Root_Handler";
+import { IData_Tree } from "./IData_Tree";
+import { ISubtree_Root } from "./ISubtree_Root";
 
 
 export class View_As_Root_Handler implements IView_As_Root_Handler
@@ -73,17 +74,3 @@ export class View_As_Root_Handler implements IView_As_Root_Handler
     }
 }
 
-export interface IData_Tree
-{
-    element : any;
-    type : Data_Type
-}
-
-export interface ISubtree_Root
-{
-    set_its_positions(pos : Vector<3>) : void;
-    add_children_to_the_frontier(frontier : ISubtree_Root[], children : ISubtree_Root[]) : void;
-    added_to_the_result(result : IData_Tree[]) : void;
-    get_his_children() : ISubtree_Root[];
-    set_children_positions(children : ISubtree_Root[]) : void;
-}

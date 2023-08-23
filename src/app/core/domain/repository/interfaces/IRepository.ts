@@ -2,12 +2,13 @@ import { Matrix } from "../../../common/Matrix/Matrix";
 import { Container, Unit_Node } from "../../entities/Container";
 import { Ligature } from "../../entities/Ligature";
 import { INode_Linker } from "../../handlers/handlers_use_case/Link_Node/INode_Linker";
-import { IMove_View_Positions } from "../../handlers/handlers_use_case/Move_View/Move_View_Handler";
+import { IMove_View_Positions } from '../../handlers/handlers_use_case/Move_View/IMove_View_Positions';
 import { Ptr_Boolean } from '../../../common/Ptr_Boolean';
-import { IZoom_Positions } from "../../handlers/handlers_use_case/Zoom/Zoom_Handler";
+import { IZoom_Positions } from '../../handlers/handlers_use_case/Zoom/IZoom_Positions';
 import { IRemove_Container } from "../../use_cases/Delete_Container";
 import { Vector } from "../../../common/Vector/Vector";
-import { IData_Tree, ISubtree_Root } from "../../handlers/handlers_use_case/View_As_Root/View_As_Root_Handler";
+import { ISubtree_Root } from "../../handlers/handlers_use_case/View_As_Root/ISubtree_Root";
+import { IData_Tree } from "../../handlers/handlers_use_case/View_As_Root/IData_Tree";
 import { IMark_As_Root } from "../../use_cases/Mark_As_Root";
 import { IDto } from "../../../port/driver/dto/IDto";
 import { IView_As_Root_Handler } from "../../handlers/handlers_use_case/View_As_Root/IView_As_Root_Handler";
@@ -101,8 +102,8 @@ export interface IChoose_Root_Repository
 
 export interface IChange_Flow_Repository
 {
-    add_the_subtree_to_another_flow(data_tree_to_merge: IData_Tree[], container_to_link: Container, origin_flow: string, move_view_handler : IMove_View_Handler): IData_Tree[] 
-    change_current_flow(flow: string): void;
+    add_the_subtree_to_another_flow(data_tree_to_merge: IData_Tree[], container_to_link: Container, origin_flow: string, move_view_handler : IMove_View_Handler, node_linker : INode_Linker, view_as_root_handler : IView_As_Root_Handler): IData_Tree[] 
+    change_the_current_flow(flow: string): void;
     get_root_container_from_the_current_flow() : Container;
 }
 

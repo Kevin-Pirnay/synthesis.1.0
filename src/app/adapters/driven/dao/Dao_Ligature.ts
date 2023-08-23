@@ -53,12 +53,15 @@ class Save_Ligature_Handler
     public save_id_into_the_ligatures_ids(ligature_id : string) : void 
     {
         const ligatures_ids = this.__persistence.ligatures_ids;
+        
         const current_flow = this.__current_flow.id;
 
         //init if not exist
         if ( !ligatures_ids[current_flow] ) ligatures_ids[current_flow] = [];
 
         //save
+        if ( ligatures_ids[current_flow].find(id => id == ligature_id) ) return;
+
         ligatures_ids[current_flow].push(ligature_id);
     }
 
@@ -69,6 +72,7 @@ class Save_Ligature_Handler
     public save_data_not_related_to_the_flow(ligature : Ligature) : void
     {
         const fix_data_persistence =  this.__persistence.ligatures_data_fix;
+
         fix_data_persistence[ligature.id] = ligature;
     }
 

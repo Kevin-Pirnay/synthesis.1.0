@@ -4,6 +4,7 @@ import { Container } from '../../../entities/Container';
 import { Ligature } from '../../../entities/Ligature';
 import { IZoom_Repository } from '../../../repository/interfaces/IRepository';
 import { IZoom_Handler } from './IZoom_Handler';
+import { IZoom_Positions } from './IZoom_Positions';
 
 
 export class Zoom_Handler implements IZoom_Handler
@@ -135,12 +136,5 @@ export class Zoom_Handler implements IZoom_Handler
             position.add_abs_pos_by_delta(point_to_zoom);
         });
     }
-}
-
-export interface IZoom_Positions
-{
-    substract_abs_pos_by_delta(delta : Vector<3>) : void;
-    multiply_abs_pos_by_factor(factor : number) : void;
-    add_abs_pos_by_delta(delta : Vector<3>) : void;
 }
 

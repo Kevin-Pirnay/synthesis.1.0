@@ -1,5 +1,5 @@
 import { Vector } from "../../../../common/Vector/Vector";
-import { IData_Tree } from "../View_As_Root/View_As_Root_Handler";
+import { IData_Tree } from "../View_As_Root/IData_Tree";
 
 
 export interface IMove_View_Handler

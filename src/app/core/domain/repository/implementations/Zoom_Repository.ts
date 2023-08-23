@@ -5,10 +5,10 @@ import { IDao_Container } from "../../../port/driven/dao/IDao_Container";
 import { IDao_Ligature } from "../../../port/driven/dao/IDao_Ligature";
 import { Container } from "../../entities/Container";
 import { Ligature } from "../../entities/Ligature";
-import { IZoom_Positions } from "../../handlers/handlers_use_case/Zoom/Zoom_Handler";
 import { IZoom_Repository } from "../interfaces/IRepository";
 import { Container_Zoom_Positions } from "./injectors/Zoom_Positions";
 import { Ligature_Zoom_Positions } from "./injectors/Zoom_Positions";
+import { IZoom_Positions } from '../../handlers/handlers_use_case/Zoom/IZoom_Positions';
 
 
 export class Zoom_Repository implements IZoom_Repository

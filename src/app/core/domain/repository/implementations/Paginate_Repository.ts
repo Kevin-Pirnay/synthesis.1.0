@@ -1,11 +1,11 @@
 import { IDto } from "../../../port/driver/dto/IDto";
 import { IIndexes } from "../../handlers/handlers_use_case/Indexes/IIndexes";
 import { Indexes } from "../../handlers/handlers_use_case/Indexes/Indexes";
-import { ISubtree_Root, View_As_Root_Handler } from "../../handlers/handlers_use_case/View_As_Root/View_As_Root_Handler";
 import { IPaginate_Data } from "./injectors/View_Paginate";
 import { IPaginate_Repository } from "../interfaces/IRepository";
 import { Paginate_Data } from "./injectors/Paginate_Data";
 import { IView_As_Root_Handler } from "../../handlers/handlers_use_case/View_As_Root/IView_As_Root_Handler";
+import { ISubtree_Root } from "../../handlers/handlers_use_case/View_As_Root/ISubtree_Root";
 
 
 export class Paginate_Repository implements IPaginate_Repository
