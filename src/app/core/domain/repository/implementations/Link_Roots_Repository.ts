@@ -8,26 +8,28 @@ import { Rotate_On_Target, Zoom_And_Rotate_Inputs } from "../../handlers/handler
 import { IZoom_Handler } from "../../handlers/handlers_use_case/Zoom/IZoom_Handler";
 import { IChange_Flow_Handler } from "../../handlers/handlers_use_case/Change_Root/IChange_Flow_Handler";
 import { Observer } from "../../../common/Observer/Observer";
-import { Vector_ } from "../../../common/Vector/Vector_";
+import { Vector } from "../../../common/Vector/Vector";
+import { IDao_Anim } from "../../../port/driven/dao/IDao_Anim";
 
 
 export class Link_Roots_Repository implements ILink_Roots_Repository
 {
-    private readonly __dao_flow : IDao_Flow;
-
     private readonly __indexes : Indexes;
     private __flows : string[] = [];
     private __current_flow : string = "";
 
-    constructor(dao_flow : IDao_Flow) 
+    constructor(private readonly __dao_flow : IDao_Flow, private readonly __dao_anim : IDao_Anim) 
     {
-        this.__dao_flow = dao_flow;
         this.__indexes = new Indexes();
     }
     
     public get_link_roots_data(indexes: number[], change_flow_handler : IChange_Flow_Handler, zoom_handler : IZoom_Handler): ILink_Roots 
     {
-        return new Link_Roots(indexes, this.__flows, change_flow_handler, zoom_handler);
+        const inputs_current : Inputs_Init_Link_Root = this.__dao_anim.get_inputs_init_link_roots_for_current();
+
+        const inputs_next : Inputs_Init_Link_Root = this.__dao_anim.get_inputs_init_link_roots_for_next();
+
+        return new Link_Roots(indexes, this.__flows, inputs_current, inputs_next, change_flow_handler, zoom_handler);
     }
 
     public init_indexes(): number 
@@ -53,10 +55,10 @@ class Link_Roots implements ILink_Roots
     private readonly __current : ILink_Flow;
     private readonly __next : ILink_Flow;
 
-    constructor(indexes: number[], flows : string[], change_flow_handler : IChange_Flow_Handler, zoom_handler : IZoom_Handler) 
+    constructor(indexes: number[], flows : string[], inputs_current : Inputs_Init_Link_Root, inputs_next : Inputs_Init_Link_Root, change_flow_handler : IChange_Flow_Handler, zoom_handler : IZoom_Handler) 
     {        
-        this.__current = new Link_Root(flows[indexes[0]], change_flow_handler, zoom_handler);
-        this.__next = new Link_Root(flows[indexes[1]], change_flow_handler, zoom_handler);
+        this.__current = new Link_Root(flows[indexes[0]], inputs_current, change_flow_handler, zoom_handler);
+        this.__next = new Link_Root(flows[indexes[1]], inputs_next, change_flow_handler, zoom_handler);
     }
 
     public async anim(observer : Observer<IDto[]>): Promise<void>
@@ -78,46 +80,52 @@ interface ILink_Flow
     init(observer : Observer<IDto[]>) : void;
 }
 
+export class Inputs_Init_Link_Root
+{
+    constructor(
+        public readonly delta_level : number,
+        public readonly axe_rotation : Vector<3>,
+        public readonly max_angle : number,
+        public readonly center_rotation : Vector<3>,
+        public readonly phase : number,
+        public readonly direction : number
+    ){ }
+}
+
 class Link_Root implements ILink_Flow
 {
-    private __inputs : Zoom_And_Rotate_Inputs | null = null;
+    private __inputs__ : Zoom_And_Rotate_Inputs | null = null;
 
     constructor(
         private readonly __flow : string, 
+        private readonly __inputs : Inputs_Init_Link_Root,
         private readonly __change_flow_handler : IChange_Flow_Handler, 
         private readonly __zoom_handler : IZoom_Handler
     ){ }
 
     public init(observer : Observer<IDto[]>): void 
     {
-        const x = 100;
-        
-        const axe_rotation = Vector_.new([x, 0, 0]);
-        
-        const max_angle = 90;
-        
-        const center_rotation = Vector_.new([250, 250, x]);
-        
-        const phase = 3 * Math.PI / 2;
-        
-        const delta_level = 50;
-        
-        const direction = 1;
-
-        //************************************************************************ */
-
         const data : IData_Tree[] = this.__change_flow_handler.change_flow_and_get_subtree_from_the_root(this.__flow);
 
-        this.__inputs = new Zoom_And_Rotate_Inputs(data, delta_level, axe_rotation, center_rotation, max_angle, phase, direction, this.__zoom_handler);
+        this.__inputs__ = new Zoom_And_Rotate_Inputs(
+            data, 
+            this.__inputs.delta_level, 
+            this.__inputs.axe_rotation, 
+            this.__inputs.center_rotation, 
+            this.__inputs.max_angle, 
+            this.__inputs.phase, 
+            this.__inputs.direction, 
+            this.__zoom_handler
+        );
 
         observer.send(data);
     }
     
     public async rotate_and_zoom(): Promise<void>
     {
-        if(! this.__inputs) throw new Error("No inputs was given");
+        if(! this.__inputs__) throw new Error("No inputs was given");
 
-        const positions = new Rotate_On_Target(this.__inputs);
+        const positions = new Rotate_On_Target(this.__inputs__);
 
         await positions.zoom_and_rotate();
     }

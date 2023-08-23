@@ -3,6 +3,7 @@ import { Vector } from "../../../core/common/Vector/Vector";
 import { Vector_ } from "../../../core/common/Vector/Vector_";
 import { IDao_Anim } from "../../../core/port/driven/dao/IDao_Anim";
 import { Runtime_Persistence } from "../runtime_memory/Runtime_Persistence";
+import { Inputs_Init_Link_Root } from "../../../core/domain/repository/implementations/Link_Roots_Repository";
 
 
 export type Quad_Callback = (x: number, y : number) => Vector<3>;
@@ -13,9 +14,7 @@ export class Dao_Anim implements IDao_Anim
 
     private readonly __center_choose_root_anim : Vector<3> = Vector_.new([window.innerWidth / 2, this.__y, 0]);
 
-    constructor(private readonly __runtime_persistence : Runtime_Persistence) 
-    {         
-    }
+    constructor(private readonly __runtime_persistence : Runtime_Persistence) { }
 
     public get_center_zoom_point(): Vector<3> 
     {
@@ -64,5 +63,43 @@ export class Dao_Anim implements IDao_Anim
         const callback : Quad_Callback = (x : number , y : number) : Vector<3> => { return new Vector([x / 2, (1 / (2*y))]); } //1/y
 
         return callback;
+    }
+
+    get_inputs_init_link_roots_for_next(): Inputs_Init_Link_Root 
+    {
+        const x = 100;
+        
+        const axe_rotation : Vector<3> = Vector_.new([x, 0, 0]);
+        
+        const max_angle : number = 90;
+        
+        const center_rotation : Vector<3> = Vector_.new([250, 250, x]);
+        
+        const phase : number = 3 * Math.PI / 2;
+        
+        const delta_level : number = 50;
+        
+        const direction : number = 1;
+
+        return new Inputs_Init_Link_Root(delta_level, axe_rotation, max_angle, center_rotation, phase, direction);
+    }
+
+    get_inputs_init_link_roots_for_current(): Inputs_Init_Link_Root 
+    {
+        const x = 100;
+        
+        const axe_rotation : Vector<3> = Vector_.new([x, 0, 0]);
+        
+        const max_angle : number = 90;
+        
+        const center_rotation : Vector<3> = Vector_.new([250, 250, x]);
+        
+        const phase : number = 3 * Math.PI / 2;
+        
+        const delta_level : number = 50;
+        
+        const direction : number = 1;
+
+        return new Inputs_Init_Link_Root(delta_level, axe_rotation, max_angle, center_rotation, phase, direction);
     }
 }

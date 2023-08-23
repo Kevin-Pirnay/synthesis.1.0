@@ -68,7 +68,7 @@ export class Facade
     private readonly __paginate_repository : IPaginate_Repository = new Paginate_Repository();
     private readonly __choose_roots_repository : IChoose_Root_Repository = new Choose_Root_Repository(this.__dao_anim);
     private readonly __change_flow_repository : IChange_Flow_Repository = new Change_Flow_Repository(this.__dao_container, this.__dao_ligature, this.__dao_flow);
-    private readonly __link_roots_repository : ILink_Roots_Repository = new Link_Roots_Repository(this.__dao_flow);
+    private readonly __link_roots_repository : ILink_Roots_Repository = new Link_Roots_Repository(this.__dao_flow, this.__dao_anim);
 
     private readonly __zoom_handler : IZoom_Handler = new Zoom_Handler(this.__zoom_repository);
     private readonly __node_linker_handler : INode_Linker = new Node_Linker();
