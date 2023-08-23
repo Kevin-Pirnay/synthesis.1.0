@@ -33,11 +33,16 @@ export class Dao_Container implements IDao_Container
 
     public save_the_new_container(container : Container): void 
     {
-        this.__container_handler.save_id_into_the_conterners_ids(container.id);
+        this.__container_handler.save_id_into_the_containers_ids(container.id);
 
         this.__container_handler.save_data_not_related_to_the_flow(container);
 
         this.__container_handler.save_data_related_to_the_flow(container);
+    }
+
+    public save_the_container_into_this_flow(container: Container, current_flow: string): void 
+    {
+        this.__container_handler.save_the_container_into_this_flow(container, current_flow);
     }
 
     public delete_container(container: Container): void 
@@ -103,7 +108,7 @@ class Save_Container_Handler
 {
     constructor(private readonly __persistence : Runtime_Persistence, private readonly __current_flow : Flow) { }
 
-    public save_id_into_the_conterners_ids(container_id : string) : void 
+    public save_id_into_the_containers_ids(container_id : string) : void 
     {
         const containers_ids = this.__persistence.containers_ids;
 
@@ -140,6 +145,21 @@ class Save_Container_Handler
 
         //save
         flow_data_persistence[container.id][this.__current_flow.id] = { node : container.node, positions : container.positions };
+    }
+
+    public save_the_container_into_this_flow(container: Container, current_flow: string) 
+    {
+        const previous_flow_saved : string = this.__current_flow.id;
+
+        this.__current_flow.id = current_flow;
+
+        this.save_id_into_the_containers_ids(container.id);
+
+        this.save_data_not_related_to_the_flow(container);
+
+        this.save_data_related_to_the_flow(container);
+
+        this.__current_flow.id = previous_flow_saved;
     }
 }
 

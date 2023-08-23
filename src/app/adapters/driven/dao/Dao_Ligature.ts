@@ -25,6 +25,11 @@ export class Dao_Ligature implements IDao_Ligature
         this.__ligature_handler.save_data_related_to_the_flow(ligature);
     }
 
+    public save_the_ligature_into_this_flow(ligature: Ligature, current_flow: string): void 
+    {
+        this.__ligature_handler.save_the_ligature_into_this_flow(ligature, current_flow);
+    }
+
     public delete_ligature(ligature: Ligature): void 
     {
         this.__delete_handler.delete(ligature);
@@ -80,6 +85,21 @@ class Save_Ligature_Handler
 
         //save
         flow_data_persistence[ligature.id][this.__current_flow.id] = { parent : ligature.parent, child : ligature.child, positions : ligature.positions };
+    }
+
+    public save_the_ligature_into_this_flow(ligature: Ligature, current_flow: string) 
+    {
+        const previous_flow_saved : string = this.__current_flow.id;
+
+        this.__current_flow.id = current_flow;
+
+        this.save_id_into_the_ligatures_ids(ligature.id);
+
+        this.save_data_not_related_to_the_flow(ligature);
+
+        this.save_data_related_to_the_flow(ligature);
+
+        this.__current_flow.id = previous_flow_saved;
     }
 }
 

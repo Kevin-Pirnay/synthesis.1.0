@@ -4,6 +4,7 @@ import { Container } from "../../../domain/entities/Container";
 
 export interface IDao_Container
 {
+    save_the_container_into_this_flow(container: Container, current_flow: string): void;
     get_root_container_of_this_flow(flow: string): Container;
     get_root_container_of_the_current_flow(): Container;
     prepare_all_ptr_for_the_current_flow(): void;

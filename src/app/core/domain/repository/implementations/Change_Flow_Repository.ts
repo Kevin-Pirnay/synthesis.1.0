@@ -1,7 +1,9 @@
+import { Vector } from "../../../common/Vector/Vector";
 import { IDao_Container } from "../../../port/driven/dao/IDao_Container";
 import { IDao_Flow } from "../../../port/driven/dao/IDao_Flow";
 import { IDao_Ligature } from "../../../port/driven/dao/IDao_Ligature";
 import { Container } from "../../entities/Container";
+import { Data_Type } from "../../handlers/handlers_entities/Data_Type";
 import { IMove_View_Handler } from "../../handlers/handlers_use_case/Move_View/IMove_View_Handler";
 import { IData_Tree } from "../../handlers/handlers_use_case/View_As_Root/View_As_Root_Handler";
 import { IChange_Flow_Repository } from "../interfaces/IRepository";
@@ -117,25 +119,38 @@ interface ILink_Nodes
 
 class Save_Data implements ISave_Data
 {
-    constructor() { }
-    
-    public save_the_new_tree(): IData_Tree[] 
+    constructor(
+        private readonly __data : IData_Tree[], 
+        private readonly __dao_container : IDao_Container, 
+        private readonly __dao_ligature : IDao_Ligature,
+        private readonly __current_flow : string) { }
+
+    public save_data_in_the_current_flow(): void 
     {
-        throw new Error("Method not implemented.");
+        this.__data.forEach(data =>
+        {
+            if (data.type == Data_Type.CONTAINER) this.__dao_container.save_the_container_into_this_flow(data.element, this.__current_flow);
+            if (data.type == Data_Type.LIGATURE) this.__dao_ligature.save_the_ligature_into_this_flow(data.element, this.__current_flow);
+        });
     }
 
-    public save_data_in_the_current_flow(): void {
+    public save_the_new_tree(): IData_Tree[] 
+    {
         throw new Error("Method not implemented.");
     }
 }
 
 class Translate implements ITranslate
 {
-    constructor() { }
+    constructor(
+        private readonly __data : IData_Tree[],
+        private readonly __container_to_link: Container,
+        private readonly __move_view_handler : IMove_View_Handler
+    ) { }
     
     public translate_data_to_merge(): void 
     {
-        throw new Error("Method not implemented.");
+        const delta : Vector<3> = 
     }
 }
 
