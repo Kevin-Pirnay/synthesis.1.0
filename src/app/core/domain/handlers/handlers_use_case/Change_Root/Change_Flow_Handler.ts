@@ -5,6 +5,7 @@ import { IChange_Flow_Repository } from "../../../repository/interfaces/IReposit
 import { IView_As_Root_Handler } from "../View_As_Root/IView_As_Root_Handler";
 import { IChange_Flow_Handler } from "./IChange_Flow_Handler";
 
+
 export class Change_Root_Handler implements IChange_Flow_Handler
 {
     constructor(
@@ -23,10 +24,12 @@ export class Change_Root_Handler implements IChange_Flow_Handler
         return result;
     }
 
-    public merge_subtrees_of_different_flows(container_to_link: Container, container_to_merge: Container, __origin_flow: string): IDto[] 
+    public merge_subtrees_of_different_flows(container_to_link: Container, container_to_merge: Container, origin_flow: string): IDto[] 
     {
         const data_to_merge : IData_Tree[] = this.__view_as_root_handler.get_subtree_from_this_container(container_to_merge);
 
-        
+        const data : IData_Tree[] = this.__change_flow_repository.add_the_subtree_to_another_flow(data_to_merge, container_to_link, origin_flow);
+
+        return data;
     }
 }

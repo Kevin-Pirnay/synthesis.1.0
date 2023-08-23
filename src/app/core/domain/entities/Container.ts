@@ -39,7 +39,7 @@ export class Node
 
 export class Container_Positions
 {
-    public readonly rel_root : Vector<3> = Vector_.zero(3); // from the c_a parent for ligature or c_l point for container
+    public readonly rel_root : Vector<3> = Vector_.zero(3);
 
     public readonly rel_ratio : Matrix<4> = Matrix_.new([Vector_.zero(3), Vector_.zero(3), Vector_.zero(3), Vector_.zero(3)]);
 

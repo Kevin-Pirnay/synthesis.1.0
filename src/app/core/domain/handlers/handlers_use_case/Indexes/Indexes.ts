@@ -1,5 +1,6 @@
 import { IIndexes } from "./IIndexes";
 
+
 export class Indexes implements IIndexes
 {
     private readonly __indexes : number[] = [];

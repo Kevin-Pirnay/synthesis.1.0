@@ -20,33 +20,13 @@ export class Zoom_And_Rotate_Inputs
     ){ }
 }
 
-//manage such as you can easely choose rotation matrix
 export class Rotate_On_Target
 {
    private readonly __positions : IRotate_Positions_On_Target;
    private readonly __step : IStep;
 
     constructor (inputs: Zoom_And_Rotate_Inputs)
-    {
-        //refactor
-        //const delta_origine : Vector<3> = data[0].element.positions.abs_ratio._[0].__.copy();
-
-        //const x = -delta_origine._[0] + 249;  
-
-        // const x = 100;
-
-        // const axe_rotation = Vector_.new([x, 0, 0]);
-        
-        // const max_angle = 90;
-        
-        // const center_rotation = Vector_.new([250, 250, x]);
-        
-        // const phase = 3 * Math.PI / 2;
-        
-        // const delta_level = 50;
-        
-        // const direction = 1;
-        
+    {   
         const data_positions : IRotate_Position_Data[] = this.__get_rotation_data(inputs.data);
 
         this.__positions = new Rotate_Positions_On_Target(data_positions, inputs.center_rotation, inputs.phase, inputs.axe_rotation, inputs.direction, inputs.max_angle, inputs.delta_level, inputs.zoom_handler);

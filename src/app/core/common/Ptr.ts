@@ -1,4 +1,5 @@
 
-export class Ptr<T> {
+export class Ptr<T> 
+{
   public _: T | null = null;
 }

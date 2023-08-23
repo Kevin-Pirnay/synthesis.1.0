@@ -19,7 +19,8 @@ export class Remove_Container implements IRemove_Container
         container_to_remove: Container,
         handler: INode_Linker,
         delete_repository: IDelete_Container_Repository
-    ) {
+    ) 
+    {
         this.__container_to_remove = container_to_remove;
         this.__handler = handler;
         this.__delete_repository = delete_repository;

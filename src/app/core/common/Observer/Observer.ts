@@ -16,6 +16,7 @@ export class Observer<T>
     public unsubscribe(callback_to_remove: CallBack<T>): void 
     {
         const index: number = this.__listenners.findIndex(callback => callback == callback_to_remove);
+        
         this.__listenners.splice(index, 0);
     }
 }

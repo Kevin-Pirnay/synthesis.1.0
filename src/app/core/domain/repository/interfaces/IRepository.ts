@@ -7,7 +7,7 @@ import { Ptr_Boolean } from '../../../common/Ptr_Boolean';
 import { IZoom_Positions } from "../../handlers/handlers_use_case/Zoom/Zoom_Handler";
 import { IRemove_Container } from "../../use_cases/Delete_Container";
 import { Vector } from "../../../common/Vector/Vector";
-import { ISubtree_Root } from "../../handlers/handlers_use_case/View_As_Root/View_As_Root_Handler";
+import { IData_Tree, ISubtree_Root } from "../../handlers/handlers_use_case/View_As_Root/View_As_Root_Handler";
 import { IMark_As_Root } from "../../use_cases/Mark_As_Root";
 import { IDto } from "../../../port/driver/dto/IDto";
 import { IView_As_Root_Handler } from "../../handlers/handlers_use_case/View_As_Root/IView_As_Root_Handler";
@@ -100,6 +100,7 @@ export interface IChoose_Root_Repository
 
 export interface IChange_Flow_Repository
 {
+    add_the_subtree_to_another_flow(data_to_merge : IData_Tree[], container_to_link: Container, origin_flow: string): IData_Tree[];
     change_current_flow(flow: string): void;
     get_root_container_from_the_current_flow() : Container;
 }

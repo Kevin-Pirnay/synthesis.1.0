@@ -2,7 +2,6 @@ import { Dto } from './../../../../port/driver/dto/Dto';
 import { Root_Choice } from './../../../entities/Root_Choice';
 import { Matrix } from "../../../../common/Matrix/Matrix";
 import { Vector } from "../../../../common/Vector/Vector";
-import { Vector_ } from "../../../../common/Vector/Vector_";
 import { IDto } from "../../../../port/driver/dto/IDto";
 import { Data_Type } from "../../../handlers/handlers_entities/Data_Type";
 import { Container } from "../../../entities/Container";
@@ -13,7 +12,6 @@ import { IZoom_On_Target, Zoom_On_Target } from '../../../handlers/handlers_use_
 import { Quad_Callback } from '../../../../../adapters/driven/dao/Dao_Anim';
 
 
-//dont forget to remove root_dto from the view once it's ending
 export class Choose_Roots_Container implements IChoose_Roots_Container 
 {
     private readonly __zoom_on_target: IZoom_On_Target;
