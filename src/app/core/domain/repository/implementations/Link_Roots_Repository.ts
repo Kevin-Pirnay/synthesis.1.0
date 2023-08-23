@@ -4,10 +4,11 @@ import { IData_Tree } from "../../handlers/handlers_use_case/View_As_Root/View_A
 import { ILink_Roots } from "../../use_cases/Link_Root/Init_Link_Roots";
 import { ILink_Roots_Repository } from "../interfaces/IRepository";
 import { IDao_Flow } from "../../../port/driven/dao/IDao_Flow";
-import { Rotate_On_Target } from "../../handlers/handlers_use_case/On_Target/Rotate_On_Target";
+import { Rotate_On_Target, Zoom_And_Rotate_Inputs } from "../../handlers/handlers_use_case/On_Target/Rotate_On_Target";
 import { IZoom_Handler } from "../../handlers/handlers_use_case/Zoom/IZoom_Handler";
 import { IChange_Flow_Handler } from "../../handlers/handlers_use_case/Change_Root/IChange_Flow_Handler";
 import { Observer } from "../../../common/Observer/Observer";
+import { Vector_ } from "../../../common/Vector/Vector_";
 
 
 export class Link_Roots_Repository implements ILink_Roots_Repository
@@ -63,12 +64,10 @@ class Link_Roots implements ILink_Roots
         //problem : you cannot put two flow on the same time because of the container **ptr that are possibly in two different flow => confusion between ptr of multiflow
         //need to use an observer -> handle that as a stream
 
-        const dtos1 : IDto[] = this.__current.get_dtos();
-        observer.send(dtos1);
+        this.__current.init(observer);
         await this.__current.rotate_and_zoom();
 
-        const dtos2 : IDto[] = this.__next.get_dtos();
-        observer.send(dtos2);
+        this.__next.init(observer);
         await this.__next.rotate_and_zoom();
     }  
 }
@@ -76,12 +75,12 @@ class Link_Roots implements ILink_Roots
 interface ILink_Flow
 {
     rotate_and_zoom() : Promise<void>;
-    get_dtos() : IDto[];
+    init(observer : Observer<IDto[]>) : void;
 }
 
 class Link_Root implements ILink_Flow
 {
-    private __data : IData_Tree[] = [];
+    private __inputs : Zoom_And_Rotate_Inputs | null = null;
 
     constructor(
         private readonly __flow : string, 
@@ -89,16 +88,36 @@ class Link_Root implements ILink_Flow
         private readonly __zoom_handler : IZoom_Handler
     ){ }
 
-    public get_dtos(): IDto[] 
+    public init(observer : Observer<IDto[]>): void 
     {
-        this.__data = this.__change_flow_handler.change_flow_and_get_subtree_from_the_root(this.__flow);
+        const x = 100;
+        
+        const axe_rotation = Vector_.new([x, 0, 0]);
+        
+        const max_angle = 90;
+        
+        const center_rotation = Vector_.new([250, 250, x]);
+        
+        const phase = 3 * Math.PI / 2;
+        
+        const delta_level = 50;
+        
+        const direction = 1;
 
-        return this.__data
+        //************************************************************************ */
+
+        const data : IData_Tree[] = this.__change_flow_handler.change_flow_and_get_subtree_from_the_root(this.__flow);
+
+        this.__inputs = new Zoom_And_Rotate_Inputs(data, delta_level, axe_rotation, center_rotation, max_angle, phase, direction, this.__zoom_handler);
+
+        observer.send(data);
     }
     
     public async rotate_and_zoom(): Promise<void>
     {
-        const positions = new Rotate_On_Target(this.__data, this.__zoom_handler);
+        if(! this.__inputs) throw new Error("No inputs was given");
+
+        const positions = new Rotate_On_Target(this.__inputs);
 
         await positions.zoom_and_rotate();
     }

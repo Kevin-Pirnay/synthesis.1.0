@@ -3,9 +3,22 @@ import { Matrix } from "../../../../common/Matrix/Matrix";
 import { Vector } from "../../../../common/Vector/Vector";
 import { IZoom_Handler } from "../Zoom/IZoom_Handler";
 import { Cramer_Quadratic } from '../../../../common/Cramer/Cramer';
-import { Vector_ } from '../../../../common/Vector/Vector_';
 import { Matrix_ } from '../../../../common/Matrix/Matrix_';
 
+
+export class Zoom_And_Rotate_Inputs
+{
+    constructor(
+        public readonly data : IData_Tree[],
+        public readonly delta_level : number,
+        public readonly axe_rotation : Vector<3>,
+        public readonly center_rotation : Vector<3>,
+        public readonly max_angle : number,
+        public readonly phase : number,
+        public readonly direction : number,
+        public readonly zoom_handler : IZoom_Handler
+    ){ }
+}
 
 //manage such as you can easely choose rotation matrix
 export class Rotate_On_Target
@@ -13,30 +26,32 @@ export class Rotate_On_Target
    private readonly __positions : IRotate_Positions_On_Target;
    private readonly __step : IStep;
 
-    constructor (data : IData_Tree[], zoom_handler : IZoom_Handler)
+    constructor (inputs: Zoom_And_Rotate_Inputs)
     {
         //refactor
-        const delta_origine : Vector<3> = data[0].element.positions.abs_ratio._[0].__.copy();
+        //const delta_origine : Vector<3> = data[0].element.positions.abs_ratio._[0].__.copy();
 
-        const data_positions : IRotate_Position_Data[] = this.__get_rotation_data(data);
+        //const x = -delta_origine._[0] + 249;  
 
-        //const x = -delta_origine._[0] + 249;        
-        const x = 100 
-        const axe_rotation = Vector_.new([x, 0, 0]);
-                
-        const max_angle = 90;
+        // const x = 100;
+
+        // const axe_rotation = Vector_.new([x, 0, 0]);
         
-        const center_rotation = Vector_.new([250, 250, x]);
+        // const max_angle = 90;
+        
+        // const center_rotation = Vector_.new([250, 250, x]);
+        
+        // const phase = 3 * Math.PI / 2;
+        
+        // const delta_level = 50;
+        
+        // const direction = 1;
+        
+        const data_positions : IRotate_Position_Data[] = this.__get_rotation_data(inputs.data);
 
-        const phase = 3 * Math.PI / 2;
+        this.__positions = new Rotate_Positions_On_Target(data_positions, inputs.center_rotation, inputs.phase, inputs.axe_rotation, inputs.direction, inputs.max_angle, inputs.delta_level, inputs.zoom_handler);
 
-        const delta_level = 50;
-
-        const direction = 1;
-
-        this.__positions = new Rotate_Positions_On_Target(data_positions, center_rotation, phase, axe_rotation, direction, max_angle, delta_level, zoom_handler);
-
-        this.__step = new Step(max_angle);
+        this.__step = new Step(inputs.max_angle);
     }
     
     public async zoom_and_rotate() : Promise<void>

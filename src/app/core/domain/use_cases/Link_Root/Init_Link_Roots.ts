@@ -1,7 +1,6 @@
 import { Observer } from '../../../common/Observer/Observer';
 import { View_Link_Roots_Response } from '../../../port/driver/response/Response';
 import { IChange_Flow_Handler } from '../../handlers/handlers_use_case/Change_Root/IChange_Flow_Handler';
-import { IView_As_Root_Handler } from '../../handlers/handlers_use_case/View_As_Root/IView_As_Root_Handler';
 import { IZoom_Handler } from '../../handlers/handlers_use_case/Zoom/IZoom_Handler';
 import { ILink_Roots_Repository } from '../../repository/interfaces/IRepository';
 import { IDto } from './../../../port/driver/dto/IDto';

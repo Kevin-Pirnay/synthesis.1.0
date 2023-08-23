@@ -42,8 +42,6 @@ import { IChange_Flow_Handler } from './handlers/handlers_use_case/Change_Root/I
 import { Change_Flow_Repository } from './repository/implementations/Change_Flow_Repository';
 import { Dao_Flow } from '../../adapters/driven/dao/Dao_Flow';
 import { IDao_Flow } from '../port/driven/dao/IDao_Flow';
-import { IDto } from '../port/driver/dto/IDto';
-import { Rotate_On_Target } from './handlers/handlers_use_case/On_Target/Rotate_On_Target';
 import { Init_Link_Roots_Use_case } from './use_cases/Link_Root/Init_Link_Roots';
 import { View_Link_Roots_Use_case } from './use_cases/Link_Root/View_Link_Roots';
 import { Link_Roots_Repository } from './repository/implementations/Link_Roots_Repository';
@@ -179,11 +177,6 @@ export class Facade
     public execute_chosen_root(request : Choosen_Root_Request) : Promise<Choosen_Root_Response>
     {
         return this.__chosen_root_use_case.handle(request);
-    }
-
-    public rotate_data(dtos :IDto[])
-    {
-        new Rotate_On_Target(dtos, this.__zoom_handler).zoom_and_rotate();
     }
 
     public execute_init_link_roots() : View_Link_Roots_Response
