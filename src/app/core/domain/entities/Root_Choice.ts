@@ -4,11 +4,11 @@ import { Vector_ } from "../../common/Vector/Vector_";
 
 export class Root_Choice
 {
-    public readonly root_id :string;
+    public readonly flow :string;
      
-    constructor(root_id :string)
+    constructor(flow :string)
     {
-        this.root_id = root_id;
+        this.flow = flow;
         
         //change that
         const abs_ratio = new Matrix(

@@ -18,6 +18,7 @@ import { IZoom_Handler } from "../../handlers/handlers_use_case/Zoom/IZoom_Handl
 import { ILink_Roots } from "../../use_cases/Link_Root/Init_Link_Roots";
 import { Root_Choice } from "../../entities/Root_Choice";
 import { IChoosen_Root } from "../../use_cases/Choose_Root/Chosen_Root";
+import { IChange_Flow_Handler } from "../../handlers/handlers_use_case/Change_Root/IChange_Flow_Handler";
 
 
 export interface ICreate_Repository 
@@ -64,6 +65,7 @@ export interface IView_As_Root_Repository
     get_default_position_of_the_root(): Vector<3>;
     get_subtree_root(container: Container): ISubtree_Root;
     get_subtree_root_from_root_flow() : ISubtree_Root;
+    get_subtree_root_from_root_of_this_flow(flow : string): ISubtree_Root;
 }
 
 
@@ -96,7 +98,7 @@ export interface IChoose_Root_Repository
 }
 
 
-export interface IChange_Root_Repository
+export interface IChange_Flow_Repository
 {
     change_current_flow(flow: string): void;
     get_root_container_from_the_current_flow() : Container;
@@ -106,7 +108,7 @@ export interface IChange_Root_Repository
 export interface ILink_Roots_Repository
 {
     get_next_indexes(direction: number): number[];
-    get_link_roots_data(indexes: number[], view_as_root_handler : IView_As_Root_Handler): ILink_Roots;
+    get_link_roots_data(indexes: number[], change_flow_handler : IChange_Flow_Handler, zoom_handler : IZoom_Handler): ILink_Roots 
     init_indexes(): number;
     store_all_subtrees_root(): void;
 }

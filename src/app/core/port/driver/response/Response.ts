@@ -1,3 +1,4 @@
+import { Observer } from "../../../common/Observer/Observer";
 import { IDto } from "../dto/IDto";
 
 
@@ -53,5 +54,5 @@ export class View_Choose_Root_Response
 
 export class View_Link_Roots_Response
 {
-    constructor(public dtos : IDto[]) { }
+    constructor(public observer : Observer<IDto[]>) { }
 }

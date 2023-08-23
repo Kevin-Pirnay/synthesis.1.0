@@ -70,9 +70,9 @@ export class Dao_Container implements IDao_Container
         return this.__get_handler.get_root_container_of_the_current_flow();
     }
 
-    public get_root_container(flow: string): Container 
+    public get_root_container_of_this_flow(flow: string): Container 
     {
-        return this.__get_handler.get_root_container(flow);
+        return this.__get_handler.get_root_container_of_this_flow(flow); 
     }
 }
 
@@ -205,10 +205,10 @@ class Get_Container_Handler
 
     public get_root_container_of_the_current_flow(): Container 
     {
-        return this.get_root_container(this.__current_flow.id);
+        return this.get_root_container_of_this_flow(this.__current_flow.id);
     }
 
-    public get_root_container(flow: string): Container 
+    public get_root_container_of_this_flow(flow: string): Container 
     {
         let result : Container | null = null;
 

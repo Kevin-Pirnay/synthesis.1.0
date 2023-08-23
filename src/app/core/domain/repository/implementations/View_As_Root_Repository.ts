@@ -33,5 +33,12 @@ export class View_As_Root_Repository implements IView_As_Root_Repository
 
         return new Subtree_Data(null, root_flow);
     }
+
+    public get_subtree_root_from_root_of_this_flow(flow : string): ISubtree_Root 
+    {
+        const root_flow : Container = this.__dao_container.get_root_container_of_this_flow(flow);
+
+        return new Subtree_Data(null, root_flow);
+    }
 }
 

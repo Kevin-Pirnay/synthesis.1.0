@@ -5,6 +5,7 @@ import { Container } from '../../../../core/domain/entities/Container';
 import { Ligature } from '../../../../core/domain/entities/Ligature';
 import { IDto } from '../../../../core/port/driver/dto/IDto';
 import { Root_Choice } from '../../../../core/domain/entities/Root_Choice';
+import { Observer } from '../../../../core/common/Observer/Observer';
 
 @Injectable({
   providedIn: 'root'
@@ -130,15 +131,15 @@ export class PipelineService
 
   public request_init_link_roots() : void
   {
-    const dtos : IDto[] = this.__request.request_init_link_roots();
+    const observer : Observer<IDto[]> = this.__request.request_init_link_roots();
 
-    this.__data.replace_its_current_dtos_by(dtos);
+    observer.subscribe((dtos : IDto[]) => this.__data.replace_its_current_dtos_by(dtos));
   }
 
   public request_view_links_roots(direction : number) : void
   {
-    const dtos : IDto[] = this.__request.request_view_links_roots(direction);
+    const observer : Observer<IDto[]> = this.__request.request_view_links_roots(direction);
 
-    this.__data.replace_its_current_dtos_by(dtos);
+    observer.subscribe((dtos : IDto[]) => this.__data.replace_its_current_dtos_by(dtos));
   }
 }

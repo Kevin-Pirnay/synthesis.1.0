@@ -14,7 +14,7 @@ import { INode_Linker } from "./handlers/handlers_use_case/Link_Node/INode_Linke
 import { Node_Linker } from "./handlers/handlers_use_case/Link_Node/Node_Linker";
 import { IMove_View_Handler } from "./handlers/handlers_use_case/Move_View/IMove_View_Handler";
 import { Move_View_Handler } from "./handlers/handlers_use_case/Move_View/Move_View_Handler";
-import { IChange_Root_Repository, IChoose_Root_Repository, ICreate_Repository, IDelete_Container_Repository, ILink_Roots_Repository, IMark_As_Root_Repository, IMove_View_Repository, IPaginate_Repository, IView_As_Root_Repository, IZoom_Repository } from "./repository/interfaces/IRepository";
+import { IChange_Flow_Repository, IChoose_Root_Repository, ICreate_Repository, IDelete_Container_Repository, ILink_Roots_Repository, IMark_As_Root_Repository, IMove_View_Repository, IPaginate_Repository, IView_As_Root_Repository, IZoom_Repository } from "./repository/interfaces/IRepository";
 import { Create_Container_Use_case } from "./use_cases/Create_Container";
 import { Delete_Container_Use_case } from "./use_cases/Delete_Container";
 import { Move_Container_Use_case } from "./use_cases/Move_Container";
@@ -37,9 +37,9 @@ import { Init_Choose_Root_Use_case } from './use_cases/Choose_Root/Init_Choose_R
 import { Choose_Root_Repository } from './repository/implementations/Choose_Root_Repository';
 import { View_Choose_Root_Use_case } from './use_cases/Choose_Root/View_Choose_Root';
 import { Chosen_Root_Use_case } from './use_cases/Choose_Root/Chosen_Root';
-import { Change_Root_Handler } from './handlers/handlers_use_case/Change_Root/Change_Root_Handler';
-import { IChange_Root_Handler } from './handlers/handlers_use_case/Change_Root/IChange_Root_Handler';
-import { Change_Root_Repository } from './repository/implementations/Change_Root_Repository';
+import { Change_Root_Handler } from './handlers/handlers_use_case/Change_Root/Change_Flow_Handler';
+import { IChange_Flow_Handler } from './handlers/handlers_use_case/Change_Root/IChange_Flow_Handler';
+import { Change_Flow_Repository } from './repository/implementations/Change_Flow_Repository';
 import { Dao_Flow } from '../../adapters/driven/dao/Dao_Flow';
 import { IDao_Flow } from '../port/driven/dao/IDao_Flow';
 import { IDto } from '../port/driver/dto/IDto';
@@ -69,14 +69,14 @@ export class Facade
     private readonly __mark_as_root_repository : IMark_As_Root_Repository = new Mark_As_Root_Repository(this.__dao_container);
     private readonly __paginate_repository : IPaginate_Repository = new Paginate_Repository();
     private readonly __choose_roots_repository : IChoose_Root_Repository = new Choose_Root_Repository(this.__dao_anim);
-    private readonly __change_root_repository : IChange_Root_Repository = new Change_Root_Repository(this.__dao_container, this.__dao_ligature, this.__dao_flow);
-    private readonly __link_roots_repository : ILink_Roots_Repository = new Link_Roots_Repository(this.__dao_flow, this.__dao_container);
+    private readonly __change_flow_repository : IChange_Flow_Repository = new Change_Flow_Repository(this.__dao_container, this.__dao_ligature, this.__dao_flow);
+    private readonly __link_roots_repository : ILink_Roots_Repository = new Link_Roots_Repository(this.__dao_flow);
 
     private readonly __zoom_handler : IZoom_Handler = new Zoom_Handler(this.__zoom_repository);
     private readonly __node_linker_handler : INode_Linker = new Node_Linker();
     private readonly __move_view_handler : IMove_View_Handler = new Move_View_Handler(this.__move_view_repository);
     private readonly __view_as_root_handler : IView_As_Root_Handler = new View_As_Root_Handler(this.__view_as_root_repository);
-    private readonly __change_root_handler : IChange_Root_Handler = new Change_Root_Handler(this.__change_root_repository, this.__view_as_root_handler)
+    private readonly __change_flow_handler : IChange_Flow_Handler = new Change_Root_Handler(this.__change_flow_repository, this.__view_as_root_handler)
 
     private readonly __create_container_use_case = new Create_Container_Use_case(this.__create_repository, this.__node_linker_handler,this.__zoom_handler);
     private readonly __move_container_Use_case = new Move_Container_Use_case();
@@ -91,9 +91,9 @@ export class Facade
     private readonly __view_paginate_use_case = new View_Paginate_Use_case(this.__paginate_repository, this.__view_as_root_handler);
     private readonly __init_choose_roots_use_case = new Init_Choose_Root_Use_case(this.__choose_roots_repository, this.__zoom_handler, this.__move_view_handler);
     private readonly __view_choose_roots_use_case = new View_Choose_Root_Use_case(this.__choose_roots_repository);
-    private readonly __chosen_root_use_case = new Chosen_Root_Use_case(this.__change_root_handler, this.__choose_roots_repository);
-    private readonly __init_link_roots_use_case = new Init_Link_Roots_Use_case(this.__link_roots_repository, this.__view_as_root_handler);
-    private readonly __view_link_roots_use_case = new View_Link_Roots_Use_case(this.__link_roots_repository, this.__view_as_root_handler);
+    private readonly __chosen_root_use_case = new Chosen_Root_Use_case(this.__change_flow_handler, this.__choose_roots_repository);
+    private readonly __init_link_roots_use_case = new Init_Link_Roots_Use_case(this.__link_roots_repository, this.__change_flow_handler, this.__zoom_handler);
+    private readonly __view_link_roots_use_case = new View_Link_Roots_Use_case(this.__link_roots_repository, this.__change_flow_handler, this.__zoom_handler);
 
     
     public execute_create_container(request : Create_Container_Request) : Create_Container_Response

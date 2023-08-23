@@ -1,40 +1,37 @@
 import { IDto } from "../../../port/driver/dto/IDto";
 import { Indexes } from "../../handlers/handlers_use_case/Indexes/Indexes";
-import { IData_Tree, ISubtree_Root } from "../../handlers/handlers_use_case/View_As_Root/View_As_Root_Handler";
+import { IData_Tree } from "../../handlers/handlers_use_case/View_As_Root/View_As_Root_Handler";
 import { ILink_Roots } from "../../use_cases/Link_Root/Init_Link_Roots";
 import { ILink_Roots_Repository } from "../interfaces/IRepository";
-import { Container } from '../../entities/Container';
-import { Subtree_Data } from './injectors/Subtree_Data';
-import { Matrix } from "../../../common/Matrix/Matrix";
-import { IView_As_Root_Handler } from "../../handlers/handlers_use_case/View_As_Root/IView_As_Root_Handler";
-import { IDao_Container } from "../../../port/driven/dao/IDao_Container";
 import { IDao_Flow } from "../../../port/driven/dao/IDao_Flow";
+import { Rotate_On_Target } from "../../handlers/handlers_use_case/On_Target/Rotate_On_Target";
+import { IZoom_Handler } from "../../handlers/handlers_use_case/Zoom/IZoom_Handler";
+import { IChange_Flow_Handler } from "../../handlers/handlers_use_case/Change_Root/IChange_Flow_Handler";
+import { Observer } from "../../../common/Observer/Observer";
 
 
 export class Link_Roots_Repository implements ILink_Roots_Repository
 {
     private readonly __dao_flow : IDao_Flow;
-    private readonly __dao_container : IDao_Container;
 
     private readonly __indexes : Indexes;
-    private readonly __subtrees_roots : ISubtree_Root[] = [];
-    private __current_subtree : ISubtree_Root | null = null;
+    private __flows : string[] = [];
+    private __current_flow : string = "";
 
-    constructor(dao_flow : IDao_Flow, dao_container : IDao_Container) 
+    constructor(dao_flow : IDao_Flow) 
     {
         this.__dao_flow = dao_flow;
-        this.__dao_container = dao_container;
         this.__indexes = new Indexes();
     }
     
-    public get_link_roots_data(indexes: number[], view_as_root_handler : IView_As_Root_Handler): ILink_Roots 
+    public get_link_roots_data(indexes: number[], change_flow_handler : IChange_Flow_Handler, zoom_handler : IZoom_Handler): ILink_Roots 
     {
-        return new Link_Roots(indexes, this.__subtrees_roots, view_as_root_handler);
+        return new Link_Roots(indexes, this.__flows, change_flow_handler, zoom_handler);
     }
 
     public init_indexes(): number 
     {
-        return this.__indexes.init_indexes(this.__subtrees_roots.length);
+        return this.__indexes.init_indexes(this.__flows.length);
     }
 
     public get_next_indexes(direction: number): number[] 
@@ -44,87 +41,65 @@ export class Link_Roots_Repository implements ILink_Roots_Repository
 
     public store_all_subtrees_root(): void 
     {
-        const all_flows : string[] = this.__dao_flow.get_all_flows();
-        const current_flow : string = this.__dao_flow.get_current_flow();
-        const flows : string[] = all_flows.filter(flow => flow !== current_flow);
-
-        flows.forEach(flow => 
-        {
-            const root_container : Container = this.__dao_container.get_root_container(flow);
-            const subtree_root =  new Subtree_Data(null, root_container);
-            this.__subtrees_roots.push(subtree_root);
-        });
-
-        const current_root_container : Container =  this.__dao_container.get_root_container_of_the_current_flow();
-        this.__current_subtree = new Subtree_Data(null, current_root_container);
+        this.__current_flow = this.__dao_flow.get_current_flow();
+        this.__flows.push(this.__current_flow);
+        this.__flows = this.__dao_flow.get_all_flows().filter(flow => flow !== this.__current_flow);
     }
 }
-
 
 class Link_Roots implements ILink_Roots
 {
-    private readonly __current_link_root : ILink_Root;
-    private readonly __next_link_root : ILink_Root;
-    private readonly __dtos : IDto[] = [];
+    private readonly __current : ILink_Flow;
+    private readonly __next : ILink_Flow;
 
-    constructor(indexes: number[], subtrees_roots : ISubtree_Root[], handler : IView_As_Root_Handler) 
-    {
-        //handle index -1
-        const current_sunbtree : IData_Tree[] = handler.get_subtree_from_subtree_root(subtrees_roots[indexes[0]]);
-        const next_sunbtree : IData_Tree[] = handler.get_subtree_from_subtree_root(subtrees_roots[indexes[1]]);
-
-        current_sunbtree.forEach((data : IData_Tree) => this.__dtos.push(data));
-        next_sunbtree.forEach((data : IData_Tree) => this.__dtos.push(data));
-
-        this.__current_link_root = new Link_Root(current_sunbtree);
-        this.__next_link_root = new Link_Root(next_sunbtree);
+    constructor(indexes: number[], flows : string[], change_flow_handler : IChange_Flow_Handler, zoom_handler : IZoom_Handler) 
+    {        
+        this.__current = new Link_Root(flows[indexes[0]], change_flow_handler, zoom_handler);
+        this.__next = new Link_Root(flows[indexes[1]], change_flow_handler, zoom_handler);
     }
 
-    public anim(): IDto[] 
+    public async anim(observer : Observer<IDto[]>): Promise<void>
     {
-        this.__current_link_root.unzoom_and_rotate();
-        this.__next_link_root.rotate_and_zoom();
-        return this.__dtos;
+        //problem : you cannot put two flow on the same time because of the container **ptr that are possibly in two different flow => confusion between ptr of multiflow
+        //need to use an observer -> handle that as a stream
+
+        const dtos1 : IDto[] = this.__current.get_dtos();
+        observer.send(dtos1);
+        await this.__current.rotate_and_zoom();
+
+        const dtos2 : IDto[] = this.__next.get_dtos();
+        observer.send(dtos2);
+        await this.__next.rotate_and_zoom();
     }  
 }
 
-interface ILink_Root
+interface ILink_Flow
 {
-    rotate_and_zoom(): void;
-    unzoom_and_rotate(): void;
+    rotate_and_zoom() : Promise<void>;
+    get_dtos() : IDto[];
 }
 
-class Link_Root implements ILink_Root
+class Link_Root implements ILink_Flow
 {
-    private readonly __positions : IData_Tree_Positions[] = [];
+    private __data : IData_Tree[] = [];
 
-    constructor(data_tree : IData_Tree[])
-    {
-        data_tree.forEach(data => this.__positions.push(new Data_Tree_positions(data)));
-    }
+    constructor(
+        private readonly __flow : string, 
+        private readonly __change_flow_handler : IChange_Flow_Handler, 
+        private readonly __zoom_handler : IZoom_Handler
+    ){ }
 
-    public rotate_and_zoom(): void 
+    public get_dtos(): IDto[] 
     {
-        
+        this.__data = this.__change_flow_handler.change_flow_and_get_subtree_from_the_root(this.__flow);
+
+        return this.__data
     }
-    public unzoom_and_rotate(): void 
+    
+    public async rotate_and_zoom(): Promise<void>
     {
-        throw new Error('Method not implemented.');
+        const positions = new Rotate_On_Target(this.__data, this.__zoom_handler);
+
+        await positions.zoom_and_rotate();
     }
 }
-
-interface IData_Tree_Positions
-{
-
-}
-
-class Data_Tree_positions implements IData_Tree_Positions
-{
-    private readonly __abs_ratio : Matrix<any>;
-
-    constructor(data_tree : IData_Tree)
-    {
-        this.__abs_ratio = data_tree.element.posiitions.abs_ratio;
-    }
-}
-

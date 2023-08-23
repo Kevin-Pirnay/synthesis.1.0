@@ -1,3 +1,4 @@
+import { Observer } from '../../../../core/common/Observer/Observer';
 import { Vector_ } from '../../../../core/common/Vector/Vector_';
 import { Container } from '../../../../core/domain/entities/Container';
 import { Ligature } from '../../../../core/domain/entities/Ligature';
@@ -147,19 +148,19 @@ export class RequestService
     return response.dtos;
   } 
 
-  public request_init_link_roots() : IDto[]
+  public request_init_link_roots() : Observer<IDto[]>
   {
     const response = Pipeline.facade.execute_init_link_roots();
 
-    return response.dtos;
+    return response.observer;
   }
 
-  public request_view_links_roots(direction : number) : IDto[]
+  public request_view_links_roots(direction : number) : Observer<IDto[]>
   {
     const request = new View_Link_Roots_Request(direction);
 
     const response = Pipeline.facade.execute_view_link_roots(request);
 
-    return response.dtos;
+    return response.observer;
   }
 }

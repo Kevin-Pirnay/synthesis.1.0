@@ -5,6 +5,7 @@ import { ISubtree_Root, View_As_Root_Handler } from "../../handlers/handlers_use
 import { IPaginate_Data } from "./injectors/View_Paginate";
 import { IPaginate_Repository } from "../interfaces/IRepository";
 import { Paginate_Data } from "./injectors/Paginate_Data";
+import { IView_As_Root_Handler } from "../../handlers/handlers_use_case/View_As_Root/IView_As_Root_Handler";
 
 
 export class Paginate_Repository implements IPaginate_Repository
@@ -28,7 +29,7 @@ export class Paginate_Repository implements IPaginate_Repository
     }
 
     //bug if only one, call after next indexes, bad design should be responsible for all the flow of the code in one method, not give that to the caller!!!
-    public get_paginate_data(indexes: number[], view_as_root_handler : View_As_Root_Handler): IPaginate_Data 
+    public get_paginate_data(indexes: number[], view_as_root_handler : IView_As_Root_Handler): IPaginate_Data 
     {
         const dto1 : IDto[] = view_as_root_handler.get_subtree_from_subtree_root(this.__roots_subtree[indexes[0]]);
         const dto2 : IDto[] = view_as_root_handler.get_subtree_from_subtree_root(this.__roots_subtree[indexes[1]]);
