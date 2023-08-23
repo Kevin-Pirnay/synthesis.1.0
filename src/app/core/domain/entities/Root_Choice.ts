@@ -5,6 +5,7 @@ import { Vector_ } from "../../common/Vector/Vector_";
 export class Root_Choice
 {
     public readonly flow :string;
+    public readonly positions = new Root_Choice_Position();
      
     constructor(flow :string)
     {
@@ -21,9 +22,6 @@ export class Root_Choice
         );
         this.positions.abs_ratio.__.assign_new_data(abs_ratio);
     }
-
-    positions = new Root_Choice_Position();
-
 }
 
 class Root_Choice_Position

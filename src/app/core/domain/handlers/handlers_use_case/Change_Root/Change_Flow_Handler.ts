@@ -1,3 +1,4 @@
+import { IData_Tree } from './../View_As_Root/View_As_Root_Handler';
 import { IDto } from "../../../../port/driver/dto/IDto";
 import { Container } from "../../../entities/Container";
 import { IChange_Flow_Repository } from "../../../repository/interfaces/IRepository";
@@ -8,7 +9,7 @@ export class Change_Root_Handler implements IChange_Flow_Handler
 {
     constructor(
         private __change_flow_repository : IChange_Flow_Repository,
-        private __handler : IView_As_Root_Handler
+        private __view_as_root_handler : IView_As_Root_Handler
     ) { }
     
     public change_flow_and_get_subtree_from_the_root(flow: string) : IDto[] 
@@ -17,13 +18,15 @@ export class Change_Root_Handler implements IChange_Flow_Handler
 
         const root_container : Container = this.__change_flow_repository.get_root_container_from_the_current_flow();
         
-        const result : IDto[] = this.__handler.get_subtree_from_this_container(root_container);
+        const result : IDto[] = this.__view_as_root_handler.get_subtree_from_this_container(root_container);
 
         return result;
     }
 
-    public merge_subtrees_of_different_flows(__container_to_link: Container, container: Container, __origin_flow: string): IDto[] 
+    public merge_subtrees_of_different_flows(container_to_link: Container, container_to_merge: Container, __origin_flow: string): IDto[] 
     {
-        throw new Error("Method not implemented.");
+        const data_to_merge : IData_Tree[] = this.__view_as_root_handler.get_subtree_from_this_container(container_to_merge);
+
+        
     }
 }
