@@ -198,7 +198,7 @@ export class StateService
 
   report_click_on_link_roots() : void
   {
-    this.__pipeline.request_init_link_roots();
+    if ( this.__data.is_there_a_container_on_focus() ) this.__pipeline.request_init_link_roots(this.__data.container_on_focus());
   }
 
   public report_mouse_down_on_root_choice(root: Root_Choice) : void

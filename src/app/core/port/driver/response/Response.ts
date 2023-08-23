@@ -56,3 +56,8 @@ export class View_Link_Roots_Response
 {
     constructor(public observer : Observer<IDto[]>) { }
 }
+
+export class Select_Link_Roots_Response
+{
+    constructor(public dtos : IDto[]) { }
+}

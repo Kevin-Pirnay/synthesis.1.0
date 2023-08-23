@@ -83,3 +83,13 @@ export class View_Link_Roots_Request
 {
     constructor(public direction : number) { }
 }
+
+export class Link_Roots_Request
+{
+    constructor(public container : Container) { }
+}
+
+export class Select_Link_Roots_Request
+{
+    constructor(public container : Container) { }
+}

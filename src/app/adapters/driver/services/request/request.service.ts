@@ -4,7 +4,7 @@ import { Container } from '../../../../core/domain/entities/Container';
 import { Ligature } from '../../../../core/domain/entities/Ligature';
 import { Root_Choice } from '../../../../core/domain/entities/Root_Choice';
 import { IDto } from '../../../../core/port/driver/dto/IDto';
-import { Create_Container_Request, Delete_Container_Request, Move_Container_Request, Move_ligature_Request, Assign_Ligature_Request, Move_View_Request, Zoom_Request, Choose_Root_Request, Mark_As_Root_Request, View_As_Root_Request, Back_View_Request, View_Choose_Root_Request, Paginate_Request, View_Paginate_Request, View_Link_Roots_Request, Choosen_Root_Request } from '../../../../core/port/driver/request/request';
+import { Create_Container_Request, Delete_Container_Request, Move_Container_Request, Move_ligature_Request, Assign_Ligature_Request, Move_View_Request, Zoom_Request, Choose_Root_Request, Mark_As_Root_Request, View_As_Root_Request, Back_View_Request, View_Choose_Root_Request, Paginate_Request, View_Paginate_Request, View_Link_Roots_Request, Choosen_Root_Request, Link_Roots_Request } from '../../../../core/port/driver/request/request';
 import { Pipeline } from './../../../../core/port/driver/Pipeline';
 import { Injectable } from '@angular/core';
 
@@ -148,9 +148,11 @@ export class RequestService
     return response.dtos;
   } 
 
-  public request_init_link_roots() : Observer<IDto[]>
+  public request_init_link_roots(container : Container) : Observer<IDto[]>
   {
-    const response = Pipeline.facade.execute_init_link_roots();
+    const request = new Link_Roots_Request(container);
+
+    const response = Pipeline.facade.execute_init_link_roots(request);
 
     return response.observer;
   }

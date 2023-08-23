@@ -107,8 +107,10 @@ export interface IChange_Flow_Repository
 
 export interface ILink_Roots_Repository
 {
+    links_subtrees(container: Container, change_flow_handler : IChange_Flow_Handler): IDto[]  
+    store_container_to_link(container : Container): void; 
     get_next_indexes(direction: number): number[];
     get_link_roots_data(indexes: number[], change_flow_handler : IChange_Flow_Handler, zoom_handler : IZoom_Handler): ILink_Roots 
     init_indexes(): number;
-    store_all_subtrees_root(): void;
+    store_all_possible_flow(): void;
 }

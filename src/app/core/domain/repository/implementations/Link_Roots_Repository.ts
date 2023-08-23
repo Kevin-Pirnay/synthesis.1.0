@@ -10,17 +10,24 @@ import { IChange_Flow_Handler } from "../../handlers/handlers_use_case/Change_Ro
 import { Observer } from "../../../common/Observer/Observer";
 import { Vector } from "../../../common/Vector/Vector";
 import { IDao_Anim } from "../../../port/driven/dao/IDao_Anim";
+import { Container } from "../../entities/Container";
 
 
 export class Link_Roots_Repository implements ILink_Roots_Repository
 {
     private readonly __indexes : Indexes;
     private __flows : string[] = [];
-    private __current_flow : string = "";
+    private __origin_flow : string = "";
+    private __container_to_link : Container | null = null;
 
     constructor(private readonly __dao_flow : IDao_Flow, private readonly __dao_anim : IDao_Anim) 
     {
         this.__indexes = new Indexes();
+    }
+
+    public store_container_to_link(container : Container): void 
+    {
+        this.__container_to_link = container;
     }
     
     public get_link_roots_data(indexes: number[], change_flow_handler : IChange_Flow_Handler, zoom_handler : IZoom_Handler): ILink_Roots 
@@ -42,11 +49,20 @@ export class Link_Roots_Repository implements ILink_Roots_Repository
         return this.__indexes.get_next_indexes(direction);
     }
 
-    public store_all_subtrees_root(): void 
+    public store_all_possible_flow(): void 
     {
-        this.__current_flow = this.__dao_flow.get_current_flow();
-        this.__flows.push(this.__current_flow);
-        this.__flows = this.__dao_flow.get_all_flows().filter(flow => flow !== this.__current_flow);
+        this.__origin_flow = this.__dao_flow.get_current_flow();
+        this.__flows.push(this.__origin_flow);
+        this.__flows = this.__dao_flow.get_all_flows().filter(flow => flow !== this.__origin_flow);
+    }
+
+    public links_subtrees(container: Container, change_flow_handler : IChange_Flow_Handler): IDto[] 
+    {
+        if ( this.__container_to_link == null ) throw new Error("container to link has not been set");
+
+        const dtos : IDto[] = change_flow_handler.merge_subtrees_of_different_flows(this.__container_to_link, container, this.__origin_flow);
+
+        return dtos;
     }
 }
 

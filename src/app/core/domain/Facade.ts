@@ -8,7 +8,7 @@ import { Runtime_Persistence } from './../../adapters/driven/runtime_memory/Runt
 import { Flow } from './entities/Flow';
 import { IDao_Container } from "../port/driven/dao/IDao_Container";
 import { IDao_Ligature } from "../port/driven/dao/IDao_Ligature";
-import { Create_Container_Request, Delete_Container_Request, Move_Container_Request, Move_ligature_Request, Assign_Ligature_Request, Zoom_Request, Move_View_Request, Mark_As_Root_Request, View_As_Root_Request, Paginate_Request, View_Paginate_Request, Choose_Root_Request, Choosen_Root_Request, View_Choose_Root_Request, Back_View_Request, View_Link_Roots_Request } from "../port/driver/request/request";
+import { Create_Container_Request, Delete_Container_Request, Move_Container_Request, Move_ligature_Request, Assign_Ligature_Request, Zoom_Request, Move_View_Request, Mark_As_Root_Request, View_As_Root_Request, Paginate_Request, View_Paginate_Request, Choose_Root_Request, Choosen_Root_Request, View_Choose_Root_Request, Back_View_Request, View_Link_Roots_Request, Link_Roots_Request } from "../port/driver/request/request";
 import { Back_View_Response, Choose_Root_Response, Choosen_Root_Response, Create_Container_Response, Delete_Container_Response, Mark_As_Root_Response, Paginate_Response, View_As_Root_Response, View_Choose_Root_Response, View_Link_Roots_Response, View_Paginate_Response } from "../port/driver/response/Response";
 import { INode_Linker } from "./handlers/handlers_use_case/Link_Node/INode_Linker";
 import { Node_Linker } from "./handlers/handlers_use_case/Link_Node/Node_Linker";
@@ -179,9 +179,9 @@ export class Facade
         return this.__chosen_root_use_case.handle(request);
     }
 
-    public execute_init_link_roots() : View_Link_Roots_Response
+    public execute_init_link_roots(request : Link_Roots_Request) : View_Link_Roots_Response
     {
-        return this.__init_link_roots_use_case.handle();
+        return this.__init_link_roots_use_case.handle(request);
     }
 
     public execute_view_link_roots(request : View_Link_Roots_Request) : View_Link_Roots_Response

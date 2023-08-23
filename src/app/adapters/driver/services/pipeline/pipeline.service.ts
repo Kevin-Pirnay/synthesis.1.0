@@ -129,9 +129,9 @@ export class PipelineService
     this.__data.replace_its_current_dtos_by(dtos);
   } 
 
-  public request_init_link_roots() : void
+  public request_init_link_roots(container : Container) : void
   {
-    const observer : Observer<IDto[]> = this.__request.request_init_link_roots();
+    const observer : Observer<IDto[]> = this.__request.request_init_link_roots(container);
 
     observer.subscribe((dtos : IDto[]) => this.__data.replace_its_current_dtos_by(dtos));
   }

@@ -21,4 +21,9 @@ export class Change_Root_Handler implements IChange_Flow_Handler
 
         return result;
     }
+
+    public merge_subtrees_of_different_flows(__container_to_link: Container, container: Container, __origin_flow: string): IDto[] 
+    {
+        throw new Error("Method not implemented.");
+    }
 }

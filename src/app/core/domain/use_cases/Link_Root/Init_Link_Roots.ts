@@ -1,4 +1,5 @@
 import { Observer } from '../../../common/Observer/Observer';
+import { Link_Roots_Request } from '../../../port/driver/request/request';
 import { View_Link_Roots_Response } from '../../../port/driver/response/Response';
 import { IChange_Flow_Handler } from '../../handlers/handlers_use_case/Change_Root/IChange_Flow_Handler';
 import { IZoom_Handler } from '../../handlers/handlers_use_case/Zoom/IZoom_Handler';
@@ -14,9 +15,11 @@ export class Init_Link_Roots_Use_case
         private readonly __zoom_handler : IZoom_Handler
     ) { }
     
-    public handle() : View_Link_Roots_Response
+    public handle(request : Link_Roots_Request) : View_Link_Roots_Response
     {
-        this.__repository.store_all_subtrees_root();
+        this.__repository.store_container_to_link(request.container);
+
+        this.__repository.store_all_possible_flow();
 
         this.__repository.init_indexes();
 
