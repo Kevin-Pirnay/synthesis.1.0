@@ -168,9 +168,9 @@ class Get_Ligature_Handler
     }
 
     public prepare_all_ptr_for_the_current_flow() : void
-    {
+    {        
         if ( this.__current_flow._ == null ) throw new Error("No flow has been set");
-        
+
         if(!this.__persistence.ligatures_ids[this.__current_flow._]) return;
         
         this.__persistence.ligatures_ids[this.__current_flow._].forEach((id : string) =>

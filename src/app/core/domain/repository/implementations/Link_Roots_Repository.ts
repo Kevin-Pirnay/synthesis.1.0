@@ -7,8 +7,8 @@ import { IZoom_Handler } from "../../handlers/handlers_use_case/Zoom/IZoom_Handl
 import { IChange_Flow_Handler } from "../../handlers/handlers_use_case/Change_Root/IChange_Flow_Handler";
 import { IDao_Anim } from "../../../port/driven/dao/IDao_Anim";
 import { Container } from "../../entities/Container";
-import { Link_Roots } from "./Link_Roots";
-import { Inputs_Init_Link_Root } from "./Link_Roots";
+import { Link_Roots } from "./injectors/Link_Roots";
+import { Inputs_Init_Link_Root } from "./injectors/Link_Roots";
 
 
 export class Link_Roots_Repository implements ILink_Roots_Repository

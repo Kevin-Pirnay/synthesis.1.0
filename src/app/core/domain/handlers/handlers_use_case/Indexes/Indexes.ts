@@ -18,7 +18,7 @@ export class Indexes implements IIndexes
 
         if(current == undefined) throw new Error("Error: indexes are empty"); 
 
-        this.__indexes.push(current);
+        this.__indexes.push(current);        
 
         return current;
     }
@@ -63,15 +63,25 @@ class Next_Indexes implements INext_Indexes
     public push_indexes_for_positive_direction(result: number[]): void 
     {
         const current = this.__indexes.pop();
-        const next = this.__indexes.shift();         
+        const next = this.__indexes.shift();  
 
-        if(current == undefined || next == undefined) throw new Error("Error: indexes are empty");
-        
-        result.push(current);
-        result.push(next);
-        
-        this.__indexes.push(current);
-        this.__indexes.push(next);
+        if ( current == undefined && next == undefined) throw new Error("Error: indexes are empty" );
+
+        else if ( current !== undefined && next == undefined ) 
+        {            
+            result.push(0);
+            this.__indexes.push(current);
+            return;
+        }
+
+        else if ( current !== undefined && next !== undefined ) 
+        {
+            result.push(current);
+            result.push(next);
+            
+            this.__indexes.push(current);
+            this.__indexes.push(next);
+        }
     }
 
     public push_indexes_for_negative_direction(result: number[]): void 
@@ -79,12 +89,22 @@ class Next_Indexes implements INext_Indexes
         const current = this.__indexes.pop();
         const next = this.__indexes.pop();
 
-        if(current == undefined || next == undefined) throw new Error("Error: indexes are empty");
+        if(current == undefined && next == undefined) throw new Error("Error: indexes are empty");
 
-        result.push(current);
-        result.push(next);
+        else if ( current !== undefined && next == undefined ) 
+        {
+            result.push(0);
+            this.__indexes.push(current);
+            return;
+        }
 
-        this.__indexes.push(next);
-        this.__indexes.unshift(current);
+        else if ( current !== undefined && next !== undefined ) 
+        {
+            result.push(current);
+            result.push(next);
+    
+            this.__indexes.push(next);
+            this.__indexes.unshift(current);
+        }
     }
 }

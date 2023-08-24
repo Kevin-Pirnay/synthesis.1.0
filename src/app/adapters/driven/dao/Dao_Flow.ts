@@ -8,7 +8,11 @@ export class Dao_Flow implements IDao_Flow
     constructor(private readonly __persistence : Runtime_Persistence, private readonly __current_flow : Ptr<string>) { }
 
     public change_current_flow(flow: string): void 
-    {        
+    {   
+        console.log(flow);
+        
+        if ( !flow ) throw new Error("Must provide a valid flow in order to change the current flow");  
+
         this.__current_flow._ = flow;
     }
 
