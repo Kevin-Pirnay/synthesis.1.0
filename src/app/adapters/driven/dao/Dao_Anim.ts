@@ -67,17 +67,19 @@ export class Dao_Anim implements IDao_Anim
 
     get_inputs_init_link_roots_for_next(): Inputs_Init_Link_Root 
     {
-        const x = 100;
+        console.log("1");
+        
+        const x = 325;
         
         const axe_rotation : Vector<3> = Vector_.new([x, 0, 0]);
         
         const max_angle : number = 90;
         
-        const center_rotation : Vector<3> = Vector_.new([250, 250, x]);
+        const center_rotation : Vector<3> = Vector_.new([(window.innerWidth / 2) - 150, 400, x]);
         
-        const phase : number = 0;
+        const phase : number = 3 * Math.PI / 2;
         
-        const delta_level : number = 0;
+        const delta_level : number = +25;
         
         const direction : number = 1;
 
@@ -86,17 +88,19 @@ export class Dao_Anim implements IDao_Anim
 
     get_inputs_init_link_roots_for_current(): Inputs_Init_Link_Root 
     {
-        const x = 100;
+        console.log("2");
+
+        const x = 0;
         
         const axe_rotation : Vector<3> = Vector_.new([x, 0, 0]);
         
         const max_angle : number = 90;
         
-        const center_rotation : Vector<3> = Vector_.new([250, 250, x]);
+        const center_rotation : Vector<3> = Vector_.new([-150, 300, x]);
         
-        const phase : number =  Math.PI / 2;
+        const phase : number =  0;
         
-        const delta_level : number = 0;
+        const delta_level : number = -25;
         
         const direction : number = 1;
 

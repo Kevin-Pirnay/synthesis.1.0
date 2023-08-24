@@ -1,8 +1,6 @@
 
 import { IIndexes } from '../../handlers/handlers_use_case/Indexes/IIndexes';
 import { Indexes } from '../../handlers/handlers_use_case/Indexes/Indexes';
-import { Matrix } from '../../../common/Matrix/Matrix';
-import { Vector_ } from '../../../common/Vector/Vector_';
 import { Container } from '../../entities/Container';
 import { IMove_View_Handler } from '../../handlers/handlers_use_case/Move_View/IMove_View_Handler';
 import { IChoose_Root_Repository } from '../interfaces/IRepository';
@@ -14,9 +12,8 @@ import { Vector } from '../../../common/Vector/Vector';
 import { IDao_Anim } from '../../../port/driven/dao/IDao_Anim';
 import { Root_Choice } from '../../entities/Root_Choice';
 import { IChoosen_Root } from '../../use_cases/Choose_Root/Chosen_Root';
-import { Zoom_On_Target } from '../../handlers/handlers_use_case/On_Target/Zoom_On_Target';
-import { IZoom_On_Target } from '../../handlers/handlers_use_case/On_Target/IZoom_On_Target';
 import { Quad_Callback } from '../../../../adapters/driven/dao/Dao_Anim';
+import { Chosen_Root } from './injectors/Chosen_Root';
 
 
 export class Choose_Root_Repository implements IChoose_Root_Repository
@@ -74,42 +71,6 @@ export class Choose_Root_Repository implements IChoose_Root_Repository
     public get_chosen_root(chosen_root: Root_Choice): IChoosen_Root
     {
         return new Chosen_Root(chosen_root);
-    }
-}
-
-class Chosen_Root implements IChoosen_Root
-{
-    private readonly __abs_ratio: Matrix<4>;
-
-    constructor(chosen_root: Root_Choice) 
-    { 
-        this.__abs_ratio = chosen_root.positions.abs_ratio;
-    }
-
-    public async anim(): Promise<void> 
-    {
-        const pos = this.__abs_ratio
-        let count = 0;
-        while(1)
-        {
-            if(count >= window.innerWidth) break;
-
-            pos._[0]._[0]--
-            pos._[0]._[1]--
-
-            pos._[1]._[0]++
-            pos._[1]._[1]--
-            
-            pos._[2]._[0]++
-            pos._[2]._[1]++
-
-            pos._[3]._[0]--
-            pos._[3]._[1]++
-
-            await new Promise(r=> setTimeout(r,1));
-
-            count++;            
-        }
     }
 }
 
