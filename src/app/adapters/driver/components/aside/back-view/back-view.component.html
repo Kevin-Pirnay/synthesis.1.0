@@ -2,11 +2,11 @@
 <div class="back_view">
     <ul>
         <ng-container *ngFor="let id of stack_ids">
-            <li (click)="click_on_back_view(id)">{{id}}</li>
+            <li class="back-view-item" (click)="click_on_back_view(id)">{{id}}</li>
         </ng-container>
     </ul>
     
     <ng-container *ngIf="stack_ids.length">
-        <div (click)="click_back_view_root()">back</div>
+        <div class="back-view-item" (click)="click_back_view_root()">back</div>
     </ng-container>
 </div>

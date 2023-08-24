@@ -94,7 +94,7 @@ export class Dao_Anim implements IDao_Anim
         
         const center_rotation : Vector<3> = Vector_.new([250, 250, x]);
         
-        const phase : number = 3 * Math.PI / 2;
+        const phase : number =  Math.PI / 2;
         
         const delta_level : number = 50;
         

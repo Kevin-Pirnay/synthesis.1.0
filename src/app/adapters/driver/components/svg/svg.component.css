@@ -11,5 +11,5 @@
 
 .container:hover
 {
-    cursor: grabbing;
+    cursor: crosshair;
 }
