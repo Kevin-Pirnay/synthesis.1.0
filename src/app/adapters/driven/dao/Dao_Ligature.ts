@@ -1,5 +1,5 @@
+import { Ptr } from "../../../core/common/Ptr";
 import { Container } from "../../../core/domain/entities/Container";
-import { Flow } from "../../../core/domain/entities/Flow";
 import { Ligature } from "../../../core/domain/entities/Ligature";
 import { IDao_Ligature } from "../../../core/port/driven/dao/IDao_Ligature";
 import { ILigature_Data_Flow, Runtime_Persistence } from "../runtime_memory/Runtime_Persistence";
@@ -11,7 +11,7 @@ export class Dao_Ligature implements IDao_Ligature
     private readonly __delete_handler : Delete_Ligature_Handler;
     private readonly __get_handler : Get_Ligature_Handler;
 
-    constructor(runtime_persistence : Runtime_Persistence, current_flow : Flow) 
+    constructor(runtime_persistence : Runtime_Persistence, current_flow : Ptr<string>) 
     { 
         this.__ligature_handler = new Save_Ligature_Handler(runtime_persistence, current_flow);
         this.__delete_handler = new Delete_Ligature_Handler(runtime_persistence, current_flow);
@@ -48,13 +48,15 @@ export class Dao_Ligature implements IDao_Ligature
 
 class Save_Ligature_Handler
 {
-    constructor(private readonly __persistence : Runtime_Persistence, private readonly __current_flow : Flow) { }
+    constructor(private readonly __persistence : Runtime_Persistence, private readonly __current_flow : Ptr<string>) { }
 
     public save_id_into_the_ligatures_ids(ligature_id : string) : void 
     {
         const ligatures_ids = this.__persistence.ligatures_ids;
         
-        const current_flow = this.__current_flow.id;
+        const current_flow = this.__current_flow._;
+
+        if ( current_flow == null ) throw new Error("No flow has been set");
 
         //init if not exist
         if ( !ligatures_ids[current_flow] ) ligatures_ids[current_flow] = [];
@@ -88,14 +90,16 @@ class Save_Ligature_Handler
         if ( !flow_data_persistence[ligature.id] ) flow_data_persistence[ligature.id] = { };
 
         //save
-        flow_data_persistence[ligature.id][this.__current_flow.id] = { parent : ligature.parent, child : ligature.child, positions : ligature.positions };
+        if ( this.__current_flow._ == null ) throw new Error("No flow has been set");
+
+        flow_data_persistence[ligature.id][this.__current_flow._] = { parent : ligature.parent, child : ligature.child, positions : ligature.positions };
     }
 
     public save_the_ligature_into_this_flow(ligature: Ligature, flow: string) 
     {
-        const previous_flow_saved : string = this.__current_flow.id;
+        const previous_flow_saved : string | null = this.__current_flow._;
 
-        this.__current_flow.id = flow;
+        this.__current_flow._ = flow;
 
         this.save_id_into_the_ligatures_ids(ligature.id);
 
@@ -103,34 +107,38 @@ class Save_Ligature_Handler
 
         this.save_data_related_to_the_flow(ligature);
 
-        this.__current_flow.id = previous_flow_saved;
+        this.__current_flow._ = previous_flow_saved;
     }
 }
 
 class Delete_Ligature_Handler
 {
-    constructor(private readonly __persistence : Runtime_Persistence, private readonly __current_flow : Flow) { }
+    constructor(private readonly __persistence : Runtime_Persistence, private readonly __current_flow : Ptr<string>) { }
 
     public delete(ligature : Ligature): void 
     {
-        const index = this.__persistence.ligatures_ids[this.__current_flow.id].indexOf(ligature.id);
-        this.__persistence.ligatures_ids[this.__current_flow.id].splice(index, 1);
+        if ( this.__current_flow._ == null ) throw new Error("No flow has been set");
+
+        const index = this.__persistence.ligatures_ids[this.__current_flow._].indexOf(ligature.id);
+        this.__persistence.ligatures_ids[this.__current_flow._].splice(index, 1);
         delete this.__persistence.ligatures_data_fix[ligature.id];
-        delete this.__persistence.ligatures_data_flow[ligature.id][this.__current_flow.id];
+        delete this.__persistence.ligatures_data_flow[ligature.id][this.__current_flow._];
     }
 }
 
 class Get_Ligature_Handler
 {
-    constructor(private readonly __persistence : Runtime_Persistence, private readonly __current_flow : Flow) { }
+    constructor(private readonly __persistence : Runtime_Persistence, private readonly __current_flow : Ptr<string>) { }
 
     public get_all_ligatures_of_the_current_flow(): Ligature[]
     {
         const result : Ligature[] = [];
 
-        if(!this.__persistence.ligatures_ids[this.__current_flow.id]) return result;
+        if ( this.__current_flow._ == null ) throw new Error("No flow has been set");
 
-        this.__persistence.ligatures_ids[this.__current_flow.id].forEach((id : string) =>
+        if(!this.__persistence.ligatures_ids[this.__current_flow._]) return result;
+
+        this.__persistence.ligatures_ids[this.__current_flow._].forEach((id : string) =>
         {
             result.push(this.get_ligature_by_id(id));
         });
@@ -140,7 +148,9 @@ class Get_Ligature_Handler
 
     public get_ligature_by_id(ligature_id : string) : Ligature
     {        
-        const flow_data : ILigature_Data_Flow = this.__persistence.ligatures_data_flow[ligature_id][this.__current_flow.id];
+        if ( this.__current_flow._ == null ) throw new Error("No flow has been set");
+
+        const flow_data : ILigature_Data_Flow = this.__persistence.ligatures_data_flow[ligature_id][this.__current_flow._];
 
         const ligature : Ligature = this.__persistence.ligatures_data_fix[ligature_id];
 
@@ -159,9 +169,11 @@ class Get_Ligature_Handler
 
     public prepare_all_ptr_for_the_current_flow() : void
     {
-        if(!this.__persistence.ligatures_ids[this.__current_flow.id]) return;
+        if ( this.__current_flow._ == null ) throw new Error("No flow has been set");
         
-        this.__persistence.ligatures_ids[this.__current_flow.id].forEach((id : string) =>
+        if(!this.__persistence.ligatures_ids[this.__current_flow._]) return;
+        
+        this.__persistence.ligatures_ids[this.__current_flow._].forEach((id : string) =>
         {
             this.get_ligature_by_id(id);
         });

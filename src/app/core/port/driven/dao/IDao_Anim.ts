@@ -1,6 +1,6 @@
 import { Quad_Callback } from "../../../../adapters/driven/dao/Dao_Anim";
 import { Vector } from "../../../common/Vector/Vector";
-import { Inputs_Init_Link_Root } from "../../../domain/repository/implementations/Link_Roots_Repository";
+import { Inputs_Init_Link_Root } from "../../../domain/repository/implementations/Link_Roots";
 
 export interface IDao_Anim
 {

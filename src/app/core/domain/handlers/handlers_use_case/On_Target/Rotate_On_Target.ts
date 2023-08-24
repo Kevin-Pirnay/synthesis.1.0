@@ -4,23 +4,11 @@ import { IZoom_Handler } from "../Zoom/IZoom_Handler";
 import { Cramer_Quadratic } from '../../../../common/Cramer/Cramer';
 import { Matrix_ } from '../../../../common/Matrix/Matrix_';
 import { IData_Tree } from "../View_As_Root/IData_Tree";
+import { IRotate_On_Taget } from "./IRotate_On_Taget";
+import { Zoom_And_Rotate_Inputs } from "./Zoom_And_Rotate_Inputs";
 
 
-export class Zoom_And_Rotate_Inputs
-{
-    constructor(
-        public readonly data : IData_Tree[],
-        public readonly delta_level : number,
-        public readonly axe_rotation : Vector<3>,
-        public readonly center_rotation : Vector<3>,
-        public readonly max_angle : number,
-        public readonly phase : number,
-        public readonly direction : number,
-        public readonly zoom_handler : IZoom_Handler
-    ){ }
-}
-
-export class Rotate_On_Target
+export class Rotate_On_Target implements IRotate_On_Taget
 {
    private readonly __positions : IRotate_Positions_On_Target;
    private readonly __step : IStep;

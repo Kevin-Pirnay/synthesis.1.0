@@ -8,7 +8,8 @@ import { Container } from "../../../entities/Container";
 import { IMove_View_Handler } from "../../../handlers/handlers_use_case/Move_View/IMove_View_Handler";
 import { IZoom_Handler } from "../../../handlers/handlers_use_case/Zoom/IZoom_Handler";
 import { IChoose_Roots_Container, IChoose_Roots_Root } from "../../../use_cases/Choose_Root/Init_Choose_Root";
-import { IZoom_On_Target, Zoom_On_Target } from '../../../handlers/handlers_use_case/On_Target/Zoom_On_Target';
+import { Zoom_On_Target } from '../../../handlers/handlers_use_case/On_Target/Zoom_On_Target';
+import { IZoom_On_Target } from '../../../handlers/handlers_use_case/On_Target/IZoom_On_Target';
 import { Quad_Callback } from '../../../../../adapters/driven/dao/Dao_Anim';
 
 

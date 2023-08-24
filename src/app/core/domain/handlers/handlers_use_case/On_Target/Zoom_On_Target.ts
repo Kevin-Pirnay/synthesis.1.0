@@ -5,12 +5,8 @@ import { Vector } from "../../../../common/Vector/Vector";
 import { Vector_ } from "../../../../common/Vector/Vector_";
 import { IMove_View_Handler } from "../Move_View/IMove_View_Handler";
 import { IZoom_Handler } from "../Zoom/IZoom_Handler";
+import { IZoom_On_Target } from './IZoom_On_Target';
 
-
-export interface IZoom_On_Target 
-{
-    move_and_zoom(): Promise<void>;
-}
 
 export class Zoom_On_Target implements IZoom_On_Target 
 {

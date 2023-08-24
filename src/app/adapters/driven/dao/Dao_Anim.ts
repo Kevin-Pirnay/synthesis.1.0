@@ -3,7 +3,7 @@ import { Vector } from "../../../core/common/Vector/Vector";
 import { Vector_ } from "../../../core/common/Vector/Vector_";
 import { IDao_Anim } from "../../../core/port/driven/dao/IDao_Anim";
 import { Runtime_Persistence } from "../runtime_memory/Runtime_Persistence";
-import { Inputs_Init_Link_Root } from "../../../core/domain/repository/implementations/Link_Roots_Repository";
+import { Inputs_Init_Link_Root } from "../../../core/domain/repository/implementations/Link_Roots";
 
 //refactor
 export type Quad_Callback = (x: number, y : number) => Vector<3>;

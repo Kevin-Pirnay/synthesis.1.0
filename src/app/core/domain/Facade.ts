@@ -5,7 +5,6 @@ import { Create_Repository } from './repository/implementations/Create_Repositor
 import { Dao_Ligature } from './../../adapters/driven/dao/Dao_Ligature';
 import { Dao_Container } from './../../adapters/driven/dao/Dao_Container';
 import { Runtime_Persistence } from './../../adapters/driven/runtime_memory/Runtime_Persistence';
-import { Flow } from './entities/Flow';
 import { IDao_Container } from "../port/driven/dao/IDao_Container";
 import { IDao_Ligature } from "../port/driven/dao/IDao_Ligature";
 import { Create_Container_Request, Delete_Container_Request, Move_Container_Request, Move_ligature_Request, Assign_Ligature_Request, Zoom_Request, Move_View_Request, Mark_As_Root_Request, View_As_Root_Request, Paginate_Request, View_Paginate_Request, Choose_Root_Request, Choosen_Root_Request, View_Choose_Root_Request, Back_View_Request, View_Link_Roots_Request, Link_Roots_Request, Select_Link_Roots_Request } from "../port/driver/request/request";
@@ -48,11 +47,12 @@ import { Link_Roots_Repository } from './repository/implementations/Link_Roots_R
 import { IDao_Anim } from '../port/driven/dao/IDao_Anim';
 import { Dao_Anim } from '../../adapters/driven/dao/Dao_Anim';
 import { Select_Link_Roots_Use_case } from './use_cases/Link_Root/Select_Link_Roots';
+import { Ptr } from '../common/Ptr';
 
 
 export class Facade
 {
-    private readonly __flow = new Flow();
+    private readonly __flow = new Ptr<string>();
     private readonly __runtime_persistence = new Runtime_Persistence(this.__flow);
 
     private readonly __dao_container : IDao_Container = new Dao_Container(this.__runtime_persistence, this.__flow);

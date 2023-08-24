@@ -14,7 +14,8 @@ import { Vector } from '../../../common/Vector/Vector';
 import { IDao_Anim } from '../../../port/driven/dao/IDao_Anim';
 import { Root_Choice } from '../../entities/Root_Choice';
 import { IChoosen_Root } from '../../use_cases/Choose_Root/Chosen_Root';
-import { IZoom_On_Target, Zoom_On_Target } from '../../handlers/handlers_use_case/On_Target/Zoom_On_Target';
+import { Zoom_On_Target } from '../../handlers/handlers_use_case/On_Target/Zoom_On_Target';
+import { IZoom_On_Target } from '../../handlers/handlers_use_case/On_Target/IZoom_On_Target';
 import { Quad_Callback } from '../../../../adapters/driven/dao/Dao_Anim';
 
 

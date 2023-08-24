@@ -1,10 +1,10 @@
-import { Flow } from './../../../core/domain/entities/Flow';
 import { Container } from "../../../core/domain/entities/Container";
 import { IDao_Container } from "../../../core/port/driven/dao/IDao_Container";
-import { IContainer_Data_Flow, Runtime_Persistence } from "../runtime_memory/Runtime_Persistence";
+import { Flow, IContainer_Data_Flow, Runtime_Persistence } from "../runtime_memory/Runtime_Persistence";
 import { Vector } from '../../../core/common/Vector/Vector';
 import { Matrix } from '../../../core/common/Matrix/Matrix';
 import { Vector_ } from '../../../core/common/Vector/Vector_';
+import { Ptr } from "../../../core/common/Ptr";
 
 
 export class Dao_Container implements IDao_Container
@@ -14,7 +14,7 @@ export class Dao_Container implements IDao_Container
     private readonly __delete_handler : Delete_Container_Handler;
     private readonly __get_handler : Get_Container_Handler;
 
-    constructor(runtime_persistence : Runtime_Persistence, current_flow : Flow) 
+    constructor(runtime_persistence : Runtime_Persistence, current_flow : Ptr<string>) 
     { 
         this.__flow_handler = new Save_Flow_Handler(runtime_persistence, current_flow);
         this.__container_handler = new Save_Container_Handler(runtime_persistence, current_flow);
@@ -90,13 +90,32 @@ export class Dao_Container implements IDao_Container
 
 class Save_Flow_Handler
 {
-    constructor(private readonly __persistence : Runtime_Persistence, private readonly __current_flow : Flow) { }
+    constructor(private readonly __persistence : Runtime_Persistence, private readonly __current_flow : Ptr<string>) { }
 
-    public save_and_update_the_current_flow_with(flow : string) : void
+    public save_and_update_the_current_flow_with(flow_id : string) : void
     {
-        this.__persistence.flows.push(flow);
+        const new_flow : Flow = this.__create_a_new_flow(flow_id);
 
-        this.__current_flow.id = flow;
+        this.__persistence.flows[flow_id] = new_flow;
+
+        this.__persistence.flows_ids.push(flow_id);
+
+        this.__current_flow._ = flow_id;
+    }
+
+    private __create_a_new_flow(flow_id : string) : Flow
+    {
+        const new_flow : Flow = new Flow(flow_id);
+
+        new_flow.parent = this.__current_flow._;
+
+        if(this.__current_flow._ == null) return new_flow;
+
+        const parent_flow : Flow = this.__persistence.flows[this.__current_flow._];
+
+        parent_flow.children.push(flow_id);
+
+        return new_flow
     }
 
     public add_the_new_flow_to_the_root_container(container : Container, new_flow : string) : void
@@ -107,19 +126,21 @@ class Save_Flow_Handler
          * In order to keep track of its previous flow, if this is not the first root of this project, set the back root. 
          * If this is the first root of the project, the flow will be of length 0.
          **/
-        if ( this.__current_flow.id.length !== 0 ) container.back_root = this.__current_flow.id;
+        if ( this.__current_flow._ !== null ) container.back_root = this.__current_flow._;
     }
 }
 
 class Save_Container_Handler
 {
-    constructor(private readonly __persistence : Runtime_Persistence, private readonly __current_flow : Flow) { }
+    constructor(private readonly __persistence : Runtime_Persistence, private readonly __current_flow : Ptr<string>) { }
 
     public save_id_into_the_containers_ids(container_id : string) : void 
     {
         const containers_ids : {[flow: string]: string[]} = this.__persistence.containers_ids;
 
-        const current_flow : string = this.__current_flow.id;
+        const current_flow : string | null = this.__current_flow._;
+
+        if ( current_flow == null ) throw new Error("No flow has been set");
 
         //init if not exist
         if ( !containers_ids[current_flow] ) containers_ids[current_flow] = [];
@@ -152,15 +173,17 @@ class Save_Container_Handler
         //init if not exist
         if ( !flow_data_persistence[container.id] ) flow_data_persistence[container.id] = { };
 
+        if ( this.__current_flow._ == null ) throw new Error("No flow has been set");
+
         //save
-        flow_data_persistence[container.id][this.__current_flow.id] = { node : container.node, positions : container.positions };
+        flow_data_persistence[container.id][this.__current_flow._] = { node : container.node, positions : container.positions };
     }
 
     public save_the_container_into_this_flow(container: Container, flow: string) 
     {
-        const previous_flow_saved : string = this.__current_flow.id;
+        const previous_flow_saved : string | null = this.__current_flow._;
 
-        this.__current_flow.id = flow;
+        this.__current_flow._ = flow;
 
         this.save_id_into_the_containers_ids(container.id);
 
@@ -168,34 +191,40 @@ class Save_Container_Handler
 
         this.save_data_related_to_the_flow(container);
 
-        this.__current_flow.id = previous_flow_saved;
+        this.__current_flow._ = previous_flow_saved;
     }
 }
 
 class Delete_Container_Handler
 {
-    constructor(private readonly __persistence : Runtime_Persistence, private readonly __current_flow : Flow) { }
+    constructor(private readonly __persistence : Runtime_Persistence, private readonly __current_flow : Ptr<string>) { }
 
     public delete(container: Container): void 
     {
-        const index = this.__persistence.containers_ids[this.__current_flow.id].indexOf(container.id);
-        this.__persistence.containers_ids[this.__current_flow.id].splice(index, 1);
+        if ( this.__current_flow._ == null ) throw new Error("No flow has been set");
+
+        const index = this.__persistence.containers_ids[this.__current_flow._].indexOf(container.id);
+        this.__persistence.containers_ids[this.__current_flow._].splice(index, 1);
         delete this.__persistence.containers_data_fix[container.id];
-        delete this.__persistence.containers_data_flow[container.id][this.__current_flow.id];
+        delete this.__persistence.containers_data_flow[container.id][this.__current_flow._];
     }
 }
 
 class Get_Container_Handler
 {
-    constructor(private readonly __persistence : Runtime_Persistence, private readonly __current_flow : Flow) { }
+    constructor(private readonly __persistence : Runtime_Persistence, private readonly __current_flow : Ptr<string>) { }
 
     public get_all_containers_of_the_current_flow(): Container[]
     {
         const result : Container[] = [];
 
-        this.__persistence.containers_ids[this.__current_flow.id].forEach((id : string) =>
+        const current_flow : string | null = this.__current_flow._;
+
+        if ( current_flow == null ) throw new Error("No flow has been set");
+
+        this.__persistence.containers_ids[current_flow].forEach((id : string) =>
         {
-            result.push(this.get_container_by_id_and_flow(id, this.__current_flow.id));
+            result.push(this.get_container_by_id_and_flow(id, current_flow));
         });
 
         return result;
@@ -216,7 +245,9 @@ class Get_Container_Handler
 
     public get_container_by_id_for_the_current_flow(container_id : string) : Container
     {
-        return this.get_container_by_id_and_flow(container_id, this.__current_flow.id);
+        if ( this.__current_flow._ == null ) throw new Error("No flow has been set");
+
+        return this.get_container_by_id_and_flow(container_id, this.__current_flow._);
     }
 
     public get_default_position_of_the_root(): Vector<3> 
@@ -226,15 +257,21 @@ class Get_Container_Handler
 
     public prepare_all_ptr_for_the_current_flow(): void 
     {
-        this.__persistence.containers_ids[this.__current_flow.id].forEach((id : string) =>
+        const current_flow : string | null = this.__current_flow._;
+
+        if ( current_flow == null ) throw new Error("No flow has been set");
+
+        this.__persistence.containers_ids[current_flow].forEach((id : string) =>
         {
-            this.get_container_by_id_and_flow(id, this.__current_flow.id);
+            this.get_container_by_id_and_flow(id, current_flow);
         });
     }
 
     public get_root_container_of_the_current_flow(): Container 
     {
-        return this.get_root_container_of_this_flow(this.__current_flow.id);
+        if ( this.__current_flow._ == null ) throw new Error("No flow has been set");
+
+        return this.get_root_container_of_this_flow(this.__current_flow._);
     }
 
     public get_root_container_of_this_flow(flow: string): Container 
