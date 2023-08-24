@@ -49,11 +49,10 @@ export class Link_Roots_Repository implements ILink_Roots_Repository
         return this.__indexes.get_next_indexes(direction);
     }
 
+    //***WARNING remove all flows parent or child of the flow of interest and that for each container of the flow of interest
     public store_all_possible_flow(): void 
     {
         this.__origin_flow = this.__dao_flow.get_current_flow();
-
-        //this.__flows.push(this.__origin_flow); //unused because you reasign a new ptr below
 
         this.__flows = this.__dao_flow.get_all_flows().filter(flow => flow !== this.__origin_flow);
     }
