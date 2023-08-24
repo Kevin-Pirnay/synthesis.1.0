@@ -42,9 +42,9 @@ export class Dao_Container implements IDao_Container
         this.__container_handler.save_data_related_to_the_flow(container);
     }
 
-    public save_the_container_into_this_flow(container: Container, current_flow: string): void 
+    public save_the_container_into_this_flow(container: Container, flow: string): void 
     {
-        this.__container_handler.save_the_container_into_this_flow(container, current_flow);
+        this.__container_handler.save_the_container_into_this_flow(container, flow);
     }
 
     public delete_container(container: Container): void 
@@ -156,11 +156,11 @@ class Save_Container_Handler
         flow_data_persistence[container.id][this.__current_flow.id] = { node : container.node, positions : container.positions };
     }
 
-    public save_the_container_into_this_flow(container: Container, current_flow: string) 
+    public save_the_container_into_this_flow(container: Container, flow: string) 
     {
         const previous_flow_saved : string = this.__current_flow.id;
 
-        this.__current_flow.id = current_flow;
+        this.__current_flow.id = flow;
 
         this.save_id_into_the_containers_ids(container.id);
 

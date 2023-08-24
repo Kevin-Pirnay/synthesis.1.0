@@ -7,7 +7,6 @@ import { Ligature } from "../../entities/Ligature";
 import { Data_Type } from "../../handlers/handlers_entities/Data_Type";
 import { Ligature_ } from "../../handlers/handlers_entities/Ligature_";
 import { INode_Linker } from "../../handlers/handlers_use_case/Link_Node/INode_Linker";
-import { IMove_View_Handler } from "../../handlers/handlers_use_case/Move_View/IMove_View_Handler";
 import { IData_Tree } from "../../handlers/handlers_use_case/View_As_Root/IData_Tree";
 import { IView_As_Root_Handler } from "../../handlers/handlers_use_case/View_As_Root/IView_As_Root_Handler";
 import { IChange_Flow_Repository } from "../interfaces/IRepository";
@@ -33,15 +32,17 @@ export class Change_Flow_Repository implements IChange_Flow_Repository
         return this.__container_dao.get_root_container_of_the_current_flow();
     }
 
-    public add_the_subtree_to_another_flow(data_tree_to_merge: IData_Tree[], container_to_link: Container, origin_flow: string, move_view_handler : IMove_View_Handler, node_linker : INode_Linker, view_as_root_handler : IView_As_Root_Handler): IData_Tree[] 
+    public add_the_subtree_to_another_flow(data_tree_to_merge: IData_Tree[], container_to_link: Container, origin_flow: string, node_linker : INode_Linker, view_as_root_handler : IView_As_Root_Handler): IData_Tree[] 
     {
-        const data_to_merge : IData_To_Merge = new Data_To_Merge(data_tree_to_merge, container_to_link, origin_flow, move_view_handler, view_as_root_handler, node_linker, this.__container_dao, this.__ligature_dao, this.__flow_dao);
+        const data_to_merge : IData_To_Merge = new Data_To_Merge(data_tree_to_merge, container_to_link, origin_flow, view_as_root_handler, node_linker, this.__container_dao, this.__ligature_dao, this.__flow_dao);
 
         data_to_merge.save_the_data_to_merge_in_the_current_flow();
-        data_to_merge.change_the_current_flow_into(origin_flow);
+        data_to_merge.change_the_current_flow_into();
         data_to_merge.translate_the_data_to_merge_according_to_the_container_to_link();
         const ligature : Ligature = data_to_merge.create_the_ligature_to_relate_the_container_to_link_to_the_the_root_of_data_to_merge();
         data_to_merge.links_nodes(container_to_link, ligature, data_tree_to_merge[0].element);
+        console.log(data_tree_to_merge[0].element);
+        
         return data_to_merge.get_the_new_tree();
     }
 }
@@ -49,7 +50,7 @@ export class Change_Flow_Repository implements IChange_Flow_Repository
 interface IData_To_Merge
 {
     save_the_data_to_merge_in_the_current_flow() : void;
-    change_the_current_flow_into(flow : string) : void;
+    change_the_current_flow_into() : void;
     translate_the_data_to_merge_according_to_the_container_to_link() : void;
     create_the_ligature_to_relate_the_container_to_link_to_the_the_root_of_data_to_merge() : Ligature;
     links_nodes(parent_container : Container, ligature : Ligature, child_container : Container): void 
@@ -68,7 +69,6 @@ class Data_To_Merge implements IData_To_Merge
         data_to_merge: IData_Tree[], 
         container_to_link: Container, 
         origin_flow: string, 
-        move_view_handler : IMove_View_Handler, 
         view_as_root_handler : IView_As_Root_Handler,
         nodes_linker : INode_Linker,
         container_dao : IDao_Container, 
@@ -76,19 +76,19 @@ class Data_To_Merge implements IData_To_Merge
         flow_dao : IDao_Flow) 
     { 
         this.__save = new Save_Data(data_to_merge, container_dao, ligature_dao, origin_flow, view_as_root_handler);
-        this.__translate = new Translate(data_to_merge, container_to_link, move_view_handler);
+        this.__translate = new Translate(data_to_merge, container_to_link);
         this.__ligature = new Create_Ligature(data_to_merge, container_to_link, ligature_dao);
         this.__nodes = new Link_Nodes(nodes_linker);
-        this.__flow = new Change_Flow(flow_dao);
+        this.__flow = new Change_Flow(origin_flow,flow_dao);
     }
     public save_the_data_to_merge_in_the_current_flow(): void 
     {
         this.__save.save_data_in_the_current_flow();
     }
 
-    public change_the_current_flow_into(flow: string): void 
+    public change_the_current_flow_into(): void 
     {
-        this.__flow.change_the_current_flow(flow);
+        this.__flow.change_the_current_flow();
     }
 
     public translate_the_data_to_merge_according_to_the_container_to_link(): void 
@@ -119,7 +119,7 @@ interface ITranslate
 
 interface IChange_Flow
 {
-    change_the_current_flow(flow: string): void;
+    change_the_current_flow(): void;
 }
 
 interface ISave_Data
@@ -144,15 +144,15 @@ class Save_Data implements ISave_Data
         private readonly __data : IData_Tree[], 
         private readonly __dao_container : IDao_Container, 
         private readonly __dao_ligature : IDao_Ligature,
-        private readonly __current_flow : string,
+        private readonly __flow : string,
         private readonly __view_as_root_handler : IView_As_Root_Handler) { }
 
     public save_data_in_the_current_flow(): void 
     {
         this.__data.forEach(data =>
         {
-            if (data.type == Data_Type.CONTAINER) this.__dao_container.save_the_container_into_this_flow(data.element, this.__current_flow);
-            if (data.type == Data_Type.LIGATURE) this.__dao_ligature.save_the_ligature_into_this_flow(data.element, this.__current_flow);
+            if (data.type == Data_Type.CONTAINER) this.__dao_container.save_the_container_into_this_flow(data.element, this.__flow);
+            if (data.type == Data_Type.LIGATURE) this.__dao_ligature.save_the_ligature_into_this_flow(data.element, this.__flow);
         });
     }
 
@@ -167,28 +167,27 @@ class Translate implements ITranslate
     constructor(
         private readonly __data : IData_Tree[],
         private readonly __container_to_link: Container,
-        private readonly __move_view_handler : IMove_View_Handler
     ) { }
     
     public translate_data_to_merge(): void 
     {
-        const x : number = this.__container_to_link.positions.abs_ratio._[0]._[0] + this.__data[0].element.positions.abs_ratio._[0]._[0];
+        const x : number = this.__container_to_link.positions.abs_ratio._[0]._[0];
 
-        const y : number = this.__container_to_link.positions.abs_ratio._[0]._[1] + this.__data[0].element.positions.abs_ratio._[0]._[1];
+        const y : number = this.__container_to_link.positions.abs_ratio._[0]._[1];
 
-        const delta = Vector_.new([x,y,0]);
+        const delta = Vector_.new([100,0,0]);
 
-        this.__move_view_handler.move_the_subtree_by_delta(this.__data, delta);
+        this.__data[0].element.positions.rel_root.__.assign_new_data(delta);
     }
 }
 
 class Change_Flow implements IChange_Flow
 {
-    constructor(private readonly __dao_flow : IDao_Flow) { }
+    constructor(private readonly __flow : string, private readonly __dao_flow : IDao_Flow) { }
 
-    public change_the_current_flow(flow: string): void 
+    public change_the_current_flow(): void 
     {
-        this.__dao_flow.change_current_flow(flow);
+        this.__dao_flow.change_current_flow(this.__flow);
     }
 }
 

@@ -148,6 +148,11 @@ export class PipelineService
     const dtos : IDto[] = this.__request.request_select_links_roots(container);
 
     this.__data.replace_its_current_dtos_by(dtos);
+
+    setTimeout(() => {
+      
+      this.__data.set_is_linking_roots(false);
+    }, 1000);
   }
 
 }

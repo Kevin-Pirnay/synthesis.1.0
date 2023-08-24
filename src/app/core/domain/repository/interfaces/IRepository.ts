@@ -102,7 +102,7 @@ export interface IChoose_Root_Repository
 
 export interface IChange_Flow_Repository
 {
-    add_the_subtree_to_another_flow(data_tree_to_merge: IData_Tree[], container_to_link: Container, origin_flow: string, move_view_handler : IMove_View_Handler, node_linker : INode_Linker, view_as_root_handler : IView_As_Root_Handler): IData_Tree[] 
+    add_the_subtree_to_another_flow(data_tree_to_merge: IData_Tree[], container_to_link: Container, origin_flow: string, node_linker : INode_Linker, view_as_root_handler : IView_As_Root_Handler): IData_Tree[] 
     change_the_current_flow(flow: string): void;
     get_root_container_from_the_current_flow() : Container;
 }

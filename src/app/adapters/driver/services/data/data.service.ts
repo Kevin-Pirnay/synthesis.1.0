@@ -285,6 +285,7 @@ class Ask_State
         || this.__event.is_mouse_down_on_ligature 
         || this.__event.is_mouse_down_on_grip 
         || this.__event.is_mouse_down_on_root_choice
+        || this.__event.is_linking_roots
         ? true : false;
   }
 

@@ -65,8 +65,6 @@ export class StateService
     if ( this.__data.is_linking_roots() ) 
     { 
       this.__pipeline.request_select_links_roots(container);
-
-      this.__data.set_is_linking_roots(false);       
     }
 
     else this.__data.set_mouse_is_down_on_a_container(container);

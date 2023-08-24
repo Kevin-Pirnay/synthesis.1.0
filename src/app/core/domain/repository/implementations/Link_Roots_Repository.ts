@@ -53,7 +53,7 @@ export class Link_Roots_Repository implements ILink_Roots_Repository
     {
         this.__origin_flow = this.__dao_flow.get_current_flow();
 
-        this.__flows.push(this.__origin_flow);
+        //this.__flows.push(this.__origin_flow); //unused because you reasign a new ptr below
 
         this.__flows = this.__dao_flow.get_all_flows().filter(flow => flow !== this.__origin_flow);
     }
@@ -82,7 +82,7 @@ class Link_Roots implements ILink_Roots
 
     public async anim(observer : Observer<IDto[]>): Promise<void>
     {
-        //problem : you cannot put two flow on the same time because of the container **ptr that are possibly in two different flow => confusion between ptr of multiflow
+        //problem : you cannot put two flow on the same time because of the container **ptr that are possibly in two differents flows => confusion between ptr in multiflows
         //need to use an observer -> handle that as a stream
 
         this.__current.init(observer);

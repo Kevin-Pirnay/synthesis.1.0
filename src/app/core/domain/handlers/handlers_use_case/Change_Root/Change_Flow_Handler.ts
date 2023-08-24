@@ -13,7 +13,6 @@ export class Change_Root_Handler implements IChange_Flow_Handler
     constructor(
         private __change_flow_repository : IChange_Flow_Repository,
         private __view_as_root_handler : IView_As_Root_Handler,
-        private readonly __move_view_handler: IMove_View_Handler, 
         private readonly __node_linker: INode_Linker
     ) { }
     
@@ -32,7 +31,7 @@ export class Change_Root_Handler implements IChange_Flow_Handler
     {
         const data_to_merge : IData_Tree[] = this.__view_as_root_handler.get_subtree_from_this_container(container_to_merge);
 
-        const data : IData_Tree[] = this.__change_flow_repository.add_the_subtree_to_another_flow(data_to_merge, container_to_link, origin_flow, this.__move_view_handler, this.__node_linker, this.__view_as_root_handler);
+        const data : IData_Tree[] = this.__change_flow_repository.add_the_subtree_to_another_flow(data_to_merge, container_to_link, origin_flow, this.__node_linker, this.__view_as_root_handler);
 
         return data;
     }
