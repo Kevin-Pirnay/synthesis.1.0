@@ -66,9 +66,7 @@ export class Dao_Anim implements IDao_Anim
     }
 
     get_inputs_init_link_roots_for_next(): Inputs_Init_Link_Root 
-    {
-        console.log("1");
-        
+    {        
         const x = 325;
         
         const axe_rotation : Vector<3> = Vector_.new([x, 0, 0]);
@@ -88,8 +86,6 @@ export class Dao_Anim implements IDao_Anim
 
     get_inputs_init_link_roots_for_current(): Inputs_Init_Link_Root 
     {
-        console.log("2");
-
         const x = 0;
         
         const axe_rotation : Vector<3> = Vector_.new([x, 0, 0]);
