@@ -1,3 +1,4 @@
+import { Matrix } from "../../../core/common/Matrix/Matrix";
 import { Ptr } from "../../../core/common/Ptr";
 import { Vector } from "../../../core/common/Vector/Vector";
 import { Vector_ } from "../../../core/common/Vector/Vector_";
@@ -22,6 +23,13 @@ export class Runtime_Persistence
     public readonly current_flow : Ptr<string> = this.__flow;
 
     public readonly default_position_of_the_root: Vector<3> = Vector_.new([150,400,0]);
+
+    public readonly default_container_ratio : Matrix<4> = new Matrix([
+        Vector_.zero(3),
+        Vector_.new([90,0,0]),
+        Vector_.new([90,50,0]),
+        Vector_.new([0,50,0])
+    ]);
 }
 
 export interface IContainer_Data_Flow

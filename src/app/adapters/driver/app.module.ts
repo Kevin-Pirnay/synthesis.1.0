@@ -9,6 +9,8 @@ import { AppComponent } from './base/app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
+import { NavigatorComponent } from './components/navigator/navigator.component';
+import { InfosComponent } from './components/infos/infos.component';
 
 
 @NgModule({
@@ -20,7 +22,9 @@ import { BrowserModule } from "@angular/platform-browser";
     BackViewComponent,
     ChooseRootComponent,
     PaginateComponent,
-    LinkRootsComponent
+    LinkRootsComponent,
+    NavigatorComponent,
+    InfosComponent
   ],
   imports: [
     BrowserModule,

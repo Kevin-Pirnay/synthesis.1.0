@@ -1,10 +1,10 @@
 
 <svg
+    class="svg"
     x="0"
     y="0"
     attr.width="{{window_width}}"
     attr.height="{{window_height}}"
-    class="svg"
     tabindex="1"
     (mouseup)="mouse_up($event)"
     (mousemove)="mouse_move($event)"
@@ -29,8 +29,8 @@
 
         <g>
             <path 
-                *ngIf="dto.type == 1" 
-                class="ligature"
+            *ngIf="dto.type == 1" 
+            class="ligature"
                 (mousedown)="mouse_down_on_ligature(dto.element)"
                 attr.d="
                     M {{dto.element.positions.abs_ratio._[0]._[0]}} {{dto.element.positions.abs_ratio._[0]._[1]}} 
@@ -38,21 +38,28 @@
                       {{dto.element.positions.abs_ratio._[2]._[0]}},{{dto.element.positions.abs_ratio._[2]._[1]}} "
             />
 
-            <path
-                class="grip"
+            <g
                 *ngIf="dto.type == 1" 
                 class="grip"
                 (mousedown)="mouse_down_on_grip(dto.element)"
-                attr.d="
-                    M {{dto.element.positions.abs_ratio._[0]._[0] - 5}} {{dto.element.positions.abs_ratio._[0]._[1] - 5}} 
-                    L {{dto.element.positions.abs_ratio._[0]._[0] + 5}} {{dto.element.positions.abs_ratio._[0]._[1] - 5}} 
-                    L {{dto.element.positions.abs_ratio._[0]._[0] + 5}} {{dto.element.positions.abs_ratio._[0]._[1] + 5}} 
-                    L {{dto.element.positions.abs_ratio._[0]._[0] - 5}} {{dto.element.positions.abs_ratio._[0]._[1] + 5}} " 
-            />
+            >
+                <circle
+                    class="grip-circle-out"
+                    attr.cx="{{dto.element.positions.abs_ratio._[0]._[0]}}"
+                    attr.cy="{{dto.element.positions.abs_ratio._[0]._[1]}}"
+                    attr.r="{{5}}"
+                />
+                <circle
+                    class="grip-circle-in"
+                    attr.cx="{{dto.element.positions.abs_ratio._[0]._[0]}}"
+                    attr.cy="{{dto.element.positions.abs_ratio._[0]._[1]}}"
+                    attr.r="{{2}}"
+                />
+            </g>
+
 
         </g>
 
-        
     </ng-container>
     
     <ng-container *ngFor="let dto of roots_choices">

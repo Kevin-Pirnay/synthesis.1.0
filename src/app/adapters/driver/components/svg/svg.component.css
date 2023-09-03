@@ -1,15 +1,27 @@
 
-.svg
-{
-    background-color: green;
+.svg {
+    background-color: #D6DBDF;
 }
 
-.grip
-{
-    fill: blue;
+.container {
+    fill: #7897b0;
 }
 
-.container:hover
-{
-    cursor: crosshair;
+.grip-circle-out {
+    
+    fill:gray;
+    stroke:  rgb(127, 8, 8);
+}
+
+.grip-circle-in {
+    fill: rgb(127, 8, 8);
+}
+
+.ligature {
+    stroke: blue;
+    fill: transparent;
+}
+
+.root_choice{
+    fill: rgb(127, 8, 8);
 }

@@ -1,5 +1,17 @@
 
+.menu{
+    color:  #C5BE6C;
+    opacity: 1;
+    background-color: rgba(2, 61, 76, 0.742);
+}
+.menu ul{
+    padding-left: 10%;    
+}
+
 .menu-item
 {
+    border: 1px gray solid;
     cursor: crosshair;
+    list-style: none;
+    width: 100%;
 }

@@ -1,0 +1,51 @@
+
+.navigator {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+
+    grid-template-areas: 
+    ".      up      ."
+    "left   .       rigth"
+    ".      down    .";
+
+    width: 100px;
+    height: 100px;
+}
+
+.left{
+    grid-area: left;
+}
+
+.arrow-left {
+
+}
+
+.rigth {
+    grid-area: rigth;
+}
+
+.arrow-rigth {
+
+}
+
+.up {
+    grid-area: up;
+    transform: rotate(90deg);
+}
+
+.arrow-up {
+}
+
+.down {
+    grid-area: down;
+    transform: rotate(-90deg);
+}
+
+.arrow-down {
+}
+
+.arrow-wraper{
+
+   
+}
