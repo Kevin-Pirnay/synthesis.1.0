@@ -5,7 +5,6 @@ import { PipelineService } from '../pipeline/pipeline.service';
 import { Root_Choice } from '../../../../core/domain/entities/Root_Choice';
 import { Svg__Mouse_ } from '../data/svg/dao/Svg__Mouse_';
 import { Svg__Focus_ } from '../data/svg/dao/Svg__Focus_';
-import { Svg_Current_Event } from '../data/svg/memory/Svg_Memory';
 import { Svg_Current_Event_ } from '../data/svg/dao/Svg_Current_Event_';
 
 

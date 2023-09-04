@@ -10,5 +10,12 @@ import { Aside } from './aside/Aside';
 
 export class DataService
 {
-  constructor(public readonly svg : Svg, public readonly aside : Aside) { }
+  public readonly svg : Svg;
+  public readonly aside : Aside
+
+  constructor() 
+  { 
+    this.svg = new Svg();
+    this.aside = new Aside();
+  }
 }
