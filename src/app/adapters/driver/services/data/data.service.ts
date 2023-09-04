@@ -6,7 +6,7 @@ import { Ptr } from '../../../../core/common/Ptr';
 import { Data_Type } from '../../../../core/domain/handlers/handlers_entities/Data_Type';
 import { __assign } from 'tslib';
 import { Svg } from './svg/Svg';
-import { Aside } from "./aside/Aside.1";
+import { Aside } from './aside/Aside';
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +18,6 @@ export class DataService
   public readonly svg : Svg;
   public readonly aside : Aside;
 }
-
-
-
 
 
 export class DataService_0_1 

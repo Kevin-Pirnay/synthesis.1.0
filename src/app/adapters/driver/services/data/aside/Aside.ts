@@ -1,26 +1,17 @@
+import { Aside_ } from "./Aside_";
+import { Aside_Memory } from "./Aside_Memory";
 
 
-export enum Aside_Current_View
+export class Aside 
 {
-  MENU,
-  BACK_VIEW,
-  CHOOSE_ROOT,
-  PAGINATE,
-  LINK_ROOTS
-}
+  public readonly __ : Aside_;
 
-export class Current_View
-{
-  public view : Aside_Current_View = Aside_Current_View.MENU;
-}
+  private readonly __memory : Aside_Memory;
 
-export class Back_View
-{
-  public readonly stack_roots_visited_ids : string[] = [];
-
-  public add_id_to_the_stack_view_ids(id : string) : void
+  constructor()
   {
-    this.stack_roots_visited_ids.push(id);
+    this.__memory = new Aside_Memory();
+
+    this.__ = new Aside_(this.__memory);
   }
 }
-
