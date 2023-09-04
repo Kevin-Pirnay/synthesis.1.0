@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Ptr } from '../../../../../core/common/Ptr';
 import { Container } from '../../../../../core/domain/entities/Container';
 import { DataService } from '../../../services/data/data.service';
-import { PipelineService } from '../../../services/pipeline/pipeline.service';
 import { StateService } from '../../../services/state/state.service';
 
 @Component({
@@ -12,12 +11,7 @@ import { StateService } from '../../../services/state/state.service';
 })
 export class MenuComponent 
 { 
-    private readonly __container_on_focus_ptr : Ptr<Container>;
-
-    constructor(data : DataService, private readonly __state : StateService)
-    {
-      this.__container_on_focus_ptr = data.get_container_on_focus_ptr();
-    } 
+    constructor(private readonly __state : StateService) { } 
 
     public click_on_delete_container() : void
     {

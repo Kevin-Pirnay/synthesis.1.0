@@ -11,7 +11,259 @@ import { __assign } from 'tslib';
 })
 
 
-export class DataService 
+export class DataService
+{
+  public readonly svg : Svg;
+  public readonly aside : Aside;
+}
+
+class Svg
+{
+  public readonly __ = new Svg_(this);
+
+  public readonly mouse : Mouse;
+  public readonly dtos : Dtos;
+  public readonly current_event : Current_Event;
+  public readonly focus : Focus
+}
+
+class Svg_
+{
+  public readonly mouse : Svg__Mouse_;
+  public readonly focus : Svg__Focus_;
+  public readonly current_event : Svg_Current_Event_;
+
+  constructor(svg : Svg) 
+  { 
+    this.mouse = new Svg__Mouse_(svg);
+    this.focus = new Svg__Focus_(svg);
+    this.current_event = new Svg_Current_Event_(svg);
+  }
+}
+
+class Svg_Current_Event_
+{
+  constructor(private readonly __svg : Svg) { }
+
+  public set_is_zooming() : void
+  {
+    this.__svg.current_event.event = Svg_Current_Event.ZOOMING;
+  }
+
+  public set_is_view_moving_rigth() : void
+  {
+    this.__svg.current_event.event = Svg_Current_Event.VIEW_MOVING_RIGTH;
+  }
+
+  public set_is_view_moving_left() : void
+  {
+    this.__svg.current_event.event = Svg_Current_Event.VIEW_MOVING_LEFT;
+  }
+
+  public set_is_view_moving_up() : void
+  {
+    this.__svg.current_event.event = Svg_Current_Event.VIEW_MOVING_UP;
+  }
+
+  public set_is_view_moving_down() : void
+  {
+    this.__svg.current_event.event = Svg_Current_Event.VIEW_MOVING_DOWN;
+  }
+
+  public set_is_linking_roots() : void
+  {
+    this.__svg.current_event.event = Svg_Current_Event.LINKING_ROOTS;
+  }
+}
+
+class Svg__Focus_
+{
+  constructor(private readonly __svg : Svg) { }
+
+  public set_this_container_on_focus(container : Container)
+  {
+    this.__svg.focus.container = container;
+    this.__svg.focus.ligature = null;
+  }
+
+  public set_this_ligature_on_focus(ligature : Ligature)
+  {
+    this.__svg.focus.ligature = ligature;
+    this.__svg.focus.container = null;
+  }
+
+  public reset()
+  {
+    this.__svg.focus.ligature = null;
+    this.__svg.focus.container = null;
+  }
+
+  public is_there_a_container_on_focus() : boolean
+  {
+    return this.__svg.focus.container === null ? false : true;
+  }
+}
+
+class Svg__Mouse_
+{
+  constructor(private readonly __svg : Svg) { }
+
+  public set_mouse_is_down_on_a_container(container : Container) : void
+  {
+    this.__svg.__.focus.set_this_container_on_focus(container);
+    this.__svg.mouse.current_state = Svg_State_Mouse.DOWN_ON_CONTAINER;
+  }
+
+  public set_mouse_is_down_on_a_root_choice() : void
+  {
+    this.__svg.__.focus.reset();
+    this.__svg.mouse.current_state = Svg_State_Mouse.DOWN_ON_ROOT_CHOICE;
+  }
+
+  public set_mouse_is_up() : void
+  {
+    this.__svg.mouse.current_state = Svg_State_Mouse.UP;
+  }
+
+  public set_mouse_is_down_on_a_ligature(ligature : Ligature) : void
+  {
+    this.__svg.__.focus.set_this_ligature_on_focus(ligature);
+    this.__svg.mouse.current_state = Svg_State_Mouse.DOWN_ON_LIGATURE;
+  }
+
+  public set_mouse_is_down_on_a_grip(ligature : Ligature) : void
+  {
+    this.__svg.__.focus.set_this_ligature_on_focus(ligature);
+    this.__svg.mouse.current_state = Svg_State_Mouse.DOWN_ON_GRIP;
+  }
+
+  public is_mouse_down_on_something() : boolean
+  {
+    return this.__svg.mouse.current_state === Svg_State_Mouse.UP ? false : true;
+  }
+
+  public is_mouse_down_on_container() : boolean
+  {
+    return this.__svg.mouse.current_state === Svg_State_Mouse.DOWN_ON_CONTAINER ? true : false;
+  }
+
+  public is_mouse_down_on_grip() : boolean
+  {
+    return this.__svg.mouse.current_state === Svg_State_Mouse.DOWN_ON_GRIP ? true : false;
+  }
+}
+
+enum Svg_State_Mouse
+{
+  DOWN_ON_CONTAINER,
+  DOWN_ON_LIGATURE,
+  DOWN_ON_ROOT_CHOICE,
+  DOWN_ON_GRIP,
+  UP
+}
+
+class Mouse
+{
+  public current_state = Svg_State_Mouse.UP;
+}
+
+class Dtos
+{
+  public readonly dtos : IDto[] = [];
+  public readonly roots_choices : IDto[] = [];
+}
+
+enum Svg_Current_Event
+{
+  ZOOMING,
+  VIEW_MOVING_LEFT,
+  VIEW_MOVING_RIGTH,
+  VIEW_MOVING_UP,
+  VIEW_MOVING_DOWN,
+  LINKING_ROOTS,
+  NONE
+}
+
+class Current_Event
+{
+  public event = Svg_Current_Event.NONE;
+}
+
+class Focus
+{
+  public container : Container | null = null
+  public ligature : Ligature | null = null;
+}
+
+class Aside
+{
+  public readonly __ = new Aside_(this);
+
+  public readonly current_view : Current_View;
+  public readonly back_view : Back_View;
+}
+
+class Aside_
+{
+  public readonly current_view : Aside__Current_View_
+
+  constructor(aside : Aside)
+  {
+    this.current_view = new Aside__Current_View_(aside);
+  }
+}
+
+class Aside__Current_View_
+{
+  constructor(private readonly __aside : Aside) { }
+
+  public set_show_back_view() : void
+  {
+    this.__aside.current_view.view = Aside_Current_View.BACK_VIEW;
+  }
+  public set_show_menu() : void
+  {
+    this.__aside.current_view.view = Aside_Current_View.MENU;
+  }
+
+  public set_show_choose_root() : void
+  {
+    this.__aside.current_view.view = Aside_Current_View.CHOOSE_ROOT;
+  }
+
+  public set_show_paginate() : void
+  {
+    this.__aside.current_view.view = Aside_Current_View.PAGINATE;
+  }
+
+  public set_show_link_roots() : void
+  {
+    this.__aside.current_view.view = Aside_Current_View.LINK_ROOTS;
+  }
+}
+
+enum Aside_Current_View
+{
+  MENU,
+  BACK_VIEW,
+  CHOOSE_ROOT,
+  PAGINATE,
+  LINK_ROOTS
+}
+
+class Current_View
+{
+  public view : Aside_Current_View = Aside_Current_View.MENU;
+}
+
+
+class Back_View
+{
+  public readonly stack_roots_visited_ids : string[] = [];
+}
+
+
+export class DataService_0_1 
 {
   private readonly __dtos : IDto[] = [];
   private readonly __stack_view_ids : string[] = [];
@@ -184,8 +436,8 @@ class Set_State
     this.__event.is_mouse_down_on_grip = false;
     this.__event.is_mouse_down_on_ligature = false;
     this.__event.is_mouse_down_on_root_choice = false;
-    this.__event.is_zooming = false;
-    this.__event.is_view_moving = false;
+    this.__event.is_zooming = false;//???
+    this.__event.is_view_moving = false;//???
   }
 
   public set_mouse_is_down_on_a_ligature(ligature : Ligature) : void

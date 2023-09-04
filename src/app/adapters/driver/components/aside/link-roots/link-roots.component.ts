@@ -8,7 +8,6 @@ import { StateService } from '../../../services/state/state.service';
 })
 export class LinkRootsComponent 
 {
-
   constructor(private readonly __state : StateService) { }
 
   public click_on_next_link_roots() : void

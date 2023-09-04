@@ -3,73 +3,74 @@ import { IDto } from "../../../../port/driver/dto/IDto";
 import { IPaginate_Data } from "./View_Paginate";
 
 
-// export class Paginate_Data implements IPaginate_Data 
-// {
-//     private readonly __previous: IPaginate_Positions;
-//     private readonly __next: IPaginate_Positions;
-
-//     constructor(dto1: IDto[], dto2: IDto[]) 
-//     {
-//         this.__previous = new Paginate_Positions(dto1);
-//         this.__next = new Paginate_Positions(dto2);
-//     }
-
-//     //refactor
-//     public async rotate(direction: number): Promise<void> 
-//     {
-//         if (direction !== 1 && direction !== -1) throw new Error("direction must be either 1 or -1");
-//         let radian: number = 0;
-//         let angle: number = 0;
-//         const step: number = 0.5;
-//         const rate: number = step * direction;
-
-//         while (1) 
-//         {
-//             if (Math.abs(angle) >= 90) break;
-
-//             radian = angle * (Math.PI / 180);
-
-//             this.__next.rotate_on_y_by_radian(radian + (Math.PI / 2) * (-direction));
-//             this.__previous.rotate_on_y_by_radian(radian);
-
-//             await new Promise(r => setTimeout(r, 1));
-
-//             angle += rate;
-
-//             if (angle >= 360) angle = 0;
-//         }
-//     }
-// }
-
 export class Paginate_Data implements IPaginate_Data 
 {
-    private readonly __step : IStep;
-    private readonly __rotate : IRotate;
+    private readonly __previous: IPaginate_Positions;
+    private readonly __next: IPaginate_Positions;
 
     constructor(dto1: IDto[], dto2: IDto[]) 
     {
-       this.__step = new Step();
-
-       this.__rotate = new Rotate(dto1, dto2);
+        this.__previous = new Paginate_Positions(dto1);
+        this.__next = new Paginate_Positions(dto2);
     }
 
-    
+    //refactor
     public async rotate(direction: number): Promise<void> 
     {
-        this.__step.init(90);
+        if (direction !== 1 && direction !== -1) throw new Error("direction must be either 1 or -1");
+        let radian: number = 0;
+        let angle: number = 0;
+        const step: number = 0.5;
+        const rate: number = step * direction;
 
-        while(1)
+        while (1) 
         {
-            if ( this.__step.completed() ) break;
+            if (Math.abs(angle) >= 90) break;
 
-            this.__rotate.rotate_on_y_by_step(direction);
+            radian = angle * (Math.PI / 180);
 
-            this.__step.next_step();
+            this.__next.rotate_on_y_by_radian(radian + (Math.PI / 2) * (-direction));
+            this.__previous.rotate_on_y_by_radian(radian);
 
-            await new Promise(r => setTimeout(r,1));            
+            await new Promise(r => setTimeout(r, 1));
+
+            angle += rate;
+
+            if (angle >= 360) angle = 0;
         }
     }
 }
+
+    //debub
+// export class Paginate_Data implements IPaginate_Data 
+// {
+//     private readonly __step : IStep;
+//     private readonly __rotate : IRotate;
+
+//     constructor(dto1: IDto[], dto2: IDto[]) 
+//     {
+//        this.__step = new Step();
+
+//        this.__rotate = new Rotate(dto1, dto2);
+//     }
+
+    
+//     public async rotate(direction: number): Promise<void> 
+//     {
+//         this.__step.init(90);
+
+//         while(1)
+//         {
+//             if ( this.__step.completed() ) break;
+
+//             this.__rotate.rotate_on_y_by_step(direction);
+
+//             this.__step.next_step();
+
+//             await new Promise(r => setTimeout(r,1));            
+//         }
+//     }
+// }
 
 interface IStep
 {

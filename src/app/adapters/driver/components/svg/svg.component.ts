@@ -20,11 +20,11 @@ export class SvgComponent
   public readonly window_height : number;
 
 
-  constructor(data_service : DataService, private readonly __state : StateService) 
+  constructor(data : DataService, private readonly __state : StateService) 
   { 
-    this.dtos = data_service.get_dtos_ptr();
+    this.dtos = data.get_dtos_ptr();
 
-    this.roots_choices = data_service.get_roots_choices_ptr();
+    this.roots_choices = data.get_roots_choices_ptr();
 
     this.window_width = window.innerWidth;
 
