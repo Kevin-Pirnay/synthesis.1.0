@@ -1,4 +1,4 @@
-import { Aside_Current_View, Aside_Memory } from "./Aside_Memory";
+import { Aside_Current_View, Aside_Memory } from "../Aside_Memory";
 
 
 export class Aside__Current_View_ 
@@ -27,5 +27,10 @@ export class Aside__Current_View_
   public set_show_link_roots(): void 
   {
     this.__memory.current_view = Aside_Current_View.LINK_ROOTS;
+  }
+
+  public get cuurent_view() : Aside_Current_View
+  {
+    return this.__memory.current_view; // this not a ptr...
   }
 }

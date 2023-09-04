@@ -1,6 +1,7 @@
-import { Container } from "../../../../../core/domain/entities/Container";
-import { Ligature } from "../../../../../core/domain/entities/Ligature";
-import { Svg_Memory, Svg_State_Mouse } from "./Svg_Memory";
+
+import { Container } from "../../../../../../core/domain/entities/Container";
+import { Ligature } from "../../../../../../core/domain/entities/Ligature";
+import { Svg_Memory, Svg_State_Mouse } from "../Svg_Memory";
 import { Svg__Focus_ } from "./Svg__Focus_";
 
 

@@ -1,5 +1,5 @@
-import { IDto } from "../../../../../core/port/driver/dto/IDto";
-import { Svg_Memory } from "./Svg_Memory";
+import { IDto } from "../../../../../../core/port/driver/dto/IDto";
+import { Svg_Memory } from "../Svg_Memory";
 
 
 export class Svg__Dtos_ 
@@ -49,5 +49,15 @@ export class Svg__Dtos_
   public remove_all_roots_choices(): void 
   {
     this.__memory.roots_choices.length = 0;
+  }
+
+  public get common_dtos() : IDto[]
+  {
+    return this.__memory.common_dtos;
+  }
+
+  public get roots_choices() : IDto[]
+  {
+    return this.__memory.common_dtos;
   }
 }

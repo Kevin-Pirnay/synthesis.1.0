@@ -52,12 +52,7 @@ export class DataService_0_1
 
   public get_ligature_on_focus_ptr = () : Ptr<Ligature> => { return this.__get.get_ligature_on_focus_ptr(); }
 
-  public get_dtos_ptr = () : IDto[] => { return this.__get.get_dtos_ptr(); }
-
-  public get_stack_view_ids_ptr = () : string[] => { return this.__get.get_stack_view_ids_ptr(); }
-
-  public get_roots_choices_ptr = () : IDto[] => { return this.__get.get_roots_choices_ptr(); }
-
+ 
   public get_is_showing_menu_ptr = () : Ptr<boolean> => { return this.__get.get_is_showing_menu_ptr(); }
   
   public get_is_showing_back_view_ptr = () : Ptr<boolean> => { return this.__get.get_is_showing_back_view_ptr(); }
