@@ -9,7 +9,7 @@ import { AppComponent } from './base/app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
-import { NavigatorComponent } from './components/navigator/navigator.component';
+import { NavigatorComponent } from './components/navigation/navigator/navigator.component';
 import { InfosComponent } from './components/infos/infos.component';
 
 

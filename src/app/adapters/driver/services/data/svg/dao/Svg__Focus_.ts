@@ -1,6 +1,6 @@
 import { Container } from "../../../../../../core/domain/entities/Container";
 import { Ligature } from "../../../../../../core/domain/entities/Ligature";
-import { Svg_Memory } from "../Svg_Memory";
+import { Svg_Memory } from "../memory/Svg_Memory";
 
 
 export class Svg__Focus_ 

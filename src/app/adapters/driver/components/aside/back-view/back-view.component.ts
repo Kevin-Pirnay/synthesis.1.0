@@ -13,16 +13,16 @@ export class BackViewComponent
 
   constructor(data : DataService, private readonly __state : StateService) 
   { 
-    this.stack_ids = data.get_stack_view_ids_ptr();
+    this.stack_ids = data.aside.__.back_view.stack_roots_ids_visited;
   }
 
   public click_on_back_view(id : string) : void
   {
-    this.__state.report_click_on_back_view(id);
+    this.__state.from_aside.back_view.report_click_on_back_view(id);
   }
 
   public click_back_view_root() : void
   {
-    this.__state.report_click_back_view_root();
+    this.__state.from_aside.back_view.report_click_on_back_view_root();
   }
 }

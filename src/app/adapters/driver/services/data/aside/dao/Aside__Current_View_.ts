@@ -1,5 +1,5 @@
 import { Ptr } from "../../../../../../core/common/Ptr";
-import { Aside_Current_View, Aside_Memory } from "../Aside_Memory";
+import { Aside_Current_View, Aside_Memory } from "../memory/Aside_Memory";
 
 
 export class Aside__Current_View_ 
@@ -30,7 +30,7 @@ export class Aside__Current_View_
     this.__memory.current_view._ = Aside_Current_View.LINK_ROOTS;
   }
 
-  public get current_view() : Ptr<Aside_Current_View>
+  public get current_view_ptr() : Ptr<Aside_Current_View>
   {
     return this.__memory.current_view;
   }

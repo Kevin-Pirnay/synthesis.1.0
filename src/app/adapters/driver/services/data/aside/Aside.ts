@@ -1,5 +1,5 @@
 import { Aside_ } from "./Aside_";
-import { Aside_Memory } from "./Aside_Memory";
+import { Aside_Memory } from "./memory/Aside_Memory";
 
 
 export class Aside 

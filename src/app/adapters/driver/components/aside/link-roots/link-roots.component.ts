@@ -12,16 +12,16 @@ export class LinkRootsComponent
 
   public click_on_next_link_roots() : void
   {
-    this.__state.report_click_on_next_link_roots();
+    this.__state.from_aside.link_roots.report_click_on_next_link_roots();
   }
 
   public click_on_previous_link_root() : void
   {
-    this.__state.report_click_on_previous_link_root();
+    this.__state.from_aside.link_roots.report_click_on_previous_link_root();
   }
 
   public click_on_back_link_roots() : void
   {
-    this.__state.report_click_on_back_link_roots();
+    this.__state.from_aside.link_roots.report_click_on_back_link_roots();
   }
 }

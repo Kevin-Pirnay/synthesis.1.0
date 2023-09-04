@@ -12,16 +12,16 @@ export class ChooseRootComponent
 
   public click_on_next_choose_roots() : void
   {
-    this.__state.report_click_on_next_choose_roots();
+    this.__state.from_aside.choose_root.report_click_on_next_choose_roots();
   }
 
   public click_on_previous_choose_root() : void
   {
-    this.__state.report_click_on_previous_choose_root();
+    this.__state.from_aside.choose_root.report_click_on_previous_choose_root();
   }
 
   public click_on_back_choose_roots() : void
   {
-    this.__state.report_click_on_back_choose_roots();
+    this.__state.from_aside.choose_root.report_click_on_back_choose_roots();
   }
 }

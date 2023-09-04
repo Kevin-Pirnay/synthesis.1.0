@@ -22,9 +22,9 @@ export class SvgComponent
 
   constructor(data : DataService, private readonly __state : StateService) 
   { 
-    this.dtos = data.get_dtos_ptr();
+    this.dtos = data.svg.__.dtos.common_dtos;
 
-    this.roots_choices = data.get_roots_choices_ptr();
+    this.roots_choices = data.svg.__.dtos.roots_choices;
 
     this.window_width = window.innerWidth;
 
@@ -33,47 +33,47 @@ export class SvgComponent
 
   public mouse_up(e : MouseEvent) : void
   {
-    this.__state.report_mouse_up(e);
+    this.__state.from_svg.report_mouse_up(e);
   }
 
   public mouse_move(e : MouseEvent) : void
   {
-    this.__state.report_mouse_move(e);
+    this.__state.from_svg.report_mouse_move(e);
   }
 
   public mouse_down_on_container(container : Container) : void
   {
-    this.__state.report_mouse_down_on_container(container);
+    this.__state.from_svg.report_mouse_down_on_container(container);
   }
 
   public mouse_down_on_ligature(ligature : Ligature) : void
   {
-    this.__state.report_mouse_down_on_ligature(ligature);
+    this.__state.from_svg.report_mouse_down_on_ligature(ligature);
   }
 
   public mouse_down_on_grip(ligature : Ligature) : void
   {
-    this.__state.report_mouse_down_on_grip(ligature);
+    this.__state.from_svg.report_mouse_down_on_grip(ligature);
   }
 
   public mouse_over_container(container : Container) : void
   {
-    this.__state.report_mouse_over_container(container);
+    this.__state.from_svg.report_mouse_over_container(container);
   }
 
   public key_down(e : KeyboardEvent) : void
   {
-    this.__state.report_key_down(e);
+    this.__state.from_svg.report_key_down(e);
   }
 
   public key_up() : void
   {
-    this.__state.report_key_up();
+    this.__state.from_svg.report_key_up();
   }
 
   public mouse_down_on_root_choice(root : Root_Choice) : void
   {
-    this.__state.report_mouse_down_on_root_choice(root);
+    this.__state.from_svg.report_mouse_down_on_root_choice(root);
   }
 }
 

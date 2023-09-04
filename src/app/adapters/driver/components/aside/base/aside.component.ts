@@ -2,6 +2,7 @@ import { DataService } from './../../../services/data/data.service';
 import { Component } from '@angular/core';
 import { StateService } from '../../../services/state/state.service';
 import { Ptr } from '../../../../../core/common/Ptr';
+import { Aside_Current_View } from '../../../services/data/aside/memory/Aside_Memory';
 
 @Component({
   selector: 'app-aside',
@@ -10,44 +11,35 @@ import { Ptr } from '../../../../../core/common/Ptr';
 })
 export class AsideComponent 
 {
-  public readonly is_showing_menu_ptr : Ptr<boolean>;
-  public readonly is_showing_back_view_ptr : Ptr<boolean>;
-  public readonly is_showing_choose_root_ptr : Ptr<boolean>;
-  public readonly is_showing_paginate_ptr : Ptr<boolean>;
-  public readonly is_showing_link_roots_ptr : Ptr<boolean>;
+  public readonly current_view : Ptr<Aside_Current_View>;
 
   constructor(data : DataService, private readonly __state : StateService) 
   { 
-    this.is_showing_menu_ptr = data.get_is_showing_menu_ptr();
-    this.is_showing_back_view_ptr = data.get_is_showing_back_view_ptr();
-    this.is_showing_choose_root_ptr = data.get_is_showing_choose_root_ptr();
-    this.is_showing_paginate_ptr = data.get_is_showing_paginate_ptr();
-    this.is_showing_link_roots_ptr = data.get_is_showing_link_roots_ptr();
-    data.set_show_menu(true);
+    this.current_view = data.aside.__.current_view.current_view_ptr;
   }
 
   public click_on_show_menu() : void
   {
-    this.__state.report_click_on_show_menu();
+    this.__state.from_aside.base.report_click_on_show_menu();
   }
 
   public click_on_show_back_view() : void
   {
-    this.__state.report_click_on_show_back_view();
+    this.__state.from_aside.base.report_click_on_show_back_view();
   }
 
   public click_on_show_choose_root() : void
   {
-    this.__state.report_click_on_show_choose_root();
+    this.__state.from_aside.base.report_click_on_show_choose_root();
   }
 
   public click_on_show_paginate() : void
   {
-    this.__state.report_click_on_show_paginate();
+    this.__state.from_aside.base.report_click_on_show_paginate();
   }
 
   public click_on_show_link_roots() : void
   {
-    this.__state.report_click_on_show_link_roots();
+    this.__state.from_aside.base.report_click_on_show_link_roots();
   }
 }

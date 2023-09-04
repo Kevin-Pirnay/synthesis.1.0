@@ -1,4 +1,4 @@
-import { Svg_Current_Event, Svg_Memory } from "../Svg_Memory";
+import { Svg_Current_Event, Svg_Memory } from "../memory/Svg_Memory";
 
 export class Svg_Current_Event_ 
 {

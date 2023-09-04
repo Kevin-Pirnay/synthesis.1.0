@@ -1,6 +1,6 @@
 import { IDto } from "../../../../../core/port/driver/dto/IDto";
 import { Svg_Current_Event_ } from "./dao/Svg_Current_Event_";
-import { Svg_Memory } from "./Svg_Memory";
+import { Svg_Memory } from "./memory/Svg_Memory";
 import { Svg__Dtos_ } from "./dao/Svg__Dtos_";
 import { Svg__Focus_ } from "./dao/Svg__Focus_";
 import { Svg__Mouse_ } from "./dao/Svg__Mouse_";

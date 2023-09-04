@@ -1,5 +1,5 @@
 import { IDto } from "../../../../../../core/port/driver/dto/IDto";
-import { Svg_Memory } from "../Svg_Memory";
+import { Svg_Memory } from "../memory/Svg_Memory";
 
 
 export class Svg__Dtos_ 

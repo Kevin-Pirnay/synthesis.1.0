@@ -1,7 +1,7 @@
-import { Ptr } from "../../../../../core/common/Ptr";
-import { Container } from "../../../../../core/domain/entities/Container";
-import { Ligature } from "../../../../../core/domain/entities/Ligature";
-import { IDto } from "../../../../../core/port/driver/dto/IDto";
+import { Ptr } from "../../../../../../core/common/Ptr";
+import { Container } from "../../../../../../core/domain/entities/Container";
+import { Ligature } from "../../../../../../core/domain/entities/Ligature";
+import { IDto } from "../../../../../../core/port/driver/dto/IDto";
 
 export class Svg_Memory
 {

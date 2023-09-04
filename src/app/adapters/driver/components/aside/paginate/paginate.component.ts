@@ -12,16 +12,16 @@ export class PaginateComponent
 
   public clik_on_next_paginate() : void
   {
-    this.__state.report_clik_on_next_paginate();
+    this.__state.from_aside.paginate.report_clik_on_next_paginate();
   }
 
   public clik_on_previous_paginate() : void
   {
-    this.__state.report_clik_on_previous_paginate();
+    this.__state.from_aside.paginate.report_clik_on_previous_paginate();
   }
 
   public clik_on_back_paginate() : void
   {
-    this.__state.report_clik_on_back();
+    this.__state.from_aside.paginate.report_clik_on_back_paginate();
   }
 }

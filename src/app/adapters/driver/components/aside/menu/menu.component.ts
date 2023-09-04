@@ -15,31 +15,31 @@ export class MenuComponent
 
     public click_on_delete_container() : void
     {
-      this.__state.report_click_on_delete_container();
+      this.__state.from_aside.menu.report_click_on_delete_container();
     }
 
     public click_on_view_as_root() : void
     {
-      this.__state.report_click_on_view_as_root();
+      this.__state.from_aside.menu.report_click_on_view_as_root();
     }
 
     public click_on_mark_as_root() : void
     {
-      this.__state.report_click_on_mark_as_root();
+      this.__state.from_aside.menu.report_click_on_mark_as_root();
     }
 
     public click_on_choose_root() : void
     {
-      this.__state.report_click_on_choose_root();
+      this.__state.from_aside.menu.report_click_on_choose_root();
     }
 
     public click_on_paginate() : void
     {
-      this.__state.report_click_on_paginate();
+      this.__state.from_aside.menu.report_click_on_paginate();
     }
 
     public click_on_link_roots() : void
     {
-      this.__state.report_click_on_link_roots();
+      this.__state.from_aside.menu.report_click_on_link_roots();
     }
 }
