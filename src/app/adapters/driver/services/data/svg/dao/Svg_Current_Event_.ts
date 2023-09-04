@@ -34,6 +34,11 @@ export class Svg_Current_Event_
     this.__memory.current_event._  = Svg_Current_Event.LINKING_ROOTS;
   }
 
+  public set_current_event_to_none() : void
+  {
+    this.__memory.current_event._  = Svg_Current_Event.NONE;
+  }
+
   public is_zooming(): boolean 
   {
     return this.__memory.current_event._  == Svg_Current_Event.ZOOMING ? true : false;

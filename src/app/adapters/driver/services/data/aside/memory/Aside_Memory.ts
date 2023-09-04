@@ -10,9 +10,9 @@ export class Aside_Memory
 
 export enum Aside_Current_View
 {
-  MENU,
-  BACK_VIEW,
-  CHOOSE_ROOT,
-  PAGINATE,
-  LINK_ROOTS
+  MENU = 0,
+  BACK_VIEW = 1,
+  CHOOSE_ROOT = 2,
+  PAGINATE = 3,
+  LINK_ROOTS = 4
 }

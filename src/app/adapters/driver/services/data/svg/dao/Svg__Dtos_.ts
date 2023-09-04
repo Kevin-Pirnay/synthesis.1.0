@@ -39,6 +39,11 @@ export class Svg__Dtos_
     roots.forEach(root => this.__memory.roots_choices.push(root));
   }
 
+  public add_roots_to_root_choices(root: IDto): void 
+  {
+    this.__memory.roots_choices.push(root);
+  }
+
   public replace_roots_choices_by(roots: IDto[]) 
   {
     this.__memory.roots_choices.length = 0;
