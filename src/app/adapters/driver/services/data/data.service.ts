@@ -102,6 +102,30 @@ class Svg__Focus_
   {
     return this.__svg.focus.container === null ? false : true;
   }
+
+  public container_on_focus() : Container
+  {
+    if ( this.__svg.focus.container == null ) throw new Error("No Container is currently on focus");
+
+    return this.__svg.focus.container_currently_on_focus._;
+  }
+
+  public get_nullable_container_on_focus() : Container | null
+  {
+    return this.__focus.container_currently_on_focus._; 
+  }
+
+  public ligature_on_focus() : Ligature
+  {
+    if ( this.__focus.ligature_currently_on_focus._ == null ) throw new Error("No Ligature is currently on focus");
+
+    return this.__focus.ligature_currently_on_focus._;
+  }
+
+  public get_nullable_ligature_on_focus() : Ligature | null
+  {
+    return this.__focus.ligature_currently_on_focus._; 
+  }
 }
 
 class Svg__Mouse_
