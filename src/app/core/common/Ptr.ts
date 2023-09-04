@@ -2,14 +2,9 @@
 export class Ptr<T> 
 {
   public _: T | null = null;
-}
 
-export class Ptr_Ref<T>
-{
-  public readonly ref : T;
-
-  constructor(ref : T)
+  constructor(init : T | null = null)
   {
-    this.ref = ref;
+    this._ = init;
   }
 }

@@ -1,11 +1,12 @@
+import { Ptr } from "../../../../../core/common/Ptr";
 import { Container } from "../../../../../core/domain/entities/Container";
 import { Ligature } from "../../../../../core/domain/entities/Ligature";
 import { IDto } from "../../../../../core/port/driver/dto/IDto";
 
 export class Svg_Memory
 {
-    public mouse_current_state = Svg_State_Mouse.UP;
-    public current_event = Svg_Current_Event.NONE;
+    public mouse_current_state : Ptr<Svg_State_Mouse> = new Ptr(Svg_State_Mouse.UP);
+    public current_event : Ptr<Svg_Current_Event> = new Ptr(Svg_Current_Event.NONE);
     public focus_container: Container | null = null;
     public focus_ligature: Ligature | null = null;
     public readonly common_dtos: IDto[] = [];
