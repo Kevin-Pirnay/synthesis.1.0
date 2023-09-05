@@ -1,8 +1,9 @@
 
 .menu{
+    position: relative;
     color:  #C5BE6C;
     opacity: 1;
-    background-color: rgba(2, 61, 76, 0.742);
+    background-color: transparent
 }
 .menu ul{
     padding-left: 10%;    
@@ -14,4 +15,12 @@
     cursor: crosshair;
     list-style: none;
     width: 100%;
+}
+
+.menu-texture
+{
+    position: relative;
+    
+    width: 100%;
+    height: 100100%;
 }
