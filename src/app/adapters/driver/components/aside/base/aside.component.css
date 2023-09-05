@@ -10,7 +10,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
+    /* justify-content: center; */
 }
 
 .aside-texture
@@ -28,5 +28,8 @@
 }
 
 .nav{
-    height: 25%;
+    position: absolute;
+    right: 25vw;
+    bottom: 5vh;
+    /* height: 25%; */
 }
