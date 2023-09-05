@@ -9,12 +9,15 @@
 
 .grip-circle-out {
     
-    fill:gray;
-    stroke:  rgb(127, 8, 8);
+    /* fill:gray; */
+    /* stroke:  rgb(127, 8, 8); */
+    fill: #C5BE6C;
 }
 
 .grip-circle-in {
-    fill: rgb(127, 8, 8);
+    /* fill: rgb(127, 8, 8); */
+    fill: #C5BE6C;
+
 }
 
 .ligature {

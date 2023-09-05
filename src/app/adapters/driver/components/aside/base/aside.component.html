@@ -1,6 +1,8 @@
 
-<svg width="0" height="0" xmlns='http://www.w3.org/2000/svg'>
+<svg z-index="-1" class="aside-texture" xmlns='http://www.w3.org/2000/svg'>
+
     <defs>
+
         <filter id="aside-texture">
     
             <feTurbulence type="fractalNoise" baseFrequency='0.04' result='noise' numOctaves="5" />
@@ -20,10 +22,8 @@
             />
         
         </filter>
-    </defs>
-</svg>
 
-<svg z-index="-1" class="aside-texture" xmlns='http://www.w3.org/2000/svg'>
+    </defs>
 
     <rect x="0" y="0" width="100%" height="100%" fill="#fff" filter="url(#aside-texture)" />
 
@@ -58,9 +58,4 @@
 
     </div>
 
-    <div class="nav">
-
-        <app-navigator></app-navigator>
-
-    </div>
 </section>

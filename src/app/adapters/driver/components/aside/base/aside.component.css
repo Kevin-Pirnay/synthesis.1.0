@@ -26,10 +26,3 @@
 {
     cursor: crosshair;
 }
-
-.nav{
-    position: absolute;
-    right: 25vw;
-    bottom: 5vh;
-    /* height: 25%; */
-}

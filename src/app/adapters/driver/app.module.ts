@@ -1,3 +1,4 @@
+import { NavigatorComponent } from './components/navigation/navigator/navigator.component';
 import { LinkRootsComponent } from './components/aside/link-roots/link-roots.component';
 import { PaginateComponent } from './components/aside/paginate/paginate.component';
 import { ChooseRootComponent } from './components/aside/choose-root/choose-root.component';
@@ -9,8 +10,10 @@ import { AppComponent } from './base/app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
-import { NavigatorComponent } from './components/navigation/navigator/navigator.component';
 import { InfosComponent } from './components/infos/infos.component';
+import { ZoomComponent } from './components/navigation/zoom/zoom.component';
+import { NavigationComponent } from './components/navigation/base/navigation.component';
+
 
 
 @NgModule({
@@ -24,7 +27,9 @@ import { InfosComponent } from './components/infos/infos.component';
     PaginateComponent,
     LinkRootsComponent,
     NavigatorComponent,
-    InfosComponent
+    InfosComponent,
+    ZoomComponent,
+    NavigationComponent
   ],
   imports: [
     BrowserModule,

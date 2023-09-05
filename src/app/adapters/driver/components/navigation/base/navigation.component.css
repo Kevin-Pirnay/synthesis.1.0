@@ -1,0 +1,11 @@
+.navigator{
+    position: absolute;
+    right: 25vw;
+    bottom: 5vh;
+}
+
+.zoom{
+    position: absolute;
+    right: 5vw;
+    bottom: 5vh;
+}

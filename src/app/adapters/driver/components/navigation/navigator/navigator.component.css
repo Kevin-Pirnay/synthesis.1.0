@@ -17,16 +17,8 @@
     grid-area: left;
 }
 
-.arrow-left {
-
-}
-
 .rigth {
     grid-area: rigth;
-}
-
-.arrow-rigth {
-
 }
 
 .up {
@@ -34,18 +26,8 @@
     transform: rotate(90deg);
 }
 
-.arrow-up {
-}
-
 .down {
     grid-area: down;
     transform: rotate(-90deg);
 }
 
-.arrow-down {
-}
-
-.arrow-wraper{
-
-   
-}
