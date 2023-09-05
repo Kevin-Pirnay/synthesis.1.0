@@ -3,15 +3,22 @@
     position: relative;
     color:  #C5BE6C;
     opacity: 1;
-    background-color: transparent
+    background-color: transparent;
+    height: 200px;
+    width: 150px;
 }
 .menu ul{
-    padding-left: 10%;    
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding-left: 10%;  
+    background-color: transparent;
+  
 }
 
 .menu-item
 {
-    border: 1px gray solid;
+    /* border: 1px gray solid; */
     cursor: crosshair;
     list-style: none;
     width: 100%;
@@ -19,8 +26,9 @@
 
 .menu-texture
 {
-    position: relative;
-    
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 100100%;
+    height: 100%;
 }
