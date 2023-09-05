@@ -13,7 +13,11 @@
     left: 0;
     padding-left: 10%;  
     background-color: transparent;
-  
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+    margin: 1em;
 }
 
 .menu-item
@@ -30,5 +34,5 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 120%;
 }
