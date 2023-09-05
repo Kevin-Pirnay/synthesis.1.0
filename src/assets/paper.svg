@@ -1,0 +1,27 @@
+<svg width="0" height="0" xmlns='http://www.w3.org/2000/svg'>
+    <defs>
+        <filter id="paper-texture">
+    
+            <feTurbulence type="fractalNoise" baseFrequency='0.04' result='noise' numOctaves="5" />
+                            
+            <feDiffuseLighting in='noise' lighting-color='#fff' surfaceScale='1'>
+        
+                <feDistantLight azimuth='45' elevation='60' />
+                
+            </feDiffuseLighting>
+        
+        </filter>
+
+        <filter id="container-texture">
+    
+            <feTurbulence type="fractalNoise" baseFrequency='0.04' result='noise' numOctaves="5" />
+                            
+            <feDiffuseLighting in='noise' lighting-color='#7897b0' surfaceScale='1'>
+        
+                <feDistantLight azimuth='45' elevation='60' />
+                
+            </feDiffuseLighting>
+        
+        </filter>
+    </defs>
+</svg>
