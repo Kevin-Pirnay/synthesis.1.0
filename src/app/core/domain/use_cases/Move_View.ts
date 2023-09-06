@@ -17,13 +17,13 @@ export class Move_View_Use_case
 
         switch (request.direction) 
         {
-            case "ArrowLeft": delta = Vector_.new([step, 0]); break;
+            case "left": delta = Vector_.new([step, 0]); break;
 
-            case "ArrowRight": delta = Vector_.new([-step, 0]); break;
+            case "rigth": delta = Vector_.new([-step, 0]); break;
 
-            case "ArrowUp": delta = Vector_.new([0, step]); break;
+            case "up": delta = Vector_.new([0, step]); break;
 
-            case "ArrowDown": delta = Vector_.new([0, -step]); break;
+            case "down": delta = Vector_.new([0, -step]); break;
         
             default: throw new Error("the key must be an arrow key");
         }

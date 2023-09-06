@@ -62,9 +62,9 @@ export class PipelineService
     this.__request.request_assign_ligature(ligature, container);
   }
 
-  public request_move_view(key : string): void
+  public request_move_view(direction : string): void
   { 
-   this.__request.request_move_view(key);
+   this.__request.request_move_view(direction);
   }
 
   public request_zoom(direction : number) : void

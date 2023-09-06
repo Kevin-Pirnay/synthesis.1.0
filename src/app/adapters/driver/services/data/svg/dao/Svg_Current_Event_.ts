@@ -1,3 +1,4 @@
+import { Ptr } from "../../../../../../core/common/Ptr";
 import { Svg_Current_Event, Svg_Memory } from "../memory/Svg_Memory";
 
 export class Svg_Current_Event_ 
@@ -56,5 +57,10 @@ export class Svg_Current_Event_
   public is_linking_roots(): boolean 
   {
     return this.__memory.current_event._  == Svg_Current_Event.ZOOMING ? true : false;
+  }
+
+  public get current_event_ptr() : Ptr<Svg_Current_Event>
+  {
+    return this.__memory.current_event;
   }
 }

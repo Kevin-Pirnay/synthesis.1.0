@@ -1,18 +1,95 @@
 
-<div class="navigator">
-    <svg class="arrow-wraper up" width="100%" height="100%" viewBox="0 0 100 100">
-        <path fill="#7897b0" class="arrow-up" d="M0 50 l60 -30 l-40 30 l40 30 l-60 -30 m20 0 l60 -30 l-40 30 l40 30 l-60 -30 m20 0 l60 -30 l-40 30 l40 30 l-60 -30"/>
+
+<svg width="0" height="0" xmlns='http://www.w3.org/2000/svg'>
+    <defs>
+        <filter id="arrow-focus-texture">
+    
+            <feTurbulence type="fractalNoise" baseFrequency='0.04' result='noise' numOctaves="5" />
+                            
+            <feDiffuseLighting in='noise' lighting-color='#023d4c' surfaceScale='4'>
+        
+                <feDistantLight azimuth='45' elevation='60' />
+                
+            </feDiffuseLighting>
+
+            <feColorMatrix
+                type="matrix"
+                values="1 0 0 0 0
+                        0 1 0 0 0
+                        0 0 1 0 0
+                        0 0 0 .6 0" 
+            />
+        
+        </filter>
+    </defs>
+</svg>
+
+
+<div 
+    class="navigator"
+    (mouseup)="report_mouse_up()"
+>
+    <svg 
+        class="arrow-wraper up" 
+        width="100%" 
+        height="100%" 
+        viewBox="0 0 100 100"
+        (mousedown)="report_click_on_arrow_up()"
+    >
+        <rect x="0%" y ="0%" width="100%" height="100%" filter="url(#arrow-focus-texture)" *ngIf="current_event._ === 3"/>
+
+        <path 
+            fill="#7897b0" 
+            class="arrow-up" 
+            d="M0 50 l60 -30 l-40 30 l40 30 l-60 -30 m20 0 l60 -30 l-40 30 l40 30 l-60 -30 m20 0 l60 -30 l-40 30 l40 30 l-60 -30"
+        />
     </svg>
     
-    <svg class="arrow-wraper down" width="100%" height="100%" viewBox="0 0 100 100">
-        <path class="arrow-down" fill="#7897b0" d="M0 50 L60 20 L20 50 L60 80 L0 50 M20 50 L80 20 L40 50 L80 80 L20 50 M40 50 L100 20 L60 50 L100 80 L40 50"/>
+    <svg 
+        class="arrow-wraper down" 
+        width="100%" 
+        height="100%" 
+        viewBox="0 0 100 100"
+        (mousedown)="report_click_on_arrow_down()"
+    >
+        <rect x="0%" y ="0%" width="100%" height="100%" filter="url(#arrow-focus-texture)" *ngIf="current_event._ === 4"/>
+
+        <path 
+            class="arrow-down" 
+            fill="#7897b0" 
+            d="M0 50 L60 20 L20 50 L60 80 L0 50 M20 50 L80 20 L40 50 L80 80 L20 50 M40 50 L100 20 L60 50 L100 80 L40 50"
+        />
     </svg>
     
-    <svg class="arrow-wraper left" width="100%" height="100%" viewBox="0 0 100 100">
-        <path class="arrow-left" fill="#7897b0" d="M0 50 L60 20 L20 50 L60 80 L0 50 M20 50 L80 20 L40 50 L80 80 L20 50 M40 50 L100 20 L60 50 L100 80 L40 50"/>
+    <svg 
+        class="arrow-wraper left" 
+        width="100%" 
+        height="100%" 
+        viewBox="0 0 100 100"
+        (mousedown)="report_click_on_arrow_left()"
+    >
+        <rect x="0%" y ="0%" width="100%" height="100%" filter="url(#arrow-focus-texture)" *ngIf="current_event._ === 1"/>
+
+        <path 
+            class="arrow-left" 
+            fill="#7897b0" 
+            d="M0 50 L60 20 L20 50 L60 80 L0 50 M20 50 L80 20 L40 50 L80 80 L20 50 M40 50 L100 20 L60 50 L100 80 L40 50"
+        />
     </svg>
     
-    <svg class="arrow-wraper rigth" width="100%" height="100%" viewBox="0 0 100 100">
-        <path class="arrow-rigth" fill="#7897b0" d="M100 50 l-60 -30 l40 30 l-40 30 l60 -30 m-20 0 l-60 -30 l40 30 l-40 30 l60 -30 m-20 0 l-60 -30 l40 30 l-40 30 l60 -30"/>
+    <svg 
+        class="arrow-wraper rigth" 
+        width="100%" 
+        height="100%" 
+        viewBox="0 0 100 100"
+        (mousedown)="report_click_on_arrow_rigth()"
+    >
+        <rect x="0%" y ="0%" width="100%" height="100%" filter="url(#arrow-focus-texture)" *ngIf="current_event._ === 2"/>
+
+        <path 
+            class="arrow-rigth" 
+            fill="#7897b0" 
+            d="M100 50 l-60 -30 l40 30 l-40 30 l60 -30 m-20 0 l-60 -30 l40 30 l-40 30 l60 -30 m-20 0 l-60 -30 l40 30 l-40 30 l60 -30"
+        />
     </svg>
 </div>

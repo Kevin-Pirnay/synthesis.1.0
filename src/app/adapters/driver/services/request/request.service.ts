@@ -1,10 +1,10 @@
+import { Create_Container_Request, Delete_Container_Request, Move_Container_Request, Move_ligature_Request, Assign_Ligature_Request, Move_View_Request, Zoom_Request, View_As_Root_Request, Back_View_Request, Mark_As_Root_Request, Choose_Root_Request, View_Choose_Root_Request, Choosen_Root_Request, Paginate_Request, View_Paginate_Request, Link_Roots_Request, View_Link_Roots_Request, Select_Link_Roots_Request } from 'src/app/core/port/driver/request/request';
 import { Observer } from '../../../../core/common/Observer/Observer';
 import { Vector_ } from '../../../../core/common/Vector/Vector_';
 import { Container } from '../../../../core/domain/entities/Container';
 import { Ligature } from '../../../../core/domain/entities/Ligature';
 import { Root_Choice } from '../../../../core/domain/entities/Root_Choice';
 import { IDto } from '../../../../core/port/driver/dto/IDto';
-import { Create_Container_Request, Delete_Container_Request, Move_Container_Request, Move_ligature_Request, Assign_Ligature_Request, Move_View_Request, Zoom_Request, Choose_Root_Request, Mark_As_Root_Request, View_As_Root_Request, Back_View_Request, View_Choose_Root_Request, Paginate_Request, View_Paginate_Request, View_Link_Roots_Request, Choosen_Root_Request, Link_Roots_Request, Select_Link_Roots_Request } from '../../../../core/port/driver/request/request';
 import { Pipeline } from './../../../../core/port/driver/Pipeline';
 import { Injectable } from '@angular/core';
 
@@ -52,9 +52,9 @@ export class RequestService
     Pipeline.facade.execute_assign_ligature(request);
   }
 
-  public request_move_view(key : string): void
+  public request_move_view(direction : string): void
   { 
-    const request = new Move_View_Request(key);
+    const request = new Move_View_Request(direction);
 
     Pipeline.facade.execute_move_view(request);
   }
