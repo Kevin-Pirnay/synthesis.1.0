@@ -168,19 +168,20 @@ export class Paginate_Position implements IPaginate_Position
 {
     private readonly __abs_ratio: Matrix<any>;
 
-    //private readonly __fixe_pos: Matrix<any>;
+    private readonly __fixe_pos: Matrix<any>;
 
     constructor(dto: IDto) 
     {
         this.__abs_ratio = dto.element.positions.abs_ratio;
 
-        //this.__fixe_pos = this.__abs_ratio.__.copy();
+        this.__fixe_pos = this.__abs_ratio.__.copy();
     }
 
     public rotate_on_y_by_radian(radian: number): void 
     {
         //const copy = this.__abs_ratio.__.copy();
         //this.__abs_ratio.__.assign_new_data(copy.__.rotate_y_new(radian));
-        this.__abs_ratio.__.rotate_y(radian);
+        //this.__abs_ratio.__.rotate_y(radian);
+        this.__abs_ratio.__.assign_new_data(this.__fixe_pos.__.rotate_y_new(radian));
     }
 }
