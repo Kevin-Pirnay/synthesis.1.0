@@ -10,10 +10,6 @@ export class Aside__Current_View_
   {
     this.__memory.current_view._ = Aside_Current_View.BACK_VIEW;
   }
-  public set_show_menu(): void 
-  {
-    this.__memory.current_view._ = Aside_Current_View.MENU;
-  }
 
   public set_show_choose_root(): void 
   {

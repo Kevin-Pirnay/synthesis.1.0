@@ -32,30 +32,11 @@
 <section class="aside">
 
 
-    <div class="infos">
+    <app-infos></app-infos>
 
-        <app-infos></app-infos>
+    <app-menu></app-menu>
 
-    </div>
+    <app-under-menu></app-under-menu>
 
-    <div class="main">
-
-        <ul class="tabs">
-
-            <li class="aside-items" (click)="click_on_show_menu()">menu</li>
-            <li class="aside-items" (click)="click_on_show_back_view()">back view</li>
-            <li class="aside-items" (click)="click_on_show_choose_root()">choose root</li>
-            <li class="aside-items" (click)="click_on_show_paginate()">paginate</li>
-            <li class="aside-items" (click)="click_on_show_link_roots()">link roots</li>
-
-        </ul>
-    
-        <app-menu *ngIf="current_view._ == 0"></app-menu>
-        <app-back-view *ngIf="current_view._ == 1"></app-back-view>
-        <app-choose-root *ngIf="current_view._ == 2"></app-choose-root>
-        <app-paginate *ngIf="current_view._ == 3"></app-paginate>
-        <app-link-roots *ngIf="current_view._ == 4"></app-link-roots>
-
-    </div>
 
 </section>

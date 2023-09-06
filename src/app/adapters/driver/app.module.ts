@@ -13,6 +13,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { InfosComponent } from './components/infos/infos.component';
 import { ZoomComponent } from './components/navigation/zoom/zoom.component';
 import { NavigationComponent } from './components/navigation/base/navigation.component';
+import { UnderMenuComponent } from './components/aside/under_menu/under-menu/under-menu.component';
 
 
 
@@ -29,7 +30,8 @@ import { NavigationComponent } from './components/navigation/base/navigation.com
     NavigatorComponent,
     InfosComponent,
     ZoomComponent,
-    NavigationComponent
+    NavigationComponent,
+    UnderMenuComponent
   ],
   imports: [
     BrowserModule,
