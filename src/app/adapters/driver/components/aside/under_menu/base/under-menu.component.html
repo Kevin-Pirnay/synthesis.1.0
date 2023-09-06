@@ -10,14 +10,6 @@
                 <feDistantLight azimuth='45' elevation='60' />
                 
             </feDiffuseLighting>
-
-            <!-- <feColorMatrix
-                type="matrix"
-                values="1 0 0 0 0
-                        0 1 0 0 0
-                        0 0 1 0 0
-                        0 0 0 1 0" 
-            /> -->
         
         </filter>
     </defs>
@@ -31,8 +23,8 @@
     
     </svg>
 
-    <app-back-view *ngIf="current_view._ == 0"></app-back-view>
-    <app-choose-root *ngIf="current_view._ == 1"></app-choose-root>
-    <app-paginate *ngIf="current_view._ == 2"></app-paginate>
-    <app-link-roots *ngIf="current_view._ == 3"></app-link-roots>
+    <app-back-view class="under-menu-view" *ngIf="current_view._ == 0"></app-back-view>
+    <app-choose-root class="under-menu-view" *ngIf="current_view._ == 1"></app-choose-root>
+    <app-paginate class="under-menu-view" *ngIf="current_view._ == 2"></app-paginate>
+    <app-link-roots class="under-menu-view" *ngIf="current_view._ == 3"></app-link-roots>
 </section>
