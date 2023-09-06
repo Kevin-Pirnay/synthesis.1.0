@@ -1,10 +1,12 @@
-import { From_Paginate } from './From_Paginate';
-import { From_Link_Roots } from './From_Link_Roots';
-import { From_Choose_Root } from './From_Choose_Root';
-import { From_Back_View } from './Froms/From_Back_View';
-import { From_Menu } from './From_Menu';
+
 import { DataService } from '../../data/data.service';
 import { PipelineService } from '../../pipeline/pipeline.service';
+import { From_Choose_Root } from './Froms/From_Choose_Root';
+import { From_Link_Roots } from './Froms/From_Link_Roots';
+import { From_Paginate } from './Froms/From_Paginate';
+import { From_Back_View } from './Froms/From_Back_View';
+import { From_Menu } from './Froms/From_Menu';
+
 
 
 export class From_Aside 

@@ -1,8 +1,9 @@
+import { UnderMenuComponent } from './components/aside/under_menu/base/under-menu.component';
+import { PaginateComponent } from './components/aside/under_menu/paginate/paginate.component';
+import { LinkRootsComponent } from './components/aside/under_menu/link-roots/link-roots.component';
+import { ChooseRootComponent } from './components/aside/under_menu/choose-root/choose-root.component';
+import { BackViewComponent } from './components/aside/under_menu/back-view/back-view.component';
 import { NavigatorComponent } from './components/navigation/navigator/navigator.component';
-import { LinkRootsComponent } from './components/aside/link-roots/link-roots.component';
-import { PaginateComponent } from './components/aside/paginate/paginate.component';
-import { ChooseRootComponent } from './components/aside/choose-root/choose-root.component';
-import { BackViewComponent } from './components/aside/back-view/back-view.component';
 import { AsideComponent } from './components/aside/base/aside.component';
 import { MenuComponent } from './components/aside/menu/menu.component';
 import { SvgComponent } from './components/svg/svg.component';
@@ -13,7 +14,6 @@ import { BrowserModule } from "@angular/platform-browser";
 import { InfosComponent } from './components/infos/infos.component';
 import { ZoomComponent } from './components/navigation/zoom/zoom.component';
 import { NavigationComponent } from './components/navigation/base/navigation.component';
-import { UnderMenuComponent } from './components/aside/under_menu/under-menu/under-menu.component';
 
 
 

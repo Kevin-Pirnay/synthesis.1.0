@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { DataService } from '../../../services/data/data.service';
-import { StateService } from '../../../services/state/state.service';
+import { DataService } from '../../../../services/data/data.service';
+import { StateService } from '../../../../services/state/state.service';
+
 
 @Component({
   selector: 'app-back-view',

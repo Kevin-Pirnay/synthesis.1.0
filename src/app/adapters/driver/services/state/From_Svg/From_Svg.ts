@@ -1,6 +1,6 @@
 import { DataService } from '../../data/data.service';
 import { PipelineService } from '../../pipeline/pipeline.service';
-import { From_Mouse } from './From_Mouse';
+import { From_Mouse } from './Froms/From_Mouse';
 import { From_Key } from './Froms/From_Key';
 
 

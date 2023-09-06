@@ -1,8 +1,9 @@
-import { Aside__Current_View_ } from '../../data/aside/dao/Aside__Current_View_';
-import { DataService } from '../../data/data.service';
-import { PipelineService } from '../../pipeline/pipeline.service';
-import { Svg__Focus_ } from '../../data/svg/dao/Svg__Focus_';
-import { Svg_Current_Event_ } from '../../data/svg/dao/Svg_Current_Event_';
+import { Aside__Current_View_ } from "../../../data/aside/dao/Aside__Current_View_";
+import { DataService } from "../../../data/data.service";
+import { Svg_Current_Event_ } from "../../../data/svg/dao/Svg_Current_Event_";
+import { Svg__Focus_ } from "../../../data/svg/dao/Svg__Focus_";
+import { PipelineService } from "../../../pipeline/pipeline.service";
+
 
 export class From_Menu 
 {
@@ -18,12 +19,20 @@ export class From_Menu
 
     public report_click_on_mark_as_root(): void 
     {
-        if (this.__focus.is_there_a_container_on_focus()) this.__pipeline.request_mark_as_root(this.__focus.container_on_focus());
+        if (this.__focus.is_there_a_container_on_focus())
+        {
+            this.__pipeline.request_mark_as_root(this.__focus.container_on_focus());
+        } 
     }
 
     public report_click_on_view_as_root(): void 
     {
-        if (this.__focus.is_there_a_container_on_focus()) this.__pipeline.request_view_as_root(this.__focus.container_on_focus());
+        if (this.__focus.is_there_a_container_on_focus())
+        {
+            this.__pipeline.request_view_as_root(this.__focus.container_on_focus());
+
+            this.__current_view.set_show_back_view();
+        } 
     }
 
     public report_click_on_delete_container(): void 
@@ -43,7 +52,12 @@ export class From_Menu
 
     public report_click_on_paginate(): void 
     {
-        if (this.__focus.is_there_a_container_on_focus()) this.__pipeline.request_init_paginate(this.__focus.container_on_focus());
+        if (this.__focus.is_there_a_container_on_focus())
+        {
+            this.__pipeline.request_init_paginate(this.__focus.container_on_focus());
+
+            this.__current_view.set_show_paginate();
+        } 
     }
 
     public report_click_on_link_roots(): void 
@@ -51,5 +65,7 @@ export class From_Menu
         if (this.__focus.is_there_a_container_on_focus()) this.__pipeline.request_init_link_roots(this.__focus.container_on_focus());
 
         this.__current_event.set_is_linking_roots();
+
+        this.__current_view.set_show_link_roots();
     }
 }

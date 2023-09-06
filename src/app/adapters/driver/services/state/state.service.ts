@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DataService } from '../data/data.service';
 import { PipelineService } from '../pipeline/pipeline.service';
-import { From_Aside } from './From_Aside';
+import { From_Aside } from './From_Aside/From_Aside';
 import { From_Svg } from './From_Svg/From_Svg';
 
 
