@@ -8,8 +8,8 @@ import { Root_Choice } from '../../../../core/domain/entities/Root_Choice';
 import { Observer } from '../../../../core/common/Observer/Observer';
 import { Svg__Dtos_ } from '../data/svg/dao/Svg__Dtos_';
 import { Svg__Focus_ } from '../data/svg/dao/Svg__Focus_';
-import { Aside__Back_View_ } from '../data/aside/dao/Aside__Back_View_';
 import { Svg_Current_Event_ } from '../data/svg/dao/Svg_Current_Event_';
+import { Aside__Stack_Roots_Ids_ } from '../data/aside/dao/Aside__Stack_Roots_Ids_';
 
 @Injectable({
   providedIn: 'root'
@@ -19,13 +19,13 @@ export class PipelineService
   private readonly __data_dtos : Svg__Dtos_;
   private readonly __data_current_event : Svg_Current_Event_;
   private readonly __data_focus : Svg__Focus_;
-  private readonly __data_back_view : Aside__Back_View_;
+  private readonly __data_back_view : Aside__Stack_Roots_Ids_;
 
   constructor(private readonly __request : RequestService, data : DataService) 
   { 
     this.__data_dtos = data.svg.__.dtos;
     this.__data_focus = data.svg.__.focus;
-    this.__data_back_view = data.aside.__.back_view;
+    this.__data_back_view = data.aside.__.stack_roots_ids;
     this.__data_current_event = data.svg.__.current_event;
   }
 

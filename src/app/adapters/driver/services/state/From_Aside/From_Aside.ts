@@ -19,7 +19,7 @@ export class From_Aside
 
     constructor(data: DataService, pipeline: PipelineService) 
     {
-        this.back_view = new From_Back_View(pipeline);
+        this.back_view = new From_Back_View(data, pipeline);
         this.choose_root = new From_Choose_Root(pipeline);
         this.menu = new From_Menu(data, pipeline);
         this.link_roots = new From_Link_Roots(pipeline);

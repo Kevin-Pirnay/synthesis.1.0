@@ -14,7 +14,7 @@ export class BackViewComponent
 
   constructor(data : DataService, private readonly __state : StateService) 
   { 
-    this.stack_ids = data.aside.__.back_view.stack_roots_ids_visited;
+    this.stack_ids = data.aside.__.stack_roots_ids.stack_roots_ids_visited;
   }
 
   public click_on_back_view(id : string) : void
