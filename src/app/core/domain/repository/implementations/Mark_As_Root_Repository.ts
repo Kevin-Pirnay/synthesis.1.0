@@ -19,7 +19,7 @@ export class Mark_As_Root_Repository implements IMark_As_Root_Repository
         return this.__container_dao.get_default_position_of_the_root();
     }
 
-    public get_mark_as_root_data(container: Container): IMark_As_Root 
+    public get_mark_as_root_injector(container: Container): IMark_As_Root 
     {
         return new Mark_As_Root(container);
     }

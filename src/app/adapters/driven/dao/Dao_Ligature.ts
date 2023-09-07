@@ -61,7 +61,7 @@ class Save_Ligature_Handler
         //init if not exist
         if ( !ligatures_ids[current_flow] ) ligatures_ids[current_flow] = [];
 
-        //save
+        //not added if exist
         if ( ligatures_ids[current_flow].find(id => id == ligature_id) ) return;
 
         ligatures_ids[current_flow].push(ligature_id);

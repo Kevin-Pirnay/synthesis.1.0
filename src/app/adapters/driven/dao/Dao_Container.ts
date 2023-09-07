@@ -3,7 +3,6 @@ import { IDao_Container } from "../../../core/port/driven/dao/IDao_Container";
 import { Flow, IContainer_Data_Flow, Runtime_Persistence } from "../runtime_memory/Runtime_Persistence";
 import { Vector } from '../../../core/common/Vector/Vector';
 import { Matrix } from '../../../core/common/Matrix/Matrix';
-import { Vector_ } from '../../../core/common/Vector/Vector_';
 import { Ptr } from "../../../core/common/Ptr";
 
 
@@ -145,7 +144,7 @@ class Save_Container_Handler
         //init if not exist
         if ( !containers_ids[current_flow] ) containers_ids[current_flow] = [];
 
-        //save
+        //not added if exist
         if ( containers_ids[current_flow].find(id => id == container_id) ) return;
         
         containers_ids[current_flow].push(container_id);

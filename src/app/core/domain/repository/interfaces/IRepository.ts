@@ -32,7 +32,7 @@ export interface ICreate_Repository
 
 export interface IDelete_Container_Repository
 {
-    get_remove_container(container: Container, node_linker_handler: INode_Linker): IRemove_Container;
+    get_remove_container_injector(container: Container, node_linker_handler: INode_Linker): IRemove_Container;
     delete_unit_from_memory(unit_to_remove: Unit_Node): void;
 }
 
@@ -75,7 +75,7 @@ export interface IMark_As_Root_Repository
 {
     get_default_position_of_the_root(): Vector<3>;
     save_the_new_root(container: Container): void;
-    get_mark_as_root_data(container: Container): IMark_As_Root;
+    get_mark_as_root_injector(container: Container): IMark_As_Root;
 }
 
 

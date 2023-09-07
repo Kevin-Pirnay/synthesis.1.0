@@ -6,7 +6,7 @@ import { IAssign_Ligature } from "../../../use_cases/Move_Ligature";
 
 export class Assing_Ligature implements IAssign_Ligature 
 {
-    public static get_assign_ligature(node_linker: Node_Linker, ligature: Ligature, container_to_assign: Container): IAssign_Ligature 
+    public static get_assign_ligature_injector(node_linker: Node_Linker, ligature: Ligature, container_to_assign: Container): IAssign_Ligature 
     {
         return new Assing_Ligature(node_linker, ligature, container_to_assign);
     }

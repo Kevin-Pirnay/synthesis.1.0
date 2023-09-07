@@ -4,7 +4,7 @@ import { IMove_Container } from "../../../use_cases/Move_Container";
 
 export class Move_Container implements IMove_Container 
 {
-    public static get_move_container(target_position: Vector<3>, container: Container): IMove_Container 
+    public static get_move_container_injector(target_position: Vector<3>, container: Container): IMove_Container 
     {
         return new Move_Container(target_position, container);
     }

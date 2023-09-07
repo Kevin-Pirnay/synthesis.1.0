@@ -13,7 +13,7 @@ export class Delete_Container_Repository implements IDelete_Container_Repository
         private readonly __dao_ligature : IDao_Ligature,
     ) { }
 
-    public get_remove_container(container_to_remove: Container, node_linker_handler: INode_Linker) : Remove_Container
+    public get_remove_container_injector(container_to_remove: Container, node_linker_handler: INode_Linker) : Remove_Container
     {
         return new Remove_Container(container_to_remove, node_linker_handler, this);
     }
