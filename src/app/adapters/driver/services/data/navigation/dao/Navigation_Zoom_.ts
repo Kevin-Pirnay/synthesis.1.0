@@ -26,8 +26,39 @@ export class Navigation_Zoom_
         this.__memory.mouse_current_state._ = Navigation_Zoom_Mouse_State.MOVING_TO_THE_LEFT;
     }
 
+    public increment_cursor_position() : void
+    {
+        if(this.__memory.cursor_position._ == null) throw new Error("memory cursor_position was not initialized");
+
+        this.__memory.cursor_position._ ++;
+    }
+
+    public decrement_cursor_position() : void
+    {
+        if(this.__memory.cursor_position._ == null) throw new Error("memory cursor_position was not initialized");
+
+        this.__memory.cursor_position._ --;
+    }
+
+    public init_cursor_mouse_position(position : number) : void
+    {
+        this.__memory.cursor_mouse_position._ = position;
+    }
+
     public get mouse_state_ptr() : Ptr<Navigation_Zoom_Mouse_State>
     {
         return this.__memory.mouse_current_state;
+    }
+
+    public get cursor_position_ptr() : Ptr<number>
+    {
+        return this.__memory.cursor_position;
+    }
+
+    public get current_mouse_position() : number
+    {
+        if (this.__memory.cursor_mouse_position._ == null) throw new Error("memory navigation cursor_mouse_position was not initialized");
+
+        return this.__memory.cursor_mouse_position._;
     }
 }
