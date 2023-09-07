@@ -23,11 +23,11 @@ export class From_Key
         switch (e.key) 
         {
             case '+':
-                this.__current_event.set_is_zooming();
+                this.__current_event.set_is_zooming_up();
                 this.__pipeline.request_zoom(1);
                 break;
             case '-':
-                this.__current_event.set_is_zooming();
+                this.__current_event.set_is_zooming_down();
                 this.__pipeline.request_zoom(-1);
                 break;
 

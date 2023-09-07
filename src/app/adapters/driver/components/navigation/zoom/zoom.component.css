@@ -4,3 +4,13 @@
     width: 100px;
     height: 100px;
 }
+
+.cursor:hover
+{
+    cursor: grab;
+}
+
+.down_on_cursor
+{
+    cursor: grabbing;
+}

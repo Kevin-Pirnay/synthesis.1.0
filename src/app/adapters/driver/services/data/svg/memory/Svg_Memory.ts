@@ -24,11 +24,12 @@ export enum Svg_State_Mouse
 
 export enum Svg_Current_Event 
 {
-  ZOOMING,
   VIEW_MOVING_LEFT,
   VIEW_MOVING_RIGTH,
   VIEW_MOVING_UP,
   VIEW_MOVING_DOWN,
+  ZOOMING_UP,
+  ZOOMING_DOWN,
   LINKING_ROOTS,
   NONE
 }
