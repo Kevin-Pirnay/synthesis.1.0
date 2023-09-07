@@ -14,7 +14,6 @@ export class Assing_Ligature implements IAssign_Ligature
     private readonly __node_linker: Node_Linker;
     private readonly __ligature: Ligature;
     private readonly __container_to_assign: Container;
-
     private readonly __child_container: Container;
 
     constructor(node_linker: Node_Linker, ligature: Ligature, container_to_assign: Container) 
@@ -22,7 +21,6 @@ export class Assing_Ligature implements IAssign_Ligature
         this.__node_linker = node_linker;
         this.__ligature = ligature;
         this.__container_to_assign = container_to_assign;
-
         this.__child_container = this.__ligature.child;
     }
 

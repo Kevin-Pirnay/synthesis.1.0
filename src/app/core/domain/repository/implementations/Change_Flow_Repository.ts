@@ -41,7 +41,6 @@ export class Change_Flow_Repository implements IChange_Flow_Repository
         data_to_merge.translate_the_data_to_merge_according_to_the_container_to_link();
         const ligature : Ligature = data_to_merge.create_the_ligature_to_relate_the_container_to_link_to_the_the_root_of_data_to_merge();
         data_to_merge.links_nodes(container_to_link, ligature, data_tree_to_merge[0].element);
-        console.log(data_tree_to_merge[0].element);
         
         return data_to_merge.get_the_new_tree();
     }

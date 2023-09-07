@@ -23,8 +23,6 @@ export class Link_Roots implements ILink_Roots
 
     public async anim(observer: Observer<IDto[]>): Promise<void> 
     {
-        //problem : you cannot put two flow on the same time because of the container **ptr that are possibly in two differents flows => confusion between ptr in multiflows
-        //need to use an observer -> handle that as a stream
         this.__current.init(observer);
         await this.__current.rotate_and_zoom();
 
@@ -36,6 +34,7 @@ export class Link_Roots implements ILink_Roots
 export interface ILink_Flow 
 {
     rotate_and_zoom(): Promise<void>;
+    
     init(observer: Observer<IDto[]>): void;
 }
 
