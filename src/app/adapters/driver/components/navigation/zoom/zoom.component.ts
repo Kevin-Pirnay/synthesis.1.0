@@ -21,7 +21,13 @@ export class ZoomComponent
 
   public ngAfterViewInit(): void 
   {
-   
+    const slider = document.querySelector(".slider") as HTMLElement;
+
+    const slider_origin : number = slider.getBoundingClientRect().left;
+
+    const slider_size : number = slider.getBoundingClientRect().width;
+
+   this.__state.from_navigation.zoom.report_init_slider_view(slider_origin, slider_size);
   }
 
   public mouse_down_on_cursor() : void

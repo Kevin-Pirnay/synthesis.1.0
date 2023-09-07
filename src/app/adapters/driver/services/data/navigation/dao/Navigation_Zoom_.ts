@@ -36,6 +36,8 @@ export class Navigation_Zoom_
         if(this.__memory.cursor_position._ == null || this.__memory.step_slider == null) throw new Error("memory navigation slider data was not initialized. Need to call init_slider_data");
 
         this.__memory.cursor_position._ += this.__memory.step_slider;
+
+        console.log("step", this.__memory.cursor_position._);
     }
 
     public decrement_cursor_position() : void
@@ -43,6 +45,9 @@ export class Navigation_Zoom_
         if(this.__memory.cursor_position._ == null || this.__memory.step_slider == null) throw new Error("memory navigation slider data was not initialized. Need to call init_slider_data");
 
         this.__memory.cursor_position._ -= this.__memory.step_slider;
+
+        console.log("step",this.__memory.cursor_position._);
+
     }
 
     public init_slider_data(origin_slider : number, size_slider : number) : void
