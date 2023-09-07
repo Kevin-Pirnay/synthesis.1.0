@@ -3,6 +3,7 @@ import { Vector_ } from "../../common/Vector/Vector_";
 import { Assign_Ligature_Request, Move_ligature_Request } from "../../port/driver/request/request";
 import { INode_Linker } from "../handlers/handlers_use_case/Link_Node/INode_Linker";
 import { Assing_Ligature } from "../repository/implementations/injectors/Assing_Ligature";
+import { Moving_Ligature } from "../repository/implementations/injectors/Moving_Ligature";
 
 
 export class Move_Ligature_Use_case
@@ -11,13 +12,15 @@ export class Move_Ligature_Use_case
 
     public handle_move_ligature(request : Move_ligature_Request) : void
     {
-        //refactor
-        //substract by a margin the target position to let a margin between the cursor and the ligature
-        const adjust_pos : Vector<3> = request.new_pos.__.substract_by_vector(Vector_.new([-6,-6,0])) //in order_to have access to the container under the grip
+        const margin = Vector_.new([-6,-6,0]);
 
-        const delta : Vector<3> = adjust_pos.__.substract_by_vector_new(request.ligature.positions.abs_ratio._[0]);
+        const moving_ligature = Moving_Ligature.get_moving_ligature_injector(request.ligature);
 
-        request.ligature.__.update_ratio_by_delta(delta);
+        const adjust_pos : Vector<3> = moving_ligature.substract_a_margin_to_the_target_position_to_let_a_margin_between_the_cursor_and_the_ligature(request.new_pos, margin) //in order_to have access to the container under the grip
+
+        const delta : Vector<3> = moving_ligature.get_the_delta_between_its_position_and_this_position(adjust_pos);
+
+        moving_ligature.update_its_position_according_to_the_delta(delta);
     }
 
     public handle_assign_ligature_to_container(request : Assign_Ligature_Request) : void
@@ -32,12 +35,12 @@ export class Move_Ligature_Use_case
     }
 }
 
-export interface IMove_Ligature
+export interface IMoving_Ligature
 {
-    substract_by_a_margin_the_target_position_to_let_a_margin_between_the_cursor_and_the_ligature(target_pos : Vector<3>, margin : Vector<3>) : Vector<3>;
-    
+    substract_a_margin_to_the_target_position_to_let_a_margin_between_the_cursor_and_the_ligature(target_pos : Vector<3>, margin : Vector<3>) : Vector<3>;
+    get_the_delta_between_its_position_and_this_position(target_pos : Vector<3>) : Vector<3>;
+    update_its_position_according_to_the_delta(delta : Vector<3>) : void;
 }
-
 
 export interface IAssign_Ligature
 {
