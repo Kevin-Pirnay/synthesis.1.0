@@ -6,7 +6,11 @@ export class Navigation_Memory
 
     public readonly cursor_position : Ptr<number> = new Ptr(50);
 
-    public readonly cursor_mouse_position : Ptr<number> = new Ptr();
+    public origin_slider : number | null = null;
+
+    public step_slider : number | null = null;
+
+    public readonly nb_step_slider : number = 100;
 }
 
 export enum Navigation_Zoom_Mouse_State

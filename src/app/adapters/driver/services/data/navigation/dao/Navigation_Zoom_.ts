@@ -1,6 +1,7 @@
 import { Ptr } from "../../../../../../core/common/Ptr";
 import { Navigation_Memory, Navigation_Zoom_Mouse_State } from "../memory/Navigation_Memory";
 
+
 export class Navigation_Zoom_
 {
     constructor(private readonly __memory : Navigation_Memory) { }
@@ -13,7 +14,6 @@ export class Navigation_Zoom_
     public set_mouse_is_up() : void
     {
         this.__memory.mouse_current_state._ = Navigation_Zoom_Mouse_State.UP;
-
     }
 
     public set_mouse_is_mouving_to_the_rigth() : void
@@ -26,23 +26,32 @@ export class Navigation_Zoom_
         this.__memory.mouse_current_state._ = Navigation_Zoom_Mouse_State.MOVING_TO_THE_LEFT;
     }
 
+    public is_mouse_down_on_cursor() : boolean
+    {
+        return this.__memory.mouse_current_state._ == Navigation_Zoom_Mouse_State.DOWN_ON_CURSOR ? true : false;
+    }
+
     public increment_cursor_position() : void
     {
-        if(this.__memory.cursor_position._ == null) throw new Error("memory cursor_position was not initialized");
+        if(this.__memory.cursor_position._ == null || this.__memory.step_slider == null) throw new Error("memory navigation slider data was not initialized. Need to call init_slider_data");
 
-        this.__memory.cursor_position._ ++;
+        this.__memory.cursor_position._ += this.__memory.step_slider;
     }
 
     public decrement_cursor_position() : void
     {
-        if(this.__memory.cursor_position._ == null) throw new Error("memory cursor_position was not initialized");
+        if(this.__memory.cursor_position._ == null || this.__memory.step_slider == null) throw new Error("memory navigation slider data was not initialized. Need to call init_slider_data");
 
-        this.__memory.cursor_position._ --;
+        this.__memory.cursor_position._ -= this.__memory.step_slider;
     }
 
-    public init_cursor_mouse_position(position : number) : void
+    public init_slider_data(origin_slider : number, size_slider : number) : void
     {
-        this.__memory.cursor_mouse_position._ = position;
+        this.__memory.origin_slider = origin_slider;
+
+        this.__memory.step_slider = size_slider / this.__memory.nb_step_slider;
+
+        if ( this.__memory.cursor_position._ == null ) this.__memory.cursor_position._ = 50 * this.__memory.step_slider;
     }
 
     public get mouse_state_ptr() : Ptr<Navigation_Zoom_Mouse_State>
@@ -55,10 +64,10 @@ export class Navigation_Zoom_
         return this.__memory.cursor_position;
     }
 
-    public get current_mouse_position() : number
+    public get_current_cursor_mouse_position() : number
     {
-        if (this.__memory.cursor_mouse_position._ == null) throw new Error("memory navigation cursor_mouse_position was not initialized");
+        if(this.__memory.origin_slider == null || this.__memory.cursor_position._ == null) throw new Error("memory navigation slider data was not initialized. Need to call init_slider_data");
 
-        return this.__memory.cursor_mouse_position._;
+        return this.__memory.origin_slider + this.__memory.cursor_position._;
     }
 }
