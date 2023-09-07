@@ -33,6 +33,11 @@ export class View_Paginate implements IView_Paginate
 
         return new View_Paginate_Response(dto);
     }
+
+    public static get_view_paginate_injector(paginate_repository: IPaginate_Repository, view_as_root_handler: IView_As_Root_Handler, direction: number) : View_Paginate
+    {
+        return new View_Paginate(paginate_repository, view_as_root_handler, direction);
+    }
 }
 
 export interface IPaginate_Data 
