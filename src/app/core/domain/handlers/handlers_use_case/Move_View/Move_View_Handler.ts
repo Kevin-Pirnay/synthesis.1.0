@@ -1,9 +1,9 @@
 import { Vector } from '../../../../common/Vector/Vector';
 import { IMove_View_Handler } from "./IMove_View_Handler";
-import { Ptr_Boolean } from '../../../../common/Ptr_Boolean';
 import { IMove_View_Repository } from '../../../repository/interfaces/IRepository';
 import { IData_Tree } from "../View_As_Root/IData_Tree";
 import { IMove_View_Positions } from './IMove_View_Positions';
+import { Ptr } from '../../../../common/Ptr';
 
 
 export class Move_View_Handler implements IMove_View_Handler
@@ -22,11 +22,11 @@ export class Move_View_Handler implements IMove_View_Handler
 
     public async move_view_by_delta_in_contious_async(delta : Vector<3>) : Promise<void>
     {
-        const complete : Ptr_Boolean = this.__repository.init_stop_move_view_condition();
+        const complete : Ptr<boolean> = this.__repository.init_stop_move_view_condition();
 
         while(1)
         {
-            if ( complete.value ) break;
+            if ( complete._ ) break;
 
             this.move_view_by_delta(delta);
 

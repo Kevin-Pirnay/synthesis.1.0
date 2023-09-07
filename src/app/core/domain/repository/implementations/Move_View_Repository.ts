@@ -2,34 +2,34 @@ import { IDao_Container } from '../../../port/driven/dao/IDao_Container';
 import { IDao_Ligature } from '../../../port/driven/dao/IDao_Ligature';
 import { Container } from '../../entities/Container';
 import { Ligature } from '../../entities/Ligature';
-import { Ptr_Boolean } from '../../../common/Ptr_Boolean';
 import { Ligature_Move_View_Positions } from './injectors/Move_View_Positions';
 import { Container_Move_View_Positions } from './injectors/Move_View_Positions';
 import { IMove_View_Repository } from '../interfaces/IRepository';
 import { Data_Type } from '../../handlers/handlers_entities/Data_Type';
 import { IMove_View_Positions } from '../../handlers/handlers_use_case/Move_View/IMove_View_Positions';
 import { IData_Tree } from '../../handlers/handlers_use_case/View_As_Root/IData_Tree';
+import { Ptr } from '../../../common/Ptr';
 
 
 export class Move_View_Repository implements IMove_View_Repository
 {
-    private readonly __stop_move_view_cond : Ptr_Boolean = new Ptr_Boolean();
+    private readonly __stop_move_view_cond : Ptr<boolean> = new Ptr(false);
 
     constructor(
         private readonly __dao_container : IDao_Container,  
         private readonly __dao_ligature : IDao_Ligature
     ) { }
 
-    public init_stop_move_view_condition(): Ptr_Boolean 
+    public init_stop_move_view_condition(): Ptr<boolean> 
     {
-        this.__stop_move_view_cond.value = false;
+        this.__stop_move_view_cond._ = false;
         
         return this.__stop_move_view_cond;
     }
 
     public set_stop_move_view_condition_to(value: boolean): void 
     {
-        this.__stop_move_view_cond.value = value;
+        this.__stop_move_view_cond._ = value;
     }
     
     public get_all_move_views_positions(): IMove_View_Positions[] 

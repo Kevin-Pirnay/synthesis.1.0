@@ -1,5 +1,4 @@
 import { IDao_Anim } from './../../../port/driven/dao/IDao_Anim';
-import { Ptr_Boolean } from "../../../common/Ptr_Boolean";
 import { Vector } from "../../../common/Vector/Vector";
 import { IDao_Container } from "../../../port/driven/dao/IDao_Container";
 import { IDao_Ligature } from "../../../port/driven/dao/IDao_Ligature";
@@ -9,13 +8,14 @@ import { IZoom_Repository } from "../interfaces/IRepository";
 import { Container_Zoom_Positions } from "./injectors/Zoom_Positions";
 import { Ligature_Zoom_Positions } from "./injectors/Zoom_Positions";
 import { IZoom_Positions } from '../../handlers/handlers_use_case/Zoom/IZoom_Positions';
+import { Ptr } from '../../../common/Ptr';
 
 
 export class Zoom_Repository implements IZoom_Repository
 {
     private __zoom_level : number = 0;
     private __alpha : number = 1.01;
-    private readonly __stop_zoom_condition : Ptr_Boolean = new Ptr_Boolean();
+    private readonly __stop_zoom_condition : Ptr<boolean> = new Ptr(false);
 
     constructor(
         private readonly __dao_container : IDao_Container,  
@@ -28,16 +28,16 @@ export class Zoom_Repository implements IZoom_Repository
         return this.__dao_anim.get_center_zoom_point();
     }
 
-    public init_stop_zoom_condition(): Ptr_Boolean 
+    public init_stop_zoom_condition(): Ptr<boolean> 
     {
-        this.__stop_zoom_condition.value = false;
+        this.__stop_zoom_condition._ = false;
         
         return this.__stop_zoom_condition;
     }
 
     public set_stop_zoom_condition_to(value: boolean): void 
     {
-        this.__stop_zoom_condition.value = value;
+        this.__stop_zoom_condition._ = value;
     }
 
     public get_all_zooms_positions() : IZoom_Positions[] 

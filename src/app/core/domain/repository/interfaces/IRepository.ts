@@ -3,7 +3,6 @@ import { Container, Unit_Node } from "../../entities/Container";
 import { Ligature } from "../../entities/Ligature";
 import { INode_Linker } from "../../handlers/handlers_use_case/Link_Node/INode_Linker";
 import { IMove_View_Positions } from '../../handlers/handlers_use_case/Move_View/IMove_View_Positions';
-import { Ptr_Boolean } from '../../../common/Ptr_Boolean';
 import { IZoom_Positions } from '../../handlers/handlers_use_case/Zoom/IZoom_Positions';
 import { IRemove_Container } from "../../use_cases/Delete_Container";
 import { Vector } from "../../../common/Vector/Vector";
@@ -20,6 +19,7 @@ import { ILink_Roots } from "../../use_cases/Link_Root/Init_Link_Roots";
 import { Root_Choice } from "../../entities/Root_Choice";
 import { IChoosen_Root } from "../../use_cases/Choose_Root/Chosen_Root";
 import { IChange_Flow_Handler } from "../../handlers/handlers_use_case/Change_Root/IChange_Flow_Handler";
+import { Ptr } from "../../../common/Ptr";
 
 
 export interface ICreate_Repository 
@@ -40,7 +40,7 @@ export interface IDelete_Container_Repository
 export interface IMove_View_Repository
 {
     get_move_view_positions_from_subtree(data: IData_Tree[]): IMove_View_Positions[];
-    init_stop_move_view_condition(): Ptr_Boolean;
+    init_stop_move_view_condition(): Ptr<boolean>;
     get_all_move_views_positions(): IMove_View_Positions[];
     set_stop_move_view_condition_to(value : boolean) : void
 }
@@ -50,7 +50,7 @@ export interface IZoom_Repository
 {
     get_center_zoom_point(): Vector<3>;
     set_stop_zoom_condition_to(arg0: boolean): void;
-    init_stop_zoom_condition(): Ptr_Boolean;
+    init_stop_zoom_condition(): Ptr<boolean>;
     get_all_zooms_positions(): IZoom_Positions[];
     update_zoom_factor(direction: number): number;
     update_zoom_level(level : number) : number;

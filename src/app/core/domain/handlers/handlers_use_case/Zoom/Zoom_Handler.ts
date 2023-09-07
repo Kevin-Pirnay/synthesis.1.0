@@ -1,4 +1,4 @@
-import { Ptr_Boolean } from '../../../../common/Ptr_Boolean';
+import { Ptr } from '../../../../common/Ptr';
 import { Vector } from '../../../../common/Vector/Vector';
 import { Container } from '../../../entities/Container';
 import { Ligature } from '../../../entities/Ligature';
@@ -57,11 +57,11 @@ export class Zoom_Handler implements IZoom_Handler
 
     public async zoom_by_direction_in_contious_async(direction: number) : Promise<void>
     {
-        const ptr_condition : Ptr_Boolean = this.__repository.init_stop_zoom_condition();
+        const ptr_condition : Ptr<boolean> = this.__repository.init_stop_zoom_condition();
 
         while(1)
         {
-            if ( ptr_condition.value ) break;
+            if ( ptr_condition._ ) break;
 
             this.zoom_by_direction(direction);
 
