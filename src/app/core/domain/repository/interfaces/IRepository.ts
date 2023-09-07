@@ -39,6 +39,7 @@ export interface IDelete_Container_Repository
 
 export interface IMove_View_Repository
 {
+    get_move_delta_step(): number;
     get_move_view_positions_from_subtree(data: IData_Tree[]): IMove_View_Positions[];
     init_stop_move_view_condition(): Ptr<boolean>;
     get_all_move_views_positions(): IMove_View_Positions[];

@@ -1,3 +1,4 @@
+import { IDao_Anim } from './../../../port/driven/dao/IDao_Anim';
 import { IDao_Container } from '../../../port/driven/dao/IDao_Container';
 import { IDao_Ligature } from '../../../port/driven/dao/IDao_Ligature';
 import { Container } from '../../entities/Container';
@@ -17,8 +18,14 @@ export class Move_View_Repository implements IMove_View_Repository
 
     constructor(
         private readonly __dao_container : IDao_Container,  
-        private readonly __dao_ligature : IDao_Ligature
+        private readonly __dao_ligature : IDao_Ligature,
+        private readonly __dao_anim : IDao_Anim
     ) { }
+
+    public get_move_delta_step(): number 
+    {
+        return this.__dao_anim.get_move_view_delta_step();
+    }
 
     public init_stop_move_view_condition(): Ptr<boolean> 
     {

@@ -16,6 +16,11 @@ export class Dao_Anim implements IDao_Anim
 
     constructor(private readonly __runtime_persistence : Runtime_Persistence) { }
 
+    public get_move_view_delta_step(): number 
+    {
+        return 5;
+    }
+
     public get_center_zoom_point(): Vector<3> 
     {
         return new Vector<3>([window.innerWidth / 2, window.innerHeight/2, 0]);

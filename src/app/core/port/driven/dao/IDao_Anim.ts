@@ -4,6 +4,7 @@ import { Inputs_Init_Link_Root } from "../../../domain/repository/implementation
 
 export interface IDao_Anim
 {
+    get_move_view_delta_step(): number;
     get_inputs_init_link_roots_for_next(): Inputs_Init_Link_Root;
     get_inputs_init_link_roots_for_current(): Inputs_Init_Link_Root;
     get_zoom_quad_choose_roots_anim(): Quad_Callback;
