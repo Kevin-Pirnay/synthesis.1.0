@@ -28,7 +28,7 @@ export class Link_Roots_Repository implements ILink_Roots_Repository
         this.__container_to_link = container;
     }
     
-    public get_link_roots_data(indexes: number[], change_flow_handler : IChange_Flow_Handler, zoom_handler : IZoom_Handler): ILink_Roots 
+    public get_link_roots_injector(indexes: number[], change_flow_handler : IChange_Flow_Handler, zoom_handler : IZoom_Handler): ILink_Roots 
     {
         const inputs_current : Inputs_Init_Link_Root = this.__dao_anim.get_inputs_init_link_roots_for_current();
 

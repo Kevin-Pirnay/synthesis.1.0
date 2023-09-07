@@ -22,15 +22,15 @@ export class Init_Choose_Root_Use_case
 
         const first_index : number = this.__choose_repository.init_indexes_of_roots_to_choose();
 
-        const choose_root_container : IChoose_Roots_Container = this.__choose_repository.get_choose_root_container(request.container, this.__zoom_handler, this.__move_view_handler);
+        const choose_root_container : IChoose_Roots_Container = this.__choose_repository.get_choose_root_container_injector(request.container, this.__zoom_handler, this.__move_view_handler);
 
         await choose_root_container.zoom_and_place_itself_at_the_bottom();
 
-        const choose_roots_data : IChoose_Roots_Root = this.__choose_repository.get_choose_root_roots([-1, first_index]);
+        const choose_roots_root : IChoose_Roots_Root = this.__choose_repository.get_choose_roots_root_injector([-1, first_index]);
 
-        choose_roots_data.animate_first_root_to_choose();
+        choose_roots_root.animate_first_root_to_choose();
 
-        const dto : IDto = choose_roots_data.get_the_first_root_dto();
+        const dto : IDto = choose_roots_root.get_the_first_root_dto(); //to pass to the view (to make appear the root)
 
         const container_dto : IDto = new Dto(request.container, Data_Type.CONTAINER);
 

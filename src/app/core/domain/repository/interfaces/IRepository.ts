@@ -95,9 +95,9 @@ export interface IChoose_Root_Repository
     get_next_indexes(direction: number): number[];
     init_indexes_of_roots_to_choose(): number;
     store_all_possible_roots(container : Container): void
-    get_choose_root_container(container : Container, zoom_handler : IZoom_Handler, move_view_handler : IMove_View_Handler): IChoose_Roots_Container;
-    get_choose_root_roots(indexes : number[]): IChoose_Roots_Root;
-    get_chosen_root(chosen_root: Root_Choice): IChoosen_Root
+    get_choose_root_container_injector(container : Container, zoom_handler : IZoom_Handler, move_view_handler : IMove_View_Handler): IChoose_Roots_Container;
+    get_choose_roots_root_injector(indexes : number[]): IChoose_Roots_Root;
+    get_chosen_root_injector(chosen_root: Root_Choice): IChoosen_Root
 }
 
 
@@ -114,7 +114,7 @@ export interface ILink_Roots_Repository
     links_subtrees(container: Container, change_flow_handler : IChange_Flow_Handler): IDto[]  
     store_container_to_link(container : Container): void; 
     get_next_indexes(direction: number): number[];
-    get_link_roots_data(indexes: number[], change_flow_handler : IChange_Flow_Handler, zoom_handler : IZoom_Handler): ILink_Roots 
+    get_link_roots_injector(indexes: number[], change_flow_handler : IChange_Flow_Handler, zoom_handler : IZoom_Handler): ILink_Roots 
     init_indexes(): number;
     store_all_possible_flow(): void;
 }

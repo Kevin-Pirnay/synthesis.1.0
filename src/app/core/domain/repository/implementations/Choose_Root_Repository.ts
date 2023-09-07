@@ -37,7 +37,7 @@ export class Choose_Root_Repository implements IChoose_Root_Repository
         if (container.back_root)  this.__roots.push(container.back_root);
     }
 
-    public get_choose_root_container(container : Container, zoom_handler : IZoom_Handler, move_view_handler : IMove_View_Handler): IChoose_Roots_Container
+    public get_choose_root_container_injector(container : Container, zoom_handler : IZoom_Handler, move_view_handler : IMove_View_Handler): IChoose_Roots_Container
     {
         const coordinates : Vector<3> = this.__dao_anim.get_coordinates_choose_roots_anim();
 
@@ -52,7 +52,7 @@ export class Choose_Root_Repository implements IChoose_Root_Repository
         return new Choose_Roots_Container(container, zoom_handler, move_view_handler, coordinates, ratio, zoom_center_point, move_quad, zoom_quad);
     }
 
-    public get_choose_root_roots(indexes : number[]): IChoose_Roots_Root 
+    public get_choose_roots_root_injector(indexes : number[]): IChoose_Roots_Root 
     {
         const axe_rotation : Vector<3> = this.__dao_anim.get_axe_rotation_choose_roots_anim();
 
@@ -68,7 +68,7 @@ export class Choose_Root_Repository implements IChoose_Root_Repository
         return this.__indexes.get_next_indexes(direction);
     }
 
-    public get_chosen_root(chosen_root: Root_Choice): IChoosen_Root
+    public get_chosen_root_injector(chosen_root: Root_Choice): IChoosen_Root
     {
         return new Chosen_Root(chosen_root);
     }

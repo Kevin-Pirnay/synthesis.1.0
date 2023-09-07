@@ -22,11 +22,11 @@ export class Move_View_Handler implements IMove_View_Handler
 
     public async move_view_by_delta_in_contious_async(delta : Vector<3>) : Promise<void>
     {
-        const complete : Ptr<boolean> = this.__repository.init_stop_move_view_condition();
+        const completed : Ptr<boolean> = this.__repository.init_stop_move_view_condition();
 
         while(1)
         {
-            if ( complete._ ) break;
+            if ( completed._ ) break;
 
             this.move_view_by_delta(delta);
 

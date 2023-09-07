@@ -14,7 +14,7 @@ export class Chosen_Root_Use_case
     
     public async handle(request : Choosen_Root_Request) : Promise<Choosen_Root_Response>
     {
-        const chosen_root : IChoosen_Root = this.__repository.get_chosen_root(request.chosen_root); 
+        const chosen_root : IChoosen_Root = this.__repository.get_chosen_root_injector(request.chosen_root); 
 
         await chosen_root.anim();
 

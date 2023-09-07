@@ -13,7 +13,7 @@ export class Init_Link_Roots_Use_case
         private readonly __repository : ILink_Roots_Repository, 
         private readonly __flow_handler : IChange_Flow_Handler, 
         private readonly __zoom_handler : IZoom_Handler
-    ) { }
+    ) { }
     
     //warning handle one tree
     public handle(request : Link_Roots_Request) : View_Link_Roots_Response
@@ -26,7 +26,7 @@ export class Init_Link_Roots_Use_case
 
         const indexes = this.__repository.get_next_indexes(1);
 
-        const link_roots : ILink_Roots = this.__repository.get_link_roots_data(indexes, this.__flow_handler, this.__zoom_handler);
+        const link_roots : ILink_Roots = this.__repository.get_link_roots_injector(indexes, this.__flow_handler, this.__zoom_handler);
 
         const animation_observer = new Observer<IDto[]>;
 

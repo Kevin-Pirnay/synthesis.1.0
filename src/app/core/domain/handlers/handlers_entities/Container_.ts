@@ -2,7 +2,6 @@ import { Matrix } from "../../../common/Matrix/Matrix";
 import { Vector } from "../../../common/Vector/Vector";
 import { Container } from "../../entities/Container";
 
-//refactor with handler_
 
 export class Container_ 
 {
