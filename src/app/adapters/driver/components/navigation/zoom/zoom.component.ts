@@ -41,7 +41,7 @@ export class ZoomComponent
   }
 
   public mouse_move(e : MouseEvent) : void
-  {
+  {    
     this.__state.from_navigation.zoom.report_mouse_move(e.clientX);
   }
 }

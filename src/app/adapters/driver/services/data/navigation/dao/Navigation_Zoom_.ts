@@ -1,5 +1,5 @@
 import { Ptr } from "../../../../../../core/common/Ptr";
-import { Navigation_Memory, Navigation_Zoom_Mouse_State } from "../memory/Navigation_Memory";
+import { Navigation_Memory, Navigation_Zoom_Mouse_State, Navigation_Zoom_Move_State } from "../memory/Navigation_Memory";
 
 
 export class Navigation_Zoom_
@@ -16,14 +16,19 @@ export class Navigation_Zoom_
         this.__memory.mouse_current_state._ = Navigation_Zoom_Mouse_State.UP;
     }
 
-    public set_mouse_is_mouving_to_the_rigth() : void
+    public set_cursor_is_mouving_to_the_rigth() : void
     {
-        this.__memory.mouse_current_state._ = Navigation_Zoom_Mouse_State.MOVING_TO_THE_RIGTH;
+        this.__memory.move_current_state._ = Navigation_Zoom_Move_State.MOVING_TO_THE_RIGTH;
     }
 
-    public set_mouse_is_mouving_to_the_left() : void
+    public set_cursor_is_mouving_to_the_left() : void
     {
-        this.__memory.mouse_current_state._ = Navigation_Zoom_Mouse_State.MOVING_TO_THE_LEFT;
+        this.__memory.move_current_state._ = Navigation_Zoom_Move_State.MOVING_TO_THE_LEFT;
+    }
+
+    public set_cursor_move_to_none() : void
+    {
+        this.__memory.move_current_state._ = Navigation_Zoom_Move_State.NONE;
     }
 
     public is_mouse_down_on_cursor() : boolean
