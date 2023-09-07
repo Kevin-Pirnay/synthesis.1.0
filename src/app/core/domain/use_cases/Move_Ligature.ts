@@ -12,9 +12,9 @@ export class Move_Ligature_Use_case
 
     public handle_move_ligature(request : Move_ligature_Request) : void
     {
+        const moving_ligature = Moving_Ligature.get_moving_ligature_injector(request.ligature); 
+        
         const margin = Vector_.new([-6,-6,0]);
-
-        const moving_ligature = Moving_Ligature.get_moving_ligature_injector(request.ligature);
 
         const adjust_pos : Vector<3> = moving_ligature.substract_a_margin_to_the_target_position_to_let_a_margin_between_the_cursor_and_the_ligature(request.new_pos, margin) //in order_to have access to the container under the grip
 
@@ -30,7 +30,9 @@ export class Move_Ligature_Use_case
         const assign_ligature : IAssign_Ligature = Assing_Ligature.get_assign_ligature_injector(this.__node_linker, request.ligature, request.container);
 
         assign_ligature.update_relationship_in_the_tree();
+
         assign_ligature.update_its_own_position();
+        
         assign_ligature.update_the_relative_position_of_its_child_container_to_the_new_parent_container();
     }
 }

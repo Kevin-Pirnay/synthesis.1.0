@@ -63,7 +63,7 @@ export class Facade
     private readonly __create_repository : ICreate_Repository = new Create_Repository(this.__dao_container, this.__dao_ligature);
     private readonly __zoom_repository : IZoom_Repository = new Zoom_Repository(this.__dao_container, this.__dao_ligature, this.__dao_anim);
     private readonly __delete_repository : IDelete_Container_Repository = new Delete_Container_Repository(this.__dao_container, this.__dao_ligature);
-    private readonly __move_view_repository : IMove_View_Repository = new Move_View_Repository(this.__dao_container, this.__dao_ligature);
+    private readonly __move_view_repository : IMove_View_Repository = new Move_View_Repository(this.__dao_container, this.__dao_ligature, this.__dao_anim);
     private readonly __view_as_root_repository : IView_As_Root_Repository = new View_As_Root_Repository(this.__dao_container);
     private readonly __mark_as_root_repository : IMark_As_Root_Repository = new Mark_As_Root_Repository(this.__dao_container);
     private readonly __paginate_repository : IPaginate_Repository = new Paginate_Repository();
@@ -81,7 +81,7 @@ export class Facade
     private readonly __move_container_Use_case = new Move_Container_Use_case();
     private readonly __zoom_use_case = new Zoom_Use_case(this.__zoom_handler);
     private readonly __delete_container_use_case = new Delete_Container_Use_case(this.__delete_repository, this.__node_linker_handler);
-    private readonly __move_view_use_case = new Move_View_Use_case(this.__move_view_handler);
+    private readonly __move_view_use_case = new Move_View_Use_case(this.__move_view_repository, this.__move_view_handler);
     private readonly __move_ligature_use_case = new Move_Ligature_Use_case(this.__node_linker_handler);
     private readonly __view_as_root_use_case = new View_As_Root_Use_case(this.__view_as_root_handler);
     private readonly __back_view_use_case = new Back_View_Use_case(this.__view_as_root_handler);
