@@ -16,16 +16,6 @@ export class Navigation_Zoom_
         this.__memory.mouse_current_state._ = Navigation_Zoom_Mouse_State.UP;
     }
 
-    public set_cursor_is_mouving_to_the_rigth() : void
-    {
-        this.__memory.move_current_state._ = Navigation_Zoom_Move_State.MOVING_TO_THE_RIGTH;
-    }
-
-    public set_cursor_is_mouving_to_the_left() : void
-    {
-        this.__memory.move_current_state._ = Navigation_Zoom_Move_State.MOVING_TO_THE_LEFT;
-    }
-
     public set_cursor_move_to_none() : void
     {
         this.__memory.move_current_state._ = Navigation_Zoom_Move_State.NONE;
@@ -42,7 +32,7 @@ export class Navigation_Zoom_
 
         this.__memory.cursor_position._ += this.__memory.step_slider;
 
-        console.log("step", this.__memory.cursor_position._);
+        this.__memory.move_current_state._ = Navigation_Zoom_Move_State.MOVING_TO_THE_RIGTH;
     }
 
     public decrement_cursor_position() : void
@@ -51,8 +41,7 @@ export class Navigation_Zoom_
 
         this.__memory.cursor_position._ -= this.__memory.step_slider;
 
-        console.log("step",this.__memory.cursor_position._);
-
+        this.__memory.move_current_state._ = Navigation_Zoom_Move_State.MOVING_TO_THE_LEFT;
     }
 
     public init_slider_data(origin_slider : number, size_slider : number) : void
