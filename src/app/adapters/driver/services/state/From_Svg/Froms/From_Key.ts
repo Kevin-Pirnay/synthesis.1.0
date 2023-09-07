@@ -30,13 +30,13 @@ export class From_Key
             case '+':
                 this.__current_event.set_is_zooming_up();
                 this.__pipeline.request_zoom(1);
-                this.__pipeline.request_stop_zoomimg();
+                //this.__pipeline.request_stop_zoomimg();
                 this.__slider.increment_cursor_position();
                 break;
             case '-':
                 this.__current_event.set_is_zooming_down();
                 this.__pipeline.request_zoom(-1);
-                this.__pipeline.request_stop_zoomimg();
+                //this.__pipeline.request_stop_zoomimg();
                 this.__slider.decrement_cursor_position();
                 break;
 
