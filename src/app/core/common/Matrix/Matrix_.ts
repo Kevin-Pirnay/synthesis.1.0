@@ -173,24 +173,30 @@ class Multiply
         return result;
     }
 
-    public static multiply_by_matrix = (matrix : Matrix<any>, transform : Matrix<any>) : void =>
-    {
-        //TODO: verify input
+    public static multiply_by_matrix(matrix : Matrix<any>,transform : Matrix<any>) : void
+    {  
+        const result : Matrix<any> = new Matrix();
     
         for(let i = 0; i < matrix._.length; i++) //for each old points
-        {            
+        {
+            const new_vector = Vector_.zero(matrix._[i]._.length);//new point
+            
             for(let j = 0; j < transform._.length; j++) //for each axes of transform
             {
                 let new_coordinate: number = 0;
 
-                for(let l = 0; l < transform._[j]._.length; l++) //for each dimension of each axes in transform
+                for(let l = 0; l < transform._[j]._.length; l++) //for each dimension of axes in transform
                 { 
                     new_coordinate += matrix._[i]._[l] * transform._[j]._[l]; //here l is the dimension, j is the current axe of the transform and i is the old point that is being currently mapping
                 }
                 
-                matrix._[i]._[j] = new_coordinate;
-            }            
+                new_vector._[j] = new_coordinate;
+            }
+            
+            result.__.add(new_vector);
         }
+
+        matrix.__.assign_new_data(result);
     }
 
     public static multiply_by_matrix_new = (m_o : Matrix<any>, transform : Matrix<any>) : Matrix<any> =>
@@ -217,7 +223,6 @@ class Multiply
             
             result.__.add(new_vector);
         }
-
         return result;
     }
 }

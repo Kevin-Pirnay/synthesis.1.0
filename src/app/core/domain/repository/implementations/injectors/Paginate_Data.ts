@@ -5,83 +5,48 @@ import { IPaginate_Data } from "./View_Paginate";
 
 export class Paginate_Data implements IPaginate_Data 
 {
+    private readonly __step : IStep;
     private readonly __previous: IPaginate_Positions;
     private readonly __next: IPaginate_Positions;
 
     constructor(dto1: IDto[], dto2: IDto[]) 
     {
+       this.__step = new Step();
+
         this.__previous = new Paginate_Positions(dto1);
-        this.__next = new Paginate_Positions(dto2);
+
+        this.__next = new Paginate_Positions(dto2);    
     }
 
-    //refactor
+    
     public async rotate(direction: number): Promise<void> 
     {
-        if (direction !== 1 && direction !== -1) throw new Error("direction must be either 1 or -1");
-        let radian: number = 0;
-        let angle: number = 0;
-        const step: number = 0.5;
-        const rate: number = step * direction;
+        this.__step.init(90);
 
-        while (1) 
+        this.__next.init_phase((Math.PI / 2) * (-direction));
+
+        this.__previous.init_phase(0);
+
+        while(1)
         {
-            if (Math.abs(angle) >= 90) break;
+            if ( this.__step.completed() ) break;
 
-            radian = angle * (Math.PI / 180);
+            this.__next.rotate_on_y_by_one_radian(direction);
 
-            this.__next.rotate_on_y_by_radian(radian + (Math.PI / 2) * (-direction));
-            this.__previous.rotate_on_y_by_radian(radian);
+            this.__previous.rotate_on_y_by_one_radian(direction);
 
-            await new Promise(r => setTimeout(r, 1));
+            this.__step.next_step();
 
-            angle += rate;
-
-            if (angle >= 360) angle = 0;
+            await new Promise(r => setTimeout(r,1));            
         }
     }
 }
-
-    //debub
-// export class Paginate_Data implements IPaginate_Data 
-// {
-//     private readonly __step : IStep;
-//     private readonly __rotate : IRotate;
-
-//     constructor(dto1: IDto[], dto2: IDto[]) 
-//     {
-//        this.__step = new Step();
-
-//        this.__rotate = new Rotate(dto1, dto2);
-//     }
-
-    
-//     public async rotate(direction: number): Promise<void> 
-//     {
-//         this.__step.init(90);
-
-//         while(1)
-//         {
-//             if ( this.__step.completed() ) break;
-
-//             this.__rotate.rotate_on_y_by_step(direction);
-
-//             this.__step.next_step();
-
-//             await new Promise(r => setTimeout(r,1));            
-//         }
-//     }
-// }
 
 interface IStep
 {
     completed() : boolean;
     init(max_angle : number) : void;
     next_step() : void;
-}
-
-interface IRotate
-{
-    rotate_on_y_by_step(direction : number) : void;
 }
 
 class Step implements IStep
@@ -108,32 +73,10 @@ class Step implements IStep
     } 
 }
 
-class Rotate implements IRotate
-{
-    private readonly __previous: IPaginate_Positions;
-
-    private readonly __next: IPaginate_Positions;
-
-    private readonly __radian : number = Math.PI/180;
-
-    constructor(dto1: IDto[], dto2: IDto[])
-    {
-        this.__previous = new Paginate_Positions(dto1);
-
-        this.__next = new Paginate_Positions(dto2);
-    }
-
-    rotate_on_y_by_step(direction : number): void 
-    {
-        this.__next.rotate_on_y_by_radian(this.__radian + (Math.PI / 2) * (-direction));
-
-        this.__previous.rotate_on_y_by_radian(this.__radian);
-    }
-}
-
 export interface IPaginate_Positions 
 {
-    rotate_on_y_by_radian(radian: number): void;
+    init_phase(phase: number): void;
+    rotate_on_y_by_one_radian(direction : number) : void
 }
 
 export class Paginate_Positions implements IPaginate_Positions 
@@ -148,11 +91,19 @@ export class Paginate_Positions implements IPaginate_Positions
         });
     }
 
-    public rotate_on_y_by_radian(radian: number): void 
+    public init_phase(phase: number): void 
     {
         this.__positions.forEach(position => 
         {
-            position.rotate_on_y_by_radian(radian);
+            position.rotate_on_y_at_phase(phase);
+        });
+    }
+
+    public rotate_on_y_by_one_radian(direction : number) : void
+    {
+        this.__positions.forEach(position => 
+        {
+            position.rotate_on_y_by_one_radian(direction);
         });
     }
 }
@@ -160,7 +111,8 @@ export class Paginate_Positions implements IPaginate_Positions
 
 export interface IPaginate_Position 
 {
-    rotate_on_y_by_radian(radian: number): void;
+    rotate_on_y_at_phase(phase: number): void;
+    rotate_on_y_by_one_radian(direction : number) : void
 }
 
 
@@ -168,20 +120,18 @@ export class Paginate_Position implements IPaginate_Position
 {
     private readonly __abs_ratio: Matrix<any>;
 
-    private readonly __fixe_pos: Matrix<any>;
-
     constructor(dto: IDto) 
     {
         this.__abs_ratio = dto.element.positions.abs_ratio;
-
-        this.__fixe_pos = this.__abs_ratio.__.copy();
     }
 
-    public rotate_on_y_by_radian(radian: number): void 
+    public rotate_on_y_at_phase(phase: number): void 
     {
-        //const copy = this.__abs_ratio.__.copy();
-        //this.__abs_ratio.__.assign_new_data(copy.__.rotate_y_new(radian));
-        //this.__abs_ratio.__.rotate_y(radian);
-        this.__abs_ratio.__.assign_new_data(this.__fixe_pos.__.rotate_y_new(radian));
+        this.__abs_ratio.__.rotate_y(phase);
+    }
+
+    public rotate_on_y_by_one_radian(direction : number)
+    {
+        this.__abs_ratio.__.rotate_y(Math.PI / 180 * direction);
     }
 }
