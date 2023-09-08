@@ -105,28 +105,27 @@ export interface IStep
 export class Zoom_quadratic_By_Step implements IZoom_By_Step 
 {
     private readonly __handler: IZoom_Handler;
-    private readonly __coeff_quad_eq: Vector<3>;
     private readonly __zoom_center_point : Vector<3>
     private __current_level: number = 0;
-   private readonly __zoom : IZoom_by_Step_;
-
+    private readonly __zoom : IZoom_by_Step_;
 
     constructor(delta_zoom_level: number, distance: number, zoom_center_point : Vector<3>, zoom_handler: IZoom_Handler, zoom_quad : Quad_Callback) 
     {
         this.__handler = zoom_handler;
+
         this.__zoom_center_point = zoom_center_point;
 
         this.__current_level = zoom_handler.get_current_level();
 
-        const points : Vector<2>[] = this.__get_caracteristics_shape_function_points(distance, delta_zoom_level, this.__current_level);
+        const points : Vector<2>[] = this.__get_caracteristics_shape_function_points(distance, delta_zoom_level, this.__current_level, zoom_quad);
 
         this.__zoom = Zoom_by_Step_.get_zoom_injector(points[0],points[1],points[2]);
     }
 
-    private __get_caracteristics_shape_function_points(distance : number, delta_zoom_level : number, current_level : number) : Vector<2>[]
+    private __get_caracteristics_shape_function_points(distance : number, delta_zoom_level : number, current_level : number, zoom_quad : Quad_Callback) : Vector<2>[]
     {
         const p1 = new Vector([0, current_level]);
-        const p2 = new Vector([distance / 2, delta_zoom_level / 2]); //put that in memory
+        const p2 = zoom_quad(distance,delta_zoom_level);
         const p3 = new Vector([distance, delta_zoom_level]);
 
         return [p1,p2,p3];
@@ -211,20 +210,26 @@ export class Move_Quadratic_By_Step implements IMove_By_Step
 {
     private readonly __handler: IMove_View_Handler;
     private readonly __zoom_handler: IZoom_Handler;
-    private readonly __coeff_quad_eq: Vector<3>;
     private readonly __step_x: number;
-    private __current_x: number = 0;
-    private __previous_y: number = 0;
+    private readonly __move : IMove_By_Step_;
 
     constructor(x_y_normalize: Vector<2>, distance: number, move_handler: IMove_View_Handler, zoom_handler: IZoom_Handler, move_quad : Quad_Callback) 
     {
         this.__handler = move_handler;
+
         this.__zoom_handler = zoom_handler;
 
         if(distance == 0) distance = 1;
 
         this.__step_x = x_y_normalize._[0] / distance;
 
+        const points : Vector<2>[] = this.__get_caracteristics_shape_function_points(x_y_normalize, move_quad);
+
+        this.__move = Move_By_Step_.get_move_injector(points[0], points[1], points[2]);
+    }
+
+    private __get_caracteristics_shape_function_points(x_y_normalize: Vector<2>, move_quad : Quad_Callback) : Vector<2>[]
+    {
         const x = x_y_normalize._[0];
         const y = x_y_normalize._[1] !== 0 ? x_y_normalize._[1] : 1;
 
@@ -232,15 +237,53 @@ export class Move_Quadratic_By_Step implements IMove_By_Step
         const p2 = move_quad(x,y);
         const p3 = new Vector([x, y]);
 
-        
-        this.__coeff_quad_eq = new Cramer_Quadratic(p1, p2, p3).coefficients;
+        return [p1,p2,p3];
     }
 
     public move_by_step(): void 
     {
         const current_factor = this.__zoom_handler.get_current_zoom_fator();
-        this.__current_x += this.__step_x;
 
+        this.__move.increment_current_x_by(this.__step_x);
+
+        const current_y : number = this.__move.compute_the_current_y_of_this_step();
+
+        const delta : number = this.__move.compute_the_delta_between_this_step_and_the_previous_step(current_y);
+
+        const delta_vec = Vector_.new([-this.__step_x * current_factor, -delta * current_factor, 0]);
+
+        this.__handler.move_view_by_delta(delta_vec);
+
+        this.__move.update_the_previous_step_to_be_equal_to_the_current_step(current_y);
+    }
+}
+
+interface IMove_By_Step_
+{
+    increment_current_x_by(value : number) : void;
+    compute_the_current_y_of_this_step() : number;
+    compute_the_delta_between_this_step_and_the_previous_step(current_y : number) : number;
+    update_the_previous_step_to_be_equal_to_the_current_step(current_y : number) : void;
+}
+
+class Move_By_Step_ implements IMove_By_Step_
+{
+    private readonly __coeff_quad_eq: Vector<3>;
+    private __current_x = 0;
+    private __previous_y: number = 0;
+
+    constructor(a: Vector<2>, b : Vector<2>, c : Vector<2>)
+    {
+        this.__coeff_quad_eq = new Cramer_Quadratic(a, b, c).coefficients;
+    }
+
+    public increment_current_x_by(value : number): void 
+    {
+        this.__current_x += value;
+    }
+
+    public compute_the_current_y_of_this_step(): number 
+    {
         const a = this.__coeff_quad_eq._[0];
         const b = this.__coeff_quad_eq._[1];
         const c = this.__coeff_quad_eq._[2];
@@ -248,14 +291,23 @@ export class Move_Quadratic_By_Step implements IMove_By_Step
 
         const current_y = (a * (x * x) + b * x + c);
 
-        const delta = current_y - this.__previous_y;
-
-        const delta_vec = Vector_.new([-this.__step_x * current_factor, -delta * current_factor, 0]);
-
-        this.__handler.move_view_by_delta(delta_vec);
-
-        this.__previous_y = current_y; 
+        return current_y;
     }
+
+    public compute_the_delta_between_this_step_and_the_previous_step(current_y: number): number 
+    {
+        throw new Error('Method not implemented.');
+    }
+
+    public update_the_previous_step_to_be_equal_to_the_current_step(current_y: number): void 
+    {
+        throw new Error('Method not implemented.');
+    }
+
+    public static get_move_injector(a: Vector<2>, b : Vector<2>, c : Vector<2>) : IMove_By_Step_
+    {
+        return new Move_By_Step_(a,b,c);
+    } 
 }
 
 export class Step implements IStep 
