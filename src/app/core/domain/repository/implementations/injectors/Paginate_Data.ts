@@ -17,7 +17,6 @@ export class Paginate_Data implements IPaginate_Data
 
         this.__next = new Paginate_Positions(dto2);    
     }
-
     
     public async rotate(direction: number): Promise<void> 
     {

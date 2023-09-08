@@ -170,9 +170,9 @@ class Translate implements ITranslate
     
     public translate_data_to_merge(): void 
     {
-        const x : number = this.__container_to_link.positions.abs_ratio._[0]._[0];
+        //const x : number = this.__container_to_link.positions.abs_ratio._[0]._[0];
 
-        const y : number = this.__container_to_link.positions.abs_ratio._[0]._[1];
+        //const y : number = this.__container_to_link.positions.abs_ratio._[0]._[1];
 
         const delta = Vector_.new([100,0,0]);
 

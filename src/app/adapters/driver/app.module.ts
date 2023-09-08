@@ -11,7 +11,7 @@ import { AppComponent } from './base/app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
-import { InfosComponent } from './components/infos/infos.component';
+import { InfosComponent } from './components/aside/infos/infos.component';
 import { ZoomComponent } from './components/navigation/zoom/zoom.component';
 import { NavigationComponent } from './components/navigation/base/navigation.component';
 
