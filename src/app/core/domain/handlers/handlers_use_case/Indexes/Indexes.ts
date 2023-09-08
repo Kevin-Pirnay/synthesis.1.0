@@ -45,7 +45,6 @@ interface INext_Indexes
     push_indexes_for_positive_direction(result: number[]): void;
 }
 
-//refactor to handle one indexes in the queue only
 class Next_Indexes implements INext_Indexes
 {
     public static get_data(indexes: number[]): INext_Indexes 

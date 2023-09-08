@@ -15,9 +15,9 @@ export class Rotate_On_Target implements IRotate_On_Taget
 
     constructor (inputs: Zoom_And_Rotate_Inputs)
     {   
-        const data_positions : IRotate_Position_Data[] = this.__get_rotation_data(inputs.data);
+        const data_positions : IRotate_Position_Data[] = this.__get_rotation_positions_data_injector(inputs.data);
 
-        this.__positions = new Rotate_Positions_On_Target(data_positions, inputs.center_rotation, inputs.phase, inputs.axe_rotation, inputs.direction, inputs.max_angle, inputs.delta_level, inputs.zoom_handler);
+        this.__positions = Rotate_Positions_On_Target.get_rotate_positions_injector(data_positions, inputs.center_rotation, inputs.phase, inputs.axe_rotation, inputs.direction, inputs.max_angle, inputs.delta_level, inputs.zoom_handler);
 
         this.__step = new Step(inputs.max_angle);
     }
@@ -26,13 +26,13 @@ export class Rotate_On_Target implements IRotate_On_Taget
     {        
         this.__step.init();
 
-        this.__positions.set_phase();
+        this.__positions.init_phase();
 
         this.__positions.init_axe_rotation();
 
         while(1)
         {
-            if ( this.__step.complete() ) break;
+            if ( this.__step.completed() ) break;
 
             this.__positions.zoom_by_step();
             
@@ -44,7 +44,7 @@ export class Rotate_On_Target implements IRotate_On_Taget
         }
     }
 
-    private __get_rotation_data(data : IData_Tree[]) : IRotate_Position_Data[]
+    private __get_rotation_positions_data_injector(data : IData_Tree[]) : IRotate_Position_Data[]
     {
         const result : IRotate_Position_Data[] = [];
 
@@ -64,7 +64,7 @@ interface IRotate_Positions_On_Target
     rotate_by_step(): void;
     zoom_by_step(): void;
     init_axe_rotation(): void;
-    set_phase() : void;
+    init_phase() : void;
 
 }
 
@@ -104,9 +104,23 @@ class Rotate_Positions_On_Target implements IRotate_Positions_On_Target
         this.__init.translate_the_target();
     }
 
-    public set_phase(): void 
+    public init_phase(): void 
     {
-        this.__rotate.set_phase();
+        this.__rotate.init_phase();
+    }
+
+    public static get_rotate_positions_injector(
+        positions: IRotate_Position_Data[], 
+        center_point : Vector<2>, 
+        phase : number, 
+        axe_rotation : Vector<2>,
+        direction : number, 
+        max_angle : number, 
+        delta_level : number, 
+        zoom_handler : IZoom_Handler 
+    ) : Rotate_Positions_On_Target
+    {
+        return new Rotate_Positions_On_Target(positions, center_point, phase, axe_rotation, direction, max_angle, delta_level, zoom_handler);
     }
 }
 
@@ -128,7 +142,7 @@ class Init_The_Target_With_Rotation_Y implements IInit_The_Target
 interface IStep
 {
     next_step(): void;
-    complete(): boolean;
+    completed(): boolean;
     init(): void;
 }
 
@@ -147,7 +161,7 @@ class Step implements IStep
         this.__current_step++;
     }
 
-    public complete(): boolean 
+    public completed(): boolean 
     {        
        return this.__current_step >= this.__max_step ? true : false; 
     }
@@ -166,37 +180,80 @@ interface IZoom_By_Step
 interface IRotate_By_Step
 {
     rotate_by_step(): void;
-    set_phase() : void;
+    init_phase() : void;
 }
 
 class Zoom_quadratic_By_Step implements IZoom_By_Step
 {
     private readonly __handler: IZoom_Handler;
-    private readonly __coeff_quad_eq: Vector<3>;
-    private __current_x = 0;
-    private __previous_y: number = 0;
-    private __current_level: number = 0;
+    private __current_level: number;
+    private readonly __zoom : IZoom_by_Step_;
 
     constructor(delta_zoom_level: number, max_angle: number, zoom_handler: IZoom_Handler) 
     {
         this.__handler = zoom_handler;
-
-        const x0 = max_angle;
-        const y0 = delta_zoom_level;
+        
         this.__current_level = zoom_handler.get_current_level();
 
+        const points : Vector<2>[] = this.__get_caracteristics_shape_function_points(max_angle, delta_zoom_level, this.__current_level);
+
+        this.__zoom = Zoom_by_Step_.get_zoom_injector(points[0],points[1],points[2]);
+    }
+
+    private __get_caracteristics_shape_function_points(max_angle : number,delta_zoom_level : number, current_level : number) : Vector<2>[]
+    {
+        const x0 = max_angle;
+        const y0 = delta_zoom_level;
+
         const p1 = new Vector([0, this.__current_level]);
-        const p2 = new Vector([x0 / 2, y0 / 2]);
+        const p2 = new Vector([x0 / 2, y0 / 2]); //put that in memory
         const p3 = new Vector([x0, y0]);
 
-
-        this.__coeff_quad_eq = new Cramer_Quadratic(p1, p2, p3).coefficients;
+        return [p1,p2,p3];
     }
 
     public zoom_by_step(): void 
     {
-        this.__current_x += 1;
+       this.__zoom.increment_the_x_of_this_step_by(1);
 
+       const current_y : number = this.__zoom.compute_the_current_y_of_this_step();
+
+       const delta : number = this.__zoom.compute_the_delta_between_this_step_and_the_previous_step(current_y);
+
+        this.__current_level += delta;
+
+        this.__handler.zoom_current_flow_by_level(this.__current_level);
+
+        this.__zoom.update_the_previous_step_to_be_equal_to_the_current_step(current_y);
+    }
+}
+
+interface IZoom_by_Step_
+{
+    increment_the_x_of_this_step_by(value : number) : void;
+    compute_the_current_y_of_this_step() : number;
+    compute_the_delta_between_this_step_and_the_previous_step(current_y : number) : number;
+    update_the_previous_step_to_be_equal_to_the_current_step(current_y : number) : void;
+}
+
+class Zoom_by_Step_ implements IZoom_by_Step_
+{
+    private readonly __coeff_quad_eq: Vector<3>;
+    private __current_x = 0;
+    private __previous_y: number = 0;
+
+    constructor(a: Vector<2>, b : Vector<2>, c : Vector<2>)
+    {
+        this.__coeff_quad_eq = new Cramer_Quadratic(a, b, c).coefficients;
+    }
+
+    public increment_the_x_of_this_step_by(value: number): void 
+    {
+        this.__current_x += value;
+    }
+
+    public compute_the_current_y_of_this_step(): number 
+    {
         const a = this.__coeff_quad_eq._[0];
         const b = this.__coeff_quad_eq._[1];
         const c = this.__coeff_quad_eq._[2];
@@ -204,14 +261,26 @@ class Zoom_quadratic_By_Step implements IZoom_By_Step
 
         const current_y = a * (x * x) + b * x + c;
 
+        return current_y;
+    }
+
+    public compute_the_delta_between_this_step_and_the_previous_step(current_y : number): number 
+    {
         const delta = current_y - this.__previous_y;
 
-        this.__current_level += delta;
+        return delta;
+    }
 
-        this.__handler.zoom_current_flow_by_level(this.__current_level);
-
+    public update_the_previous_step_to_be_equal_to_the_current_step(current_y : number): void 
+    {
         this.__previous_y = current_y;
     }
+
+    public static get_zoom_injector(a: Vector<2>, b : Vector<2>, c : Vector<2>) : IZoom_by_Step_
+    {
+        return new Zoom_by_Step_(a,b,c);
+    }
+
 }
 
 //add rate??
@@ -233,7 +302,7 @@ class Rotate_Y_By_Step implements IRotate_By_Step
         this.__positions.forEach(position => position.rotate_position_on_a_certain_point(rotation_matrix, this.__center_point));
     }
 
-    public set_phase() : void
+    public init_phase() : void
     {
         const phase = this.__phase * this.__direction;
 
