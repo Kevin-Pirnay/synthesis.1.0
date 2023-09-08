@@ -37,7 +37,7 @@ export class Zoom_On_Target implements IZoom_On_Target
 
         while (1) 
         {
-            if (this.__step.complete()) break;
+            if (this.__step.completed()) break;
 
             this.__move.move_by_step();
 
@@ -87,19 +87,19 @@ export class Pre_process
 
 export interface IMove_By_Step 
 {
-    move_by_step(): unknown;
+    move_by_step(): void;
 
 }
 export interface IZoom_By_Step 
 {
-    zoom_by_step(): unknown;
+    zoom_by_step(): void;
     reinit_zoom_level() : void;
 }
 export interface IStep 
 {
     init(): void;
     next_step(): void;
-    complete(): boolean;
+    completed(): boolean;
 }
 
 export class Zoom_quadratic_By_Step implements IZoom_By_Step 
@@ -107,33 +107,78 @@ export class Zoom_quadratic_By_Step implements IZoom_By_Step
     private readonly __handler: IZoom_Handler;
     private readonly __coeff_quad_eq: Vector<3>;
     private readonly __zoom_center_point : Vector<3>
-    private __current_x = 0;
-    private __previous_y: number = 0;
     private __current_level: number = 0;
+   private readonly __zoom : IZoom_by_Step_;
+
 
     constructor(delta_zoom_level: number, distance: number, zoom_center_point : Vector<3>, zoom_handler: IZoom_Handler, zoom_quad : Quad_Callback) 
     {
         this.__handler = zoom_handler;
         this.__zoom_center_point = zoom_center_point;
 
-        const x0 = distance;
-        const y0 = delta_zoom_level;
         this.__current_level = zoom_handler.get_current_level();
 
-        const p1 = new Vector([0, this.__current_level]);
-        const p2 = zoom_quad(x0,y0);
-        const p3 = new Vector([x0, y0]);
+        const points : Vector<2>[] = this.__get_caracteristics_shape_function_points(distance, delta_zoom_level, this.__current_level);
 
-        this.__coeff_quad_eq = new Cramer_Quadratic(p1, p2, p3).coefficients;        
+        this.__zoom = Zoom_by_Step_.get_zoom_injector(points[0],points[1],points[2]);
     }
 
-    //refactor
+    private __get_caracteristics_shape_function_points(distance : number, delta_zoom_level : number, current_level : number) : Vector<2>[]
+    {
+        const p1 = new Vector([0, current_level]);
+        const p2 = new Vector([distance / 2, delta_zoom_level / 2]); //put that in memory
+        const p3 = new Vector([distance, delta_zoom_level]);
+
+        return [p1,p2,p3];
+    }
+
     public zoom_by_step(): void 
     {
-        //update_current_step_by_one
-        this.__current_x += 1;
+        this.__zoom.increment_the_x_of_this_step_by(1);
 
-        //get_the_current_y_of_this_step
+       const current_y : number = this.__zoom.compute_the_current_y_of_this_step();
+
+       const delta : number = this.__zoom.compute_the_delta_between_this_step_and_the_previous_step(current_y);
+
+        this.__current_level += delta;
+
+        this.__handler.zoom_current_flow_by_level_toward_this_point(this.__current_level, this.__zoom_center_point);
+
+        this.__zoom.update_the_previous_step_to_be_equal_to_the_current_step(current_y);
+    }
+
+    public reinit_zoom_level() : void
+    {
+        this.__handler.reinit_zoom_level();
+    }
+}
+
+interface IZoom_by_Step_
+{
+    increment_the_x_of_this_step_by(value : number) : void;
+    compute_the_current_y_of_this_step() : number;
+    compute_the_delta_between_this_step_and_the_previous_step(current_y : number) : number;
+    update_the_previous_step_to_be_equal_to_the_current_step(current_y : number) : void;
+}
+
+class Zoom_by_Step_ implements IZoom_by_Step_
+{
+    private readonly __coeff_quad_eq: Vector<3>;
+    private __current_x = 0;
+    private __previous_y: number = 0;
+
+    constructor(a: Vector<2>, b : Vector<2>, c : Vector<2>)
+    {
+        this.__coeff_quad_eq = new Cramer_Quadratic(a, b, c).coefficients;
+    }
+
+    public increment_the_x_of_this_step_by(value: number): void 
+    {
+        this.__current_x += value;
+    }
+
+    public compute_the_current_y_of_this_step(): number 
+    {
         const a = this.__coeff_quad_eq._[0];
         const b = this.__coeff_quad_eq._[1];
         const c = this.__coeff_quad_eq._[2];
@@ -141,20 +186,24 @@ export class Zoom_quadratic_By_Step implements IZoom_By_Step
 
         const current_y = a * (x * x) + b * x + c;
 
-        //get_the_delta_btween_this_step_and_the_previous_step
+        return current_y;
+    }
+
+    public compute_the_delta_between_this_step_and_the_previous_step(current_y : number): number 
+    {
         const delta = current_y - this.__previous_y;
 
-        //get_the_delta_btween_this_step_and_the_previous_step
-        this.__current_level += delta;
+        return delta;
+    }
 
-        this.__handler.zoom_current_flow_by_level_toward_this_point(this.__current_level, this.__zoom_center_point);
-
+    public update_the_previous_step_to_be_equal_to_the_current_step(current_y : number): void 
+    {
         this.__previous_y = current_y;
     }
 
-    public reinit_zoom_level() : void
+    public static get_zoom_injector(a: Vector<2>, b : Vector<2>, c : Vector<2>) : IZoom_by_Step_
     {
-        this.__handler.reinit_zoom_level();
+        return new Zoom_by_Step_(a,b,c);
     }
 }
 
@@ -229,7 +278,7 @@ export class Step implements IStep
         this.__current_step++;
     }
 
-    public complete(): boolean 
+    public completed(): boolean 
     {
         return this.__current_step >= this.__max_step ? true : false;
     }

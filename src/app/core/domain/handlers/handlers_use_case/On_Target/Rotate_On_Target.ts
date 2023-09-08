@@ -65,7 +65,6 @@ interface IRotate_Positions_On_Target
     zoom_by_step(): void;
     init_axe_rotation(): void;
     init_phase() : void;
-
 }
 
 class Rotate_Positions_On_Target implements IRotate_Positions_On_Target
@@ -192,7 +191,7 @@ class Zoom_quadratic_By_Step implements IZoom_By_Step
     constructor(delta_zoom_level: number, max_angle: number, zoom_handler: IZoom_Handler) 
     {
         this.__handler = zoom_handler;
-        
+
         this.__current_level = zoom_handler.get_current_level();
 
         const points : Vector<2>[] = this.__get_caracteristics_shape_function_points(max_angle, delta_zoom_level, this.__current_level);
@@ -202,12 +201,9 @@ class Zoom_quadratic_By_Step implements IZoom_By_Step
 
     private __get_caracteristics_shape_function_points(max_angle : number,delta_zoom_level : number, current_level : number) : Vector<2>[]
     {
-        const x0 = max_angle;
-        const y0 = delta_zoom_level;
-
-        const p1 = new Vector([0, this.__current_level]);
-        const p2 = new Vector([x0 / 2, y0 / 2]); //put that in memory
-        const p3 = new Vector([x0, y0]);
+        const p1 = new Vector([0, current_level]);
+        const p2 = new Vector([max_angle / 2, delta_zoom_level / 2]); //put that in memory
+        const p3 = new Vector([max_angle, delta_zoom_level]);
 
         return [p1,p2,p3];
     }
