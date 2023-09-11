@@ -9,16 +9,21 @@ export class Svg__Focus_
 {
   constructor(private readonly __memory: Svg_Memory) { }
 
-  public set_this_container_on_focus(container: Container) 
+  public set_this_container_on_focus(container: Container) : void
   {
     this.__memory.focus_container = container;
     this.__memory.focus_ligature = null;
   }
 
-  public set_this_ligature_on_focus(ligature: Ligature) 
+  public set_this_ligature_on_focus(ligature: Ligature) : void
   {
     this.__memory.focus_container = null;
     this.__memory.focus_ligature = ligature;
+  }
+
+  public set_this_container_as_current_parent_container(container: Container): void
+  {
+    this.__memory.current_parent_container = container;
   }
 
   public set_container_on_focus_from_dtos(dtos : IDto[]) : void
@@ -41,11 +46,23 @@ export class Svg__Focus_
     return this.__memory.focus_container === null ? false : true;
   }
 
+  public is_there_a_current_parent_container() : boolean
+  {
+    return this.__memory.current_parent_container === null ? false : true;
+  }
+
   public container_on_focus(): Container 
   {
     if (this.__memory.focus_container == null) throw new Error("No Container is currently on focus");
 
     return this.__memory.focus_container;
+  }
+
+  public current_parent_container() : Container
+  {
+    if (this.__memory.current_parent_container == null) throw new Error("No Parent Container is currently set");
+
+    return this.__memory.current_parent_container;
   }
 
   public get_nullable_container_on_focus(): Container | null 

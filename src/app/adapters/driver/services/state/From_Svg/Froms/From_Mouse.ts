@@ -23,7 +23,7 @@ export class From_Mouse
 
     public report_mouse_up(e: MouseEvent): void 
     {
-        if (!this.__mouse.is_mouse_down_on_something()) this.__focus.is_there_a_container_on_focus() ? this.__pipeline.request_create_container(e, this.__focus.container_on_focus()) : this.__pipeline.request_create_container(e, null);
+        if (!this.__mouse.is_mouse_down_on_something()) this.__focus.is_there_a_current_parent_container() ? this.__pipeline.request_create_container(e, this.__focus.current_parent_container()) : this.__pipeline.request_create_container(e, null);
 
         if (this.__mouse.is_mouse_down_on_grip()) this.__pipeline.request_assign_ligature(this.__focus.ligature_on_focus(), this.__focus.get_nullable_container_on_focus());
 
@@ -39,11 +39,17 @@ export class From_Mouse
 
     public report_mouse_down_on_container(container: Container): void 
     {
-        if (this.__current_event.is_linking_roots()) {
+        if (this.__current_event.is_linking_roots()) 
+        {
             this.__pipeline.request_select_links_roots(container);
         }
 
-        else this.__mouse.set_mouse_is_down_on_a_container(container);
+        else
+        {
+            this.__mouse.set_mouse_is_down_on_a_container(container);
+            
+            this.__focus.set_this_container_as_current_parent_container(container);
+        } 
     }
 
     public report_mouse_down_on_ligature(ligature: Ligature): void 

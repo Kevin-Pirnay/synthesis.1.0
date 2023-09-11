@@ -53,4 +53,15 @@ export class Create_Container_Handler
     {
         return this.__repository.get_default_container_rel_ratio();
     }
+
+    public get_adjusted_position(position : Vector<3>, ratio : Matrix<4>) : Vector<3>
+    {
+        const width : number = ratio._[1]._[0] - ratio._[0]._[0];
+
+        const heigth : number = ratio._[3]._[1] - ratio._[0]._[1];
+
+        const adjusted_pos : Vector<3> = position.__.substract_by_vector_new(Vector_.new([1/2 * width, 1/2 * heigth, 0]));
+
+        return adjusted_pos;
+    }
 }

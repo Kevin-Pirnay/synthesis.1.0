@@ -5,6 +5,7 @@ import { Create_Container_Response } from '../../port/driver/response/Response';
 import { ICreate_Repository } from '../repository/interfaces/IRepository';
 import { IZoom_Handler } from '../handlers/handlers_use_case/Zoom/IZoom_Handler';
 import { Create_Container_Handler } from '../handlers/handlers_use_case/Create_Container/Create_Container_Handler';
+import { Vector } from '../../common/Vector/Vector';
 
 
 export class Create_Container_Use_case
@@ -23,8 +24,10 @@ export class Create_Container_Use_case
     {
         const ratio : Matrix<4> = this.__create_handler.get_default_container_rel_ratio();
 
-        if ( request.parent_container == null ) return this.__create_handler.create_a_root_container(ratio, request.position);
+        const adjusted_pos : Vector<3> = this.__create_handler.get_adjusted_position(request.position, ratio);
 
-        else return this.__create_handler.create_a_new_unit(request.parent_container, ratio, request.position);
+        if ( request.parent_container == null ) return this.__create_handler.create_a_root_container(ratio, adjusted_pos);
+
+        else return this.__create_handler.create_a_new_unit(request.parent_container, ratio, adjusted_pos);
     }
 }

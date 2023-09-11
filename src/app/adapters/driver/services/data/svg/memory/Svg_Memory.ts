@@ -9,6 +9,7 @@ export class Svg_Memory
     public current_event : Ptr<Svg_Current_Event> = new Ptr(Svg_Current_Event.NONE);
     public focus_container: Container | null = null;
     public focus_ligature: Ligature | null = null;
+    public current_parent_container : Container | null = null;
     public readonly common_dtos: IDto[] = [];
     public readonly roots_choices: IDto[] = [];
 }

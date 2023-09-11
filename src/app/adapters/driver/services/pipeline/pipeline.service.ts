@@ -35,7 +35,9 @@ export class PipelineService
 
     this.__data_dtos.add_dtos(dtos);
 
-    this.__data_focus.set_container_on_focus_from_dtos(dtos);    
+    this.__data_focus.set_container_on_focus_from_dtos(dtos); 
+    
+    if (  !this.__data_focus.is_there_a_current_parent_container() ) this.__data_focus.set_this_container_as_current_parent_container(dtos[0].element);
   }
 
   public request_delete_container(container : Container) : void
