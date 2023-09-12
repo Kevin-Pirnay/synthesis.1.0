@@ -16,7 +16,7 @@ export class Move_Container implements IMove_Container
 
     constructor(position : Vector<3>, container : Container) 
     { 
-        this.__target_position = this.__get_adjusted_position(position, container.positions.rel_ratio);
+        this.__target_position = this.__get_adjusted_position(position, container.positions.rel_ratio);        
         
         this.__container = container;
     }

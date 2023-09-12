@@ -1,3 +1,4 @@
+import { Matrix } from "../../../../common/Matrix/Matrix";
 import { Vector } from "../../../../common/Vector/Vector";
 import { Container } from "../../../entities/Container";
 import { Ligature } from "../../../entities/Ligature";
@@ -12,8 +13,7 @@ export interface IZoom_Handler
     zoom_current_flow_by_level(factor : number) : void;
     zoom_current_flow_by_level_toward_this_point(level: number, point : Vector<3>): void 
     zoom_on_a_point(point_to_zoom : Vector<3>, factor : number) : void
-    update_container_with_current_zoom(container: Container): void;
-    update_unit_with_current_zoom(ligature : Ligature, container: Container): void;  
+    update_this_ratio_with_the_current_zoom(ratio : Matrix<any>) : Matrix<any> 
     zoom_by_direction_in_contious_async(direction: number) : Promise<void>;
     stop_zoom() : void;
     get_alpha() : number;

@@ -27,8 +27,6 @@ export class Create_Container_Handler
 
         this.__repository.save_root(container);
 
-        this.__zoom_handler.update_container_with_current_zoom(container);
-
         return new Create_Container_Response([new Dto(container, Data_Type.CONTAINER)]);
     }
 
@@ -42,8 +40,6 @@ export class Create_Container_Handler
 
         this.__repository.save_unit(ligature, container);
 
-        this.__zoom_handler.update_unit_with_current_zoom(ligature, container);
-
         const dtos: IDto[] = [new Dto(container, Data_Type.CONTAINER), new Dto(ligature, Data_Type.LIGATURE)];
 
         return new Create_Container_Response(dtos);
@@ -51,7 +47,11 @@ export class Create_Container_Handler
 
     public get_default_container_rel_ratio(): Matrix<4> 
     {
-        return this.__repository.get_default_container_rel_ratio();
+        const default_ratio : Matrix<4> = this.__repository.get_default_container_rel_ratio();
+
+        const adjusted_ratio_to_current_zoom_factor : Matrix<4> = this.__zoom_handler.update_this_ratio_with_the_current_zoom(default_ratio);
+
+        return adjusted_ratio_to_current_zoom_factor;
     }
 
     public get_adjusted_position(position : Vector<3>, ratio : Matrix<4>) : Vector<3>

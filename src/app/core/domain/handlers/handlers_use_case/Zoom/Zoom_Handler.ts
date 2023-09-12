@@ -1,3 +1,4 @@
+import { Matrix } from '../../../../common/Matrix/Matrix';
 import { Ptr } from '../../../../common/Ptr';
 import { Vector } from '../../../../common/Vector/Vector';
 import { Container } from '../../../entities/Container';
@@ -21,25 +22,16 @@ export class Zoom_Handler implements IZoom_Handler
         return this.__repository.get_unzoom_factor();
     }
 
-    get_current_zoom_fator() : number
+    public get_current_zoom_fator() : number
     {
         return this.__repository.get_zoom_factor();
     }
 
-    public update_container_with_current_zoom(container: Container): void 
+    public update_this_ratio_with_the_current_zoom(ratio : Matrix<any>) : Matrix<any>
     {
         const zoom_factor : number = this.__repository.get_zoom_factor();
 
-        const abs_ratio = container.positions.rel_ratio.__.multiply_by_factor_new(zoom_factor).__.add_by_vector_new(container.positions.abs_root);
-
-        container.positions.abs_ratio.__.assign_new_data(abs_ratio);
-    }
-
-    public update_unit_with_current_zoom(ligature : Ligature, container: Container): void 
-    {
-        this.update_container_with_current_zoom(container);
-
-        ligature.__.update_ratio();
+        return ratio.__.multiply_by_factor_new(zoom_factor);
     }
 
     public zoom_by_direction(direction: number): void 
