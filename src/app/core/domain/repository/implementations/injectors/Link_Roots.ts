@@ -14,11 +14,11 @@ export class Link_Roots implements ILink_Roots
     private readonly __current: ILink_Flow;
     private readonly __next: ILink_Flow;
 
-    constructor(indexes: number[], flows: string[], inputs_current: Inputs_Init_Link_Root, inputs_next: Inputs_Init_Link_Root, change_flow_handler: IChange_Flow_Handler, zoom_handler: IZoom_Handler) 
+    constructor(flows: string[], inputs_current: Inputs_Init_Link_Root, inputs_next: Inputs_Init_Link_Root, change_flow_handler: IChange_Flow_Handler, zoom_handler: IZoom_Handler) 
     {
-        this.__current = new Link_Root(flows[indexes[0]], inputs_current, change_flow_handler, zoom_handler);
+        this.__current = new Link_Root(flows[0], inputs_current, change_flow_handler, zoom_handler);
 
-        this.__next = new Link_Root(flows[indexes[1]], inputs_next, change_flow_handler, zoom_handler);
+        this.__next = new Link_Root(flows[1], inputs_next, change_flow_handler, zoom_handler);
     }
 
     public async anim(observer: Observer<IDto[]>): Promise<void> 

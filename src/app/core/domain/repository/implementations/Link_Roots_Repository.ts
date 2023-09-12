@@ -23,18 +23,23 @@ export class Link_Roots_Repository implements ILink_Roots_Repository
         this.__indexes = new Indexes();
     }
 
-    public store_container_to_link(container : Container): void 
+    public store_the_container_to_link(container : Container): void 
     {
         this.__container_to_link = container;
     }
     
     public get_link_roots_injector(indexes: number[], change_flow_handler : IChange_Flow_Handler, zoom_handler : IZoom_Handler): ILink_Roots 
     {
-        const inputs_current : Inputs_Init_Link_Root = this.__dao_anim.get_inputs_init_link_roots_for_current();
+        const flows : string[] = [this.__flows[indexes[0]], this.__flows[indexes[1]]];
 
-        const inputs_next : Inputs_Init_Link_Root = this.__dao_anim.get_inputs_init_link_roots_for_next();
+        return this.__get_link_roots_injector(flows, change_flow_handler, zoom_handler);
+    }
 
-        return new Link_Roots(indexes, this.__flows, inputs_current, inputs_next, change_flow_handler, zoom_handler);
+    public get_link_roots_injector_with_the_original_flow(next_index : number, change_flow_handler : IChange_Flow_Handler, zoom_handler : IZoom_Handler): ILink_Roots 
+    {
+        const next_flow : string = this.__flows[next_index];
+
+        return this.__get_link_roots_injector([this.__origin_flow, next_flow], change_flow_handler, zoom_handler);
     }
 
     public init_indexes(): number 
@@ -65,6 +70,15 @@ export class Link_Roots_Repository implements ILink_Roots_Repository
         const dtos : IDto[] = change_flow_handler.merge_subtrees_of_different_flows(this.__container_to_link, container, this.__origin_flow);
 
         return dtos;
+    }
+
+    private __get_link_roots_injector(flows : string[], change_flow_handler : IChange_Flow_Handler, zoom_handler : IZoom_Handler) : ILink_Roots
+    {
+        const inputs_current : Inputs_Init_Link_Root = this.__dao_anim.get_inputs_init_link_roots_for_current();
+
+        const inputs_next : Inputs_Init_Link_Root = this.__dao_anim.get_inputs_init_link_roots_for_next();
+
+        return new Link_Roots(flows, inputs_current, inputs_next, change_flow_handler, zoom_handler);
     }
 }
 

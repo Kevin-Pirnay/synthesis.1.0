@@ -18,15 +18,13 @@ export class Init_Link_Roots_Use_case
     //warning handle one tree
     public handle(request : Link_Roots_Request) : View_Link_Roots_Response
     {
-        this.__repository.store_container_to_link(request.container);
+        this.__repository.store_the_container_to_link(request.container);
 
         this.__repository.store_all_possible_flow();
 
-        this.__repository.init_indexes();
+        const first_index : number = this.__repository.init_indexes();
 
-        const indexes = this.__repository.get_next_indexes(1); //need the first animation, not the next indexes
-
-        const link_roots : ILink_Roots = this.__repository.get_link_roots_injector(indexes, this.__flow_handler, this.__zoom_handler);
+        const link_roots : ILink_Roots = this.__repository.get_link_roots_injector_with_the_original_flow(first_index, this.__flow_handler, this.__zoom_handler);
 
         const animation_observer = new Observer<IDto[]>;
 
