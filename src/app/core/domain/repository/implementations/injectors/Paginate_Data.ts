@@ -1,5 +1,7 @@
 import { Matrix } from "../../../../common/Matrix/Matrix";
 import { IDto } from "../../../../port/driver/dto/IDto";
+import { Ligature } from "../../../entities/Ligature";
+import { Data_Type } from "../../../handlers/handlers_entities/Data_Type";
 import { IPaginate_Data } from "./View_Paginate";
 
 
@@ -86,7 +88,8 @@ class Paginate_Positions implements IPaginate_Positions
     {
         dtos.forEach(dto => 
         {
-            this.__positions.push(new Paginate_Position(dto));
+            if ( dto.type === Data_Type.CONTAINER ) this.__positions.push(new Container_Paginate_Position(dto));
+            if ( dto.type === Data_Type.LIGATURE ) this.__positions.push(new Ligature_Paginate_Position(dto));
         });
     }
 
@@ -114,8 +117,7 @@ interface IPaginate_Position
     rotate_on_y_by_one_radian(direction : number) : void
 }
 
-
-class Paginate_Position implements IPaginate_Position 
+class Container_Paginate_Position implements IPaginate_Position
 {
     private readonly __abs_ratio: Matrix<any>;
 
@@ -132,5 +134,25 @@ class Paginate_Position implements IPaginate_Position
     public rotate_on_y_by_one_radian(direction : number)
     {
         this.__abs_ratio.__.rotate_y(Math.PI / 180 * direction);
+    }
+}
+
+class Ligature_Paginate_Position implements IPaginate_Position
+{
+    private readonly __ligature : Ligature;
+
+    constructor(dto : IDto) 
+    { 
+        this.__ligature = dto.element;
+    }
+
+    rotate_on_y_at_phase(phase: number): void 
+    {
+        this.__ligature.__.update_ratio();
+    }
+
+    rotate_on_y_by_one_radian(direction: number): void 
+    {
+        this.__ligature.__.update_ratio();
     }
 }
