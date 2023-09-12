@@ -1,8 +1,6 @@
 import { Matrix } from '../../../../common/Matrix/Matrix';
 import { Ptr } from '../../../../common/Ptr';
 import { Vector } from '../../../../common/Vector/Vector';
-import { Container } from '../../../entities/Container';
-import { Ligature } from '../../../entities/Ligature';
 import { IZoom_Repository } from '../../../repository/interfaces/IRepository';
 import { IZoom_Handler } from './IZoom_Handler';
 import { IZoom_Positions } from './IZoom_Positions';

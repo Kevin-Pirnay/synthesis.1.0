@@ -296,12 +296,14 @@ class Move_By_Step_ implements IMove_By_Step_
 
     public compute_the_delta_between_this_step_and_the_previous_step(current_y: number): number 
     {
-        throw new Error('Method not implemented.');
+        const delta = current_y - this.__previous_y;
+
+        return delta;
     }
 
     public update_the_previous_step_to_be_equal_to_the_current_step(current_y: number): void 
     {
-        throw new Error('Method not implemented.');
+        this.__previous_y = current_y;
     }
 
     public static get_move_injector(a: Vector<2>, b : Vector<2>, c : Vector<2>) : IMove_By_Step_

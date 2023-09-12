@@ -41,7 +41,7 @@ export class Svg__Dtos_
 
   public add_roots_to_root_choices(root: IDto): void 
   {
-    this.__memory.roots_choices.push(root);
+    this.__memory.roots_choices.push(root);    
   }
 
   public replace_roots_choices_by(roots: IDto[]) 
@@ -63,6 +63,6 @@ export class Svg__Dtos_
 
   public get roots_choices() : IDto[]
   {
-    return this.__memory.common_dtos;
+    return this.__memory.roots_choices;
   }
 }

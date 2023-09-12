@@ -113,7 +113,7 @@ export class PipelineService
 
     this.__data_dtos.replace_its_current_dtos_by_a_dto(dtos[1])
 
-    this.__data_dtos.add_roots_to_root_choices(dtos[0]);
+    this.__data_dtos.add_roots_to_root_choices(dtos[0]);    
   }
 
   public request_view_choose_root(direction : number) : void

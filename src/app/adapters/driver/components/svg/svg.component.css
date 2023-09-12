@@ -7,17 +7,11 @@
     /* fill: #7897b0; */
 }
 
-.grip-circle-out {
+.grip-circle {
     
     /* fill:gray; */
     /* stroke:  rgb(127, 8, 8); */
     fill: #C5BE6C;
-}
-
-.grip-circle-in {
-    /* fill: rgb(127, 8, 8); */
-    fill: #C5BE6C;
-
 }
 
 .ligature {

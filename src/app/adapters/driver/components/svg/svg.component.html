@@ -79,16 +79,10 @@
                 (mousedown)="mouse_down_on_grip(dto.element)"
             >
                 <circle
-                    class="grip-circle-out"
+                    class="grip-circle"
                     attr.cx="{{dto.element.positions.abs_ratio._[0]._[0]}}"
                     attr.cy="{{dto.element.positions.abs_ratio._[0]._[1]}}"
                     attr.r="{{1/15 * (dto.element.parent.positions.abs_ratio._[1]._[0] - dto.element.parent.positions.abs_ratio._[0]._[0])}}"
-                />
-                <circle
-                    class="grip-circle-in"
-                    attr.cx="{{dto.element.positions.abs_ratio._[0]._[0]}}"
-                    attr.cy="{{dto.element.positions.abs_ratio._[0]._[1]}}"
-                    attr.r="{{2}}"
                 />
             </g>
 
@@ -99,14 +93,15 @@
     <ng-container *ngFor="let dto of roots_choices">
 
         <path
-        *ngIf="dto.type == 2" 
-        class="root_choice"
-        (mousedown)="mouse_down_on_root_choice(dto.element)"
-        attr.d="
-            M {{dto.element.positions.abs_ratio._[0]._[0]}} {{dto.element.positions.abs_ratio._[0]._[1]}} 
-            L {{dto.element.positions.abs_ratio._[1]._[0]}} {{dto.element.positions.abs_ratio._[1]._[1]}} 
-            L {{dto.element.positions.abs_ratio._[2]._[0]}} {{dto.element.positions.abs_ratio._[2]._[1]}} 
-            L {{dto.element.positions.abs_ratio._[3]._[0]}} {{dto.element.positions.abs_ratio._[3]._[1]}} " 
+            *ngIf="dto.type == 2" 
+            class="root_choice"
+            (mousedown)="mouse_down_on_root_choice(dto.element)"
+            filter="url(#container-texture)"
+            attr.d="
+                M {{dto.element.positions.abs_ratio._[0]._[0]}} {{dto.element.positions.abs_ratio._[0]._[1]}} 
+                L {{dto.element.positions.abs_ratio._[1]._[0]}} {{dto.element.positions.abs_ratio._[1]._[1]}} 
+                L {{dto.element.positions.abs_ratio._[2]._[0]}} {{dto.element.positions.abs_ratio._[2]._[1]}} 
+                L {{dto.element.positions.abs_ratio._[3]._[0]}} {{dto.element.positions.abs_ratio._[3]._[1]}} " 
         />
 
     </ng-container>
