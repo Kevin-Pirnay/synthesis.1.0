@@ -29,7 +29,7 @@ class Position
 
         const c: Vector<3> = child_pos._[0].__.add_by_vector_new(child_pos._[3]).__.multiply_by_factor(1 / 2);
 
-        const b: Vector<3> = Vector_.new([1 / 2 * (parent_pos._[0]._[0] + child_pos._[0]._[0]), 1 / 2 * (child_pos._[3]._[1] + child_pos._[3]._[1])]);
+        const b: Vector<3> = Vector_.new([1 / 2 * (a._[0] + c._[0]), c._[1]]);
 
         return Matrix_.new([a, b, c]);
     }
@@ -45,7 +45,7 @@ class Position
 
         abs_ratio._[0].__.add_by_vector(delta);
 
-        const b: Vector<3> = Vector_.new([1 / 2 * (abs_ratio._[0]._[0] + abs_ratio._[2]._[0]), 1 / 2 * (abs_ratio._[2]._[1] + abs_ratio._[2]._[1])]);
+        const b: Vector<3> = Vector_.new([1 / 2 * (abs_ratio._[0]._[0] + abs_ratio._[2]._[0]), abs_ratio._[2]._[1]]);
 
         abs_ratio._[1].__.assign_new_data(b);
     }

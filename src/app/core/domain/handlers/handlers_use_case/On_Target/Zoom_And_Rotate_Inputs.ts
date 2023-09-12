@@ -4,7 +4,8 @@ import { IData_Tree } from "../View_As_Root/IData_Tree";
 
 
 
-export class Zoom_And_Rotate_Inputs {
+export class Zoom_And_Rotate_Inputs 
+{
     constructor(
         public readonly data: IData_Tree[],
         public readonly delta_level: number,

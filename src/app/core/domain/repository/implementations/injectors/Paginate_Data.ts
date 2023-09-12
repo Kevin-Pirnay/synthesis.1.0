@@ -72,13 +72,13 @@ class Step implements IStep
     } 
 }
 
-export interface IPaginate_Positions 
+interface IPaginate_Positions 
 {
     init_phase(phase: number): void;
     rotate_on_y_by_one_radian(direction : number) : void
 }
 
-export class Paginate_Positions implements IPaginate_Positions 
+class Paginate_Positions implements IPaginate_Positions 
 {
     private readonly __positions: IPaginate_Position[] = [];
 
@@ -108,14 +108,14 @@ export class Paginate_Positions implements IPaginate_Positions
 }
 
 
-export interface IPaginate_Position 
+interface IPaginate_Position 
 {
     rotate_on_y_at_phase(phase: number): void;
     rotate_on_y_by_one_radian(direction : number) : void
 }
 
 
-export class Paginate_Position implements IPaginate_Position 
+class Paginate_Position implements IPaginate_Position 
 {
     private readonly __abs_ratio: Matrix<any>;
 
