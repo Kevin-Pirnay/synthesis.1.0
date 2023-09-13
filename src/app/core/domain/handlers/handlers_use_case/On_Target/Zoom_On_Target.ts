@@ -121,7 +121,7 @@ export class Zoom_quadratic_By_Step implements IZoom_By_Step
 
     private __get_caracteristics_shape_function_points(distance : number, delta_zoom_level : number, current_level : number, zoom_quad : Quad_Callback) : Vector<2>[]
     {
-        const p1 = new Vector([0, current_level]);
+        const p1 = new Vector([0, 0]);
         const p2 = zoom_quad(distance,delta_zoom_level);
         const p3 = new Vector([distance, delta_zoom_level]);
 
@@ -337,8 +337,6 @@ export class Compute_Distance
 
     constructor(abs_ratio_target: Matrix<4>, coordinates_wanted: Vector<2>) 
     {
-        //const center_target: Vector<2> = this.__compute_center_point(abs_ratio_target);
-
         this.distance = this.__compute_distance(abs_ratio_target._[0], coordinates_wanted);
 
         this.x_y_normalize = this.__compute_x_y_normalize(abs_ratio_target._[0], coordinates_wanted);
@@ -353,15 +351,7 @@ export class Compute_Distance
 
         return distance;
     }
-
-    private __compute_center_point(matrix: Matrix<4>): Vector<2> 
-    {
-        const x = (matrix._[0]._[0] + matrix._[1]._[0]) * 1 / 2;
-        const y = (matrix._[0]._[1] + matrix._[3]._[1]) * 1 / 2;
-
-        return Vector_.new([x, y]);
-    }
-
+    
     private __compute_x_y_normalize(a: Vector<2>, b: Vector<2>): Vector<2>
     {
         const x = a._[0] - b._[0];

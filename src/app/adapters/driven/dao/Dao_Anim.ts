@@ -30,7 +30,7 @@ export class Dao_Anim implements IDao_Anim
     public get_coordinates_choose_roots_anim(): Vector<3>
     {
         //refactor to be more accurate with the size of the choose_root
-        return Vector_.new([this.__x - 15, this.__y, 0]); //this where the container will fall at the end of the animation
+        return Vector_.new([this.__x - 25, this.__y, 0]); //this where the container will fall at the end of the animation
     }
 
     public get_ratio_choose_roots_anim(): number 
