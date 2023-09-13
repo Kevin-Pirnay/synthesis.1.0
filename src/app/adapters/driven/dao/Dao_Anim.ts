@@ -9,50 +9,48 @@ export type Quad_Callback = (x: number, y : number) => Vector<3>;
 
 export class Dao_Anim implements IDao_Anim
 {
-    private readonly __y : number = window.innerHeight * 55/100;
-
-    private readonly __center_choose_root_anim : Vector<3> = Vector_.new([window.innerWidth / 2, this.__y, 0]);
-
+    
+    
     constructor(private readonly __runtime_persistence : Runtime_Persistence) { }
+    
+    private readonly __y : number = window.innerHeight * 75/100;
+    private readonly __x : number = (window.innerWidth - (window.innerWidth * 20/100))/2;
 
-    public get_move_view_delta_step(): number 
+
+    public get_center_zoom_point(): Vector<3> //recheck where
     {
-        return 5;
+        return new Vector<3>([this.__x, window.innerHeight/2, 0]);
     }
 
-    public get_center_zoom_point(): Vector<3> 
+    public get_zoom_center_point_choose_roots_anim(): Vector<3>  //recheck where
     {
-        return new Vector<3>([window.innerWidth / 2, window.innerHeight/2, 0]);
+        return Vector_.new([this.__x, this.__y, 0]);
     }
 
-    public get_coordinates_choose_roots_anim(): Vector<3> 
+    public get_coordinates_choose_roots_anim(): Vector<3> //need to be the same as get_zoom_center_point_choose_roots_anim //recheck where
     {
-        return this.__center_choose_root_anim;
+        //refactor to be more accurate with the size of the choose_root
+        return Vector_.new([this.__x - 15, this.__y, 0]); //this where the container will fall at the end of the animation
     }
 
     public get_ratio_choose_roots_anim(): number 
     {
-        return 1/5 * 500;
+        return 1/5 * 500; //this is the size that the container shall have at the end of the animation
     }
 
     public get_axe_rotation_choose_roots_anim(): Vector<3> 
     {
-        return Vector_.new([window.innerWidth / 2, 0, 0]);
+        return Vector_.new([window.innerHeight/2 + 40, 0, 0]);
     }
 
     public get_center_rotation_choose_roots_anim(): Vector<3> 
     {
-        return Vector_.new([window.innerWidth / 2, window.innerHeight - 1/5 * this.__y, 0]);
+        return Vector_.new([this.__x, window.innerHeight + 35, 0]);
     }
 
     public get_rate_choose_roots_anim(): number 
     {
         return 0.8;
-    }
-
-    public get_zoom_center_point_choose_roots_anim(): Vector<3> 
-    {
-        return this.__center_choose_root_anim;
     }
 
     public get_zoom_quad_choose_roots_anim(): Quad_Callback 
@@ -105,5 +103,10 @@ export class Dao_Anim implements IDao_Anim
         const direction : number = 1;
 
         return new Inputs_Init_Link_Root_Anim(delta_level, axe_rotation, max_angle, center_rotation, phase, direction);
+    }
+
+    public get_move_view_delta_step(): number 
+    {
+        return 5;
     }
 }
