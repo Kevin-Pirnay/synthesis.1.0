@@ -88,4 +88,9 @@ export class Svg__Focus_
   {
     return this.__memory.focus_ligature;
   }
+
+  public get_containers_selected() : Container[]
+  {
+    return this.__memory.containers_selected;
+  }
 }

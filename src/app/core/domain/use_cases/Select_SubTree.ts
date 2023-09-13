@@ -11,9 +11,9 @@ export class Select_Subtree_Use_case
 
     public handle(request : Select_SubTree_Request) : Select_SubTree_Response
     {
-        const data_tree : IData_Tree[] = this.__handler.get_subtree_from_this_container(request.container);
+        const data_tree : IData_Tree[] = this.__handler.get_subtree_from_this_container_at_container_positions(request.container);
 
-        const result : Container[] = data_tree.filter(data => data.type = Data_Type.CONTAINER).map(data => data.element);
+        const result : Container[] = data_tree.filter(data => data.type === Data_Type.CONTAINER).map(data => data.element);
 
         return new Select_SubTree_Response(result);
     }

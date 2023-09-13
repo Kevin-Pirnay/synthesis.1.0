@@ -22,3 +22,8 @@
 .root_choice{
     fill: rgb(127, 8, 8);
 }
+
+.container-selected
+{
+    fill: orange;
+}

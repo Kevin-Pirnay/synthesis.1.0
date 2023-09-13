@@ -216,9 +216,6 @@ class Zoom_quadratic_By_Step implements IZoom_By_Step
 
     public unzoom_positions_to_this_factor(original_zoom_factor: number): void 
     {
-        console.log("debug");
-        console.log(original_zoom_factor);
-        
         this.__handler.zoom_current_flow_by_factor(original_zoom_factor);
     }
 

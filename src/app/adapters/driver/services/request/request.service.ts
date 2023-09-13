@@ -180,7 +180,7 @@ export class RequestService
   {
     const request = new Select_SubTree_Request(container);
 
-    const response = Pipeline.facade.execute_select_subtree(request);
+    const response = Pipeline.facade.execute_select_subtree(request);    
 
     return response.containers;
   }

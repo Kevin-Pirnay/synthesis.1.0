@@ -26,6 +26,18 @@
         
         </filter>
 
+        <filter id="container-texture-selected">
+    
+            <feTurbulence type="fractalNoise" baseFrequency='0.04' result='noise' numOctaves="5" />
+                            
+            <feDiffuseLighting in='noise' lighting-color='orange' surfaceScale='1'>
+        
+                <feDistantLight azimuth='45' elevation='60' />
+                
+            </feDiffuseLighting>
+        
+        </filter>
+
     </defs>
 </svg>
 
