@@ -22,6 +22,7 @@ export class View_Paginate implements IView_Paginate
         this.__direction = direction;
         this.__repository = paginate_repository;
     }
+    
     public rotate(): void 
     {
         //change that
