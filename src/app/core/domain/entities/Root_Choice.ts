@@ -7,19 +7,10 @@ export class Root_Choice
     public readonly flow :string;
     public readonly positions = new Root_Choice_Position();
      
-    constructor(flow :string)
+    constructor(flow :string, abs_ratio : Matrix<4>)
     {
         this.flow = flow;
         
-        //change that
-        const abs_ratio = new Matrix(
-            [
-                Vector_.zero(3),
-                Vector_.new([30,0,0]),
-                Vector_.new([30,30,0]),
-                Vector_.new([0,30,0])
-            ]
-        );
         this.positions.abs_ratio.__.assign_new_data(abs_ratio);
     }
 }

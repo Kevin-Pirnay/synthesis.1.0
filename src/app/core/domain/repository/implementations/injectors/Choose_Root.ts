@@ -36,9 +36,9 @@ export class Choose_Roots_Root implements IChoose_Roots_Root
     private readonly __roots: Root_Choice[] = [];
     private readonly __rotate_root: IRotate_Roots_Root;
 
-    constructor(roots: string[], indexes: number[], axe_rotation : Vector<3>, center_rotation : Vector<3>, rate : number) 
+    constructor(roots: string[], indexes: number[], axe_rotation : Vector<3>, center_rotation : Vector<3>, rate : number, abs_ratio : Matrix<4>) 
     {
-        roots.forEach(root => this.__roots.push(new Root_Choice(root)));
+        roots.forEach(root => this.__roots.push(new Root_Choice(root, abs_ratio)));
 
         this.__rotate_root = new Rotate_Roots_Root(this.__roots, indexes, axe_rotation, center_rotation, rate);
     }

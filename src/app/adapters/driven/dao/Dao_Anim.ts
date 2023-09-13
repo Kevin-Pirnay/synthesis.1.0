@@ -3,19 +3,31 @@ import { Vector_ } from "../../../core/common/Vector/Vector_";
 import { IDao_Anim } from "../../../core/port/driven/dao/IDao_Anim";
 import { Runtime_Persistence } from "../runtime_memory/Runtime_Persistence";
 import { Inputs_Init_Link_Root_Anim } from "../../../core/domain/repository/implementations/injectors/Link_Roots";
+import { Matrix } from "../../../core/common/Matrix/Matrix";
 
 //refactor
 export type Quad_Callback = (x: number, y : number) => Vector<3>;
 
 export class Dao_Anim implements IDao_Anim
 {
-    
-    
     constructor(private readonly __runtime_persistence : Runtime_Persistence) { }
-    
+
     private readonly __y : number = window.innerHeight * 75/100;
     private readonly __x : number = (window.innerWidth - (window.innerWidth * 20/100))/2;
+    
+    public get_abs_ratio_choose_root(): Matrix<4> 
+    {
+        const x =  50;
 
+        return new Matrix(
+            [
+                Vector_.zero(3),
+                Vector_.new([x,0,0]),
+                Vector_.new([x,x,0]),
+                Vector_.new([0,x,0])
+            ]
+        );
+    }
 
     public get_center_zoom_point(): Vector<3> 
     {

@@ -14,6 +14,7 @@ import { Root_Choice } from '../../entities/Root_Choice';
 import { IChoosen_Root } from '../../use_cases/Choose_Root/Chosen_Root';
 import { Quad_Callback } from '../../../../adapters/driven/dao/Dao_Anim';
 import { Chosen_Root } from './injectors/Chosen_Root';
+import { Matrix } from '../../../common/Matrix/Matrix';
 
 
 export class Choose_Root_Repository implements IChoose_Root_Repository
@@ -59,8 +60,10 @@ export class Choose_Root_Repository implements IChoose_Root_Repository
         const center_rotation : Vector<3> = this.__dao_anim.get_center_rotation_choose_roots_anim();
 
         const rate : number = this.__dao_anim.get_rate_choose_roots_anim();
+
+        const choose_root_abs_ratio : Matrix<4> = this.__dao_anim.get_abs_ratio_choose_root();
     
-        return new Choose_Roots_Root(this.__roots, indexes, axe_rotation, center_rotation, rate);
+        return new Choose_Roots_Root(this.__roots, indexes, axe_rotation, center_rotation, rate, choose_root_abs_ratio);
     }
 
     public get_next_indexes(direction: number): number[] 
