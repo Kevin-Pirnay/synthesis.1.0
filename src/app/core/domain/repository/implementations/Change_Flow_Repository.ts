@@ -36,10 +36,10 @@ export class Change_Flow_Repository implements IChange_Flow_Repository
     {
         const data_to_merge : IData_To_Merge = new Data_To_Merge(data_tree_to_merge, container_to_link, origin_flow, view_as_root_handler, node_linker, this.__container_dao, this.__ligature_dao, this.__flow_dao);
 
-        data_to_merge.save_the_data_to_merge_in_the_current_flow();
-        data_to_merge.change_the_current_flow_into();
+        data_to_merge.save_the_data_to_merge_in_the_original_flow();
+        data_to_merge.change_the_current_flow_into_the_original();
         data_to_merge.translate_the_data_to_merge_according_to_the_container_to_link();
-        const ligature : Ligature = data_to_merge.create_the_ligature_to_relate_the_container_to_link_to_the_the_root_of_data_to_merge();
+        const ligature : Ligature = data_to_merge.create_the_ligature_to_link_the_container_to_the_the_root_of_data_to_merge();
         data_to_merge.links_nodes(container_to_link, ligature, data_tree_to_merge[0].element);
         
         return data_to_merge.get_the_new_tree();
@@ -48,10 +48,10 @@ export class Change_Flow_Repository implements IChange_Flow_Repository
 
 interface IData_To_Merge
 {
-    save_the_data_to_merge_in_the_current_flow() : void;
-    change_the_current_flow_into() : void;
+    save_the_data_to_merge_in_the_original_flow() : void;
+    change_the_current_flow_into_the_original() : void;
     translate_the_data_to_merge_according_to_the_container_to_link() : void;
-    create_the_ligature_to_relate_the_container_to_link_to_the_the_root_of_data_to_merge() : Ligature;
+    create_the_ligature_to_link_the_container_to_the_the_root_of_data_to_merge() : Ligature;
     links_nodes(parent_container : Container, ligature : Ligature, child_container : Container): void 
     get_the_new_tree(): IData_Tree[] 
 }
@@ -80,12 +80,13 @@ class Data_To_Merge implements IData_To_Merge
         this.__nodes = new Link_Nodes(nodes_linker);
         this.__flow = new Change_Flow(origin_flow,flow_dao);
     }
-    public save_the_data_to_merge_in_the_current_flow(): void 
+
+    public save_the_data_to_merge_in_the_original_flow(): void 
     {
         this.__save.save_data_in_the_current_flow();
     }
 
-    public change_the_current_flow_into(): void 
+    public change_the_current_flow_into_the_original(): void 
     {
         this.__flow.change_the_current_flow();
     }
@@ -95,7 +96,7 @@ class Data_To_Merge implements IData_To_Merge
         this.__translate.translate_data_to_merge();
     }
 
-    public create_the_ligature_to_relate_the_container_to_link_to_the_the_root_of_data_to_merge(): Ligature 
+    public create_the_ligature_to_link_the_container_to_the_the_root_of_data_to_merge(): Ligature 
     {
         return this.__ligature.create_ligature();
     }
@@ -174,9 +175,9 @@ class Translate implements ITranslate
 
         //const y : number = this.__container_to_link.positions.abs_ratio._[0]._[1];
 
-        const delta = Vector_.new([100,0,0]);
+        const delta = Vector_.new([200,0,0]); //put that in memory
 
-        this.__data[0].element.positions.rel_root.__.assign_new_data(delta);
+        this.__data[0].element.positions.rel_root.__.assign_new_data(delta); //data[0] is the root of the tree to merge
     }
 }
 
