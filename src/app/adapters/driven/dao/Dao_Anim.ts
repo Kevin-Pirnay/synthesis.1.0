@@ -82,7 +82,7 @@ export class Dao_Anim implements IDao_Anim
         
         const phase : number = 3 * Math.PI / 2;
         
-        const delta_level : number = 0;
+        const delta_level : number = +25;
         
         const direction : number = 1;
 
@@ -101,7 +101,7 @@ export class Dao_Anim implements IDao_Anim
         
         const phase : number =  0;
         
-        const delta_level : number = 0;
+        const delta_level : number = -25;
         
         const direction : number = 1;
 

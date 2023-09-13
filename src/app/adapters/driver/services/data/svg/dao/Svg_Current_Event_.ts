@@ -46,9 +46,19 @@ export class Svg_Current_Event_
     this.__memory.current_event._  = Svg_Current_Event.NONE;
   }
 
+  public set_is_choosing_root() : void
+  {
+    this.__memory.current_event._  = Svg_Current_Event.CHOOSING_ROOT;
+  }
+
   public is_zooming(): boolean 
   {
     return this.__memory.current_event._  == Svg_Current_Event.ZOOMING_UP || this.__memory.current_event._  == Svg_Current_Event.ZOOMING_DOWN ? true : false;
+  }
+
+  public is_there_a_current_event_running(): boolean 
+  {    
+    return this.__memory.current_event._ == Svg_Current_Event.NONE ? false : true;
   }
 
   public is_view_moving(): boolean 

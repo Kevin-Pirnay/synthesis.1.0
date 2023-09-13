@@ -130,6 +130,8 @@ export class PipelineService
     this.__data_dtos.replace_its_current_dtos_by(dtos);
 
     this.__data_dtos.remove_all_roots_choices();
+
+    this.__data_current_event.set_current_event_to_none();
   }
 
   public request_init_paginate(container : Container) : void

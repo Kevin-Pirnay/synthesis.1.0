@@ -11,7 +11,8 @@ export class From_Menu
     private readonly __current_event: Svg_Current_Event_;
     private readonly __current_view: Aside__Current_View_;
 
-    constructor(data: DataService, private readonly __pipeline: PipelineService) {
+    constructor(data: DataService, private readonly __pipeline: PipelineService) 
+    {
         this.__focus = data.svg.__.focus;
         this.__current_event = data.svg.__.current_event;
         this.__current_view = data.aside.__.current_view;
@@ -47,6 +48,8 @@ export class From_Menu
             this.__pipeline.request_init_choose_root(this.__focus.container_on_focus());
 
             this.__current_view.set_show_choose_root();
+
+            this.__current_event.set_is_choosing_root();
         }
     }
 

@@ -94,7 +94,7 @@ class Data_To_Merge implements IData_To_Merge
     {
         const delta = Vector_.new([200,0,0]); //put that in memory
 
-        this.data_to_merge[0].element.positions.rel_root.__.assign_new_data(delta); //data[0] is the root of the tree to merge    }
+        this.data_to_merge[0].element.positions.rel_root.__.assign_new_data(delta); //data[0] is the root of the tree to merge 
     }
 
     public create_the_ligature_to_link_the_container_to_the_root_of_data_to_merge(): Ligature 

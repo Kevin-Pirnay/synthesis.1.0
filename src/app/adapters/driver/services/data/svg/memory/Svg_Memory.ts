@@ -32,5 +32,6 @@ export enum Svg_Current_Event
   ZOOMING_UP,
   ZOOMING_DOWN,
   LINKING_ROOTS,
+  CHOOSING_ROOT,
   NONE
 }

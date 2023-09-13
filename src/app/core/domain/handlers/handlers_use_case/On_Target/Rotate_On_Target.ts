@@ -45,8 +45,6 @@ export class Rotate_On_Target implements IRotate_On_Taget
 
             await new Promise(r => setTimeout(r, 10));
         }
-
-        this.__positions.reset_zoom_factor(); //??? check if correct
     }
 
     private __get_rotation_positions_data_injector(data : IData_Tree[]) : IRotate_Position_Data[]
@@ -66,7 +64,6 @@ export class Rotate_On_Target implements IRotate_On_Taget
 
 interface IRotate_Positions_On_Target
 {
-    reset_zoom_factor(): void;
     rotate_by_step(): void;
     zoom_by_step(): void;
     init_axe_rotation(): void;
@@ -92,11 +89,6 @@ class Rotate_Positions_On_Target implements IRotate_Positions_On_Target
         this.__init = new Init_The_Target_With_Rotation_Y(positions, axe_rotation);
         this.__zoom = new Zoom_quadratic_By_Step(delta_level, max_angle, zoom_handler);
         this.__rotate = new Rotate_Y_By_Step(positions, phase, direction, center_point);
-    }
-
-    public reset_zoom_factor(): void 
-    {
-        this.__zoom.reset_zoom();
     }
 
     public rotate_by_step(): void 
@@ -184,7 +176,6 @@ class Step implements IStep
 
 interface IZoom_By_Step
 {
-    reset_zoom(): void;
     zoom_by_step(): void;
 }
 
@@ -212,11 +203,6 @@ class Zoom_quadratic_By_Step implements IZoom_By_Step
         const points : Vector<2>[] = this.__get_caracteristics_shape_function_points(max_angle, delta_zoom_level, this.__current_level);
 
         this.__zoom = Zoom_by_Step_.get_zoom_injector(points[0],points[1],points[2]);
-    }
-
-    public reset_zoom(): void 
-    {
-        this.__handler.zoom_current_flow_by_level(this.__original_zoom_level);
     }
 
     private __get_caracteristics_shape_function_points(max_angle : number,delta_zoom_level : number, current_level : number) : Vector<2>[]

@@ -23,7 +23,7 @@ export class From_Mouse
 
     public report_mouse_up(e: MouseEvent): void 
     {
-        if (!this.__mouse.is_mouse_down_on_something()) this.__focus.is_there_a_current_parent_container() ? this.__pipeline.request_create_container(e, this.__focus.current_parent_container()) : this.__pipeline.request_create_container(e, null);
+        if (!this.__mouse.is_mouse_down_on_something() && !this.__current_event.is_there_a_current_event_running()) this.__focus.is_there_a_current_parent_container() ? this.__pipeline.request_create_container(e, this.__focus.current_parent_container()) : this.__pipeline.request_create_container(e, null);
 
         if (this.__mouse.is_mouse_down_on_grip()) this.__pipeline.request_assign_ligature(this.__focus.ligature_on_focus(), this.__focus.get_nullable_container_on_focus());
 
