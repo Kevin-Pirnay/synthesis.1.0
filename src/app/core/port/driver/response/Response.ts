@@ -1,4 +1,5 @@
 import { Observer } from "../../../common/Observer/Observer";
+import { Container } from "../../../domain/entities/Container";
 import { IDto } from "../dto/IDto";
 
 
@@ -60,4 +61,9 @@ export class View_Link_Roots_Response
 export class Select_Link_Roots_Response
 {
     constructor(public dtos : IDto[]) { }
+}
+
+export class Select_SubTree_Response
+{
+    constructor(containers : Container[]) { }
 }
