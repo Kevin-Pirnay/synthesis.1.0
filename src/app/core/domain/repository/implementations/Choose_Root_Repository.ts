@@ -34,7 +34,7 @@ export class Choose_Root_Repository implements IChoose_Root_Repository
 
         container.roots.forEach(root => this.__roots.push(root));
 
-        if (container.back_root)  this.__roots.push(container.back_root);
+        if (container.back_roots.length)  container.back_roots.forEach(root => this.__roots.push(root));
     }
 
     public get_choose_root_container_injector(container : Container, zoom_handler : IZoom_Handler, move_view_handler : IMove_View_Handler): IChoose_Roots_Container

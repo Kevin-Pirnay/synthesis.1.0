@@ -48,6 +48,7 @@ export class From_Mouse
 
             else
             {
+                //refactor
                 const containers : Container[] = this.__focus.get_containers_selected()
 
                 this.__attribute_handler.set_attribute_to_those_dtos("filter", "url(#container-texture)", containers.map(_ => _.id));  

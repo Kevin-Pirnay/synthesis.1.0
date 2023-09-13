@@ -125,7 +125,7 @@ class Save_Flow_Handler
          * In order to keep track of its previous flow, if this is not the first root of this project, set the back root. 
          * If this is the first root of the project, the flow will be of length 0.
          **/
-        if ( this.__current_flow._ !== null ) container.back_root = this.__current_flow._;
+        if ( this.__current_flow._ !== null ) container.back_roots.push(this.__current_flow._);
     }
 }
 

@@ -75,9 +75,11 @@ class Data_To_Merge implements IData_To_Merge
         {
             if (data.type == Data_Type.CONTAINER)
             {
+                //refactor
                 const container : Container = data.element;
                 container.positions = container.positions.__.copy();
                 container.node = container.node.__.copy();
+                if(container.back_roots.length) container.back_roots.push(this.origin_flow); //if this is a root of another flow, add this flow t its back_roots
                 this.container_dao.save_the_container_into_this_flow(container, this.origin_flow);
             } 
 
