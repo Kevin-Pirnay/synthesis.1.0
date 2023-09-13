@@ -2,7 +2,7 @@ import { Dto } from "../../../port/driver/dto/Dto";
 import { IDto } from "../../../port/driver/dto/IDto";
 import { Choose_Root_Request } from "../../../port/driver/request/request";
 import { Choose_Root_Response } from "../../../port/driver/response/Response";
-import { Data_Type } from "../../handlers/handlers_entities/Data_Type";
+import { Data_Type } from "../../entities/Data_Type";
 import { IMove_View_Handler } from "../../handlers/handlers_use_case/Move_View/IMove_View_Handler";
 import { IZoom_Handler } from "../../handlers/handlers_use_case/Zoom/IZoom_Handler";
 import { IChoose_Root_Repository } from "../../repository/interfaces/IRepository";

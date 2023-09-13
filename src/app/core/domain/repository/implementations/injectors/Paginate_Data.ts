@@ -1,7 +1,7 @@
 import { Matrix } from "../../../../common/Matrix/Matrix";
 import { IDto } from "../../../../port/driver/dto/IDto";
 import { Ligature } from "../../../entities/Ligature";
-import { Data_Type } from "../../../handlers/handlers_entities/Data_Type";
+import { Data_Type } from "../../../entities/Data_Type";
 import { IPaginate_Data } from "./View_Paginate";
 
 

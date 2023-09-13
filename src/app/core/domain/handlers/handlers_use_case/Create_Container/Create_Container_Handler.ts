@@ -4,7 +4,7 @@ import { Matrix } from "../../../../common/Matrix/Matrix";
 import { Vector_ } from "../../../../common/Vector/Vector_";
 import { Dto } from "../../../../port/driver/dto/Dto";
 import { IDto } from "../../../../port/driver/dto/IDto";
-import { Data_Type } from "../../handlers_entities/Data_Type";
+import { Data_Type } from "../../../entities/Data_Type";
 import { Container } from "../../../entities/Container";
 import { Container_ } from "../../handlers_entities/Container_";
 import { Ligature } from "../../../entities/Ligature";

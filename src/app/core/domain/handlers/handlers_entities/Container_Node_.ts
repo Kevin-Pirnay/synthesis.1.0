@@ -1,9 +1,9 @@
-import { Node, Unit_Node, Container } from "../../entities/Container";
+import { Container_Node, Unit_Node, Container } from "../../entities/Container";
 
 
-export class Node_ 
+export class Container_Node_ 
 {
-    constructor(private readonly __node: Node) { }
+    constructor(private readonly __node: Container_Node) { }
 
     public assign_new_parent_unit(parent: Unit_Node | null): void 
     {
@@ -47,5 +47,17 @@ export class Node_
         });
 
         return result;
+    }
+
+    public copy() : Container_Node
+    {
+        const new_node_ptr = new Container_Node();
+
+        new_node_ptr.parent.container = this.__node.parent.container;
+        new_node_ptr.parent.ligature = this.__node.parent.ligature;
+
+        this.__node.children.forEach((child : Unit_Node) => new_node_ptr.children.push(child));
+
+        return new_node_ptr;
     }
 }

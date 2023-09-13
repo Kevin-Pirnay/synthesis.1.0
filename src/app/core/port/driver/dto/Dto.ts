@@ -1,5 +1,5 @@
 import { IDto } from "./IDto";
-import { Data_Type } from "../../../domain/handlers/handlers_entities/Data_Type";
+import { Data_Type } from "../../../domain/entities/Data_Type";
 
 export class Dto implements IDto
 {

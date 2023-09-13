@@ -2,7 +2,7 @@ import { Matrix } from "../../../core/common/Matrix/Matrix";
 import { Ptr } from "../../../core/common/Ptr";
 import { Vector } from "../../../core/common/Vector/Vector";
 import { Vector_ } from "../../../core/common/Vector/Vector_";
-import { Container, Container_Positions, Node } from "../../../core/domain/entities/Container";
+import { Container, Container_Node, Container_Positions } from "../../../core/domain/entities/Container";
 import { Ligature, Ligature_Positions } from "../../../core/domain/entities/Ligature";
 
 
@@ -34,7 +34,7 @@ export class Runtime_Persistence
 
 export interface IContainer_Data_Flow
 {
-    node : Node;
+    node : Container_Node;
     positions : Container_Positions;
 }
 

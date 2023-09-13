@@ -6,7 +6,7 @@ import { Ligature } from '../../entities/Ligature';
 import { Ligature_Move_View_Positions } from './injectors/Move_View_Positions';
 import { Container_Move_View_Positions } from './injectors/Move_View_Positions';
 import { IMove_View_Repository } from '../interfaces/IRepository';
-import { Data_Type } from '../../handlers/handlers_entities/Data_Type';
+import { Data_Type } from '../../entities/Data_Type';
 import { IMove_View_Positions } from '../../handlers/handlers_use_case/Move_View/IMove_View_Positions';
 import { IData_Tree } from '../../handlers/handlers_use_case/View_As_Root/IData_Tree';
 import { Ptr } from '../../../common/Ptr';

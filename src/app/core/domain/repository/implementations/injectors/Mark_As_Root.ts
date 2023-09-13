@@ -1,9 +1,9 @@
 import { Dto } from '../../../../port/driver/dto/Dto';
 import { Vector } from "../../../../common/Vector/Vector";
 import { Vector_ } from "../../../../common/Vector/Vector_";
-import { Container, Container_Positions, Node } from "../../../entities/Container";
+import { Container, Container_Positions, Container_Node } from "../../../entities/Container";
 import { IMark_As_Root } from "../../../use_cases/Mark_As_Root";
-import { Data_Type } from "../../../handlers/handlers_entities/Data_Type";
+import { Data_Type } from "../../../entities/Data_Type";
 import { Matrix } from '../../../../common/Matrix/Matrix';
 import { Mark_As_Root_Response } from '../../../../port/driver/response/Response';
 
@@ -18,7 +18,7 @@ export class Mark_As_Root implements IMark_As_Root
         this.__cotainer.positions.rel_ratio.__.assign_new_data(temp_rel_ratio);
         this.__cotainer.positions.rel_root.__.assign_new_data(Vector_.zero(3));
         this.__cotainer.__.update_position_from_abs_root(root_point);
-        this.__cotainer.node = new Node();
+        this.__cotainer.node = new Container_Node();
     }
 
     public get_dto_response(): Mark_As_Root_Response 

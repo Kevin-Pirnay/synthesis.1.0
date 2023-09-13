@@ -1,4 +1,4 @@
-import { Data_Type } from "../../../domain/handlers/handlers_entities/Data_Type";
+import { Data_Type } from "../../../domain/entities/Data_Type";
 
 export interface IDto
 {

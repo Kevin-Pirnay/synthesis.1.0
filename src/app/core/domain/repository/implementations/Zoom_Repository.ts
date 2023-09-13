@@ -10,7 +10,7 @@ import { Container_Zoom_Positions } from "./injectors/Zoom_Positions";
 import { Ligature_Zoom_Positions } from "./injectors/Zoom_Positions";
 import { IZoom_Positions } from '../../handlers/handlers_use_case/Zoom/IZoom_Positions';
 import { Ptr } from '../../../common/Ptr';
-import { Data_Type } from '../../handlers/handlers_entities/Data_Type';
+import { Data_Type } from '../../entities/Data_Type';
 
 
 export class Zoom_Repository implements IZoom_Repository

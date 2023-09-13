@@ -1,7 +1,7 @@
 import { Vector } from "../../../../common/Vector/Vector";
 import { Dto } from "../../../../port/driver/dto/Dto";
 import { IDto } from "../../../../port/driver/dto/IDto";
-import { Data_Type } from "../../../handlers/handlers_entities/Data_Type";
+import { Data_Type } from "../../../entities/Data_Type";
 import { Container } from "../../../entities/Container";
 import { Ligature } from "../../../entities/Ligature";
 import { ISubtree_Root } from "../../../handlers/handlers_use_case/View_As_Root/ISubtree_Root";

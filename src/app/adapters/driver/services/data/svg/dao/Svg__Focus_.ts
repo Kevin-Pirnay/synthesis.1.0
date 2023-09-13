@@ -1,6 +1,6 @@
 import { Container } from "../../../../../../core/domain/entities/Container";
 import { Ligature } from "../../../../../../core/domain/entities/Ligature";
-import { Data_Type } from "../../../../../../core/domain/handlers/handlers_entities/Data_Type";
+import { Data_Type } from "../../../../../../core/domain/entities/Data_Type";
 import { IDto } from "../../../../../../core/port/driver/dto/IDto";
 import { Svg_Memory } from "../memory/Svg_Memory";
 
