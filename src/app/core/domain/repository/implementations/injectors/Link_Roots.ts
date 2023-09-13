@@ -9,12 +9,24 @@ import { ILink_Roots } from "../../../use_cases/Link_Root/Init_Link_Roots";
 import { Observer } from '../../../../common/Observer/Observer';
 
 
+export class Inputs_Init_Link_Root_Anim 
+{
+    constructor(
+        public readonly delta_level: number,
+        public readonly axe_rotation: Vector<3>,
+        public readonly max_angle: number,
+        public readonly center_rotation: Vector<3>,
+        public readonly phase: number,
+        public readonly direction: number
+    ) { }
+}
+
 export class Link_Roots implements ILink_Roots 
 {
     private readonly __current: ILink_Flow;
     private readonly __next: ILink_Flow;
 
-    constructor(flows: string[], inputs_current: Inputs_Init_Link_Root, inputs_next: Inputs_Init_Link_Root, change_flow_handler: IChange_Flow_Handler, zoom_handler: IZoom_Handler) 
+    constructor(flows: string[], inputs_current: Inputs_Init_Link_Root_Anim, inputs_next: Inputs_Init_Link_Root_Anim, change_flow_handler: IChange_Flow_Handler, zoom_handler: IZoom_Handler) 
     {
         this.__current = new Link_Root(flows[0], inputs_current, change_flow_handler, zoom_handler);
 
@@ -31,32 +43,21 @@ export class Link_Roots implements ILink_Roots
     }
 }
 
-export interface ILink_Flow 
+interface ILink_Flow 
 {
     rotate_and_zoom(): Promise<void>;
     init(observer: Observer<IDto[]>): void;
 }
 
-export class Inputs_Init_Link_Root 
-{
-    constructor(
-        public readonly delta_level: number,
-        public readonly axe_rotation: Vector<3>,
-        public readonly max_angle: number,
-        public readonly center_rotation: Vector<3>,
-        public readonly phase: number,
-        public readonly direction: number
-    ) { }
-}
 
-export class Link_Root implements ILink_Flow 
+class Link_Root implements ILink_Flow 
 {
     private __inputs__: Zoom_And_Rotate_Inputs | null = null;
     private __original_zoom_factor : number = 0;
 
     constructor(
         private readonly __flow: string,
-        private readonly __inputs: Inputs_Init_Link_Root,
+        private readonly __inputs: Inputs_Init_Link_Root_Anim,
         private readonly __change_flow_handler: IChange_Flow_Handler,
         private readonly __zoom_handler: IZoom_Handler
     ) 

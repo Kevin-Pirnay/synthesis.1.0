@@ -37,12 +37,12 @@ export class Zoom_Handler implements IZoom_Handler
     {
         const positions : IZoom_Positions[] = this.__repository.get_all_zooms_positions();
 
-        //unzoom all the positions
         const unzoom_factor = this.__repository.get_unzoom_factor();
+
         this.__zoom(this.__center, positions, unzoom_factor);        
         
-        //zoom all the positions by adding one to the factor zoom
         const zoom_factor = this.__repository.update_zoom_factor(direction);
+
         this.__zoom(this.__center, positions, zoom_factor); 
     }
 
@@ -74,12 +74,12 @@ export class Zoom_Handler implements IZoom_Handler
     {
         const positions : IZoom_Positions[] = this.__repository.get_all_zooms_positions();
 
-        //unzoom all the positions
         const unzoom_factor = this.__repository.get_unzoom_factor();
+
         this.__zoom(this.__center, positions, unzoom_factor);
 
-        //zoom by factor
         const zoom_factor = this.__repository.update_zoom_level(level);
+
         this.__zoom(this.__center, positions, zoom_factor);
     }
 
@@ -94,8 +94,8 @@ export class Zoom_Handler implements IZoom_Handler
     {
         const positions : IZoom_Positions[] = this.__repository.get_all_zooms_positions(); 
 
-        //unzoom all the positions
         const unzoom_factor = this.__repository.get_unzoom_factor();
+
         this.__zoom(this.__center, positions, unzoom_factor);
         
         this.__zoom(this.__center, positions, factor); 
@@ -114,12 +114,12 @@ export class Zoom_Handler implements IZoom_Handler
     {
         const positions : IZoom_Positions[] = this.__repository.get_all_zooms_positions();
 
-        //unzoom all the positions
         const unzoom_factor = this.__repository.get_unzoom_factor();
+
         this.__zoom(point, positions, unzoom_factor);
 
-        //zoom by factor
         const zoom_factor = this.__repository.update_zoom_level(level);
+        
         this.__zoom(point, positions, zoom_factor);
     }
 

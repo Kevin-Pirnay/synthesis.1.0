@@ -8,7 +8,7 @@ import { IChange_Flow_Handler } from "../../handlers/handlers_use_case/Change_Ro
 import { IDao_Anim } from "../../../port/driven/dao/IDao_Anim";
 import { Container } from "../../entities/Container";
 import { Link_Roots } from "./injectors/Link_Roots";
-import { Inputs_Init_Link_Root } from "./injectors/Link_Roots";
+import { Inputs_Init_Link_Root_Anim } from "./injectors/Link_Roots";
 
 
 export class Link_Roots_Repository implements ILink_Roots_Repository
@@ -74,9 +74,9 @@ export class Link_Roots_Repository implements ILink_Roots_Repository
 
     private __get_link_roots_injector(flows : string[], change_flow_handler : IChange_Flow_Handler, zoom_handler : IZoom_Handler) : ILink_Roots
     {
-        const inputs_current : Inputs_Init_Link_Root = this.__dao_anim.get_inputs_init_link_roots_for_current();
+        const inputs_current : Inputs_Init_Link_Root_Anim = this.__dao_anim.get_inputs_init_link_roots_for_current();
 
-        const inputs_next : Inputs_Init_Link_Root = this.__dao_anim.get_inputs_init_link_roots_for_next();
+        const inputs_next : Inputs_Init_Link_Root_Anim = this.__dao_anim.get_inputs_init_link_roots_for_next();
 
         return new Link_Roots(flows, inputs_current, inputs_next, change_flow_handler, zoom_handler);
     }

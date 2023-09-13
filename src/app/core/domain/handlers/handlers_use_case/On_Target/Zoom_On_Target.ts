@@ -337,12 +337,10 @@ export class Compute_Distance
 
     constructor(abs_ratio_target: Matrix<4>, coordinates_wanted: Vector<2>) 
     {
-        const center_target: Vector<2> = this.__compute_center_point(abs_ratio_target);
+        //const center_target: Vector<2> = this.__compute_center_point(abs_ratio_target);
 
-        //const dist : number = this.__compute_distance(center_target, coordinates_wanted);
         this.distance = this.__compute_distance(abs_ratio_target._[0], coordinates_wanted);
 
-        //this.x_y_normalize = this.__compute_x_y_normalize(center_target, coordinates_wanted);
         this.x_y_normalize = this.__compute_x_y_normalize(abs_ratio_target._[0], coordinates_wanted);
     }
 

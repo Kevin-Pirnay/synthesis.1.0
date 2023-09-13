@@ -2,7 +2,7 @@ import { Vector } from "../../../core/common/Vector/Vector";
 import { Vector_ } from "../../../core/common/Vector/Vector_";
 import { IDao_Anim } from "../../../core/port/driven/dao/IDao_Anim";
 import { Runtime_Persistence } from "../runtime_memory/Runtime_Persistence";
-import { Inputs_Init_Link_Root } from "../../../core/domain/repository/implementations/injectors/Link_Roots";
+import { Inputs_Init_Link_Root_Anim } from "../../../core/domain/repository/implementations/injectors/Link_Roots";
 
 //refactor
 export type Quad_Callback = (x: number, y : number) => Vector<3>;
@@ -69,7 +69,7 @@ export class Dao_Anim implements IDao_Anim
         return callback;
     }
 
-    get_inputs_init_link_roots_for_next(): Inputs_Init_Link_Root 
+    get_inputs_init_link_roots_for_next(): Inputs_Init_Link_Root_Anim 
     {        
         const x = 325;
         
@@ -85,10 +85,10 @@ export class Dao_Anim implements IDao_Anim
         
         const direction : number = 1;
 
-        return new Inputs_Init_Link_Root(delta_level, axe_rotation, max_angle, center_rotation, phase, direction);
+        return new Inputs_Init_Link_Root_Anim(delta_level, axe_rotation, max_angle, center_rotation, phase, direction);
     }
 
-    get_inputs_init_link_roots_for_current(): Inputs_Init_Link_Root 
+    get_inputs_init_link_roots_for_current(): Inputs_Init_Link_Root_Anim 
     {
         const x = 0;
         
@@ -104,6 +104,6 @@ export class Dao_Anim implements IDao_Anim
         
         const direction : number = 1;
 
-        return new Inputs_Init_Link_Root(delta_level, axe_rotation, max_angle, center_rotation, phase, direction);
+        return new Inputs_Init_Link_Root_Anim(delta_level, axe_rotation, max_angle, center_rotation, phase, direction);
     }
 }
