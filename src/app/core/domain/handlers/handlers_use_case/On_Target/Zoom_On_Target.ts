@@ -34,16 +34,17 @@ export class Zoom_On_Target implements IZoom_On_Target
     public async move_and_zoom(): Promise<void> 
     {
         this.__step.init();
+        const rate = 2; //move that in memory
 
         while (1) 
         {
             if (this.__step.completed()) break;
 
-            this.__move.move_by_step();
+            this.__zoom.zoom_by_step(rate);
 
-            this.__zoom.zoom_by_step();
+            this.__move.move_by_step(rate);
 
-            this.__step.next_step();
+            this.__step.next_step(rate);
 
             await new Promise(r => setTimeout(r, 1));
         }
@@ -85,17 +86,17 @@ export class Pre_process
 
 export interface IMove_By_Step 
 {
-    move_by_step(): void;
+    move_by_step(rate : number): void;
 
 }
 export interface IZoom_By_Step 
 {
-    zoom_by_step(): void;
+    zoom_by_step(rate : number): void;
 }
 export interface IStep 
 {
     init(): void;
-    next_step(): void;
+    next_step(rate : number): void;
     completed(): boolean;
 }
 
@@ -128,9 +129,9 @@ export class Zoom_quadratic_By_Step implements IZoom_By_Step
         return [p1,p2,p3];
     }
 
-    public zoom_by_step(): void 
+    public zoom_by_step(rate: number): void 
     {
-        this.__zoom.increment_the_x_of_this_step_by(1);
+        this.__zoom.increment_the_x_of_this_step_by(rate);
 
        const current_y : number = this.__zoom.compute_the_current_y_of_this_step();
 
@@ -232,17 +233,19 @@ export class Move_Quadratic_By_Step implements IMove_By_Step
         return [p1,p2,p3];
     }
 
-    public move_by_step(): void 
+    public move_by_step(rate: number): void 
     {
         const current_factor = this.__zoom_handler.get_current_zoom_fator();
 
-        this.__move.increment_current_x_by(this.__step_x);
+        const step_x = this.__step_x * rate;
+
+        this.__move.increment_current_x_by(step_x);
 
         const current_y : number = this.__move.compute_the_current_y_of_this_step();
 
         const delta : number = this.__move.compute_the_delta_between_this_step_and_the_previous_step(current_y);
 
-        const delta_vec = Vector_.new([-this.__step_x * current_factor, -delta * current_factor, 0]);
+        const delta_vec = Vector_.new([-step_x * current_factor, -delta * current_factor, 0]);
 
         this.__handler.move_view_by_delta(delta_vec);
 
@@ -319,9 +322,9 @@ export class Step implements IStep
         this.__current_step = 0;
     }
 
-    public next_step(): void 
+    public next_step(rate : number): void 
     {
-        this.__current_step++;
+        this.__current_step+= rate;
     }
 
     public completed(): boolean 
