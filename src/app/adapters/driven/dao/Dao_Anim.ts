@@ -69,7 +69,7 @@ export class Dao_Anim implements IDao_Anim
         return callback;
     }
 
-    get_inputs_init_link_roots_for_next(): Inputs_Init_Link_Root_Anim 
+    public get_inputs_init_link_roots_for_next(): Inputs_Init_Link_Root_Anim 
     {        
         const x = 325;
         
@@ -88,7 +88,7 @@ export class Dao_Anim implements IDao_Anim
         return new Inputs_Init_Link_Root_Anim(delta_level, axe_rotation, max_angle, center_rotation, phase, direction);
     }
 
-    get_inputs_init_link_roots_for_current(): Inputs_Init_Link_Root_Anim 
+    public get_inputs_init_link_roots_for_current(): Inputs_Init_Link_Root_Anim 
     {
         const x = 0;
         
