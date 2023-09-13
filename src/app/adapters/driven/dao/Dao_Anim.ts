@@ -17,17 +17,17 @@ export class Dao_Anim implements IDao_Anim
     private readonly __x : number = (window.innerWidth - (window.innerWidth * 20/100))/2;
 
 
-    public get_center_zoom_point(): Vector<3> //recheck where
+    public get_center_zoom_point(): Vector<3> 
     {
         return new Vector<3>([this.__x, window.innerHeight/2, 0]);
     }
 
-    public get_zoom_center_point_choose_roots_anim(): Vector<3>  //recheck where
+    public get_zoom_center_point_choose_roots_anim(): Vector<3>  
     {
         return Vector_.new([this.__x, this.__y, 0]);
     }
 
-    public get_coordinates_choose_roots_anim(): Vector<3> //need to be the same as get_zoom_center_point_choose_roots_anim //recheck where
+    public get_coordinates_choose_roots_anim(): Vector<3>
     {
         //refactor to be more accurate with the size of the choose_root
         return Vector_.new([this.__x - 15, this.__y, 0]); //this where the container will fall at the end of the animation
