@@ -46,7 +46,7 @@ export class Rotate_On_Target implements IRotate_On_Taget
             await new Promise(r => setTimeout(r, 10));
         }
 
-        this.__positions.reset_zoom_factor();
+        this.__positions.reset_zoom_factor(); //??? check if correct
     }
 
     private __get_rotation_positions_data_injector(data : IData_Tree[]) : IRotate_Position_Data[]
