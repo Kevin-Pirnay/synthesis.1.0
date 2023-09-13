@@ -20,7 +20,7 @@ export class Paginate_Data implements IPaginate_Data
         this.__next = new Paginate_Positions(dto2);    
     }
     
-    public async rotate(direction: number): Promise<void> 
+    public async rotate(direction: number, rate : number): Promise<void> 
     {
         this.__step.init(90);
 
@@ -32,11 +32,11 @@ export class Paginate_Data implements IPaginate_Data
         {
             if ( this.__step.completed() ) break;
 
-            this.__next.rotate_on_y_by_one_radian(direction);
+            this.__next.rotate_on_y_by_one_radian(direction, rate);
 
-            this.__previous.rotate_on_y_by_one_radian(direction);
+            this.__previous.rotate_on_y_by_one_radian(direction, rate);
 
-            this.__step.next_step();
+            this.__step.next_step(rate);
 
             await new Promise(r => setTimeout(r,1));            
         }
@@ -47,7 +47,7 @@ interface IStep
 {
     completed() : boolean;
     init(max_angle : number) : void;
-    next_step() : void;
+    next_step(rate : number) : void;
 }
 
 class Step implements IStep
@@ -68,16 +68,16 @@ class Step implements IStep
         this.__current_sep = 0;
     }
 
-    public next_step(): void 
+    public next_step(rate : number): void 
     {
-        this.__current_sep++;
+        this.__current_sep+= rate;
     } 
 }
 
 interface IPaginate_Positions 
 {
     init_phase(phase: number): void;
-    rotate_on_y_by_one_radian(direction : number) : void
+    rotate_on_y_by_one_radian(direction : number, rate : number) : void
 }
 
 class Paginate_Positions implements IPaginate_Positions 
@@ -101,11 +101,11 @@ class Paginate_Positions implements IPaginate_Positions
         });
     }
 
-    public rotate_on_y_by_one_radian(direction : number) : void
+    public rotate_on_y_by_one_radian(direction : number, rate : number) : void
     {
         this.__positions.forEach(position => 
         {
-            position.rotate_on_y_by_one_radian(direction);
+            position.rotate_on_y_by_one_radian(direction, rate);
         });
     }
 }
@@ -114,7 +114,7 @@ class Paginate_Positions implements IPaginate_Positions
 interface IPaginate_Position 
 {
     rotate_on_y_at_phase(phase: number): void;
-    rotate_on_y_by_one_radian(direction : number) : void
+    rotate_on_y_by_one_radian(direction : number, rate : number) : void
 }
 
 class Container_Paginate_Position implements IPaginate_Position
@@ -131,9 +131,9 @@ class Container_Paginate_Position implements IPaginate_Position
         this.__abs_ratio.__.rotate_y(phase);
     }
 
-    public rotate_on_y_by_one_radian(direction : number)
+    public rotate_on_y_by_one_radian(direction : number, rate : number)
     {
-        this.__abs_ratio.__.rotate_y(Math.PI / 180 * direction);
+        this.__abs_ratio.__.rotate_y(Math.PI / 180 * direction * rate);
     }
 }
 
@@ -151,7 +151,7 @@ class Ligature_Paginate_Position implements IPaginate_Position
         this.__ligature.__.update_ratio();
     }
 
-    rotate_on_y_by_one_radian(direction: number): void 
+    rotate_on_y_by_one_radian(direction: number, rate : number): void 
     {
         this.__ligature.__.update_ratio();
     }

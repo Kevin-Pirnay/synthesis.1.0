@@ -11,6 +11,7 @@ export class View_Paginate_Use_case
     
     public handle(request : View_Paginate_Request) : View_Paginate_Response
     {
+        //change that -> It must be the repo that inject the injector, not the other way
         const view_paginate : IView_Paginate = View_Paginate.get_view_paginate_injector(this.__paginate_repository, this.__view_as_root_handler, request.direction);
 
         view_paginate.rotate();

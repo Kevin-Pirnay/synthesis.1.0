@@ -24,7 +24,9 @@ export class View_Paginate implements IView_Paginate
     }
     public rotate(): void 
     {
-        this.__paginated_data.rotate(this.__direction);
+        //change that
+        const rate = 1/2;
+        this.__paginated_data.rotate(this.__direction, rate);
     }
 
     public get_paginated_data_for_the_view(): View_Paginate_Response 
@@ -42,6 +44,6 @@ export class View_Paginate implements IView_Paginate
 
 export interface IPaginate_Data 
 {
-    rotate(direction: number): void;
+    rotate(direction: number, rate : number): void;
 }
 

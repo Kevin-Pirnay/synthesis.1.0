@@ -14,10 +14,11 @@ export class Dao_Anim implements IDao_Anim
 
     private readonly __y : number = window.innerHeight * 75/100;
     private readonly __x : number = (window.innerWidth - (window.innerWidth * 20/100))/2;
+    private readonly __size_root : number = 40
     
     public get_abs_ratio_choose_root(): Matrix<4> 
     {
-        const x =  50;
+        const x =  this.__size_root;
 
         return new Matrix(
             [
@@ -52,12 +53,12 @@ export class Dao_Anim implements IDao_Anim
 
     public get_axe_rotation_choose_roots_anim(): Vector<3> 
     {
-        return Vector_.new([window.innerHeight/2 + 40, 0, 0]);
+        return Vector_.new([window.innerHeight/2 + this.__size_root + 10, 0, 0]);
     }
 
     public get_center_rotation_choose_roots_anim(): Vector<3> 
     {
-        return Vector_.new([this.__x, window.innerHeight + 35, 0]);
+        return Vector_.new([this.__x, window.innerHeight + this.__size_root + 5, 0]);
     }
 
     public get_rate_choose_roots_anim(): number 
