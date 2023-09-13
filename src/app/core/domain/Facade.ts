@@ -74,7 +74,7 @@ export class Facade
     private readonly __zoom_handler : IZoom_Handler = new Zoom_Handler(this.__zoom_repository);
     private readonly __node_linker_handler : INode_Linker = new Node_Linker();
     private readonly __move_view_handler : IMove_View_Handler = new Move_View_Handler(this.__move_view_repository);
-    private readonly __view_as_root_handler : IView_As_Root_Handler = new View_As_Root_Handler(this.__view_as_root_repository);
+    private readonly __view_as_root_handler : IView_As_Root_Handler = new View_As_Root_Handler(this.__view_as_root_repository, this.__zoom_handler);
     private readonly __change_flow_handler : IChange_Flow_Handler = new Change_Root_Handler(this.__change_flow_repository, this.__view_as_root_handler, this.__node_linker_handler);
 
     private readonly __create_container_use_case = new Create_Container_Use_case(this.__create_repository, this.__node_linker_handler,this.__zoom_handler);

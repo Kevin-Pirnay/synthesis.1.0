@@ -2,6 +2,7 @@ import { Matrix } from '../../../../common/Matrix/Matrix';
 import { Ptr } from '../../../../common/Ptr';
 import { Vector } from '../../../../common/Vector/Vector';
 import { IZoom_Repository } from '../../../repository/interfaces/IRepository';
+import { IData_Tree } from '../View_As_Root/IData_Tree';
 import { IZoom_Handler } from './IZoom_Handler';
 import { IZoom_Positions } from './IZoom_Positions';
 
@@ -80,6 +81,15 @@ export class Zoom_Handler implements IZoom_Handler
         //zoom by factor
         const zoom_factor = this.__repository.update_zoom_level(level);
         this.__zoom(this.__center, positions, zoom_factor);
+    }
+
+    public zoom_current_data_tree_to_the_current_factor(data : IData_Tree[]) : void
+    {
+        const positions : IZoom_Positions[] = this.__repository.get_all_zooms_positions_from_data_tree(data);
+        
+        const current_zoom_factor : number = this.__repository.get_zoom_factor();
+
+        this.__zoom(this.__center, positions, current_zoom_factor);
     }
 
     public zoom_current_flow_by_level_toward_this_point(level: number, point : Vector<3>): void 

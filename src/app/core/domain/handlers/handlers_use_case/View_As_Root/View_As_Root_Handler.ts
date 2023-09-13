@@ -5,11 +5,12 @@ import { IView_As_Root_Repository } from "../../../repository/interfaces/IReposi
 import { IView_As_Root_Handler } from "./IView_As_Root_Handler";
 import { IData_Tree } from "./IData_Tree";
 import { ISubtree_Root } from "./ISubtree_Root";
+import { IZoom_Handler } from "../Zoom/IZoom_Handler";
 
 
 export class View_As_Root_Handler implements IView_As_Root_Handler
 {
-    constructor(private readonly __repository : IView_As_Root_Repository) { }
+    constructor(private readonly __repository : IView_As_Root_Repository, private readonly __zoom_handler : IZoom_Handler) { }
 
     public get_subtree_from_this_container(container : Container): IData_Tree[] 
     {
@@ -17,7 +18,11 @@ export class View_As_Root_Handler implements IView_As_Root_Handler
         
         const subtree_root : ISubtree_Root = this.__repository.get_subtree_root(container);
 
-        return this.__construct_tree_from_the_root_subtree(subtree_root, root_position);
+        const data_tree : IData_Tree[] = this.__construct_tree_from_the_root_subtree(subtree_root, root_position);
+
+        this.__zoom_handler.zoom_current_data_tree_to_the_current_factor(data_tree);
+
+        return data_tree;
     }
 
     public get_subtree_from_this_container_id(container_id: string): IData_Tree[] 

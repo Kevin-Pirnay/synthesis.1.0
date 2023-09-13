@@ -1,3 +1,4 @@
+import { IData_Tree } from './../../handlers/handlers_use_case/View_As_Root/IData_Tree';
 import { IDao_Anim } from './../../../port/driven/dao/IDao_Anim';
 import { Vector } from "../../../common/Vector/Vector";
 import { IDao_Container } from "../../../port/driven/dao/IDao_Container";
@@ -9,6 +10,7 @@ import { Container_Zoom_Positions } from "./injectors/Zoom_Positions";
 import { Ligature_Zoom_Positions } from "./injectors/Zoom_Positions";
 import { IZoom_Positions } from '../../handlers/handlers_use_case/Zoom/IZoom_Positions';
 import { Ptr } from '../../../common/Ptr';
+import { Data_Type } from '../../handlers/handlers_entities/Data_Type';
 
 
 export class Zoom_Repository implements IZoom_Repository
@@ -51,6 +53,19 @@ export class Zoom_Repository implements IZoom_Repository
         ligatures.forEach(ligature => result.push(new Ligature_Zoom_Positions(ligature)));
 
         return result;
+    }
+
+    public get_all_zooms_positions_from_data_tree(data : IData_Tree[]) : IZoom_Positions[]
+    {
+        const result : IZoom_Positions[] = [];
+
+        data.forEach(data =>
+        {
+            if ( data.type === Data_Type.CONTAINER ) result.push(new Container_Zoom_Positions(data.element));
+            if ( data.type === Data_Type.LIGATURE ) result.push(new Ligature_Zoom_Positions(data.element));
+        });
+
+        return result
     }
 
     public get_zoom_factor() : number 

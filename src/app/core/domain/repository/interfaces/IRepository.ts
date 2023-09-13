@@ -53,6 +53,7 @@ export interface IZoom_Repository
     set_stop_zoom_condition_to(arg0: boolean): void;
     init_stop_zoom_condition(): Ptr<boolean>;
     get_all_zooms_positions(): IZoom_Positions[];
+    get_all_zooms_positions_from_data_tree(data : IData_Tree[]) : IZoom_Positions[]
     update_zoom_factor(direction: number): number;
     update_zoom_level(level : number) : number;
     get_zoom_factor() : number;

@@ -1,3 +1,4 @@
+import { Ligature } from './../../../entities/Ligature';
 import { Matrix } from "../../../../common/Matrix/Matrix";
 import { Vector } from "../../../../common/Vector/Vector";
 import { IZoom_Handler } from "../Zoom/IZoom_Handler";
@@ -6,6 +7,8 @@ import { Matrix_ } from '../../../../common/Matrix/Matrix_';
 import { IData_Tree } from "../View_As_Root/IData_Tree";
 import { IRotate_On_Taget } from "./IRotate_On_Taget";
 import { Zoom_And_Rotate_Inputs } from "./Zoom_And_Rotate_Inputs";
+import { Container } from "../../../entities/Container";
+import { Data_Type } from "../../handlers_entities/Data_Type";
 
 
 export class Rotate_On_Target implements IRotate_On_Taget
@@ -42,6 +45,8 @@ export class Rotate_On_Target implements IRotate_On_Taget
 
             await new Promise(r => setTimeout(r, 10));
         }
+
+        this.__positions.reset_zoom_factor();
     }
 
     private __get_rotation_positions_data_injector(data : IData_Tree[]) : IRotate_Position_Data[]
@@ -50,9 +55,9 @@ export class Rotate_On_Target implements IRotate_On_Taget
 
         data.forEach((data : IData_Tree) =>
         {
-            const abs_ratio : Matrix<any> = data.element.positions.abs_ratio;
+            if ( data.type == Data_Type.CONTAINER ) result.push(new Container_Rotate_Position_Data(data.element));
 
-            result.push(new Rotate_Position_Data(abs_ratio));
+            if ( data.type == Data_Type.LIGATURE ) result.push(new Ligature_Rotate_Position_Data(data.element));
         });
 
         return result;
@@ -61,6 +66,7 @@ export class Rotate_On_Target implements IRotate_On_Taget
 
 interface IRotate_Positions_On_Target
 {
+    reset_zoom_factor(): void;
     rotate_by_step(): void;
     zoom_by_step(): void;
     init_axe_rotation(): void;
@@ -86,6 +92,11 @@ class Rotate_Positions_On_Target implements IRotate_Positions_On_Target
         this.__init = new Init_The_Target_With_Rotation_Y(positions, axe_rotation);
         this.__zoom = new Zoom_quadratic_By_Step(delta_level, max_angle, zoom_handler);
         this.__rotate = new Rotate_Y_By_Step(positions, phase, direction, center_point);
+    }
+
+    public reset_zoom_factor(): void 
+    {
+        this.__zoom.reset_zoom();
     }
 
     public rotate_by_step(): void 
@@ -173,6 +184,7 @@ class Step implements IStep
 
 interface IZoom_By_Step
 {
+    reset_zoom(): void;
     zoom_by_step(): void;
 }
 
@@ -187,6 +199,7 @@ class Zoom_quadratic_By_Step implements IZoom_By_Step
     private readonly __handler: IZoom_Handler;
     private __current_level: number;
     private readonly __zoom : IZoom_by_Step_;
+    private readonly __original_zoom_level : number;
 
     constructor(delta_zoom_level: number, max_angle: number, zoom_handler: IZoom_Handler) 
     {
@@ -194,9 +207,16 @@ class Zoom_quadratic_By_Step implements IZoom_By_Step
 
         this.__current_level = zoom_handler.get_current_level();
 
+        this.__original_zoom_level = this.__current_level;
+
         const points : Vector<2>[] = this.__get_caracteristics_shape_function_points(max_angle, delta_zoom_level, this.__current_level);
 
         this.__zoom = Zoom_by_Step_.get_zoom_injector(points[0],points[1],points[2]);
+    }
+
+    public reset_zoom(): void 
+    {
+        this.__handler.zoom_current_flow_by_level(this.__original_zoom_level);
     }
 
     private __get_caracteristics_shape_function_points(max_angle : number,delta_zoom_level : number, current_level : number) : Vector<2>[]
@@ -315,13 +335,13 @@ interface IRotate_Position_Data
     rotate_position_on_a_certain_point(matrix_rotation : Matrix<4>, center_rotation : Vector<3>) : void;
 }
 
-class Rotate_Position_Data implements IRotate_Position_Data
+class Container_Rotate_Position_Data implements IRotate_Position_Data
 {
     private readonly __abs_ratio: Matrix<any>;
 
-    constructor(abs_ratio : Matrix<any>) 
+    constructor(container : Container) 
     {
-        this.__abs_ratio = abs_ratio;
+        this.__abs_ratio = container.positions.abs_ratio;
     }
 
     public init_axe_rotation(axe_rotation : Vector<2>): void 
@@ -334,6 +354,21 @@ class Rotate_Position_Data implements IRotate_Position_Data
         const copy = this.__abs_ratio.__.copy().__.substract_by_vector(center);
 
         this.__abs_ratio.__.assign_new_data(copy.__.multiply_by_matrix_new(matrix_rotation).__.add_by_vector_new(center));
+    }
+}
+
+class Ligature_Rotate_Position_Data implements IRotate_Position_Data
+{
+    constructor(private readonly __ligature : Ligature) { }
+
+    public init_axe_rotation(axe_rotation : Vector<2>): void 
+    {
+        this.__ligature.__.update_ratio(); //rotate ligature position by computation with the matrix doesn't work well
+    }
+
+    public rotate_position_on_a_certain_point(matrix_rotation : Matrix<3>, center: Vector<3>): void 
+    {
+        this.__ligature.__.update_ratio(); //rotate ligature position by computation with the matrix doesn't work well
     }
 }
 
