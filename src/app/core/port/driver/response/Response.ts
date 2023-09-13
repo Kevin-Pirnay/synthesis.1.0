@@ -65,5 +65,5 @@ export class Select_Link_Roots_Response
 
 export class Select_SubTree_Response
 {
-    constructor(containers : Container[]) { }
+    constructor(public containers : Container[]) { }
 }

@@ -7,6 +7,7 @@ import { Root_Choice } from '../../../../core/domain/entities/Root_Choice';
 import { IDto } from '../../../../core/port/driver/dto/IDto';
 import { Pipeline } from './../../../../core/port/driver/Pipeline';
 import { Injectable } from '@angular/core';
+import { Select_SubTree_Request } from '../../../../core/port/driver/request/request';
 
 @Injectable({
   providedIn: 'root'
@@ -173,5 +174,14 @@ export class RequestService
     const response = Pipeline.facade.execute_select_link_roots(request);
 
     return response.dtos;
+  }
+
+  public request_select_subtree(container : Container) : Container[]
+  {
+    const request = new Select_SubTree_Request(container);
+
+    const response = Pipeline.facade.execute_select_subtree(request);
+
+    return response.containers;
   }
 }

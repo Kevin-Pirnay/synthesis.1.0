@@ -7,8 +7,8 @@ import { Dao_Container } from './../../adapters/driven/dao/Dao_Container';
 import { Runtime_Persistence } from './../../adapters/driven/runtime_memory/Runtime_Persistence';
 import { IDao_Container } from "../port/driven/dao/IDao_Container";
 import { IDao_Ligature } from "../port/driven/dao/IDao_Ligature";
-import { Create_Container_Request, Delete_Container_Request, Move_Container_Request, Move_ligature_Request, Assign_Ligature_Request, Zoom_Request, Move_View_Request, Mark_As_Root_Request, View_As_Root_Request, Paginate_Request, View_Paginate_Request, Choose_Root_Request, Choosen_Root_Request, View_Choose_Root_Request, Back_View_Request, View_Link_Roots_Request, Link_Roots_Request, Select_Link_Roots_Request } from "../port/driver/request/request";
-import { Back_View_Response, Choose_Root_Response, Choosen_Root_Response, Create_Container_Response, Delete_Container_Response, Mark_As_Root_Response, Paginate_Response, Select_Link_Roots_Response, View_As_Root_Response, View_Choose_Root_Response, View_Link_Roots_Response, View_Paginate_Response } from "../port/driver/response/Response";
+import { Create_Container_Request, Delete_Container_Request, Move_Container_Request, Move_ligature_Request, Assign_Ligature_Request, Zoom_Request, Move_View_Request, Mark_As_Root_Request, View_As_Root_Request, Paginate_Request, View_Paginate_Request, Choose_Root_Request, Choosen_Root_Request, View_Choose_Root_Request, Back_View_Request, View_Link_Roots_Request, Link_Roots_Request, Select_Link_Roots_Request, Select_SubTree_Request } from "../port/driver/request/request";
+import { Back_View_Response, Choose_Root_Response, Choosen_Root_Response, Create_Container_Response, Delete_Container_Response, Mark_As_Root_Response, Paginate_Response, Select_Link_Roots_Response, Select_SubTree_Response, View_As_Root_Response, View_Choose_Root_Response, View_Link_Roots_Response, View_Paginate_Response } from "../port/driver/response/Response";
 import { INode_Linker } from "./handlers/handlers_use_case/Link_Node/INode_Linker";
 import { Node_Linker } from "./handlers/handlers_use_case/Link_Node/Node_Linker";
 import { IMove_View_Handler } from "./handlers/handlers_use_case/Move_View/IMove_View_Handler";
@@ -48,6 +48,7 @@ import { IDao_Anim } from '../port/driven/dao/IDao_Anim';
 import { Dao_Anim } from '../../adapters/driven/dao/Dao_Anim';
 import { Select_Link_Roots_Use_case } from './use_cases/Link_Root/Select_Link_Roots';
 import { Ptr } from '../common/Ptr';
+import { Select_Subtree_Use_case } from './use_cases/Select_SubTree';
 
 
 export class Facade
@@ -94,6 +95,7 @@ export class Facade
     private readonly __init_link_roots_use_case = new Init_Link_Roots_Use_case(this.__link_roots_repository, this.__change_flow_handler, this.__zoom_handler);
     private readonly __view_link_roots_use_case = new View_Link_Roots_Use_case(this.__link_roots_repository, this.__change_flow_handler, this.__zoom_handler);
     private readonly __select_link_roots_use_case = new Select_Link_Roots_Use_case(this.__link_roots_repository, this.__change_flow_handler);
+    private readonly __select_subtree_use_case = new Select_Subtree_Use_case(this.__view_as_root_handler);
 
     
     public execute_create_container(request : Create_Container_Request) : Create_Container_Response
@@ -194,5 +196,10 @@ export class Facade
     public execute_select_link_roots(request : Select_Link_Roots_Request) : Select_Link_Roots_Response
     {
         return this.__select_link_roots_use_case.handle(request);
+    }
+
+    public execute_select_subtree(request : Select_SubTree_Request) : Select_SubTree_Response
+    {
+        return this.__select_subtree_use_case.handle(request);
     }
 }

@@ -12,6 +12,7 @@ export class Svg_Memory
     public current_parent_container : Container | null = null;
     public readonly common_dtos: IDto[] = [];
     public readonly roots_choices: IDto[] = [];
+    public readonly containers_selected : Container[] = [];
 }
 
 export enum Svg_State_Mouse

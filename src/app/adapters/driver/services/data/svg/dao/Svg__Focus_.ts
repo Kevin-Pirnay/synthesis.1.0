@@ -15,6 +15,13 @@ export class Svg__Focus_
     this.__memory.focus_ligature = null;
   }
 
+  public set_those_containers_as_selected(containers : Container[]) : void
+  {
+    this.__memory.containers_selected.length = 0;
+
+    containers.forEach(container => this.__memory.containers_selected.push(container));
+  }
+
   public set_this_ligature_on_focus(ligature: Ligature) : void
   {
     this.__memory.focus_container = null;

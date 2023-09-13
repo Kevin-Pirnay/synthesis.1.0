@@ -174,4 +174,10 @@ export class PipelineService
     }, 1000);
   }
 
+  public request_select_subtree(container : Container) : void
+  {
+    const containers : Container[] = this.__request.request_select_subtree(container);
+
+    this.__data_focus.set_those_containers_as_selected(containers);
+  }
 }
