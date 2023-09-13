@@ -90,6 +90,17 @@ export class Zoom_Handler implements IZoom_Handler
         this.__zoom(this.__center, positions, factor); 
     }
 
+    public zoom_current_flow_by_factor(factor: number): void 
+    {
+        const positions : IZoom_Positions[] = this.__repository.get_all_zooms_positions(); 
+
+        //unzoom all the positions
+        const unzoom_factor = this.__repository.get_unzoom_factor();
+        this.__zoom(this.__center, positions, unzoom_factor);
+        
+        this.__zoom(this.__center, positions, factor); 
+    }
+
     public zoom_current_data_tree_to_the_current_factor(data : IData_Tree[]) : void
     {
         const positions : IZoom_Positions[] = this.__repository.get_all_zooms_positions_from_data_tree(data);

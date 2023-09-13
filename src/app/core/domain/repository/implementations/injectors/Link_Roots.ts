@@ -34,7 +34,6 @@ export class Link_Roots implements ILink_Roots
 export interface ILink_Flow 
 {
     rotate_and_zoom(): Promise<void>;
-    
     init(observer: Observer<IDto[]>): void;
 }
 
@@ -53,13 +52,17 @@ export class Inputs_Init_Link_Root
 export class Link_Root implements ILink_Flow 
 {
     private __inputs__: Zoom_And_Rotate_Inputs | null = null;
+    private __original_zoom_factor : number = 0;
 
     constructor(
         private readonly __flow: string,
         private readonly __inputs: Inputs_Init_Link_Root,
         private readonly __change_flow_handler: IChange_Flow_Handler,
         private readonly __zoom_handler: IZoom_Handler
-    ) { }
+    ) 
+    { 
+        this.__original_zoom_factor = __zoom_handler.get_current_zoom_fator();
+    }
 
     public init(observer: Observer<IDto[]>): void 
     {
@@ -86,6 +89,8 @@ export class Link_Root implements ILink_Flow
         const positions = new Rotate_On_Target(this.__inputs__);
 
         await positions.zoom_and_rotate();
+
+        positions.unzoom_to_the_previous_factor(this.__original_zoom_factor);
     }
 }
 

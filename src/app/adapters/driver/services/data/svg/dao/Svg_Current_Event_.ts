@@ -1,4 +1,3 @@
-import { Observer } from "../../../../../../core/common/Observer/Observer";
 import { Ptr } from "../../../../../../core/common/Ptr";
 import { Svg_Current_Event, Svg_Memory } from "../memory/Svg_Memory";
 

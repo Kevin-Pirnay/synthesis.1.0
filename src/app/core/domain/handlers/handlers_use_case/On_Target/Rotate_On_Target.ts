@@ -47,6 +47,11 @@ export class Rotate_On_Target implements IRotate_On_Taget
         }
     }
 
+    public unzoom_to_the_previous_factor(original_zoom_factor: number) : void 
+    {
+        this.__positions.unzoom_to_the_previous_factor(original_zoom_factor);
+    }
+
     private __get_rotation_positions_data_injector(data : IData_Tree[]) : IRotate_Position_Data[]
     {
         const result : IRotate_Position_Data[] = [];
@@ -64,6 +69,7 @@ export class Rotate_On_Target implements IRotate_On_Taget
 
 interface IRotate_Positions_On_Target
 {
+    unzoom_to_the_previous_factor(original_zoom_factor: number): void;
     rotate_by_step(): void;
     zoom_by_step(): void;
     init_axe_rotation(): void;
@@ -89,6 +95,11 @@ class Rotate_Positions_On_Target implements IRotate_Positions_On_Target
         this.__init = new Init_The_Target_With_Rotation_Y(positions, axe_rotation);
         this.__zoom = new Zoom_quadratic_By_Step(delta_level, max_angle, zoom_handler);
         this.__rotate = new Rotate_Y_By_Step(positions, phase, direction, center_point);
+    }
+
+    public unzoom_to_the_previous_factor(original_zoom_factor: number): void 
+    {
+        this.__zoom.unzoom_positions_to_this_factor(original_zoom_factor);
     }
 
     public rotate_by_step(): void 
@@ -176,6 +187,7 @@ class Step implements IStep
 
 interface IZoom_By_Step
 {
+    unzoom_positions_to_this_factor(original_zoom_factor: number): void;
     zoom_by_step(): void;
 }
 
@@ -190,7 +202,6 @@ class Zoom_quadratic_By_Step implements IZoom_By_Step
     private readonly __handler: IZoom_Handler;
     private __current_level: number;
     private readonly __zoom : IZoom_by_Step_;
-    private readonly __original_zoom_level : number;
 
     constructor(delta_zoom_level: number, max_angle: number, zoom_handler: IZoom_Handler) 
     {
@@ -198,11 +209,17 @@ class Zoom_quadratic_By_Step implements IZoom_By_Step
 
         this.__current_level = zoom_handler.get_current_level();
 
-        this.__original_zoom_level = this.__current_level;
-
         const points : Vector<2>[] = this.__get_caracteristics_shape_function_points(max_angle, delta_zoom_level, this.__current_level);
 
         this.__zoom = Zoom_by_Step_.get_zoom_injector(points[0],points[1],points[2]);
+    }
+
+    public unzoom_positions_to_this_factor(original_zoom_factor: number): void 
+    {
+        console.log("debug");
+        console.log(original_zoom_factor);
+        
+        this.__handler.zoom_current_flow_by_factor(original_zoom_factor);
     }
 
     private __get_caracteristics_shape_function_points(max_angle : number,delta_zoom_level : number, current_level : number) : Vector<2>[]

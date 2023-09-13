@@ -9,7 +9,8 @@ export interface IZoom_Handler
     get_current_zoom_fator() : number;
     get_current_unzoom_factor() :  number
     zoom_by_direction(direction : number) : void;
-    zoom_current_flow_by_level(factor : number) : void;
+    zoom_current_flow_by_level(level : number) : void;
+    zoom_current_flow_by_factor(factor : number) : void;
     zoom_current_flow_by_factor_from_the_current_factor(factor: number): void;
     zoom_current_flow_by_level_toward_this_point(level: number, point : Vector<3>): void;
     zoom_current_data_tree_to_the_current_factor(data : IData_Tree[]) : void;
