@@ -44,6 +44,6 @@ export class From_Navigator
     {
         if (this.__current_event.is_view_moving()) this.__pipeline.request_stop_moving_view();
         
-        this.__current_event.set_current_event_to_none();
+        this.__current_event.set_current_event_navigation_to_none();
     }
 }
