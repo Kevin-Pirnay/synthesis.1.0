@@ -5,10 +5,15 @@ export class Attribute_Handler
     {
         dtos_ids.forEach((id : string) => 
         {
+            try{
+                const element = document.getElementById(id) as HTMLElement;
+    
+                element.setAttribute(attribute_name, value);
 
-            const element = document.getElementById(id) as HTMLElement;
+            }catch(e) {
+                console.log(e);  
+            }
 
-            element.setAttribute(attribute_name, value);
         });
     }
 }

@@ -117,7 +117,7 @@ export class PipelineService
 
     this.__data_dtos.replace_its_current_dtos_by_a_dto(dto);
 
-    stack_anim.add_animation_function_async([dto], (dtos : IDto[])=>this.__data_animation.anim_opacity_from_0_to_1_at_this_rate_for_those_dtos(1/200, dtos.map(dto=> dto.element.id))); //check another way
+    //stack_anim.add_animation_function_async([dto], (dtos : IDto[])=>this.__data_animation.anim_opacity_from_0_to_1_at_this_rate_for_those_dtos(1/200, dtos.map(dto=> dto.element.id))); //check another way
   }
 
   public async request_init_choose_root(container : Container) : Promise<void>
