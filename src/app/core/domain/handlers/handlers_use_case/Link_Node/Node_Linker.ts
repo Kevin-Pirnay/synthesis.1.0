@@ -102,13 +102,13 @@ class Get_Handler
     {
         const parent_container : Container | null = container.node.parent?.container;
 
-        if(! parent_container) return null;
+        if (! parent_container) return null;
 
         let result : Unit_Node | null = null;
 
         parent_container.node.children.forEach(unit =>
         {
-            if(unit.container?.id === container.id) result = unit;
+            if (unit.container?.id === container.id) result = unit;
         });
         
         return result;

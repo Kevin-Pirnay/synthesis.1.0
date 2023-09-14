@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, DoCheck } from '@angular/core';
 import { StateService } from './../../services/state/state.service';
 import { IDto } from '../../../../core/port/driver/dto/IDto';
 import { DataService } from '../../services/data/data.service';
@@ -12,7 +12,7 @@ import { Root_Choice } from '../../../../core/domain/entities/Root_Choice';
   templateUrl: './svg.component.html',
   styleUrls: ['./svg.component.css']
 })
-export class SvgComponent 
+export class SvgComponent
 {
   public readonly dtos : IDto[];
   public readonly roots_choices : IDto[];

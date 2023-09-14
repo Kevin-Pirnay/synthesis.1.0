@@ -86,16 +86,17 @@
                 L {{dto.element.positions.abs_ratio._[3]._[0]}} {{dto.element.positions.abs_ratio._[3]._[1]}} " 
         />
 
-        <g>
-            <path 
-            *ngIf="dto.type == 1"
+        <g
             id="{{dto.element.id}}" 
-            class="ligature"
-                (mousedown)="mouse_down_on_ligature(dto.element)"
-                attr.d="
-                    M {{dto.element.positions.abs_ratio._[0]._[0]}} {{dto.element.positions.abs_ratio._[0]._[1]}} 
-                    Q {{dto.element.positions.abs_ratio._[1]._[0]}},{{dto.element.positions.abs_ratio._[1]._[1]}}
-                      {{dto.element.positions.abs_ratio._[2]._[0]}},{{dto.element.positions.abs_ratio._[2]._[1]}} "
+        >
+            <path 
+                *ngIf="dto.type == 1"
+                class="ligature"
+                    (mousedown)="mouse_down_on_ligature(dto.element)"
+                    attr.d="
+                        M {{dto.element.positions.abs_ratio._[0]._[0]}} {{dto.element.positions.abs_ratio._[0]._[1]}} 
+                        Q {{dto.element.positions.abs_ratio._[1]._[0]}},{{dto.element.positions.abs_ratio._[1]._[1]}}
+                        {{dto.element.positions.abs_ratio._[2]._[0]}},{{dto.element.positions.abs_ratio._[2]._[1]}} "
             />
 
             <g

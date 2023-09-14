@@ -11,6 +11,7 @@ import { Svg__Focus_ } from '../data/svg/dao/Svg__Focus_';
 import { Svg_Current_Event_ } from '../data/svg/dao/Svg_Current_Event_';
 import { Aside__Stack_Roots_Ids_ } from '../data/aside/dao/Aside__Stack_Roots_Ids_';
 import { Attribute_Handler } from '../data/handler/Attribute';
+import { Animation_Handler } from '../data/handler/Animation';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,7 @@ export class PipelineService
   private readonly __data_focus : Svg__Focus_;
   private readonly __data_back_view : Aside__Stack_Roots_Ids_;
   private readonly __data_attribute : Attribute_Handler;
+  private readonly __data_animation : Animation_Handler;
 
   constructor(private readonly __request : RequestService, data : DataService) 
   { 
@@ -29,7 +31,8 @@ export class PipelineService
     this.__data_focus = data.svg.__.focus;
     this.__data_back_view = data.aside.__.stack_roots_ids;
     this.__data_current_event = data.svg.__.current_event;
-    this.__data_attribute = data.handler.attribute
+    this.__data_attribute = data.handler.attribute;
+    this.__data_animation = data.handler.anim;
   }
 
   public request_create_container(e : MouseEvent, parent_container : Container | null) : void
@@ -132,9 +135,11 @@ export class PipelineService
 
     const dtos : IDto[] = await this.__request.request_chosen_root(chosen_root, witness_anim);
 
-    this.__data_dtos.replace_its_current_dtos_by(dtos);
-
     this.__data_dtos.remove_all_roots_choices();
+
+    this.__data_dtos.replace_its_current_dtos_by(dtos); 
+    
+    //setTimeout(() => this.__data_animation.anim_opacity_from_0_to_1_at_this_rate_for_those_dtos(1/200, dtos.map(_=> _.element.id)), 1); //check another way
 
     this.__data_current_event.set_current_event_to_none();
   }
@@ -175,7 +180,7 @@ export class PipelineService
 
     setTimeout(() => {
       
-      this.__data_current_event.set_current_event_to_none();
+      this.__data_current_event.set_current_event_to_none(); //check for an other way
     }, 1000);
   }
 
