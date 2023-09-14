@@ -36,7 +36,7 @@ export class From_Zoom
 
     private __report_not_moving_the_cursor() : void
     {
-        this.__current_svg_event.set_current_event_to_none();
+        this.__current_svg_event.set_current_event_navigation_to_none();
         this.__slider.set_cursor_move_to_none();
         this.__pipeline.request_stop_zoomimg();  
     }
@@ -67,6 +67,6 @@ export class From_Zoom
 
         this.__slider.set_cursor_move_to_none();
 
-        this.__current_svg_event.set_current_event_to_none();
+        this.__current_svg_event.set_current_event_navigation_to_none();
     }
 }

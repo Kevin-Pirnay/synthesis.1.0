@@ -16,9 +16,9 @@ export class From_Key
 
     public report_key_up(): void 
     {
-        if (this.__current_event.is_zooming()) { this.__pipeline.request_stop_zoomimg(); this.__current_event.set_current_event_to_none(); }
+        if (this.__current_event.is_zooming()) { this.__pipeline.request_stop_zoomimg(); this.__current_event.set_current_event_navigation_to_none(); }
 
-        if (this.__current_event.is_view_moving()) { this.__pipeline.request_stop_moving_view(); this.__current_event.set_current_event_to_none(); }
+        if (this.__current_event.is_view_moving()) { this.__pipeline.request_stop_moving_view(); this.__current_event.set_current_event_navigation_to_none(); }
     }
 
     public report_key_down(e: KeyboardEvent): void 

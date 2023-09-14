@@ -12,7 +12,7 @@ import { Svg_Current_Event_ } from '../data/svg/dao/Svg_Current_Event_';
 import { Aside__Stack_Roots_Ids_ } from '../data/aside/dao/Aside__Stack_Roots_Ids_';
 import { Attribute_Handler } from '../data/handler/Attribute';
 import { Animation_Handler } from '../data/handler/Animation';
-import { stack_anim } from '../data/svg/memory/Svg_Memory';
+import { stack_anim } from "../data/svg/memory/stack_anim";
 
 @Injectable({
   providedIn: 'root'

@@ -5,7 +5,7 @@ import { DataService } from '../../services/data/data.service';
 import { Ligature } from '../../../../core/domain/entities/Ligature';
 import { Container } from '../../../../core/domain/entities/Container';
 import { Root_Choice } from '../../../../core/domain/entities/Root_Choice';
-import { stack_anim } from '../../services/data/svg/memory/Svg_Memory';
+import { stack_anim } from "../../services/data/svg/memory/stack_anim";
 
 
 @Component({
