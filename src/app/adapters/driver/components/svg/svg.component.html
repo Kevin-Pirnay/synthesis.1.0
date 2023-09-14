@@ -38,6 +38,18 @@
         
         </filter>
 
+        <filter id="root-choice-texture">
+    
+            <feTurbulence type="fractalNoise" baseFrequency='0.04' result='noise' numOctaves="5" />
+                            
+            <feDiffuseLighting in='noise' lighting-color='orange' surfaceScale='1'>
+        
+                <feDistantLight azimuth='45' elevation='60' />
+                
+            </feDiffuseLighting>
+        
+        </filter>
+
     </defs>
 </svg>
 
@@ -76,7 +88,8 @@
 
         <g>
             <path 
-            *ngIf="dto.type == 1" 
+            *ngIf="dto.type == 1"
+            id="{{dto.element.id}}" 
             class="ligature"
                 (mousedown)="mouse_down_on_ligature(dto.element)"
                 attr.d="
@@ -106,9 +119,11 @@
 
         <path
             *ngIf="dto.type == 2" 
+            id="{{dto.element.flow}}"
             class="root_choice"
             (mousedown)="mouse_down_on_root_choice(dto.element)"
-            filter="url(#container-texture)"
+            filter="url(#root-choice-texture)"
+            opacity="1"
             attr.d="
                 M {{dto.element.positions.abs_ratio._[0]._[0]}} {{dto.element.positions.abs_ratio._[0]._[1]}} 
                 L {{dto.element.positions.abs_ratio._[1]._[0]}} {{dto.element.positions.abs_ratio._[1]._[1]}} 

@@ -122,9 +122,9 @@ export class RequestService
     return response.dtos;
   }
 
-  public async request_chosen_root(chosen_root : Root_Choice) : Promise<IDto[]>
+  public async request_chosen_root(chosen_root : Root_Choice, witness_anim : Observer<number>) : Promise<IDto[]>
   {
-    const request = new Choosen_Root_Request(chosen_root);
+    const request = new Choosen_Root_Request(chosen_root, witness_anim);
 
     const response = await Pipeline.facade.execute_chosen_root(request);
 

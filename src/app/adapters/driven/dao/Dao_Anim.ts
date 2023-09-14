@@ -13,7 +13,7 @@ export class Dao_Anim implements IDao_Anim
     constructor(private readonly __runtime_persistence : Runtime_Persistence) { }
 
     private readonly __y : number = window.innerHeight * 75/100;
-    private readonly __x : number = (window.innerWidth - (window.innerWidth * 20/100))/2;
+    private readonly __x : number = (window.innerWidth - (window.innerWidth * 25/100))/2;
     private readonly __size_root : number = 40
     
     public get_abs_ratio_choose_root(): Matrix<4> 

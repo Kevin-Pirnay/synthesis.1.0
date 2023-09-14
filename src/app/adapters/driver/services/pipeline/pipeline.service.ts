@@ -10,6 +10,7 @@ import { Svg__Dtos_ } from '../data/svg/dao/Svg__Dtos_';
 import { Svg__Focus_ } from '../data/svg/dao/Svg__Focus_';
 import { Svg_Current_Event_ } from '../data/svg/dao/Svg_Current_Event_';
 import { Aside__Stack_Roots_Ids_ } from '../data/aside/dao/Aside__Stack_Roots_Ids_';
+import { Attribute_Handler } from '../data/handler/Attribute';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,7 @@ export class PipelineService
   private readonly __data_current_event : Svg_Current_Event_;
   private readonly __data_focus : Svg__Focus_;
   private readonly __data_back_view : Aside__Stack_Roots_Ids_;
+  private readonly __data_attribute : Attribute_Handler;
 
   constructor(private readonly __request : RequestService, data : DataService) 
   { 
@@ -27,6 +29,7 @@ export class PipelineService
     this.__data_focus = data.svg.__.focus;
     this.__data_back_view = data.aside.__.stack_roots_ids;
     this.__data_current_event = data.svg.__.current_event;
+    this.__data_attribute = data.handler.attribute
   }
 
   public request_create_container(e : MouseEvent, parent_container : Container | null) : void
@@ -125,7 +128,9 @@ export class PipelineService
 
   public async request_chosen_root(chosen_root : Root_Choice) : Promise<void>
   {
-    const dtos : IDto[] = await this.__request.request_chosen_root(chosen_root);
+    const witness_anim = new Observer<number>().subscribe((count : number)=> this.__data_attribute.set_attribute_to_those_dtos("opacity", `${1 - count/100}`, [chosen_root.flow]));
+
+    const dtos : IDto[] = await this.__request.request_chosen_root(chosen_root, witness_anim);
 
     this.__data_dtos.replace_its_current_dtos_by(dtos);
 

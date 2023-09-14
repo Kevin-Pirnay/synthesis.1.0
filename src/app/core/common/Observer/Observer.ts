@@ -8,9 +8,11 @@ export class Observer<T>
         this.__listenners.forEach(callback => callback(data));
     }
 
-    public subscribe(callback: CallBack<T>): void 
+    public subscribe(callback: CallBack<T>): Observer<T>  
     {
         this.__listenners.push(callback);
+
+        return this;
     }
 
     public unsubscribe(callback_to_remove: CallBack<T>): void 

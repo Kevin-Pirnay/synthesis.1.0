@@ -1,3 +1,4 @@
+import { Observer } from '../../../common/Observer/Observer';
 import { IDto } from '../../../port/driver/dto/IDto';
 import { Choosen_Root_Request } from '../../../port/driver/request/request';
 import { Choosen_Root_Response } from '../../../port/driver/response/Response';
@@ -16,9 +17,9 @@ export class Chosen_Root_Use_case
     
     public async handle(request : Choosen_Root_Request) : Promise<Choosen_Root_Response>
     {
-        const chosen_root : IChoosen_Root = this.__repository.get_chosen_root_injector(request.chosen_root); 
-
-        await chosen_root.anim();
+        const chosen_root : IChoosen_Root = this.__repository.get_chosen_root_injector(request.chosen_root);
+        
+        await chosen_root.anim(request.witness_anim);
 
         this.__reinit_zoom();
 
@@ -39,5 +40,5 @@ export class Chosen_Root_Use_case
 
 export interface IChoosen_Root
 {
-    anim() : Promise<void>;
+    anim(witness : Observer<number>) : Promise<void>;
 }

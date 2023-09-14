@@ -1,3 +1,4 @@
+import { Observer } from "../../../common/Observer/Observer";
 import { Vector } from "../../../common/Vector/Vector";
 import { Container } from "../../../domain/entities/Container";
 import { Ligature } from "../../../domain/entities/Ligature";
@@ -71,7 +72,7 @@ export class Choose_Root_Request
 
 export class Choosen_Root_Request
 {
-    constructor(public chosen_root : Root_Choice) { }
+    constructor(public chosen_root : Root_Choice, public witness_anim : Observer<number>) { }
 }
 
 export class View_Choose_Root_Request
