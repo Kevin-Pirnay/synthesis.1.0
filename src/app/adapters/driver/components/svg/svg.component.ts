@@ -32,7 +32,7 @@ export class SvgComponent implements AfterViewChecked
     this.window_height = window.innerHeight;    
   }
 
-  ngAfterViewChecked(): void 
+  public ngAfterViewChecked(): void 
   {
     stack_anim.execute_stack();
     stack_anim.execute_stack_async();
