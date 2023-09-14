@@ -237,6 +237,8 @@ export class Move_Quadratic_By_Step implements IMove_By_Step
     {
         const current_factor = this.__zoom_handler.get_current_zoom_fator();
 
+        console.log(current_factor);
+        
         const step_x = this.__step_x * rate;
 
         this.__move.increment_current_x_by(step_x);
@@ -345,7 +347,7 @@ export class Compute_Distance
         this.x_y_normalize = this.__compute_x_y_normalize(abs_ratio_target._[0], coordinates_wanted);
     }
 
-    private __compute_distance(a: Vector<2>, b: Vector<2>): number 
+    private __compute_distance(a: Vector<2>, b: Vector<2>): number  //norme of the vector going from the root of the container target and coordinates wanted
     {
         const x2 = (a._[0] - b._[0]) ** 2;
         const y2 = (a._[1] - b._[1]) ** 2;
@@ -355,7 +357,7 @@ export class Compute_Distance
         return distance;
     }
     
-    private __compute_x_y_normalize(a: Vector<2>, b: Vector<2>): Vector<2>
+    private __compute_x_y_normalize(a: Vector<2>, b: Vector<2>): Vector<2> //distance in x and y of the container taget and coordinates wanted at the end of the animation
     {
         const x = a._[0] - b._[0];
         const y = a._[1] - b._[1];
@@ -384,7 +386,7 @@ export class Compute_Max_Zoom_Factor_And_Level
 
     private __compute_max_zoom_factor(x_with_wanted: number, x_width_target: number): number 
     {
-        if(x_width_target == 0) x_width_target = 1;
+        if(x_width_target == 0) throw new Error("x_width_target cannot be equal to 0");//x_width_target = 1;
 
         const factor = x_with_wanted / x_width_target;
 
