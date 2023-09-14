@@ -12,7 +12,7 @@ export class Svg__Focus_
   public set_this_container_on_focus(container: Container) : void
   {
     this.__memory.focus_container = container;
-    this.__memory.focus_ligature = null;
+    //this.__memory.focus_ligature = null;
   }
 
   public set_those_containers_as_selected(containers : Container[]) : void
@@ -24,7 +24,7 @@ export class Svg__Focus_
 
   public set_this_ligature_on_focus(ligature: Ligature) : void
   {
-    this.__memory.focus_container = null;
+    //this.__memory.focus_container = null;
     this.__memory.focus_ligature = ligature;
   }
 

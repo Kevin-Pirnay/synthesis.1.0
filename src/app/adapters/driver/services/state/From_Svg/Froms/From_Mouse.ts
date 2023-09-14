@@ -72,11 +72,15 @@ export class From_Mouse
     public report_mouse_down_on_ligature(ligature: Ligature): void 
     {
         this.__mouse.set_mouse_is_down_on_a_ligature(ligature);
+
+        this.__focus.set_this_ligature_on_focus(ligature);
     }
 
     public report_mouse_down_on_grip(ligature: Ligature): void 
     {
         this.__mouse.set_mouse_is_down_on_a_grip(ligature);
+
+        this.__focus.set_this_ligature_on_focus(ligature);
     }
 
     public report_mouse_down_on_root_choice(root: Root_Choice): void 

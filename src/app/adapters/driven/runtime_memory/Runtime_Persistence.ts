@@ -22,7 +22,7 @@ export class Runtime_Persistence
     public readonly flows : { [flow : string] : Flow } = { };
     public readonly current_flow : Ptr<string> = this.__flow;
 
-    public readonly default_position_of_the_root: Vector<3> = Vector_.new([150,400,0]);
+    public readonly default_position_of_the_root: Vector<3> = Vector_.new([150,window.innerHeight/2,0]);
 
     public readonly default_container_ratio : Matrix<4> = new Matrix([
         Vector_.zero(3),
