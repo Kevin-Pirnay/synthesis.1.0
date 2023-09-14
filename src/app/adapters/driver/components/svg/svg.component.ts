@@ -1,10 +1,11 @@
-import { Component, DoCheck } from '@angular/core';
+import { AfterViewChecked, Component, DoCheck } from '@angular/core';
 import { StateService } from './../../services/state/state.service';
 import { IDto } from '../../../../core/port/driver/dto/IDto';
 import { DataService } from '../../services/data/data.service';
 import { Ligature } from '../../../../core/domain/entities/Ligature';
 import { Container } from '../../../../core/domain/entities/Container';
 import { Root_Choice } from '../../../../core/domain/entities/Root_Choice';
+import { stack_anim } from '../../services/data/svg/memory/Svg_Memory';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { Root_Choice } from '../../../../core/domain/entities/Root_Choice';
   templateUrl: './svg.component.html',
   styleUrls: ['./svg.component.css']
 })
-export class SvgComponent
+export class SvgComponent implements AfterViewChecked
 {
   public readonly dtos : IDto[];
   public readonly roots_choices : IDto[];
@@ -29,6 +30,12 @@ export class SvgComponent
     this.window_width = window.innerWidth;
 
     this.window_height = window.innerHeight;    
+  }
+
+  ngAfterViewChecked(): void 
+  {
+    stack_anim.execute_stack();
+    stack_anim.execute_stack_async();
   }
 
   public mouse_up(e : MouseEvent) : void

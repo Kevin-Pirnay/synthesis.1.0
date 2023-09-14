@@ -12,6 +12,7 @@ import { Svg_Current_Event_ } from '../data/svg/dao/Svg_Current_Event_';
 import { Aside__Stack_Roots_Ids_ } from '../data/aside/dao/Aside__Stack_Roots_Ids_';
 import { Attribute_Handler } from '../data/handler/Attribute';
 import { Animation_Handler } from '../data/handler/Animation';
+import { stack_anim } from '../data/svg/memory/Svg_Memory';
 
 @Injectable({
   providedIn: 'root'
@@ -96,6 +97,8 @@ export class PipelineService
 
       this.__data_dtos.replace_its_current_dtos_by(dtos);
 
+      stack_anim.add_animation_function_async(dtos, (dtos : IDto[])=>this.__data_animation.anim_opacity_from_0_to_1_at_this_rate_for_those_dtos(1/200, dtos.map(dto=> dto.element.id))); //check another way
+
       this.__data_back_view.add_id_to_the_stack_view_ids(container.id);
   }
 
@@ -104,6 +107,8 @@ export class PipelineService
     const dtos : IDto[] = this.__request.request_back_view(container_id);
 
     this.__data_dtos.replace_its_current_dtos_by(dtos);
+
+    stack_anim.add_animation_function_async(dtos, (dtos : IDto[])=>this.__data_animation.anim_opacity_from_0_to_1_at_this_rate_for_those_dtos(1/200, dtos.map(dto=> dto.element.id))); //check another way
   }
 
   public request_mark_as_root(container : Container) : void
@@ -111,6 +116,8 @@ export class PipelineService
     const dto : IDto = this.__request.request_mark_as_root(container);
 
     this.__data_dtos.replace_its_current_dtos_by_a_dto(dto);
+
+    stack_anim.add_animation_function_async([dto], (dtos : IDto[])=>this.__data_animation.anim_opacity_from_0_to_1_at_this_rate_for_those_dtos(1/200, dtos.map(dto=> dto.element.id))); //check another way
   }
 
   public async request_init_choose_root(container : Container) : Promise<void>
@@ -139,7 +146,7 @@ export class PipelineService
 
     this.__data_dtos.replace_its_current_dtos_by(dtos); 
     
-    //setTimeout(() => this.__data_animation.anim_opacity_from_0_to_1_at_this_rate_for_those_dtos(1/200, dtos.map(_=> _.element.id)), 1); //check another way
+    stack_anim.add_animation_function_async(dtos, (dtos : IDto[])=>this.__data_animation.anim_opacity_from_0_to_1_at_this_rate_for_those_dtos(1/200, dtos.map(dto=> dto.element.id))); //check another way
 
     this.__data_current_event.set_current_event_to_none();
   }
@@ -149,6 +156,8 @@ export class PipelineService
     const dtos : IDto[] = this.__request.request_init_paginate(container);
 
     this.__data_dtos.replace_its_current_dtos_by(dtos);
+
+    stack_anim.add_animation_function_async(dtos, (dtos : IDto[])=>this.__data_animation.anim_opacity_from_0_to_1_at_this_rate_for_those_dtos(1/200, dtos.map(dto=> dto.element.id))); //check another way
   } 
 
   public request_view_paginate(direction : number) : void
